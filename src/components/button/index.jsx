@@ -5,7 +5,6 @@ import { Icon } from '../icon/index.jsx'
 import s from './s.module.scss'
 import classNames from 'classnames'
 
-
 const ButtonContent = ({ size, icon, iconPosition, 
     iconRotate, loading, children }) => {
         let iconSize
@@ -71,9 +70,8 @@ export const Button = ({
                 className,
             )}>
             <ButtonContent {...{ icon, iconPosition, iconRotate, loading, children }}/>
-
         </button>
     )
 }
 
-export default index
+export default Button
