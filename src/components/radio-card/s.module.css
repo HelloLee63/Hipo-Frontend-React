@@ -1,0 +1,58 @@
+.cards {
+  display: -ms-grid;
+  display: grid;
+  gap: 32px;
+  grid-auto-flow: column;
+  -ms-grid-columns: 1fr 1fr;
+      grid-template-columns: 1fr 1fr;
+}
+
+@media (max-width: 768px) {
+  .cards {
+    gap: 8px;
+    grid-auto-flow: row;
+    -ms-grid-columns: 1fr;
+        grid-template-columns: 1fr;
+  }
+}
+
+.card {
+  background: var(--theme-card-color);
+  border: 1px solid var(--theme-border-color);
+  border-radius: 4px;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-pack: start;
+      -ms-flex-pack: start;
+          justify-content: flex-start;
+  padding: 32px;
+  position: relative;
+  text-align: left;
+}
+
+.card::after {
+  border: 2px solid var(--theme-border-color);
+  border-radius: 50%;
+  content: '';
+  height: 24px;
+  position: absolute;
+  right: 32px;
+  top: 32px;
+  width: 24px;
+}
+
+.card.selected {
+  border-color: #ff4339;
+}
+
+.card.selected::after {
+  border: 8px solid #ff4339;
+}
+/*# sourceMappingURL=s.module.css.map */
