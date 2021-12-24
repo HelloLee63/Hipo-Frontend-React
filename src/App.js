@@ -51,14 +51,16 @@ const App = () => {
 
   return (
     <div className = 'container'>
-      {/* <ThemeContext.Provider value = {darkTheme} > */}
-        <Button></Button>
-        {/* <ConnectWalletModal/>
-       
-        
+      {/* <ThemeContext.Provider value = {darkTheme} > */}       
+        {/* <ConnectWalletModal/>       
         {tasks.length > 0 ? (<Tasks tasks = { tasks } onDelete = 
         { deleteTask } onToggle = {remindTask}/>) : ('No Tasks To Show')} */}
       {/* </ThemeContext.Provider> */}
+      <Button>
+        
+      </Button>
+      <p>Add Liquidity</p>
+      <h1>Hello World!</h1>
     </div>
   )
 }

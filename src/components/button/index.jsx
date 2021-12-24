@@ -35,12 +35,9 @@ const ButtonContent = ({ size, icon, iconPosition,
                         [s.spinner]: loading,
                     })}
                    />
-               ) : null } 
-            
+               ) : null }             
             </>
         )
-
-
 }
 
 const index = () => {

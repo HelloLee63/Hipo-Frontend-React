@@ -1,3 +1,5 @@
+import s from './s.module.scss'
+import classNames from 'classnames';
 
 const statcinamesList = [
     'menu-faucet',
@@ -18,7 +20,10 @@ export const Icon = (props) => {
     const { name, size = 24, rotate = 0, color, className, style = {}, ...rest } = props
 
     return (
-        <svg 
+        <svg
+            className={classNames(s.component, className, {
+                [s[`color-${color}`]]: Boolean(color),
+            })} 
             width = {size} 
             height = {size}
             style = {{
@@ -28,7 +33,7 @@ export const Icon = (props) => {
             {...rest}>
                 {statcinamesList.includes(name) ? (
                     <use href = {`#icon_${name}`} />
-                ): (<use href = {`${process.env.Public_URL}/icon-sprote.svg#cion__${name}`} />
+                ): (<use href = {`${process.env.Public_URL}/icon-sprote.svg#icon__${name}`} />
                 )}
         </svg>
     );
