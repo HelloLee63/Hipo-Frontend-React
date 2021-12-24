@@ -1,7 +1,10 @@
 import React from 'react'
 
+import { Icon } from '../icon/index.jsx'
+
 import s from './s.module.scss'
 import classNames from 'classnames'
+
 
 const ButtonContent = ({ size, icon, iconPosition, 
     iconRotate, loading, children }) => {
@@ -22,7 +25,17 @@ const ButtonContent = ({ size, icon, iconPosition,
 
         return (
             <>
-                
+               {iconToDisplay && iconPosition === 'left' ? (
+                   <Icon
+                    name = {iconToDisplay}
+                    rotate={iconRotate}
+                    size={iconSize}
+                    style={{ marginRight: 8}}
+                    className={classNames({
+                        [s.spinner]: loading,
+                    })}
+                   />
+               ) : null } 
             
             </>
         )

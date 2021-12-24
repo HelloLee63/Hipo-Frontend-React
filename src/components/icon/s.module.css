@@ -1,0 +1,43 @@
+.component.component {
+  -ms-flex-negative: 0;
+      flex-shrink: 0;
+}
+
+.component.component:hover {
+  --icon-display__light: none;
+  --icon-display__dark: none;
+  --icon-display__hover: block;
+}
+
+.component.component.color-icon {
+  color: var(--theme-icon-color);
+}
+
+.component.component.color-primary {
+  color: var(--theme-primary-color);
+}
+
+.component.component.color-secondary {
+  color: var(--theme-secondary-color);
+}
+
+.component.component.color-red {
+  color: var(--theme-red-color);
+}
+
+.component.component.color-green {
+  color: var(--theme-green-color);
+}
+
+.component.component.color-blue {
+  color: var(--theme-blue-color);
+}
+
+[data-theme='light'] .component {
+  --icon-display__light: block;
+}
+
+[data-theme='dark'] .component {
+  --icon-display__dark: block;
+}
+/*# sourceMappingURL=s.module.css.map */

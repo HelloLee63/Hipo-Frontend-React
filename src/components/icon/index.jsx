@@ -15,7 +15,7 @@ const statcinamesList = [
 ]
 
 export const Icon = (props) => {
-    const { name, size = 24, rotate = 0, color, className, style = {}, ...rest }
+    const { name, size = 24, rotate = 0, color, className, style = {}, ...rest } = props
 
     return (
         <svg 
@@ -33,3 +33,5 @@ export const Icon = (props) => {
         </svg>
     );
 };
+
+export default Icon
