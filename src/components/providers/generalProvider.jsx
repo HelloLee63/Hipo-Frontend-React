@@ -1,14 +1,10 @@
-import { Dispatch, useContext, useState, useEffect } from "react";
+import { useContext, useState, useEffect } from "react";
 import { createContext } from "react";
 import { InvariantContext } from "../../utils/context";
 import { useLocalStorage } from "react-use-storage";
 import { useWindowEventListener } from "rooks";
 
-
 const Context = createContext(InvariantContext('GeneralProvider'));
-
-// const GeneralContext = createContext('GeneralProvider');
-
 const mqlDark = window.matchMedia('(prefers-color-scheme: dark)');
 const defaultTheme = mqlDark.matches ? 'dark' : 'light';
 
@@ -33,7 +29,6 @@ const GeneralProvider = props => {
 
         mqlDark.addEventListener('change', e => {
             setOsColorScheme(e.matches ? 'dark' : 'light');
-
         });
     }, []);
 
@@ -60,11 +55,10 @@ const GeneralProvider = props => {
     };
 
     return (
-        <Context.Provider value = {'value'}>
-            {props.children}
+        <Context.Provider value = { value }>
+            { props.children }
         </Context.Provider>
-    )
-    
+    )   
 }
 
 export default GeneralProvider

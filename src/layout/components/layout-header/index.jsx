@@ -6,20 +6,16 @@ import IconOld from '../../../components/custom/icon'
 import { Icon } from '../../../components/icon'
 
 const LayoutHeader = () => {
-    const { navOpen, setNavOpen } = useGeneral();
+    const { navOpen, setNavOpen }  = useGeneral();   
     const { activeNetwork } = useNetwork();
 
-    function toggleNav() {
-        setNavOpen(!navOpen);
-    }
-
     return (
-        <header className={s.compnent}>
-            <button type="button" className={s.burger} onClick={ toggleNav }>
+        <header>
+            <button type="button" onClick={ () => setNavOpen(!navOpen) }>
+                { navOpen ? "Good" : "Bad" }
                 <IconOld />
                 <Icon name="arrow" rotate={navOpen ? 180 : 0} size = {12} className = "hidden-mobile hidden-tablet" />
             </button>
-
         </header>
     )
 
