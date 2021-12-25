@@ -1,0 +1,43 @@
+.component {
+  color: var(--theme-icon-color);
+}
+
+.component:global(.rotate-90) {
+  -webkit-transform: rotate(90deg);
+          transform: rotate(90deg);
+}
+
+.component:global(.rotate-180) {
+  -webkit-transform: rotate(180deg);
+          transform: rotate(180deg);
+}
+
+.component:global(.rotate-270) {
+  -webkit-transform: rotate(270deg);
+          transform: rotate(270deg);
+}
+
+.component.primary-color {
+  color: var(--theme-primary-color);
+}
+
+.component.secondary-color {
+  color: var(--theme-secondary-color);
+}
+
+.component.red-color {
+  color: var(--theme-red-color);
+}
+
+.component.green-color {
+  color: var(--theme-green-color);
+}
+
+.component.blue-color {
+  color: var(--theme-blue-color);
+}
+
+.component.inherit-color {
+  color: inherit;
+}
+/*# sourceMappingURL=s.module.css.map */

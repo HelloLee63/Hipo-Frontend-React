@@ -2,6 +2,7 @@ import React from 'react';
 // import { useState } from 'react';
 // import Tasks from "./components/Tasks";
 import { Button } from './components/button/index.jsx';
+import LayoutHeader from './layout/components/layout-header/index.jsx';
 
 
 export const ThemeContext = React.createContext()
@@ -48,7 +49,7 @@ const App = () => {
 //     setTasks(tasks.map((task) => task.id === id ? { ...task, reminder: !task.reminder}: task ))
 //     console.log(id);
 //   }
-
+  
   return (
     <div className = 'container'>
       {/* <ThemeContext.Provider value = {darkTheme} > */}       
@@ -56,9 +57,7 @@ const App = () => {
         {tasks.length > 0 ? (<Tasks tasks = { tasks } onDelete = 
         { deleteTask } onToggle = {remindTask}/>) : ('No Tasks To Show')} */}
       {/* </ThemeContext.Provider> */}
-      <Button>
-        
-      </Button>
+      <LayoutHeader></LayoutHeader>
       <p>Add Liquidity</p>
       <h1>Hello World!</h1>
     </div>

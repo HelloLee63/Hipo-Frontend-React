@@ -1,8 +1,13 @@
-import { useContext, useState } from "react";
+import { Dispatch, useContext, useState, useEffect } from "react";
 import { createContext } from "react";
 import { InvariantContext } from "../../utils/context";
+import { useLocalStorage } from "react-use-storage";
+import { useWindowEventListener } from "rooks";
+
 
 const Context = createContext(InvariantContext('GeneralProvider'));
+
+// const GeneralContext = createContext('GeneralProvider');
 
 const mqlDark = window.matchMedia('(prefers-color-scheme: dark)');
 const defaultTheme = mqlDark.matches ? 'dark' : 'light';
@@ -11,7 +16,7 @@ export function useGeneral() {
     return useContext(Context);
 }
 
-const GeneralProvider = (props) => {
+const GeneralProvider = props => {
     const [navOpen, setNavOpen] = useState(false);
     const [visibilityState, setVisibilityState] = useState(window.document.visibilityState);
     const [osColorScheme, setOsColorScheme] = useState(defaultTheme);
@@ -19,8 +24,47 @@ const GeneralProvider = (props) => {
     
     const theme = selectedTheme || osColorScheme;
 
-    useWindowEventListner('visibilitychange', () => {
-        
-    })
+    useWindowEventListener('visibilitychange', () => {
+        setVisibilityState(window.document.visibilityState);        
+    });
 
+    useEffect(() => {
+        setOsColorScheme(defaultTheme);
+
+        mqlDark.addEventListener('change', e => {
+            setOsColorScheme(e.matches ? 'dark' : 'light');
+
+        });
+    }, []);
+
+    function toggleTheme() {
+        if (selectedTheme === 'light') {
+            setSelectedTheme('dark');
+        } else if (selectedTheme === 'dark') {
+            removeSelectedTheme();
+        } else {
+            selectedTheme('light');
+        }
+    }
+
+    const value = {
+        navOpen,
+        setNavOpen,
+        theme,
+        selectedTheme,
+        toggleTheme,
+        windowState: {
+            visibilityState,
+            isVisible: visibilityState === 'visible',
+        },
+    };
+
+    return (
+        <Context.Provider value = {'value'}>
+            {props.children}
+        </Context.Provider>
+    )
+    
 }
+
+export default GeneralProvider

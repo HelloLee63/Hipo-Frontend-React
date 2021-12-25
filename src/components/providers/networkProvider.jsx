@@ -1,7 +1,9 @@
 import { createContext } from "react";
 import { InvariantContext } from "../../utils/context";
 import { useSessionStorage } from "react-use-storage";
-import { useMemo, useState, useCallback, useEffect } from "react";
+import { useMemo, useState, useCallback, useEffect, useContext } from "react";
+import { RinkebyTestnetNetwork } from '../../networks/rinkeby-testnet'
+import { isDevelopmentMode, isProductionMode } from "../../utils";
 
 
 const Context = createContext(InvariantContext('NetworkProvider'));
@@ -13,30 +15,32 @@ export function useNetwork() {
 const networks = (() => {
     if (isDevelopmentMode) {
         return [
-            KovanNetwork,
-            OptimisticKovanNetwork,
-            TestnetNetwork,
-            OptimisticKovanNetwork,
-            MainnetNetwork,
-            OptimisticMainnetNetwork,
-            PolygonNetwork,
-            AvalancheTestnetNetwork,
-            AvalancheNetwork,
-            BinanceTestnetNetwork,
-            BinanceNetwork,
-            ArbitrumTestnetNetwork,
-            ArbitrumNetwork,
+            // KovanNetwork,
+            // OptimisticKovanNetwork,
+            // TestnetNetwork,
+            // OptimisticKovanNetwork,
+            // MainnetNetwork,
+            // OptimisticMainnetNetwork,
+            // PolygonNetwork,
+            // AvalancheTestnetNetwork,
+            // AvalancheNetwork,
+            // BinanceTestnetNetwork,
+            // BinanceNetwork,
+            // ArbitrumTestnetNetwork,
+            // ArbitrumNetwork,
+            RinkebyTestnetNetwork,
         ]
     }
 
     if (isProductionMode) {
         return [
-            MainnetNetwork, 
-            PolygonNetwork, 
-            AvalancheNetwork, 
-            BinanceNetwork, 
-            TestnetNetwork, 
-            ArbitrumNetwork
+            // MainnetNetwork, 
+            // PolygonNetwork, 
+            // AvalancheNetwork, 
+            // BinanceNetwork, 
+            // TestnetNetwork, 
+            // ArbitrumNetwork
+            RinkebyTestnetNetwork,
         ]
     }
 
@@ -96,7 +100,7 @@ const NetworkProvider = (props) => {
 
     const value = {
         networks,
-        defaultNetwork,
+        defaultNetwork: networks[0],
         activeNetwork,
         findNetwork,
         findNetworkByChainId,
