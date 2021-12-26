@@ -1,0 +1,15 @@
+.overlay:global(.ant-tooltip) :global(.ant-tooltip-inner) {
+  font: var(--font-p1);
+  max-width: 360px;
+  padding: 16px;
+  background: var(--theme-card-color);
+  -webkit-box-shadow: var(--theme-overlay-shadow);
+          box-shadow: var(--theme-overlay-shadow);
+  border-radius: 4px;
+  color: var(--theme-primary-color);
+}
+
+.overlay:global(.ant-tooltip) :global(.ant-tooltip-arrow-content) {
+  background: var(--theme-card-color);
+}
+/*# sourceMappingURL=s.module.css.map */
