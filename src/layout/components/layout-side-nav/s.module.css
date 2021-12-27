@@ -1,0 +1,20 @@
+.logo {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  height: 65px;
+  margin-top: 32px;
+  margin-left: 80px;
+  width: 260px;
+}
+
+.asideImg {
+  background-image: url("../../../media/img/asideimg.png");
+}
+/*# sourceMappingURL=s.module.css.map */

@@ -1,0 +1,16 @@
+.logo {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 65px;
+    // padding: 0 25px;
+    margin-top: 32px;
+    margin-left: 80px;
+    width: 260px;
+  }
+
+.asideImg {
+    background-color: rgb(112, 114, 10);
+    background-color: linear-gradient(rgb(0, 62, 255), rgb(255, 37, 127), rgb(255, 183, 0));
+    // background-image: url('../../../media/img/asideimg.png');
+}
