@@ -3,7 +3,7 @@ import { Link } from "react-router-dom"
 import toAbsoluteUrl from '../../../_metronic/helpers/AssetHelpers.js'
 import { KTSVG } from '../../../_metronic/helpers/components/KTSVG.tsx'
 import { useLayout } from "../../core"
-import Header from "./header"
+import Header from "./Header"
 import DefaultTitle from './page-title/DefaultTile'
 import Topbar from './Topbar'
 

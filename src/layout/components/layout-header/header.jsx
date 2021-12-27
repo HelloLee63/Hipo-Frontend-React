@@ -1,4 +1,4 @@
-import MenuInner from "./MenuInner"
+import DefaultTitle from "./page-title/DefaultTile"
 
 const Header = () => {
     return (
@@ -20,7 +20,8 @@ const Header = () => {
                 id='#kt_header_menu'
                 data-kt-menu='true'
             >
-                <MenuInner />
+                <DefaultTitle />
+                
             </div>
 
         </div>

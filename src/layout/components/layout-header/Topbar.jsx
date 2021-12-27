@@ -1,8 +1,8 @@
 import { useLayout } from "../../core"
-import Toolbar from '../layout-toolbar/Toolbar'
 import clsx from "clsx"
 import toAbsoluteUrl from '../../../_metronic/helpers/AssetHelpers.js'
-// import { HeaderUserMenu } from '../../../_metronic/partials/index.ts'
+import DefaultTitle from "./page-title/DefaultTile"
+import { KTSVG } from '../../../_metronic/helpers/components/KTSVG.tsx'
 
 const toolbarButtonMarginClass = 'ms-1 ms-lg-3',
     toolbarButtonHeightClass = 'w-30px h-30px w-md-40px h-md-40px',
@@ -10,15 +10,32 @@ const toolbarButtonMarginClass = 'ms-1 ms-lg-3',
     toolbarButtonIconSizeClass = 'svg-icon-1'
 
 const Topbar = () => {
-    const {config} = useLayout()
+    const {classes} = useLayout()
 
     return (
         <div className='d-flex align-items-stretch flex-shrink-0'>
+            <div
+                id='kt_toolbar_container'
+                className={clsx(classes.toolbarContainer.join(' '), 'd-flex flex-stack')}
+            >
+                <DefaultTitle />
+                <div className='d-flex align-items-center py-1'>
+                    {/* begin::Wrapper */}
+                    <div className='me-4'>
+                        {/* begin::Menu */}
+                        <a
+                            href='#'
+                            className='btn btn-sm btn-primary'
+                            data-bs-toggle='modal'
+                            data-bs-target='#kt_modal_create_app'
+                            id='kt_toolbar_primary_button'
+                        >
+                            Create
+                        </a>
 
-
-            {/* begin::toolbar */}
-            <div>
-                < Toolbar/>
+                    {/* end::Menu */}
+                    </div>
+                </div>                   
             </div>
             {/* begin::User */}
             <div
