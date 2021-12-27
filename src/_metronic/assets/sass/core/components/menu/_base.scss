@@ -108,7 +108,7 @@
 }
 
 // Accordion arrows
-.menu-item {
+arrows {
   &.show {
     .menu-link {
       .menu-arrow:after {
@@ -135,7 +135,7 @@
 
     @include media-breakpoint-direction($direction, $breakpoint) {
       // Accordion arrow
-      .menu-item.menu#{$infix}-accordion {
+      arrows.menu#{$infix}-accordion {
         &.showing:not(.menu-dropdown),
         &.show:not(.hiding):not(.menu-dropdown) {
           > .menu-link {

@@ -15,6 +15,7 @@
 }
 
 .asideImg {
-  background-image: url("../../../media/img/asideimg.png");
+  background-color: #70720a;
+  background-color: linear-gradient(#003eff, #ff257f, #ffb700);
 }
 /*# sourceMappingURL=s.module.css.map */

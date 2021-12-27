@@ -1,6 +1,5 @@
 import { lazy } from "react";
 import { useNetwork } from "../components/providers/networkProvider";
-import MyHeader from "./components/layout-header/my-header";
 import AsideDefault from "./components/layout-side-nav/index";
 
 
