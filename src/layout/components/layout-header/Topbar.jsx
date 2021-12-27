@@ -1,5 +1,8 @@
 import { useLayout } from "../../core"
-
+import Toolbar from '../layout-toolbar/Toolbar'
+import clsx from "clsx"
+import toAbsoluteUrl from '../../../_metronic/helpers/AssetHelpers.js'
+// import { HeaderUserMenu } from '../../../_metronic/partials/index.ts'
 
 const toolbarButtonMarginClass = 'ms-1 ms-lg-3',
     toolbarButtonHeightClass = 'w-30px h-30px w-md-40px h-md-40px',
@@ -11,6 +14,12 @@ const Topbar = () => {
 
     return (
         <div className='d-flex align-items-stretch flex-shrink-0'>
+
+
+            {/* begin::toolbar */}
+            <div>
+                < Toolbar/>
+            </div>
             {/* begin::User */}
             <div
                 className={clsx('d-flex align-items-center', toolbarButtonMarginClass)}
@@ -26,10 +35,12 @@ const Topbar = () => {
                 >
                 <img src={toAbsoluteUrl('/media/avatars/150-2.jpg')} alt='metronic' />
                 </div>
-                <HeaderUserMenu />
+                {/* <HeaderUserMenu /> */}
                 {/* end::Toggle */}
             </div>
             {/* end::User */}
         </div>
     )
 }
+
+export default Topbar

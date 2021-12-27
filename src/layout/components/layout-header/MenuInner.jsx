@@ -7,3 +7,5 @@ export function MenuInner() {
         </>
     )
 }
+
+export default MenuInner

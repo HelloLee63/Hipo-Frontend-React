@@ -1,9 +1,10 @@
 import React from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { checkIsActive } from '../../../_metronic/helpers/RouterHelpers.ts'
+import { KTSVG } from '../../../_metronic/helpers/components/KTSVG.tsx'
 import clsx from 'clsx'
 import { useLayout } from '../../core'
-import { KTSVG } from '../../../_metronic/helpers/components/KTSVG.tsx'
+
 
 const AsideMenuItem = ({
     chiildren,

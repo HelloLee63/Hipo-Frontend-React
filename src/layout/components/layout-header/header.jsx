@@ -1,3 +1,4 @@
+import MenuInner from "./MenuInner"
 
 const Header = () => {
     return (

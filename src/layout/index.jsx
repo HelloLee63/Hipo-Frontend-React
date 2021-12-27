@@ -1,5 +1,6 @@
 import { lazy } from "react";
 import { useNetwork } from "../components/providers/networkProvider";
+import { HeaderWrapper } from "./components/layout-header/HeaderWrapper";
 import AsideDefault from "./components/layout-side-nav/index";
 
 
@@ -18,6 +19,7 @@ const LayoutView = () => {
     return (
         <div className='page d-flex flex-row flex-column-fluid'>
             <AsideDefault />
+            <HeaderWrapper />
         </div>
         
     )

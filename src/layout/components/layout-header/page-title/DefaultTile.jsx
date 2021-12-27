@@ -4,7 +4,7 @@ import { useLayout } from "../../../core"
 import { Link } from "react-router-dom"
 
 
-const DefaultTile = () => {
+const DefaultTitle = () => {
 
     const { pageTitle, pageDescription, pageBreadcrumbs } = usePageData()
     const { config, classes } = useLayout()
@@ -65,4 +65,4 @@ const DefaultTile = () => {
     )
 }
 
-export default DefaultTile
+export default DefaultTitle
