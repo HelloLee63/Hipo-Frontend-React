@@ -1,3 +1,6 @@
+import { Button, Modal } from "bootstrap";
+import { Grid } from "react-bootstrap";
+import { Text } from "react-bootstrap/lib/Navbar";
 import { useGeneral } from "../../../components/providers/generalProvider";
 
 
@@ -5,7 +8,7 @@ const InitialState = {
     showLedgerModal: false,
 };
 
-const ConnectWalletModal = (props) => {
+const ConnectWalletModal = props => {
     const { ...modalProps } = props;
     const { theme } = useGeneral();
 
