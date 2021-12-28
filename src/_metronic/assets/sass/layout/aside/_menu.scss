@@ -15,6 +15,20 @@
   // Item
   .menu-item {
     padding: 0;
+    a {
+      text-decoration: none !important;
+      border-radius: 4px; 
+      margin: 3px 8px;
+    }
+    a:focus {
+      text-decoration: none !important;
+    }
+  
+    a:hover,
+    a:active {
+      text-decoration: none !important;
+      background-color: #c1cef7;
+    }
 
     // Menu Link
     .menu-link {
