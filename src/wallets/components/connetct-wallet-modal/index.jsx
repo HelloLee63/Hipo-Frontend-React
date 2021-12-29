@@ -4,7 +4,7 @@ import Grid from "../../../components/custom/grid";
 import { Text } from "../../../components/custom/typography";
 import { useGeneral } from "../../../components/providers/generalProvider";
 import { WalletConnectors, useWallet } from "../../walletProvider";
-import { useMergeState } from '../../../hooks/useMergeState'
+import useMergeState from '../../../hooks/useMergeState'
 
 
 const InitialState = {

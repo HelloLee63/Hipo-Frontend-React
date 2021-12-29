@@ -1,7 +1,5 @@
 import React from 'react';
 
-
-
 export function mergeState(state) {
   return (prevState) => {
     return {
