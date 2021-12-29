@@ -15,24 +15,21 @@ import EventEmitter from 'wolfy87-eventemitter';
 
 import { useNetwork } from "../components/providers/networkProvider";
 
-
-import { EventEmitter } from "stream";
-import Web3 from "web3";
-
-
 import { InvariantContext } from "../utils/context";
 
 
-// import ConnectWalletModal from 'wallets/components/connect-wallet-modal';
+import ConnectWalletModal from './components/connetct-wallet-modal/index';
 // import InstallMetaMaskModal from 'wallets/components/install-metamask-modal';
 // import UnsupportedChainModal from 'wallets/components/unsupported-chain-modal';
 // import CoinbaseWalletConfig from 'wallets/connectors/coinbase';
 // import GnosisSafeConfig from 'wallets/connectors/gnosis-safe';
 // import LedgerWalletConfig from 'wallets/connectors/ledger';
-// import MetamaskWalletConfig from 'wallets/connectors/metamask';
+import MetamaskWalletConfig from './connectors/metamask';
 // import PortisWalletConfig from 'wallets/connectors/portis';
 // import TrezorWalletConfig from 'wallets/connectors/trezor';
 // import WalletConnectConfig from 'wallets/connectors/wallet-connect';
+
+import WalletConnectConfig from "./connectors/wallet-connect";
 
 export const WalletConnectors = [
     MetamaskWalletConfig,
@@ -167,7 +164,7 @@ const Web3WalletProvider = props => {
     useEffect(() => {
         (async () => {
             if (sessionProvider) {
-                const walletConnector = WalletConnectors.find(c = c.id === sessionProvider)
+                const walletConnector = WalletConnectors.find(c => c.id === sessionProvider)
 
                 if (walletConnector) {
                     await connect(walletConnector)
@@ -209,8 +206,8 @@ const Web3WalletProvider = props => {
         <Context.Provider>
             {props.chiildren}
             {connectWalletModal && <ConnectWalletModal onCancel={() => setConnectWalletModal(false)} />}
-            {installMetaMaskModal && <InstallMetaMaskModal onCancel={() => setInstallMetaMaskModal(false)} />}
-            {unsuportedChainModal && <unsuportedChainModal onCancel={() => setUnsupportedChainModal(false)} />}
+            {/* {installMetaMaskModal && <InstallMetaMaskModal onCancel={() => setInstallMetaMaskModal(false)} />}
+            {unsuportedChainModal && <unsuportedChainModal onCancel={() => setUnsupportedChainModal(false)} />} */}
         </Context.Provider>
     )
 }
