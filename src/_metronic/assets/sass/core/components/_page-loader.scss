@@ -1,14 +1,14 @@
 //
-// Page loader
+//  loader
 //
 
-// CSS3 Transitions only after page load(.page-loading class added to body tag and remove with JS on page load)
-.page-loading * {
+// CSS3 Transitions only after  load(.-loading class added to body tag and remove with JS on  load)
+.-loading * {
   transition: none !important;
 }
 
 // Base
-.page-loader {
+.-loader {
   background: #fff;
   position: fixed;
   top: 0;
@@ -18,7 +18,7 @@
   z-index: 1000;
   display: none;
 
-  .page-loading & {
+  .-loading & {
     display: flex;
     justify-content: center;
     align-items: center;

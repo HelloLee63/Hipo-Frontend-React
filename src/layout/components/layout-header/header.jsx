@@ -1,6 +1,10 @@
 import DefaultTitle from "./page-title/DefaultTile"
+import clsx from "clsx"
+import { useLayout } from "../../core"
 
 const Header = () => {
+    const {config, classes, attributes} = useLayout()
+
     return (
         <div
             className='header-menu align-items-stretch'
@@ -20,8 +24,9 @@ const Header = () => {
                 id='#kt_header_menu'
                 data-kt-menu='true'
             >
-                <DefaultTitle />
-                
+                <div className={clsx(classes.toolbarContainer.join(' '), 'd-flex flex-stack')}>
+                    <DefaultTitle />
+                </div>                
             </div>
 
         </div>

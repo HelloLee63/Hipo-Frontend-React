@@ -4,12 +4,22 @@ export function AsideMenuMain() {
 
     return (
         <>
+            <div className='menu-item'>
+                <div className='menu-content pt-3 pb-2'>
+                    <span className='menu-section text-muted text-uppercase fs-8 ls-1'>Dashboard</span>
+                </div>
+            </div>
             <AsideMenuItem
                 to='/dashboard'
                 icon='/media/icons/duotune/art/art002.svg'
-                title = 'Dashboard'
+                title = 'Bond Market'
                 fontIcon='bi-app-indicator'
             />
+            <div className='menu-item'>
+                <div className='menu-content pt-3 pb-2'>
+                    <span className='menu-section text-muted text-uppercase fs-8 ls-1'>transaction</span>
+                </div>
+            </div>
             <AsideMenuItem
                 to='/pledge'
                 icon='/media/icons/duotune/general/gen019.svg'
@@ -33,7 +43,12 @@ export function AsideMenuMain() {
                 icon='/media/icons/duotune/general/gen019.svg'
                 title='Add Liquidity'
                 fontIcon='bi-layers'
-            /> 
+            />
+            <div className='menu-item'>
+                <div className='menu-content pt-3 pb-2'>
+                    <span className='menu-section text-muted text-uppercase fs-8 ls-1'>my hipo</span>
+                </div>
+            </div> 
             <AsideMenuItem
                 to='/collaterals'
                 icon='/media/icons/duotune/general/gen019.svg'

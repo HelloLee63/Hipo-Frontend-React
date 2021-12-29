@@ -1,9 +1,38 @@
-import { useState, useMemo, useEffect, createContext } from "react";
+import { useState, useMemo, useEffect, createContext, useCallback, useRef, useContext } from "react";
 import { useSessionStorage } from "react-use-storage";
+import SafeProvider, { useSafeAppSDK } from '@gnosis.pm/safe-apps-react-sdk'
+
+import { AbstractConnector } from '@web3-react/abstract-connector';
+import { UnsupportedChainIdError, Web3ReactProvider, useWeb3React } from '@web3-react/core';
+import { NoEthereumProviderError } from '@web3-react/injected-connector';
+
+
+import * as Antd from 'antd';
+import BigNumber from 'bignumber.js';
+import { ethers } from 'ethers';
+import Web3 from 'web3';
+import EventEmitter from 'wolfy87-eventemitter';
+
+import { useNetwork } from "../components/providers/networkProvider";
+
+
 import { EventEmitter } from "stream";
 import Web3 from "web3";
 
-import { useNetwork } from "../components/providers/networkProvider";
+
+import { InvariantContext } from "../utils/context";
+
+
+// import ConnectWalletModal from 'wallets/components/connect-wallet-modal';
+// import InstallMetaMaskModal from 'wallets/components/install-metamask-modal';
+// import UnsupportedChainModal from 'wallets/components/unsupported-chain-modal';
+// import CoinbaseWalletConfig from 'wallets/connectors/coinbase';
+// import GnosisSafeConfig from 'wallets/connectors/gnosis-safe';
+// import LedgerWalletConfig from 'wallets/connectors/ledger';
+// import MetamaskWalletConfig from 'wallets/connectors/metamask';
+// import PortisWalletConfig from 'wallets/connectors/portis';
+// import TrezorWalletConfig from 'wallets/connectors/trezor';
+// import WalletConnectConfig from 'wallets/connectors/wallet-connect';
 
 export const WalletConnectors = [
     MetamaskWalletConfig,

@@ -41,7 +41,7 @@ const AsideMenuItem = ({
                     <span className='menu-icon'>
                         <KTSVG path={icon} className='svg-icon-2' />
                     </span>               
-                    <span className='menu-title'>{title}</span>
+                    <span className='menu-title' id='aside-item-title'>{title}</span>
                 </Link>
                 {chiildren}            
             </div>

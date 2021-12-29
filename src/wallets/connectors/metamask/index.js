@@ -1,40 +1,33 @@
 import { notification } from "antd"
 import MetamaskLogoDark from '../../svg/metamask-logo-dark.svg'
 import MetamaskLogo from '../../svg/metamask-logo.svg'
-
+import { InjectedConnector } from '@web3-react/injected-connector'
 
 export class MetamaskConnector extends InjectedConnector {
 
-    addChain(...infos) {
-        return this.getProvider().then(provider => {
-            return provider.request({
-                method: 'wallet_addEthereumChain',
-                params: infos
-            })
+    async addChain(...infos) {
+        const provider = await this.getProvider()
+        return provider.request({
+            method: 'wallet_addEthereumChain',
+            params: infos
         })
     }
 
-    switchChain(info) {
-        return this.getProvider().then(provider => {
-            return provider.request({
-                method: 'wallet_switchEthereumChain',
-                params: [info],
-            })
+    async switchChain(info) {
+        const provider = await this.getProvider()
+        return provider.request({
+            method: 'wallet_switchEthereumChain',
+            params: [info],
         })
     }
 
-    addToken(info) {
-        return this.getProvider().then(provider => {
-            return provider.request({
-                method: 'waller_watchAsset',
-                params: info,
-            })
+    async addToken(info) {
+        const provider = await this.getProvider()
+        return provider.request({
+            method: 'wallet_watchAsset',
+            params: info,
         })
     }
-
-    
-
-
 }
 
 function handleErrors(error) {
@@ -63,13 +56,13 @@ const MetamaskWalletConfig = {
 
     onConnect(connector, args) {
         connector?.getProvider().then(provider => {
-            provider.addListener('send::erro', handleErrors)
+            provider.addListener('send::error', handleErrors)
         })
     },
 
     onDisconnect(connector) {
         connector?.getProvider().then(provider => {
-            provider.removeListener('send::erro', handleErrors)
+            provider.removeListener('send::error', handleErrors)
         })
     },
 
