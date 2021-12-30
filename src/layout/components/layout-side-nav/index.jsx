@@ -1,5 +1,4 @@
 import { Link } from "react-router-dom"
-import clsx from "clsx"
 import { useLayout } from '../../core'
 import s from './s.module.scss'
 import cn from "classnames"

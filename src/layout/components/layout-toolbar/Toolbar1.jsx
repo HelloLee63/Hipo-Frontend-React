@@ -1,6 +1,5 @@
 import DefaultTitle from "../layout-header/page-title/DefaultTile"
 import { useLayout } from "../../core"
-import { KTSVG } from '../../../_metronic/helpers/components/KTSVG.tsx'
 import clsx from 'clsx'
 
 const Toolbar1 = () => {
