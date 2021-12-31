@@ -1,8 +1,9 @@
+
+import WalletProvider from "../../../wallets/walletProvider"
 import { useLayout } from "../../core"
-import clsx from "clsx"
-import toAbsoluteUrl from '../../../_metronic/helpers/AssetHelpers.js'
-import DefaultTitle from "./page-title/DefaultTile"
-import { KTSVG } from '../../../_metronic/helpers/components/KTSVG.tsx'
+import NetworkAction from "./networkAction"
+import WalletAction from "./walletAction"
+<WalletProvider></WalletProvider>
 
 const toolbarButtonMarginClass = 'ms-1 ms-lg-3',
     toolbarButtonHeightClass = 'w-30px h-30px w-md-40px h-md-40px',
@@ -13,6 +14,8 @@ const Topbar = () => {
     const {classes} = useLayout()
 
     return (
+        // <WalletProvider>
+
         <div className='d-flex align-items-stretch flex-shrink-0'>            
                 <div className='d-flex align-items-center py-1'>
                     {/* begin::Wrapper */}
@@ -30,8 +33,11 @@ const Topbar = () => {
 
                     {/* end::Menu */}
                     </div>
+                    <NetworkAction />
+                    <WalletAction />
                 </div>                   
         </div>
+        // {/* </WalletProvider> */}
     )
 }
 

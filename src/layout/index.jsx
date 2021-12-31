@@ -4,6 +4,9 @@ import { HeaderWrapper } from "./components/layout-header/HeaderWrapper";
 import AsideDefault from "./components/layout-side-nav/index";
 import { PageDataProvider } from './core/PageData';
 import Toolbar from './components/layout-toolbar/Toolbar'
+import WalletProvider from "../wallets/walletProvider";
+import NetworkAction from "./components/layout-header/networkAction";
+
 
 
 // const PledgeView = lazy(() => import('modules/pledge'))
@@ -22,10 +25,12 @@ const LayoutView = () => {
         <PageDataProvider>
             <div className='page d-flex flex-row flex-column-fluid'>
                 <AsideDefault />
-                <div className='wrapper d-flex flex-column flex-row-fluid' id='kt_wrapper'> 
+                <div className='wrapper d-flex flex-column flex-row-fluid' id='kt_wrapper'>
+                {/* <WalletProvider>  */}
                     <HeaderWrapper />
+                {/* </WalletProvider> */}
                     <div id='kt_content' className='content d-flex flex-column flex-column-fluid'>
-                        {/* <Toolbar /> */}
+                        <Toolbar />
                         <div className='post d-flex flex-column-fluid' id='kt_post'>
                             {/* <Content>{children}</Content> */}
                         </div>
@@ -33,7 +38,6 @@ const LayoutView = () => {
                 </div>               
             </div>
         </PageDataProvider>
-        
     )
 }
 
