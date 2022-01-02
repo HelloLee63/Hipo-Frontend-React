@@ -3,9 +3,10 @@ import { useNetwork } from "../components/providers/networkProvider";
 import { HeaderWrapper } from "./components/layout-header/HeaderWrapper";
 import AsideDefault from "./components/layout-side-nav/index";
 import { PageDataProvider } from './core/PageData';
-import Toolbar from './components/layout-toolbar/Toolbar'
-import WalletProvider from "../wallets/walletProvider";
 import NetworkAction from "./components/layout-header/networkAction";
+import WalletAction from "./components/layout-header/walletAction";
+
+
 
 
 
@@ -18,26 +19,43 @@ import NetworkAction from "./components/layout-header/networkAction";
 // const PoolsView = lazy(() => import ('modules/pools'))
 
 const LayoutView = () => {
-    const { activeNetwork } = useNetwork();
     // const { features } = useConfig();
 
     return (
-        <PageDataProvider>
-            <div className='page d-flex flex-row flex-column-fluid'>
-                <AsideDefault />
-                <div className='wrapper d-flex flex-column flex-row-fluid' id='kt_wrapper'>
-                {/* <WalletProvider>  */}
+        // <PageDataProvider>
+        //     <div className='d-flex flex-row flex-column-fluid'>
+        //         <AsideDefault />
+        //         <div className='wrapper d-flex flex-column'>               
+        //             <div>
+        //                 <HeaderWrapper />
+        //             </div>
+        //             <div>
+        //                 <NetworkAction />
+        //             </div>            
+        //             <div id='kt_content' className='content d-flex flex-column flex-column-fluid'>                       
+        //                 <WalletAction />                                    
+        //             <div className='post d-flex flex-column-fluid' id='kt_post'>
+        //                 {/* <Content>{children}</Content> */}
+        //             </div>
+        //             </div>
+        //         </div>               
+        //     </div>
+        // </PageDataProvider>
+        
+            <div className="d-flex">
+                <div>
+                    <AsideDefault />
+                </div>
+                
+                <div>
                     <HeaderWrapper />
-                {/* </WalletProvider> */}
-                    <div id='kt_content' className='content d-flex flex-column flex-column-fluid'>
-                        <Toolbar />
-                        <div className='post d-flex flex-column-fluid' id='kt_post'>
-                            {/* <Content>{children}</Content> */}
-                        </div>
-                    </div>
-                </div>               
+                </div>                                  
+                <div>
+                    {/* <Content>{children}</Content> */}
+                </div>
+                            
             </div>
-        </PageDataProvider>
+        
     )
 }
 

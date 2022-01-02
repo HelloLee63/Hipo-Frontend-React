@@ -1,5 +1,7 @@
 import { toHex } from "web3-utils";
 import { isDevelopmentMode } from '../utils'
+import toAbsoluteUrl from "../_metronic/helpers/AssetHelpers";
+
 
 const RPC_KEY = !isDevelopmentMode ? '6c58700fe84943eb83c4cd5c23dff3d8' : 'aacf4c6a162a483eab3163105bebe222';
 const RPC_HTTPS_URL = `https://mainnet.infura.io/v3/${RPC_KEY}`;
@@ -113,7 +115,7 @@ export const RinkebyTestnetNetwork = {
     meta: {
         chainId: RINKEBY_CHAIN_ID,
         name: isDevelopmentMode ? 'Rinkeby (Alpha)' : 'Rinkeby',
-        logo: 'rinkeby-logo',
+        logo: '/media/logos/logo-1-dark.svg',
     },
     rpc: {
         httpsUrl: RPC_HTTPS_URL,

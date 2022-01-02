@@ -3,7 +3,7 @@
 //
 
 // General mode(all devices)
-.aside {
+.aside-nav {
   display: flex;
   flex-direction: column;
   box-shadow: get($aside-config, box-shadow);
@@ -83,7 +83,7 @@
 
 // Desktop mode
 @include media-breakpoint-up(lg) {
-  .aside {
+  .aside-nav {
     width: get($aside-config, width);
     transition: width get($aside-config, transition-speed) ease;
 
@@ -196,7 +196,7 @@
 
 // Tablet & mobile modes
 @include media-breakpoint-down(lg) {
-  .aside {
+  .aside-nav {
     display: none;
 
     // Logo

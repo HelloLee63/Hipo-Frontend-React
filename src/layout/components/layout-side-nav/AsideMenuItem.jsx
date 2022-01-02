@@ -5,12 +5,9 @@ import { KTSVG } from '../../../_metronic/helpers/components/KTSVG.tsx'
 import clsx from 'clsx'
 
 const AsideMenuItem = ({
-    chiildren,
     to,
     title,
-    icon,
-    fontIcon,
-    hasBullet = false,
+    icon
   }) => {
       const {pathname} = useLocation()
       const isActive = checkIsActive(pathname, to)
@@ -33,17 +30,29 @@ const AsideMenuItem = ({
             //     {chiildren}            
             // </div>
 
-            <div className='menu-item'>
-                <Link className={clsx('menu-link without-sub', {active: isActive})} to={to}>                    
+            // <div className='menu-item'>
+            //     <Link className={clsx('menu-link without-sub', {active: isActive})} to={to}>                    
+            //         {/* <span className='menu-bullet'>
+            //             <span className='bullet bullet-dot'></span>
+            //         </span>                    */}
+            //         <span className='menu-icon'>
+            //             <KTSVG path={icon} className='svg-icon-2' />
+            //         </span>               
+            //         <span className='menu-title' id='aside-item-title'>{title}</span>
+            //     </Link>
+            //     {chiildren}            
+            // </div>
+
+            <div className='menu-item menu-link active'>
+                <Link className={clsx('menu-link  without-sub')} to={to}>                    
                     {/* <span className='menu-bullet'>
                         <span className='bullet bullet-dot'></span>
                     </span>                    */}
                     <span className='menu-icon'>
-                        <KTSVG path={icon} className='svg-icon-2' />
+                        <KTSVG path={icon} className='svg-icon-2'/>
                     </span>               
                     <span className='menu-title' id='aside-item-title'>{title}</span>
-                </Link>
-                {chiildren}            
+                </Link>       
             </div>
     )
 }

@@ -13,7 +13,8 @@ const Icon = (props) => {
             height = {height ?? width}
             style = {style}
             {...rest}>
-            {name && <use xlinkHref={`${name.indexOf('static/') === 0 ? '' : Sprite}#icon__${name}`} />}
+            {/* {name && <use xlinkHref={`${name.indexOf('static/') === 0 ? '' : Sprite}#icon__${name}`} />} */}
+            {name}
         </svg>
     )
 }

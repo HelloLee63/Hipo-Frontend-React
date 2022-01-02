@@ -6,6 +6,8 @@ import reportWebVitals from './reportWebVitals';
 import './_metronic/assets/sass/style.scss'
 import './_metronic/assets/sass/style.react.scss'
 
+// import './styles/aside.scss'
+
 ReactDOM.render(
   <React.StrictMode>
     <App />

@@ -15,7 +15,7 @@ import EventEmitter from 'wolfy87-eventemitter';
 
 import { useNetwork } from "../components/providers/networkProvider";
 
-// import { InvariantContext } from "../utils/context";
+import { InvariantContext } from "../utils/context";
 
 
 import ConnectWalletModal from './components/connetct-wallet-modal/index';
@@ -35,7 +35,7 @@ export const WalletConnectors = [
     MetamaskWalletConfig,
   ];
 
-const Context = createContext()
+const Context = createContext(InvariantContext('Web3WalletProvider'))
 
 export function useWallet() {
     return useContext(Context)
@@ -43,20 +43,30 @@ export function useWallet() {
 
 const Web3WalletProvider = props => {
     const { activeNetwork } = useNetwork();
-
-    console.log(activeNetwork);
-    
     const web3React = useWeb3React();
     // const safeApps = useSafeAppSDK();
 
+    console.log(web3React);
+
     const [sessionProvider, setSessionProvider, removeSessionProvider] = useSessionStorage('wallet_provider',)
+    console.log(sessionProvider);
 
     const event = useMemo(() => EventEmitter(), [])
+    console.log(event);
 
     const [initialized, setInitialized] = useState(false)
+    console.log(`useState initialized is : ${initialized}`);
+
+
     const [connecting, setConnecting] = useState()
+
+    console.log(connecting);
+
     const connectingRef = useRef(connecting)
     connectingRef.current = connecting
+
+    console.log(`useRef connectingRef is : ${connectingRef}`);
+    console.log(connectingRef);
 
     const [activeMeta, setActivemeta] = useState()
     const [ethBalance, setEthBalance] = useState()
@@ -64,10 +74,12 @@ const Web3WalletProvider = props => {
     const [ensAvatar, setENSAvatar]= useState()
 
     const [connectWalletModal, setConnectWalletModal] = useState()
-    const [unsuportedChainModal, setUnsupportedChainModal] = useState()
+    const [unsupportedChainModal, setUnsupportedChainModal] = useState()
     const [installMetaMaskModal, setInstallMetaMaskModal] = useState()
 
     const preConnectedAccount = useRef(web3React.account)
+
+    console.log(preConnectedAccount);
 
     if (preConnectedAccount.current !== web3React.account) {
         preConnectedAccount.current = web3React.account
@@ -84,7 +96,7 @@ const Web3WalletProvider = props => {
     }, [web3React, activeMeta, removeSessionProvider, setConnecting])
 
     const connect = useCallback(
-        async (walletConfig, args) => {
+        async (walletConfig) => {
             if (connectingRef.current) {
                 return
             }
@@ -92,7 +104,7 @@ const Web3WalletProvider = props => {
             setConnecting(walletConfig)
             setConnectWalletModal(false)
 
-            const connector = walletConfig.factory(activeNetwork, args)
+            const connector = walletConfig.factory(activeNetwork)
 
             function onError(error) {
                 console.error('WalletProvider::Connect().onError', { error })
@@ -117,7 +129,7 @@ const Web3WalletProvider = props => {
                     return
                 }
 
-                walletConfig.onConnect?.(connector, args)
+                walletConfig.onConnect?.(connector)
                 setActivemeta(walletConfig)
                 setSessionProvider(walletConfig.id)
             }
@@ -207,7 +219,8 @@ const Web3WalletProvider = props => {
 
     return (
         <Context.Provider value={value}>
-            {props.chiildren}
+            {props.children}
+            {/* <ConnectWalletModal onCancel={() => setConnectWalletModal(false)} /> */}
             {connectWalletModal && <ConnectWalletModal onCancel={() => setConnectWalletModal(false)} />}
             {/* {installMetaMaskModal && <InstallMetaMaskModal onCancel={() => setInstallMetaMaskModal(false)} />}
             {unsuportedChainModal && <unsuportedChainModal onCancel={() => setUnsupportedChainModal(false)} />} */}
@@ -217,11 +230,13 @@ const Web3WalletProvider = props => {
 
 const WalletProvider = props => {
     const { children } = props
+    // library => library
 
     return (
         <Web3ReactProvider getLibrary={library => library}>
             {/* <SafeProvider> */}
                 <Web3WalletProvider>{children}</Web3WalletProvider>
+                {/* { children } */}
             {/* </SafeProvider> */}
         </Web3ReactProvider>
     )

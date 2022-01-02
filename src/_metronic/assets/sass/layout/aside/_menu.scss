@@ -24,12 +24,10 @@
       text-decoration: none !important;
     }
   
-    a:hover,
-    a:active {
+    a:hover {
       text-decoration: none !important;
       background-color: #c1cef7;
     }
-
     // Menu Link
     .menu-link {
       padding-top: 0.75rem;
@@ -38,10 +36,15 @@
 
     // Icon
     .menu-icon {
-      justify-content: flex-start;
+      justify-content: flex-end;
     }
     .menu-title#aside-item-title {
       color: white;
+    }
+
+    a:active {
+      text-decoration: none;
+      background-color: darkcyan;
     }
   }
 }

@@ -1,0 +1,126 @@
+.aside-menu {
+    .menu {
+      // Link padding x
+    //   @include menu-link-padding-x(get($aside-config, padding-x));
+  
+    //   // Menu indention
+    //   @include menu-link-indention(get($aside-config, menu-indention), get($aside-config, padding-x));
+    }
+  
+    // Item
+    .menu-item {
+      padding: 0;
+      a {
+        text-decoration: none !important;
+        border-radius: 4px; 
+        margin: 3px 8px;
+      }
+      a:focus {
+        text-decoration: none !important;
+      }
+    
+      a:hover {
+        text-decoration: none !important;
+        background-color: #c1cef7;
+      }
+      // Menu Link
+      .menu-link {
+        padding-top: 0.75rem;
+        padding-bottom: 0.75rem;
+      }
+  
+      // Icon
+      .menu-icon {
+        justify-content: flex-end;
+      }
+      .menu-title#aside-item-title {
+        color: white;
+      }
+  
+      a:active {
+        text-decoration: none;
+        background-color: darkcyan;
+      }
+    }
+}
+// Menu item
+.menu-item {
+    display: block;
+    padding: 0;
+  
+    // Menu Link
+    .menu-link {
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      padding: 0;
+      flex: 0 0 100%;
+    //   padding: get($menu, link, self, padding-y) get($menu, link, self, padding-x);
+      transition: none;
+      outline: none !important;
+  
+      // Menu Icon
+      .menu-icon {
+        flex-shrink: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        // width: get($menu, link, icon, width);
+        // margin-right: get($menu, link, icon, space);
+  
+        .svg-icon {
+          line-height: 1;
+        }
+      }
+  
+      // Menu Icon
+      .menu-bullet {
+        flex-shrink: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        // width: get($menu, link, bullet, width);
+        // margin-right: get($menu, link, bullet, space);
+      }
+  
+      // Menu Label
+      .menu-title {
+        display: flex;
+        align-items: center;
+        flex-grow: 1;
+      }
+  
+      // Menu Label
+      .menu-badge {
+        flex-shrink: 0;
+        // margin-left: get($menu, link, badge, space);
+      }
+  
+      // Menu Arrow
+      .menu-arrow {
+        display: flex;
+        align-items: stretch;
+        position: relative;
+        overflow: hidden;
+        flex-shrink: 0;
+        // margin-left: get($menu, link, arrow, space);
+        // width: get($menu, link, arrow, width);
+        // height: get($menu, link, arrow, height);
+  
+        &:after {
+          display: block;
+          width: 100%;
+          content: ' ';
+        //   @include svg-bg-icon(arrow-start, $text-muted);
+        //   /*rtl:begin:remove*/
+        //   @include svg-bg-icon(arrow-end, $text-muted);
+          /*rtl:end:remove*/
+        }
+      }
+    }
+  
+    // Menu Content
+    .menu-content {
+    //   padding: get($menu, link, self, padding-y) get($menu, link, self, padding-x);
+    }
+  }

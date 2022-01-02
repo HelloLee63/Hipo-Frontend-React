@@ -1,5 +1,3 @@
-import React from 'react'
-
 import { Icon } from '../icon/index.jsx'
 
 import s from './s.module.scss'
@@ -24,27 +22,42 @@ export const ButtonContent = ({ size, icon, iconPosition,
 
         return (
             <>
-               {iconToDisplay && iconPosition === 'left' ? (
-                   <Icon
-                    name = {iconToDisplay}
-                    rotate={iconRotate}
-                    size={iconSize}
-                    style={{ marginRight: 8}}
-                    className={classNames({
-                        [s.spinner]: loading,
-                    })}
-                   />
-               ) : null }             
+              {iconToDisplay && iconPosition === 'left' ? (
+                <Icon
+                  name={iconToDisplay}
+                  rotate={iconRotate}
+                  size={iconSize}
+                  style={{ marginRight: 8 }}
+                  className={classNames({
+                    [s.spinner]: loading,
+                  })}
+                />
+              ) : null}
+              {iconToDisplay && iconPosition === 'only' ? (
+                <Icon
+                  name={iconToDisplay}
+                  rotate={iconRotate}
+                  size={iconSize}
+                  className={classNames({
+                    [s.spinner]: loading,
+                  })}
+                />
+              ) : (
+                children
+              )}
+              {iconToDisplay && iconPosition === 'right' ? (
+                <Icon
+                  name={iconToDisplay}
+                  rotate={iconRotate}
+                  size={iconSize}
+                  style={{ marginLeft: 8 }}
+                  className={classNames({
+                    [s.spinner]: loading,
+                  })}
+                />
+              ) : null}
             </>
-        )
-}
-
-const index = () => {
-    return (
-        <div>
-            
-        </div>
-    )
+          );
 }
 
 export const Button = ({
