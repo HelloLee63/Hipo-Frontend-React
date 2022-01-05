@@ -1,34 +1,31 @@
 import GeneralProvider from './components/providers/generalProvider.jsx';
-import { BrowserRouter as Router } from 'react-router-dom';
-import LayoutView from './layout/index.jsx';
+import { BrowserRouter } from 'react-router-dom';
 import WalletProvider from './wallets/walletProvider.jsx';
 import NetworkProvider from './components/providers/networkProvider.jsx';
 import Web3Provider from './components/providers/web3Provider.jsx';
 import ConfigProvider from './components/providers/configProvider.jsx';
-import CssTest from './cssTest.jsx';
-import { PageDataProvider } from './layout/core/PageData.jsx';
 
-
+import { AppRoutes } from './routing/AppRoutes.jsx';
+import { LayoutProvider } from './layout/core/LayoutProvider.jsx';
 
 const App = () => {
   return (
     <div>
-      <Router>
+      <BrowserRouter>
         <GeneralProvider>
-        <PageDataProvider>
+        {/* <LayoutProvider> */}
           <NetworkProvider>
             <ConfigProvider>
               <WalletProvider>
-                <Web3Provider>
-                  <LayoutView />       
-                  {/* <CssTest /> */}
+                <Web3Provider>                
+                  <AppRoutes />
                 </Web3Provider>
               </WalletProvider>
             </ConfigProvider>
           </NetworkProvider>
-          </PageDataProvider>
+          {/* </LayoutProvider> */}
         </GeneralProvider>
-      </Router>
+      </BrowserRouter>
     </div>
   )
 }

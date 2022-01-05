@@ -5,18 +5,18 @@ export function AsideMenuMain() {
     return (
         <>
             <div className='menu-item'>
-                <div className='menu-content pt-3 pb-2'>
-                    <span className='menu-section text-muted text-uppercase fs-8 ls-1'>Dashboard</span>
+                <div className='menu-content pt-2 pb-2'>
+                    <span className='menu-section text-muted text-uppercase fs-8 ls-1'>dashboard</span>
                 </div>
             </div>
             <AsideMenuItem
-                to='/dashboard'
+                to='/bondmarket'
                 icon='/media/icons/duotune/art/art002.svg'
                 title = 'Bond Market'
                 fontIcon='bi-app-indicator'
             />
             <div className='menu-item'>
-                <div className='menu-content pt-3 pb-2'>
+                <div className='menu-content pt-2 pb-2'>
                     <span className='menu-section text-muted text-uppercase fs-8 ls-1'>transaction</span>
                 </div>
             </div>
@@ -45,7 +45,7 @@ export function AsideMenuMain() {
                 fontIcon='bi-layers'
             />
             <div className='menu-item'>
-                <div className='menu-content pt-3 pb-2'>
+                <div className='menu-content pt-2 pb-2'>
                     <span className='menu-section text-muted text-uppercase fs-8 ls-1'>my hipo</span>
                 </div>
             </div> 

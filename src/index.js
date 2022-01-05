@@ -6,7 +6,11 @@ import reportWebVitals from './reportWebVitals';
 import './_metronic/assets/sass/style.scss'
 import './_metronic/assets/sass/style.react.scss'
 
+// import 'bootstrap/dist/css/bootstrap.css';
+// // import 'bootstrap/dist/css/bootstrap-theme.css';
+
 // import './styles/aside.scss'
+
 
 ReactDOM.render(
   <React.StrictMode>

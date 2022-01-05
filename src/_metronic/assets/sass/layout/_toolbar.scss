@@ -9,7 +9,9 @@
   background-color: get($toolbar-config, bg-color);
   padding: get($toolbar-config, padding);
 }
-
+.toolbar2 {
+  display: flex;
+}
 // Desktop mode
 @include media-breakpoint-up(lg) {
   .toolbar {

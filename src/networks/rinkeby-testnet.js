@@ -3,12 +3,12 @@ import { isDevelopmentMode } from '../utils'
 import toAbsoluteUrl from "../_metronic/helpers/AssetHelpers";
 
 
-const RPC_KEY = !isDevelopmentMode ? '6c58700fe84943eb83c4cd5c23dff3d8' : 'aacf4c6a162a483eab3163105bebe222';
-const RPC_HTTPS_URL = `https://mainnet.infura.io/v3/${RPC_KEY}`;
-const RPC_WSS_URL = `wss://mainnet.infura.io/ws/v3/${RPC_KEY}`;
+const RPC_KEY = !isDevelopmentMode ? '75d301c9ba884f80a9935b8536c3ebfa' : '75d301c9ba884f80a9935b8536c3ebfa';
+const RPC_HTTPS_URL = `https://rinkeby.infura.io/v3/${RPC_KEY}`;
+const RPC_WSS_URL = `wss://rinkeby.infura.io/ws/v3${RPC_KEY}`;
 
 const EXPLORER_KEY = '4RSJUUZQFMXUAUUJP5FI5UR5U59N7UIA32';
-const EXPLORER_URL = 'https://etherscan.io';
+const EXPLORER_URL = 'https://rinkeby.etherscan.io';
 const EXPLORER_API_URL = 'https://api.etherscan.io';
 
 export const RINKEBY_CHAIN_ID = 4;

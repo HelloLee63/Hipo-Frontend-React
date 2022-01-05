@@ -45,28 +45,16 @@ const Web3WalletProvider = props => {
     const { activeNetwork } = useNetwork();
     const web3React = useWeb3React();
     // const safeApps = useSafeAppSDK();
-
-    console.log(web3React);
-
     const [sessionProvider, setSessionProvider, removeSessionProvider] = useSessionStorage('wallet_provider',)
-    console.log(sessionProvider);
-
-    const event = useMemo(() => EventEmitter(), [])
+ 
+    const event = useMemo(() => new EventEmitter(), [])
     console.log(event);
 
     const [initialized, setInitialized] = useState(false)
-    console.log(`useState initialized is : ${initialized}`);
-
-
     const [connecting, setConnecting] = useState()
-
-    console.log(connecting);
 
     const connectingRef = useRef(connecting)
     connectingRef.current = connecting
-
-    console.log(`useRef connectingRef is : ${connectingRef}`);
-    console.log(connectingRef);
 
     const [activeMeta, setActivemeta] = useState()
     const [ethBalance, setEthBalance] = useState()
@@ -78,8 +66,6 @@ const Web3WalletProvider = props => {
     const [installMetaMaskModal, setInstallMetaMaskModal] = useState()
 
     const preConnectedAccount = useRef(web3React.account)
-
-    console.log(preConnectedAccount);
 
     if (preConnectedAccount.current !== web3React.account) {
         preConnectedAccount.current = web3React.account
@@ -96,7 +82,7 @@ const Web3WalletProvider = props => {
     }, [web3React, activeMeta, removeSessionProvider, setConnecting])
 
     const connect = useCallback(
-        async (walletConfig) => {
+        async (walletConfig, args) => {
             if (connectingRef.current) {
                 return
             }
@@ -104,7 +90,7 @@ const Web3WalletProvider = props => {
             setConnecting(walletConfig)
             setConnectWalletModal(false)
 
-            const connector = walletConfig.factory(activeNetwork)
+            const connector = walletConfig.factory(activeNetwork, args)
 
             function onError(error) {
                 console.error('WalletProvider::Connect().onError', { error })
@@ -129,7 +115,7 @@ const Web3WalletProvider = props => {
                     return
                 }
 
-                walletConfig.onConnect?.(connector)
+                walletConfig.onConnect?.(connector, args)
                 setActivemeta(walletConfig)
                 setSessionProvider(walletConfig.id)
             }
@@ -230,13 +216,11 @@ const Web3WalletProvider = props => {
 
 const WalletProvider = props => {
     const { children } = props
-    // library => library
 
     return (
         <Web3ReactProvider getLibrary={library => library}>
             {/* <SafeProvider> */}
-                <Web3WalletProvider>{children}</Web3WalletProvider>
-                {/* { children } */}
+            <Web3WalletProvider>{children}</Web3WalletProvider>
             {/* </SafeProvider> */}
         </Web3ReactProvider>
     )

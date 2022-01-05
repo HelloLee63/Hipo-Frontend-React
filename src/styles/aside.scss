@@ -1,3 +1,12 @@
+
+// .aside {
+//   display: flex;
+//   flex-direction: column;
+//   width: 260px;
+//   height: 1440px;
+//   background-color: darkmagenta;
+// }
+
 .aside-menu {
     .menu {
       // Link padding x
@@ -12,8 +21,8 @@
       padding: 0;
       a {
         text-decoration: none !important;
-        border-radius: 4px; 
-        margin: 3px 8px;
+        border-radius: 6px; 
+        // margin: 3px 8px;
       }
       a:focus {
         text-decoration: none !important;
@@ -34,7 +43,7 @@
         justify-content: flex-end;
       }
       .menu-title#aside-item-title {
-        color: white;
+        color: rgb(27, 4, 4);
       }
   
       a:active {
@@ -121,6 +130,29 @@
   
     // Menu Content
     .menu-content {
+      padding: 40px;
     //   padding: get($menu, link, self, padding-y) get($menu, link, self, padding-x);
     }
   }
+
+  .logo {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: justify;
+        -ms-flex-pack: justify;
+            justify-content: space-between;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+    height: 65px;
+    margin-top: 32px;
+    margin-left: 30px;
+    width: 260px;
+  }
+
+  // @include media-breakpoint-down(lg) {
+  //   .aside {
+  //     display: none;
+  //   }
+  // }

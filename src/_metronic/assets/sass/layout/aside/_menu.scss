@@ -17,14 +17,15 @@
     padding: 0;
     a {
       text-decoration: none !important;
-      border-radius: 4px; 
-      margin: 3px 8px;
+      border-radius: 6px; 
+      // margin: 3px 8px;
     }
     a:focus {
       text-decoration: none !important;
     }
   
-    a:hover {
+    a:hover,
+    a:active {
       text-decoration: none !important;
       background-color: #c1cef7;
     }
@@ -36,16 +37,16 @@
 
     // Icon
     .menu-icon {
-      justify-content: flex-end;
+      justify-content: flex-start;
     }
     .menu-title#aside-item-title {
       color: white;
     }
 
-    a:active {
-      text-decoration: none;
-      background-color: darkcyan;
-    }
+    // a:active {
+    //   text-decoration: none;
+    //   background: darkcyan;
+    // }
   }
 }
 
