@@ -6,7 +6,7 @@ export const DefaultLayoutConfig = {
   },
   loader: {
     display: true,
-    type: 'default', // Set default|spinner-message|spinner-logo to hide or show page loader
+    type: 'spinner-logo', // Set default|spinner-message|spinner-logo to hide or show page loader
   },
   scrolltop: {
     display: true,
@@ -26,7 +26,7 @@ export const DefaultLayoutConfig = {
   },
   aside: {
     display: true,
-    theme: 'dark',
+    theme: 'light',
     menu: 'main',
     fixed: true,
     minimized: false,

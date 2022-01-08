@@ -1,7 +1,6 @@
 import BigNumber from 'bignumber.js';
 import { AbiItem } from 'web3-utils';
-import Web3Contract, { createAbiItem } from 'web3/web3Contract';
-
+import Web3Contract, { createAbiItem } from './web3Contract';
 
 const ERC20ABI = [
   createAbiItem('name', [], ['string']),

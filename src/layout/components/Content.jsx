@@ -1,8 +1,8 @@
-import React, {useEffect} from 'react'
+import {useEffect} from 'react'
 import {useLocation} from 'react-router'
 import clsx from 'clsx'
 import {useLayout} from '../core'
-import {DrawerComponent} from '../../assets/ts/components'
+import { DrawerComponent } from '../../_metronic/assets/ts/components'
 
 const Content = ({children}) => {
   const {classes} = useLayout()

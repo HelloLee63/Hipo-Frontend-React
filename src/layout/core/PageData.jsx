@@ -8,8 +8,8 @@ const PageDataContext = createContext({
 })
 
 const PageDataProvider = ({children}) => {
-  const [pageTitle, setPageTitle] = useState('Bond Market')
-  const [pageDescription, setPageDescription] = useState('Home')
+  const [pageTitle, setPageTitle] = useState('')
+  const [pageDescription, setPageDescription] = useState('')
   const [pageBreadcrumbs, setPageBreadcrumbs] = useState([])
   const value = {
     pageTitle,

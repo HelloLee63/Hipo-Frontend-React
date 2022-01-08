@@ -4,7 +4,7 @@ import { useSessionStorage } from "react-use-storage";
 import { useMemo, useState, useCallback, useEffect, useContext } from "react";
 import { RinkebyTestnetNetwork } from '../../networks/rinkeby-testnet'
 import { isDevelopmentMode, isProductionMode } from "../../utils";
-
+import { MainnetNetwork } from "../../networks/mainnet";
 
 const Context = createContext(InvariantContext('NetworkProvider'));
 
@@ -19,7 +19,7 @@ const networks = (() => {
             // OptimisticKovanNetwork,
             // TestnetNetwork,
             // OptimisticKovanNetwork,
-            // MainnetNetwork,
+            MainnetNetwork,
             // OptimisticMainnetNetwork,
             // PolygonNetwork,
             // AvalancheTestnetNetwork,
@@ -34,7 +34,7 @@ const networks = (() => {
 
     if (isProductionMode) {
         return [
-            // MainnetNetwork, 
+            MainnetNetwork, 
             // PolygonNetwork, 
             // AvalancheNetwork, 
             // BinanceNetwork, 

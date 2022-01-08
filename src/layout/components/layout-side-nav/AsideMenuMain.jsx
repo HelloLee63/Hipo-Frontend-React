@@ -11,7 +11,7 @@ export function AsideMenuMain() {
             </div>
             <AsideMenuItem
                 to='/bondmarket'
-                icon='/media/icons/duotune/art/art002.svg'
+                icon='/media/sidemenu/home.svg'
                 title = 'Bond Market'
                 fontIcon='bi-app-indicator'
             />
@@ -22,25 +22,25 @@ export function AsideMenuMain() {
             </div>
             <AsideMenuItem
                 to='/pledge'
-                icon='/media/icons/duotune/general/gen019.svg'
+                icon='/media/sidemenu/Pledge.svg'
                 title='Pledge'
-                fontIcon='bi-layers'
+                // fontIcon='bi-layers'
             />
             <AsideMenuItem
                 to='/issue'
-                icon='/media/icons/duotune/general/gen019.svg'
+                icon='/media/sidemenu/issue-bonds.svg'
                 title='Issue Bonds'
                 fontIcon='bi-layers'
             /> 
             <AsideMenuItem
                 to='/purchase'
-                icon='/media/icons/duotune/general/gen019.svg'
+                icon='/media/sidemenu/purchase-bonds.svg'
                 title='Purchase Bonds'
                 fontIcon='bi-layers'
             /> 
             <AsideMenuItem
                 to='/addliquidity'
-                icon='/media/icons/duotune/general/gen019.svg'
+                icon='/media/sidemenu/add-liquidity.svg'
                 title='Add Liquidity'
                 fontIcon='bi-layers'
             />
@@ -51,19 +51,19 @@ export function AsideMenuMain() {
             </div> 
             <AsideMenuItem
                 to='/collaterals'
-                icon='/media/icons/duotune/general/gen019.svg'
+                icon='/media/sidemenu/collaterals.svg'
                 title='Collaterals'
                 fontIcon='bi-layers'
             /> 
             <AsideMenuItem
                 to='/bonds'
-                icon='/media/icons/duotune/general/gen019.svg'
+                icon='/media/sidemenu/bonds.svg'
                 title='Bonds'
                 fontIcon='bi-layers'
             /> 
             <AsideMenuItem
                 to='/pools'
-                icon='/media/icons/duotune/general/gen019.svg'
+                icon='/media/sidemenu/pools.svg'
                 title='Pools'
                 fontIcon='bi-layers'
             />        

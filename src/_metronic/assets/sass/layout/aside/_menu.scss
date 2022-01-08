@@ -17,17 +17,19 @@
     padding: 0;
     a {
       text-decoration: none !important;
-      border-radius: 6px; 
+      // border-radius: 6px; 
       // margin: 3px 8px;
+      color: #666666;
     }
     a:focus {
       text-decoration: none !important;
     }
   
-    a:hover,
-    a:active {
+    a:hover#aside-item-title,
+    a:active#aside-item-title {
       text-decoration: none !important;
-      background-color: #c1cef7;
+      color: #003eff;
+      // background-color: #c1cef7;
     }
     // Menu Link
     .menu-link {
@@ -40,7 +42,7 @@
       justify-content: flex-start;
     }
     .menu-title#aside-item-title {
-      color: white;
+      color: #666666;
     }
 
     // a:active {

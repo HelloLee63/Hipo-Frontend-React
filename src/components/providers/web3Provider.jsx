@@ -1,5 +1,3 @@
-import { Wallet } from "ethers";
-import { func } from "prop-types";
 import { createContext, useContext, useEffect, useState, useMemo, useCallback} from "react";
 import Web3 from "web3";
 import EventEmitter from "wolfy87-eventemitter";
@@ -12,13 +10,14 @@ import { Modal } from "../modal";
 import { useGeneral } from "./generalProvider";
 import { useNetwork } from "./networkProvider";
 import Icon from "../custom/icon";
+import { MainnetNetwork } from "../../networks/mainnet";
 
-
-
+export const MainnetHttpsWeb3Provider = new Web3.providers.HttpProvider(MainnetNetwork.rpc.httpsUrl);
 export const RinkebyHttpsWeb3Provider = new Web3.providers.HttpProvider(RinkebyTestnetNetwork.rpc.httpsUrl)
 
 const CacheHttpsWeb3Provider = {
     [RinkebyTestnetNetwork.rpc.httpsUrl]: RinkebyHttpsWeb3Provider,
+    [MainnetNetwork.rpc.httpsUrl]: MainnetHttpsWeb3Provider,
 }
 
 export const WEB3_ERROR_VALUE = 3.9638773911973445e75
@@ -33,6 +32,7 @@ const Web3Provider = props => {
     const { children } = props
     const { windowState } = useGeneral()
     const { networks, activeNetwork, changeNetwork, findNetwork, findNetworkByChainId, defaultNetwork } = useNetwork()
+
     const wallet = useWallet()
 
     const event = useMemo(() => new EventEmitter(), [])

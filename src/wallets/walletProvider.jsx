@@ -206,7 +206,6 @@ const Web3WalletProvider = props => {
     return (
         <Context.Provider value={value}>
             {props.children}
-            {/* <ConnectWalletModal onCancel={() => setConnectWalletModal(false)} /> */}
             {connectWalletModal && <ConnectWalletModal onCancel={() => setConnectWalletModal(false)} />}
             {/* {installMetaMaskModal && <InstallMetaMaskModal onCancel={() => setInstallMetaMaskModal(false)} />}
             {unsuportedChainModal && <unsuportedChainModal onCancel={() => setUnsupportedChainModal(false)} />} */}

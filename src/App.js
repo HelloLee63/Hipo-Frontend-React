@@ -13,7 +13,7 @@ const App = () => {
     <div>
       <BrowserRouter>
         <GeneralProvider>
-        {/* <LayoutProvider> */}
+        <LayoutProvider>
           <NetworkProvider>
             <ConfigProvider>
               <WalletProvider>
@@ -23,7 +23,7 @@ const App = () => {
               </WalletProvider>
             </ConfigProvider>
           </NetworkProvider>
-          {/* </LayoutProvider> */}
+          </LayoutProvider>
         </GeneralProvider>
       </BrowserRouter>
     </div>

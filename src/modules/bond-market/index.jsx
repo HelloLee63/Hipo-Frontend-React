@@ -4,10 +4,10 @@ import Overview from "./views/Overview"
 const BondMarket = () => {
   return (
     <div className="d-flex flex-column">
-      <h1>Overview</h1>
+      <h2 className='pb-5'>Overview</h2>
       <Overview />
-      <h1>Bonds</h1>
-      <Bonds />
+      <h2>Bonds</h2>
+      <Bonds className='pt-5'/>
     </div>
   )
 }

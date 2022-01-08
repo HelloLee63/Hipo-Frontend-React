@@ -4,8 +4,7 @@ import s from './s.module.scss'
 import classNames from 'classnames'
 import { useWeb3 } from '../providers/web3Provider'
 
-const ButtonContent = ({ size, icon, iconPosition, 
-    iconRotate, loading, children }) => {
+const ButtonContent = ({ size, icon, iconPosition, iconRotate, loading, children }) => {
         let iconSize
         switch (size) {
             case 'small':
@@ -58,7 +57,7 @@ const ButtonContent = ({ size, icon, iconPosition,
                 />
               ) : null}
             </>
-          );
+          )
 }
 
 export const Button = ({
@@ -151,6 +150,7 @@ export const ExplorerAddressLink = props => {
     </ExternalLink>
   )
 }
+
 
 export const ExplorerTxLink = props => {
   const { children, address, ...rest } = props

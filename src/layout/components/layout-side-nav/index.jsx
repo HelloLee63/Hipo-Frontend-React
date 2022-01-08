@@ -59,7 +59,7 @@ const AsideDefault = () => {
               <Link to='/bondmarket'>
                 <img
                   alt='Logo'
-                  className='h-35px logo'
+                  className='h-43px logo'
                   src={toAbsoluteUrl('/media/logos/logo.svg')}
                 />
               </Link>
@@ -68,7 +68,7 @@ const AsideDefault = () => {
               <Link to='/bondmarket'>
                 <img
                   alt='Logo'
-                  className='h-25px logo'
+                  className='h-43px logo'
                   src={toAbsoluteUrl('/media/logos/logo.svg')}
                 />
               </Link>

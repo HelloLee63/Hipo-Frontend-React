@@ -4,15 +4,21 @@ import { Text } from "../../../components/custom/typography"
 import { useNetwork } from "../../../components/providers/networkProvider"
 import { useWallet } from "../../../wallets/walletProvider"
 import DefaultTitle from "./page-title/DefaultTile"
-import { shortenAddr } from 'web3-utils'
+
+
+
 import Icon from "../../../components/icon"
 import { Badge } from "../../../components/custom/badge"
-import { Button, ExplorerAddressLink }from "../../../components/button"
+import { ExplorerAddressLink }from "../../../components/button"
 
 import { useWeb3 } from "../../../components/providers/web3Provider"
 import { isMobile } from "react-device-detect"
 import toAbsoluteUrl from "../../../_metronic/helpers/AssetHelpers"
 import clsx from "clsx"
+import { Button } from "react-bootstrap"
+import { KTSVG } from "../../../_metronic/helpers/components/KTSVG"
+import { shortenAddr } from "../../../web3/utils"
+
 
 const toolbarButtonMarginClass = 'ms-1 ms-lg-3',
   toolbarButtonHeightClass = 'w-30px h-30px w-md-40px h-md-40px',
@@ -21,14 +27,14 @@ const toolbarButtonMarginClass = 'ms-1 ms-lg-3',
 
 const Header = () => {
     return (
-        <div className='d-flex align-items-stretch flex-shrink-0' id='kt_toolbar'>                            
+        <div className='d-flex  align-items-stretch flex-shrink-0 justify-between' id='kt_toolbar'>                            
             <div className="d-flex align-items-center">
                 <DefaultTitle />                
             </div >
             <div className="d-flex flex-row align-items-center page-title">
                 <NetworkAction />                
             </div>
-            <div className={clsx('d-flex align-items-center', toolbarButtonMarginClass)}>
+            <div className={clsx('d-flex flex-row align-items-center justify-content-md-end', toolbarButtonMarginClass)}>
                 <WalletAction />
             </div>                          
         </div>
@@ -42,10 +48,6 @@ const WalletAction = () => {
 
     const { activeNetwork } = useNetwork()
     const wallet = useWallet()
-
-    console.log("WalletAction");
-    console.log(activeNetwork);
-    console.log(wallet);
 
     if (wallet.connecting) {
       return (
@@ -65,16 +67,11 @@ const WalletAction = () => {
               ) : (
                 <Identicon address={wallet.account} width={40} height={40} className='mr-16' />
               )}
-              {/* <ExplorerAddressLink address={wallet.account}>
+              <ExplorerAddressLink address={wallet.account}>
                 <Text type="p1" weight="semibold" color="blue">
-                  console.log(-------------------------)
-                  console.log(wallet.account);
-                  console.log((------------------------)
                   {wallet.ens.name || shortenAddr(wallet.account, 8, 8)}
-                  console.log(shortenAddr(wallet.account, 8, 8))
                 </Text>
-              </ExplorerAddressLink> */}
-              <h1>THis is Test</h1>
+              </ExplorerAddressLink>
             </div>
             <div className="pv-24 ph-32">
               <div className="flex align-center mb-32">
@@ -106,17 +103,28 @@ const WalletAction = () => {
           </div>
         }
         trigger="click">
-        <Button variation="primary">Connection...</Button>
+        <Button variation="primary">Connecting...</Button>
         </Popover>
       )
     }
 
     if (!wallet.isActive) {
-      console.log(wallet.isActive);
       return !isMobile ? (
-        <Button className="btn btn-primary" onClick={() => wallet.showWalletModal()}>
-          Connect Wallet
-        </Button>
+       
+          <div
+            className='btn align-items-center'
+            data-bs-toggle="modal"
+            data-bs-target='#hipo_connect_wallet'
+            onClick={() => wallet.showWalletModal()}
+            id='hipo_wallet_connect_button'
+            style={{
+              backgroundImage: `url('/media/background/background-connectwallet.svg')`,
+              backgroundRepeat: 'no-repeat'
+            }}
+          >
+            <div className="align-items-center">Connect Wallet</div>
+          </div>
+       
       ) : null
     }
 
@@ -141,11 +149,11 @@ const WalletAction = () => {
               ) : (
                 <Identicon address={ wallet.account } width={40} height={40} className="mr-16" />
               )}
-              {/* <ExplorerAddressLink address={wallet.account}>
+              <ExplorerAddressLink address={wallet.account}>
                 <Text type="p1" weight="semibold" color="blue">
                   {wallet.ens.name || shortenAddr(wallet.account, 8, 8)}
                 </Text>
-              </ExplorerAddressLink> */}
+              </ExplorerAddressLink>
             </div>
             <div className="pv-24 ph-32">
               <div className="flex align-center mb-32">
@@ -185,7 +193,7 @@ const WalletAction = () => {
             {/* )} */}
           </div>
         }>
-          {/* <button type="button" className="">
+          <Button type="button" className="btn btn-outline-primary">
             { wallet.ens.avatar ? (
               <img
                 width={24}
@@ -196,12 +204,11 @@ const WalletAction = () => {
                 alt={ wallet.ens.avatar }
               />
             ) : (
-                console.log('this is a test')
-            //   <Identicon address={wallet.account} width={24} className="mr-8" />
+                
+              <Identicon address={wallet.account} width={24} className="mr-8" />
             )}
             {wallet.ens.name || shortenAddr(wallet.account, 4, 3)}
-          </button> */}
-        <div>This is Test</div>
+          </Button>
         </Popover>
     )
 }
@@ -210,16 +217,13 @@ const NetworkAction = () => {
     const { activeNetwork } = useNetwork()
     const { showNetworkSelect } = useWeb3()
 
-    console.log(activeNetwork);
-    console.log(showNetworkSelect);
-
     return (
-        <button type="button" onClick={() => showNetworkSelect()} className="d-flex flex-row align-items-center">
+        <Button type="button" onClick={() => showNetworkSelect()} className="d-flex flex-row align-items-center">
             {/* <IconOld name={ toAbsoluteUrl(activeNetwork.meta.logo) } width={24} height={24} className="mr-8" /> */}
-            <img alt='Logo' src={toAbsoluteUrl(activeNetwork.meta.logo)} className='h-30px' />
+            {/* <img alt='Logo' src={toAbsoluteUrl(activeNetwork.meta.logo)} className='h-30px' /> */}
             <Text type="p2" weight='semibold' color='secondary'>
                 {activeNetwork.meta.name}
             </Text>
-        </button>
+        </Button>
     )
 }
