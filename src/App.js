@@ -7,22 +7,28 @@ import ConfigProvider from './components/providers/configProvider.jsx';
 
 import { AppRoutes } from './routing/AppRoutes.jsx';
 import { LayoutProvider } from './layout/core/LayoutProvider.jsx';
+import ContractManagerProvider from './web3/components/contractManagerProvider.jsx';
+import ProtocolDataProvider from './web3/components/providers/ProtocolDataProvider.jsx';
 
 const App = () => {
   return (
     <div>
       <BrowserRouter>
         <GeneralProvider>
-        <LayoutProvider>
-          <NetworkProvider>
-            <ConfigProvider>
-              <WalletProvider>
-                <Web3Provider>                
-                  <AppRoutes />
-                </Web3Provider>
-              </WalletProvider>
-            </ConfigProvider>
-          </NetworkProvider>
+          <LayoutProvider>
+            <NetworkProvider>
+              <ConfigProvider>
+                <WalletProvider>
+                  <Web3Provider>
+                    <ContractManagerProvider>
+                      <ProtocolDataProvider>               
+                        <AppRoutes />
+                      </ProtocolDataProvider> 
+                    </ContractManagerProvider>
+                  </Web3Provider>
+                </WalletProvider>
+              </ConfigProvider>
+            </NetworkProvider>
           </LayoutProvider>
         </GeneralProvider>
       </BrowserRouter>

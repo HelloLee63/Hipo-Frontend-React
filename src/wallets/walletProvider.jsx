@@ -48,7 +48,6 @@ const Web3WalletProvider = props => {
     const [sessionProvider, setSessionProvider, removeSessionProvider] = useSessionStorage('wallet_provider',)
  
     const event = useMemo(() => new EventEmitter(), [])
-    console.log(event);
 
     const [initialized, setInitialized] = useState(false)
     const [connecting, setConnecting] = useState()

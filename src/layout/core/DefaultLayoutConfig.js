@@ -31,7 +31,7 @@ export const DefaultLayoutConfig = {
     fixed: true,
     minimized: false,
     minimize: true,
-    hoverable: true,
+    hoverable: false,
     menuIcon: 'svg',
   },
   content: {

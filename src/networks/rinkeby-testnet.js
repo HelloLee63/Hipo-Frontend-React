@@ -1,7 +1,4 @@
-import { toHex } from "web3-utils";
 import { isDevelopmentMode } from '../utils'
-import toAbsoluteUrl from "../_metronic/helpers/AssetHelpers";
-
 
 const RPC_KEY = !isDevelopmentMode ? '75d301c9ba884f80a9935b8536c3ebfa' : '75d301c9ba884f80a9935b8536c3ebfa';
 const RPC_HTTPS_URL = `https://rinkeby.infura.io/v3/${RPC_KEY}`;
@@ -37,34 +34,34 @@ export const RinkebyTestnetConfig = {
     api: {
         baseUrl: isDevelopmentMode ? 'https://alpha-v1.api.hipo.one' : 'https://api-v1.hipo.one',
     },
-    tokens: {
-        wbtc: '0x2260fac5e5542a773aa44fbcfedf7c193bc2c599',
-        weth: '0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2',
-        bond: '0x0391D2021f89DC339F60Fff84546EA23E337750f',
-        univ2: '0x6591c4BcD6D7A1eb4E537DA8B78676C1576Ba244',
-        usdc: '0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48',
-        usdt: '0xdac17f958d2ee523a2206206994597c13d831ec7',
-        susd: '0x57Ab1ec28D129707052df4dF418D58a2D46d5f51',
-        gusd: '0x056fd409e1d7a124bd7017459dfea2f387b6d5cd',
-        dai: '0x6B175474E89094C44Da98b954EedeAC495271d0F',
-        rai: '0x03ab458634910aad20ef5f1c8ee96f1d6ac54919',
-        stkaave: '0x4da27a545c0c5b758a6ba100e3a049001de870f5',
-        floki: '0x43f11c02439e2736800433b4594994bd43cd066d',
-        wmatic: '',
-        ausdc: '0xBcca60bB61934080951369a648Fb03DF4F96263C',
-        ausdt: '0x3Ed3B47Dd13EC9a98b44e6204A523E766B225811',
-        agusd: '0xD37EE7e4f452C6638c96536e68090De8cBcdb583',
-        adai: '0x028171bCA77440897B824Ca71D1c56caC55b68A3',
-        bb_cusdc: '0x4B8d90D68F26DEF303Dcb6CFc9b63A1aAEC15840',
-        bb_cdai: '0x673f9488619821aB4f4155FdFFe06f6139De518F',
-        bb_ausdc: '0x3cf46DA7D65E9aa2168a31b73dd4BeEA5cA1A1f1',
-        bb_ausdt: '0x660dAF6643191cF0eD045B861D820F283cA078fc',
-        bb_agusd: '0x6324538cc222b43490dd95CEBF72cf09d98D9dAe',
-        bb_adai: '0x6c9DaE2C40b1e5883847bF5129764e76Cb69Fc57',
-        bb_arai: '0x4db6fb0218ce5da392f1e6475a554bafcb62ef30',
-        bb_crusdc: '0x62e479060c89C48199FC7ad43b1432CC585BA1b9',
-        bb_crusdt: '0xc45F49bE156888a1C0C93dc0fE7dC89091E291f5',
-        bb_crdai: '0x89d82FdF095083Ded96B48FC6462Ed5dBD14151f',
+    tokens: {        
+        weth: '0x232bB0bBf8274342fB044FF40e716bf887fb9214',
+        usdc: '0x48cC35cA5f68BA3bb9b864d152377308a3FdF47f',
+        usdt: '0xe307D26Ee744be4730cF4EA3AEdF4808eC5846bE',        
+        dai: '0x2B3a1009E4c01B4676CEbfC37C2b91BF2d330508',
+        
+        wethusdcLpToken: '0x232bB0bBf8274342fB044FF40e716bf887fb9214',       
+        wethdaiLpToken: '0x5A1fcDa636294fc4DFdbe4B732488D7d4DA75099',
+        usdtwethLpToken: '0x5A1fcDa636294fc4DFdbe4B732488D7d4DA75099',
+        bonds: {
+            weth: {
+                address:'0x232bB0bBf8274342fB044FF40e716bf887fb9214',
+                symbol: 'WETH',            
+            },
+            usdc: {
+                address: '0x48cC35cA5f68BA3bb9b864d152377308a3FdF47f',
+                symbol: 'USDC',
+            },
+            dai: {
+                address: '0x2B3a1009E4c01B4676CEbfC37C2b91BF2d330508',
+                symbol: 'DAI',
+            },
+            usdt: {
+                address: '0xe307D26Ee744be4730cF4EA3AEdF4808eC5846bE',
+                symbol: 'USDT',
+            },
+        },
+        bondAssets: ['WETH', 'USDC', 'DAI', 'USDT']       
     },
     feeds: {
         btc: '0xF4030086522a5bEEa4988F8cA5B36dbC97BeE88c',
@@ -80,6 +77,14 @@ export const RinkebyTestnetConfig = {
         wmatic: '0x7bAC85A8a13A4BcD8abb3eB7d6b4d632c5a57676',
     },
     contracts: {
+        col: {
+            wethusdcLpTokenContract: '0x5A1fcDa636294fc4DFdbe4B732488D7d4DA75099',
+            wethdaiLpTokenContract: '',
+            usdtwethLpTokenContract: '',
+        },
+        financingPool: {
+            financingPool: '0x3376B3f38B2F8DeAaA0FC71aeBc5A2845178d990',
+        },
         yf: {
             staking: '0xb0Fa2BeEe3Cf36a7Ac7E99B885b48538Ab364853',
             stable: '0xB3F7abF8FA1Df0fF61C5AC38d35e20490419f4bb',
@@ -93,6 +98,10 @@ export const RinkebyTestnetConfig = {
         sa: {
             loupe: '0xb7D7E8F3526187e065bc674b19E0BBa42B569f6d',
         },
+    },
+    durations: {
+        fivedays: 300,
+
     },
 }
 
@@ -129,5 +138,5 @@ export const RinkebyTestnetNetwork = {
         apiUrl: EXPLORER_API_URL,
     },
     metamaskChain: RinkebyMetamaskChain,
-    config: '',
+    config: RinkebyTestnetConfig,
 }

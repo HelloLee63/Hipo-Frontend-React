@@ -1,14 +1,8 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import {Field, ErrorMessage} from 'formik'
-import { useToken } from '../../../../components/providers/tokensProvider'
+import { Field } from 'formik'
 import { KTSVG } from '../../../../_metronic/helpers/components/KTSVG'
-import { usePledge } from '../../providers/PledgeProvider'
 
 const SelectCollateralAsset = () => {
-  
-  const { getCollateralsList, getCollateralConfigurationData } = usePledge()
-  const { getCollateralByAddress } = useToken()
-  
 
   return (
     <div className='w-100'>
@@ -37,7 +31,6 @@ const SelectCollateralAsset = () => {
                 <span className='fs-6 fw-bold text-gray-400'>
                   Uniswap V2
                 </span>
-                <span>Test is </span>
               </span>
             </span>
 

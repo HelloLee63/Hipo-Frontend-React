@@ -1,8 +1,6 @@
 import {DefaultLayoutConfig} from './DefaultLayoutConfig'
   
   const LAYOUT_CONFIG_KEY = process.env.REACT_APP_BASE_LAYOUT_CONFIG_KEY || 'LayoutConfig'
-
-  console.log(LAYOUT_CONFIG_KEY);
   
   export function getLayout() {
     const ls = localStorage.getItem(LAYOUT_CONFIG_KEY)

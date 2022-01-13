@@ -19,7 +19,7 @@ const networks = (() => {
             // OptimisticKovanNetwork,
             // TestnetNetwork,
             // OptimisticKovanNetwork,
-            MainnetNetwork,
+           
             // OptimisticMainnetNetwork,
             // PolygonNetwork,
             // AvalancheTestnetNetwork,
@@ -29,18 +29,19 @@ const networks = (() => {
             // ArbitrumTestnetNetwork,
             // ArbitrumNetwork,
             RinkebyTestnetNetwork,
+            MainnetNetwork,
         ]
     }
 
     if (isProductionMode) {
-        return [
-            MainnetNetwork, 
+        return [          
             // PolygonNetwork, 
             // AvalancheNetwork, 
             // BinanceNetwork, 
             // TestnetNetwork, 
             // ArbitrumNetwork
             RinkebyTestnetNetwork,
+            MainnetNetwork, 
         ]
     }
 

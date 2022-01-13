@@ -1,6 +1,5 @@
 import { Form, Formik, FormikValues } from "formik"
 import { useEffect, useRef, useState } from "react"
-import TokenIcon from "../../../../components/token-icon"
 import { StepperComponent } from "../../../../_metronic/assets/ts/components"
 import { KTSVG } from "../../../../_metronic/helpers/components/KTSVG"
 import { InputAmount } from "../../components/steps/InputAmount"
@@ -78,7 +77,6 @@ const PledgeWizards = () => {
 
             <div className='stepper-item' data-kt-stepper-element='nav'>
               <div className='stepper-line w-40px'></div>
-
               <div className='stepper-icon w-40px h-40px'>
                 <i className='stepper-check fas fa-check'></i>
                 <span className='stepper-number'>2</span>
@@ -86,15 +84,12 @@ const PledgeWizards = () => {
 
               <div className='stepper-label'>
                 <h3 className='stepper-title'>Input Amount</h3>
-
                 <div className='stepper-desc fw-bold'>Input Amount</div>
-              </div>
-      
+              </div>      
             </div>
 
             <div className='stepper-item' data-kt-stepper-element='nav'>
               <div className='stepper-line w-40px'></div>
-
               <div className='stepper-icon w-40px h-40px'>
                 <i className='stepper-check fas fa-check'></i>
                 <span className='stepper-number'>3</span>
@@ -102,14 +97,9 @@ const PledgeWizards = () => {
 
               <div className='stepper-label'>
                 <h3 className='stepper-title'>Confirm Your Transaciton</h3>
-
                 <div className='stepper-desc fw-bold'>Confirm Your Transaciton</div>
-              </div>
-      
-            </div>
-
-            
-           
+              </div>      
+            </div>                       
           </div>
         </div>
       </div>
@@ -128,7 +118,6 @@ const PledgeWizards = () => {
 
               <div data-kt-stepper-element='content'>
                 <TxStatus />
-
               </div>
 
               <div className='d-flex flex-stack pt-10'>

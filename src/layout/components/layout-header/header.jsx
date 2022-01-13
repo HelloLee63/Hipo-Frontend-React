@@ -16,6 +16,7 @@ import { isMobile } from "react-device-detect"
 import toAbsoluteUrl from "../../../_metronic/helpers/AssetHelpers"
 import clsx from "clsx"
 import { Button } from "react-bootstrap"
+
 import { KTSVG } from "../../../_metronic/helpers/components/KTSVG"
 import { shortenAddr } from "../../../web3/utils"
 
@@ -26,18 +27,27 @@ const toolbarButtonMarginClass = 'ms-1 ms-lg-3',
   toolbarButtonIconSizeClass = 'svg-icon-1'
 
 const Header = () => {
-    return (
-        <div className='d-flex  align-items-stretch flex-shrink-0 justify-between' id='kt_toolbar'>                            
-            <div className="d-flex align-items-center">
-                <DefaultTitle />                
-            </div >
-            <div className="d-flex flex-row align-items-center page-title">
-                <NetworkAction />                
-            </div>
-            <div className={clsx('d-flex flex-row align-items-center justify-content-md-end', toolbarButtonMarginClass)}>
-                <WalletAction />
-            </div>                          
+    
+  return (
+    <div className="header align-items-stretch">
+      <div className="container-fluid d-flex align-items-stretch justify-content-between flex-lg-grow-1">
+        <div className="d-flex align-items-center flex-grow-1 flex-lg-grow-1">
+          <div>
+            <DefaultTitle />
+          </div>
         </div>
+        <div className="d-flex align-items-stretch justify-content-end flex-lg-grow-1">
+          <div className="d-flex align-items-center justify-content-end">
+            <div className="me-5">
+              <NetworkAction />
+            </div>
+            <div className="align-items-center">
+              <WalletAction />
+            </div>              
+          </div>
+        </div>        
+      </div>
+    </div>
     )
 }
 
@@ -111,19 +121,22 @@ const WalletAction = () => {
     if (!wallet.isActive) {
       return !isMobile ? (
        
-          <div
-            className='btn align-items-center'
+          <a
+            type="button"
+            className='btn btn-sm btn-light-primary align-items-center'
             data-bs-toggle="modal"
             data-bs-target='#hipo_connect_wallet'
             onClick={() => wallet.showWalletModal()}
             id='hipo_wallet_connect_button'
-            style={{
-              backgroundImage: `url('/media/background/background-connectwallet.svg')`,
-              backgroundRepeat: 'no-repeat'
-            }}
+            // width='300px'
+            // style={{
+            //   backgroundImage: `url('/media/background/background-connectwallet.svg')`,
+            //   // height: 60px,
+            //   backgroundRepeat: 'no-repeat'
+            // }}
           >
-            <div className="align-items-center">Connect Wallet</div>
-          </div>
+            Connect Wallet
+          </a>
        
       ) : null
     }
@@ -218,12 +231,13 @@ const NetworkAction = () => {
     const { showNetworkSelect } = useWeb3()
 
     return (
-        <Button type="button" onClick={() => showNetworkSelect()} className="d-flex flex-row align-items-center">
+        <a type="button" onClick={() => showNetworkSelect()} className="btn btn-sm btn-light-primary">
             {/* <IconOld name={ toAbsoluteUrl(activeNetwork.meta.logo) } width={24} height={24} className="mr-8" /> */}
             {/* <img alt='Logo' src={toAbsoluteUrl(activeNetwork.meta.logo)} className='h-30px' /> */}
-            <Text type="p2" weight='semibold' color='secondary'>
-                {activeNetwork.meta.name}
-            </Text>
-        </Button>
+            {/* <Text type="p2" weight='semibold' color='secondary'> */}                
+            {/* </Text> */}
+          <KTSVG path={activeNetwork.meta.logo} className='svg-icon-1' />
+          {activeNetwork.meta.name}
+        </a>
     )
 }

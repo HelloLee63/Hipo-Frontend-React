@@ -88,7 +88,7 @@ const USDC = {
   
   const Context = createContext(InvariantContext('TokensProvider'))
 
-  export function useToken() {
+  export function useTokens() {
       return useContext(Context)
   }
 

@@ -13,7 +13,7 @@ export function HeaderWrapper() {
     return (
         <div
           id='kt_header'
-          className={clsx('header align-items-stretch', classes.header.join(' '), 'align-items-stretch')}
+          className={clsx('header align-items-stretch', classes.header.join(' '))}
           {...attributes.headerMenu}
         >
           <div

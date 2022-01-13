@@ -8,14 +8,15 @@ import CollateralConfigurationDataContract from '../contracts/CollateralConfigur
 import CollateralsListContract from '../contracts/CollateralsListContract'
 import BondPriceContract from '../../bond-market/contracts/BondPriceContract'
 import IssuerLtvContract from '../contracts/IssuerLtvContract'
-
-
+import { useTokens } from '../../../components/providers/tokensProvider'
 
 const Context = React.createContext('PledgeProvider')
 
 export function usePledge() {
   return useContext(Context)
 }
+
+
 
 const PledgeProvider = props => {
   const { children } = props
@@ -25,7 +26,9 @@ const PledgeProvider = props => {
   const wallet = useWallet()
   const { getEtherscanTxUrl } = useWeb3()
   const { getContract } = useContractManager()
-  // const { getToken } = useTokens()
+  const { getToken } = useTokens()
+
+
 
   const [market, token] = useMemo(() => {
     const urlQuery = new URLSearchParams(location.search)
@@ -51,8 +54,6 @@ const PledgeProvider = props => {
     const pool = new CollateralsListContract(poolAddress)
 
     pool.setCallProvider(RinkebyHttpsWeb3Provider)
-    
-
     await pool.getCollateralsList() 
   }
 

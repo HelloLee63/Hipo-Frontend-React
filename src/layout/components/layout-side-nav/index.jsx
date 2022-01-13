@@ -59,7 +59,7 @@ const AsideDefault = () => {
               <Link to='/bondmarket'>
                 <img
                   alt='Logo'
-                  className='h-43px logo'
+                  className='h-38px logo'
                   src={toAbsoluteUrl('/media/logos/logo.svg')}
                 />
               </Link>
@@ -68,7 +68,7 @@ const AsideDefault = () => {
               <Link to='/bondmarket'>
                 <img
                   alt='Logo'
-                  className='h-43px logo'
+                  className='h-40px mt-4 logo'
                   src={toAbsoluteUrl('/media/logos/logo.svg')}
                 />
               </Link>
@@ -87,7 +87,7 @@ const AsideDefault = () => {
               >
                 <KTSVG
                   path={'/media/icons/duotune/arrows/arr079.svg'}
-                  className={'svg-icon-1 rotate-180'}
+                  className={'svg-icon-1 rotate-180 mt-4'}
                 />
               </div>
             )}

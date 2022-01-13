@@ -12,12 +12,11 @@ export function useConfig() {
 const ConfigProvider = props => {
     const { children } = props
     const { activeNetwork } = useNetwork()
-
     const config = activeNetwork.config
     const value = {
         ...activeNetwork.config,
         links: {
-            website: 'http://hipo.one',
+            website: 'https://www.hipo.one',
             discord: '',
             twitter: '',
             whitepaper: '',
