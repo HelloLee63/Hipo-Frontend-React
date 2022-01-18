@@ -41,6 +41,7 @@
     "react-icons": "^4.3.1",
     "react-inlinesvg": "^2.3.0",
     "react-intl": "^5.24.0",
+    "react-redux": "^7.2.6",
     "react-router-dom": "^6.2.1",
     "react-scripts": "^4.0.3",
     "react-use-storage": "^0.5.1",
