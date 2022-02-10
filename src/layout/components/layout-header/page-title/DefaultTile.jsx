@@ -3,7 +3,6 @@ import clsx from "clsx"
 import { useLayout } from "../../../core"
 import { Link } from "react-router-dom"
 
-
 const DefaultTitle = () => {
 
     const { pageTitle, pageDescription, pageBreadcrumbs } = usePageData()
@@ -11,12 +10,11 @@ const DefaultTitle = () => {
 
     return (
         <div
-            id='kt_page_title'
-            data-kt-swapper='true'
-            data-kt-swapper-mode='prepend'
-            data-kt-swapper-parent="{default: '#kt_content_container', 'lg': '#kt_toolbar_container'}"
-            className={clsx('page-title d-flex', classes.pageTitle.join(' '))}
-        >
+          id='kt_page_title'
+          data-kt-swapper='true'
+          data-kt-swapper-mode='prepend'
+          data-kt-swapper-parent="{default: '#kt_content_container', 'lg': '#kt_toolbar_container'}"
+          className={clsx('page-title d-flex', classes.pageTitle.join(' '))}>
             {/* begin::Title */}
             {pageTitle && (
                 <h1 className='d-flex align-items-center text-dark fw-bolder my-1 fs-3'>

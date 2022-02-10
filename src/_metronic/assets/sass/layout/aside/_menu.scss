@@ -17,19 +17,20 @@
     padding: 0;
     a {
       text-decoration: none !important;
-      border-radius: 4px; 
-      margin: 3px 8px;
+      // border-radius: 6px; 
+      // margin: 3px 8px;
+      color: #666666;
     }
     a:focus {
       text-decoration: none !important;
     }
   
-    a:hover,
-    a:active {
+    a:hover#aside-item-title,
+    a:active#aside-item-title {
       text-decoration: none !important;
-      background-color: #c1cef7;
+      color: #003eff;
+      // background-color: #c1cef7;
     }
-
     // Menu Link
     .menu-link {
       padding-top: 0.75rem;
@@ -40,6 +41,14 @@
     .menu-icon {
       justify-content: flex-start;
     }
+    .menu-title#aside-item-title {
+      color: #666666;
+    }
+
+    // a:active {
+    //   text-decoration: none;
+    //   background: darkcyan;
+    // }
   }
 }
 
@@ -62,6 +71,8 @@
 
       //$title-color, $icon-color, $bullet-color, $arrow-color, $bg-color
       @include menu-link-default-state(#9899ac, #494b74, #9899ac, #9899ac, null);
+      // @include menu-link-hover-state($white, $primary, $primary, $white, #1b1b28);
+      
       @include menu-link-hover-state($white, $primary, $primary, $white, #1b1b28);
       @include menu-link-show-state($white, $primary, $primary, $white, #1b1b28);
       @include menu-link-active-state($white, $primary, $primary, $white, #1b1b28);

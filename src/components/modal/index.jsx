@@ -1,5 +1,9 @@
 import { useEffect } from "react"
 import { createPortal } from "react-dom";
+import Icon from "../custom/icon";
+
+const rootNode = document.querySelector('#root');
+const modalsNode = document.querySelector('#modal-root');
 
 export const Modal = ({ children, heading, closeHandler, fullscreen = false }) => {
     useEffect(() => {

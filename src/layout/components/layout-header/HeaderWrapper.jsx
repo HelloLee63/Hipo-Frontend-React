@@ -5,8 +5,6 @@ import { KTSVG } from '../../../_metronic/helpers/components/KTSVG.tsx'
 import { useLayout } from "../../core"
 import Header from "./Header"
 import DefaultTitle from './page-title/DefaultTile'
-import Topbar from './Topbar'
-
 
 export function HeaderWrapper() {
     const {config, classes, attributes} = useLayout()
@@ -15,7 +13,7 @@ export function HeaderWrapper() {
     return (
         <div
           id='kt_header'
-          className={clsx('header', classes.header.join(' '), 'align-items-stretch')}
+          className={clsx('header align-items-stretch', classes.header.join(' '))}
           {...attributes.headerMenu}
         >
           <div
@@ -36,11 +34,12 @@ export function HeaderWrapper() {
               </div>
             )}
             {/* end::Aside mobile toggle */}
+            
             {/* begin::Logo */}
             {!aside.display && (
               <div className='d-flex align-items-center flex-grow-1 flex-lg-grow-0'>
                 <Link to='/dashboard' className='d-lg-none'>
-                  <img alt='Logo' src={toAbsoluteUrl('/media/logos/logo-2.svg')} className='h-30px' />
+                  <img alt='Logo' src={toAbsoluteUrl('/media/logos/logo2.png')} className='h-30px' style={{ borderRadius: '3px'}} />
                 </Link>
               </div>
             )}
@@ -48,30 +47,24 @@ export function HeaderWrapper() {
     
             {aside.display && (
               <div className='d-flex align-items-center flex-grow-1 flex-lg-grow-0'>
-                <Link to='/' className='d-lg-none'>
-                  <img alt='Logo' src={toAbsoluteUrl('/media/logos/logo-2.svg')} className='h-30px' />
+                <Link to='/dashboard' className='d-lg-none'>
+                  <img alt='Logo' src={toAbsoluteUrl('/media/logos/logo2.png')} className='h-30px' />
                 </Link>
               </div>
             )}
     
             {/* begin::Wrapper */}
-            <div className='d-flex align-items-stretch justify-content-between flex-lg-grow-1'>
-              {/* begin::Navbar */}
+            <div className='d-flex align-items-stretch justify-content-between flex-lg-grow-1'>             
               {header.left === 'menu' && (
                 <div className='d-flex align-items-stretch' id='kt_header_nav'>
                   <Header />
                 </div>
-              )}
-    
+              )}    
               {header.left === 'page-title' && (
                 <div className='d-flex align-items-center' id='kt_header_nav'>
                   <DefaultTitle />
                 </div>
               )}
-    
-              <div className='d-flex align-items-stretch flex-shrink-0'>
-                <Topbar />
-              </div>
             </div>
             {/* end::Wrapper */}
           </div>

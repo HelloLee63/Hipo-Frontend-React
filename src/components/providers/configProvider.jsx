@@ -1,4 +1,4 @@
-import { createContext } from "react";
+import { createContext, useContext } from "react";
 import { InvariantContext } from "../../utils/context";
 import { useNetwork } from "./networkProvider";
 
@@ -9,15 +9,14 @@ export function useConfig() {
     return useContext(Context)
 }
 
-const ConfigProvider = () => {
+const ConfigProvider = props => {
     const { children } = props
     const { activeNetwork } = useNetwork()
-
     const config = activeNetwork.config
     const value = {
         ...activeNetwork.config,
         links: {
-            website: 'http://hipo.one',
+            website: 'https://www.hipo.one',
             discord: '',
             twitter: '',
             whitepaper: '',

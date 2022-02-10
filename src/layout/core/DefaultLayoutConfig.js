@@ -6,7 +6,7 @@ export const DefaultLayoutConfig = {
   },
   loader: {
     display: true,
-    type: 'default', // Set default|spinner-message|spinner-logo to hide or show page loader
+    type: 'spinner-logo', // Set default|spinner-message|spinner-logo to hide or show page loader
   },
   scrolltop: {
     display: true,
@@ -26,12 +26,12 @@ export const DefaultLayoutConfig = {
   },
   aside: {
     display: true,
-    theme: 'dark',
+    theme: 'light',
     menu: 'main',
     fixed: true,
     minimized: false,
     minimize: true,
-    hoverable: true,
+    hoverable: false,
     menuIcon: 'svg',
   },
   content: {
@@ -39,7 +39,7 @@ export const DefaultLayoutConfig = {
     layout: 'default',
   },
   toolbar: {
-    display: true, // Display toolbar
+    display: false, // Display toolbar
     width: 'fluid', // Set fixed|fluid to change width type,
     fixed: {
       desktop: true,

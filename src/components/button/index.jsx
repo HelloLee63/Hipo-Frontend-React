@@ -1,12 +1,10 @@
-import React from 'react'
-
-import { Icon } from '../icon/index.jsx'
-
+import { Icon } from '../icon'
+import { Link as RouterLink } from 'react-router-dom'
 import s from './s.module.scss'
 import classNames from 'classnames'
+import { useWeb3 } from '../providers/web3Provider'
 
-const ButtonContent = ({ size, icon, iconPosition, 
-    iconRotate, loading, children }) => {
+const ButtonContent = ({ size, icon, iconPosition, iconRotate, loading, children }) => {
         let iconSize
         switch (size) {
             case 'small':
@@ -24,27 +22,42 @@ const ButtonContent = ({ size, icon, iconPosition,
 
         return (
             <>
-               {iconToDisplay && iconPosition === 'left' ? (
-                   <Icon
-                    name = {iconToDisplay}
-                    rotate={iconRotate}
-                    size={iconSize}
-                    style={{ marginRight: 8}}
-                    className={classNames({
-                        [s.spinner]: loading,
-                    })}
-                   />
-               ) : null }             
+              {iconToDisplay && iconPosition === 'left' ? (
+                <Icon
+                  name={iconToDisplay}
+                  rotate={iconRotate}
+                  size={iconSize}
+                  style={{ marginRight: 8 }}
+                  className={classNames({
+                    [s.spinner]: loading,
+                  })}
+                />
+              ) : null}
+              {iconToDisplay && iconPosition === 'only' ? (
+                <Icon
+                  name={iconToDisplay}
+                  rotate={iconRotate}
+                  size={iconSize}
+                  className={classNames({
+                    [s.spinner]: loading,
+                  })}
+                />
+              ) : (
+                children
+              )}
+              {iconToDisplay && iconPosition === 'right' ? (
+                <Icon
+                  name={iconToDisplay}
+                  rotate={iconRotate}
+                  size={iconSize}
+                  style={{ marginLeft: 8 }}
+                  className={classNames({
+                    [s.spinner]: loading,
+                  })}
+                />
+              ) : null}
             </>
-        )
-}
-
-const index = () => {
-    return (
-        <div>
-            
-        </div>
-    )
+          )
 }
 
 export const Button = ({
@@ -69,9 +82,88 @@ export const Button = ({
                 },
                 className,
             )}>
-            <ButtonContent {...{ icon, iconPosition, iconRotate, loading, children }}/>
+            <ButtonContent {...{ icon, iconPosition, iconRotate, loading, children }} />
         </button>
     )
 }
 
-export default Button
+export const Link = ({
+  children,
+  variation,
+  size = 'normal',
+  icon,
+  iconPosition = 'only',
+  iconRotate,
+  className,
+  ...rest
+}) => {
+
+  return (
+    <RouterLink
+      {...rest}
+      className={classNames(
+        variation ? s[variation] : null,
+        s[size],
+        {
+          [s.iconOnly]: icon && iconPosition === 'only',
+        },
+        className,
+      )}>
+        <ButtonContent {...{ icon, iconPosition, iconRotate, children }} />
+      </RouterLink>
+  )  
+}
+
+export const ExternalLink = ({
+  children,
+  variation,
+  size = 'normal',
+  icon,
+  iconPosition = 'only',
+  iconRotate,
+  className,
+  ...rest
+}) => {
+  return (
+    <a
+      rel='noopenner noreferrer'
+      target="_blank"
+      {...rest}
+      className="">
+      <ButtonContent {...{ icon, iconPosition, iconRotate, children }} />
+    </a>      
+  )
+}
+
+export const ExplorerAddressLink = props => {
+  const { children, address, query = '', ...rest } = props
+
+  const { getEtherscanAddressUrl } = useWeb3()
+
+  if (!address) {
+    return <>{children}</>
+  }
+
+  return (
+    <ExternalLink href={`${getEtherscanAddressUrl(address)}${query}`} {...rest}>
+      {children}
+    </ExternalLink>
+  )
+}
+
+
+export const ExplorerTxLink = props => {
+  const { children, address, ...rest } = props
+
+  const {  getEtherscanTxUrl } = useWeb3()
+
+  if (!address) {
+    return <>{children}</>
+  }
+
+  return (
+    <ExternalLink href={getEtherscanTxUrl(address)} {...rest}>
+      {children}
+    </ExternalLink>
+  )
+}

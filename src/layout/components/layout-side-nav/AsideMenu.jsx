@@ -4,7 +4,7 @@ import clsx from "clsx"
 import { AsideMenuMain } from "./AsideMenuMain"
 import { useRef } from "react"
 
-// import {DrawerComponent, ScrollComponent, ToggleComponent} from '../../../_metronic/assets/ts/components/index.ts'
+import {DrawerComponent, ScrollComponent, ToggleComponent} from '../../../_metronic/assets/ts/components/index.ts'
 
 const AsideMenu = ({ asideMenuCSSClasses }) => {
 
@@ -13,9 +13,9 @@ const AsideMenu = ({ asideMenuCSSClasses }) => {
 
     useEffect(() => {
         setTimeout(() => {
-            // DrawerComponent.reinitialization()
-            // ToggleComponent.reinitialization()
-            // ScrollComponent.reinitialization()
+            DrawerComponent.reinitialization()
+            ToggleComponent.reinitialization()
+            ScrollComponent.reinitialization()
             if (scrollRef.current) {
                 scrollRef.current.scrollTop = 0
             }
@@ -37,10 +37,7 @@ const AsideMenu = ({ asideMenuCSSClasses }) => {
             <div
                 id='#kt_aside_menu'
                 data-kt-menu='true'
-                className={clsx(
-                  'menu menu-column menu-title-gray-800 menu-state-title-primary menu-state-icon-primary menu-state-bullet-primary menu-arrow-gray-500',
-                  asideMenuCSSClasses.join(' ')
-                )}           
+                className={clsx('menu menu-column menu-title-gray-800 menu-state-title-primary menu-state-icon-primary menu-state-bullet-primary menu-arrow-gray-500', asideMenuCSSClasses.join(' '))}           
             >
                 <AsideMenuMain />                
             </div>            

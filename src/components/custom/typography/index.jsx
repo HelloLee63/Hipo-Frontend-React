@@ -1,4 +1,4 @@
-import React, { ReactNode } from 'react';
+import React from 'react';
 import s from './s.module.scss'
 import cn from 'classnames'
 import Tooltip from '../../antd/tooltip';

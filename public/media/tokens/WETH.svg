@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="32px" height="32px" viewBox="0 0 32 32" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>ETH/纯色</title>
+    <g id="页面-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="画板" transform="translate(-135.000000, -361.000000)">
+            <g id="ETH" transform="translate(135.000000, 361.000000)">
+                <circle id="椭圆形" fill="#436191" cx="16" cy="16" r="16"></circle>
+                <polygon id="路径-4" fill="#D8D8D8" points="15.6123168 22.0902614 16.0888295 22.3645144 16.4109277 22.2273879 16.0903955 29.3616629"></polygon>
+                <polygon id="路径-3" fill="#D8D8D8" points="16.0888295 2.53107345 7.7740113 15.9097853 16.0888295 20.7909605 24.4067797 15.9096045"></polygon>
+                <g id="编组-25" transform="translate(7.774011, 2.531073)">
+                    <polygon id="三角形" fill="#DADBDF" points="8.31638418 2.71518238e-16 16.6312024 13.3785311 8.31638418 9.78247548"></polygon>
+                    <polygon id="三角形备份" fill="#CBD2E1" points="8.31638418 9.76271186 16.6312024 13.3785311 8.31638418 18.259887"></polygon>
+                    <polygon id="三角形备份-2" fill="#D8D3D9" points="8.31638418 19.8334409 16.6312024 14.9742525 8.31638418 26.8305894"></polygon>
+                    <polygon id="三角形" fill="#EEEBED" transform="translate(4.157409, 6.689356) scale(-1, 1) translate(-4.157409, -6.689356) " points="8.34988074e-15 2.71521907e-16 8.31481825 13.3787119 8.34988074e-15 9.78260767"></polygon>
+                    <polygon id="三角形备份" fill="#E5E8EE" transform="translate(4.157409, 14.011299) scale(-1, 1) translate(-4.157409, -14.011299) " points="3.85379111e-15 9.76271186 8.31481825 13.3785311 3.85379111e-15 18.259887"></polygon>
+                    <polygon id="三角形备份-2" fill="#E6E0E2" transform="translate(4.157409, 20.902421) scale(-1, 1) translate(-4.157409, -20.902421) " points="5.78068666e-15 19.8334409 8.31481825 14.9742525 5.78068666e-15 26.8305894"></polygon>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

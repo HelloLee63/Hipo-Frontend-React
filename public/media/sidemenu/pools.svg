@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>button/pools</title>
+    <g id="页面-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="画板" transform="translate(-209.000000, -403.000000)">
+            <g id="button/pools" transform="translate(209.000000, 403.000000)">
+                <rect id="矩形" fill="#EFEFEF" x="0" y="0" width="24" height="24" rx="8"></rect>
+                <g id="编组-4" transform="translate(4.000000, 7.000000)">
+                    <path d="M16,0 L16,9 C16,10.6568542 14.6568542,12 13,12 L3,12 C1.34314575,12 0,10.6568542 0,9 L0,0" id="路径" stroke="#979797" stroke-width="2" stroke-linecap="round"></path>
+                    <path d="M16,3 L16,9.75 C16,10.9926407 14.6568542,12 13,12 L3,12 C1.34314575,12 0,10.9926407 0,9.75 L0,3 C1.33333333,2.20020004 2.66666667,1.80030006 4,1.80030006 C5.33333333,1.80030006 6.62563281,2.2340317 7.87689842,3.10149499 C9.29640238,4.18430349 10.602395,4.72570774 11.7948764,4.72570774 C12.9873577,4.72570774 14.3890656,4.15047183 16,3 Z" id="路径" fill="#979797"></path>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

@@ -47,11 +47,18 @@
       flex-direction: column;
       justify-content: center;
 
+      // .stepper-title {
+      //   color: $gray-800;
+      //   font-weight: 600;
+      //   font-size: 1.25rem;
+      //   margin-bottom: 0.3rem;
+      // }
+
       .stepper-title {
         color: $gray-800;
         font-weight: 600;
-        font-size: 1.25rem;
-        margin-bottom: 0.3rem;
+        font-size: 1.1rem;
+        margin-bottom: 0rem;
       }
 
       .stepper-desc {
@@ -72,9 +79,13 @@
           display: none;
         }
 
+        // .stepper-number {
+        //   color: $white !important;
+        //   font-size: 1.35rem;
+        // }
         .stepper-number {
           color: $white !important;
-          font-size: 1.35rem;
+          font-size: 0.8rem;
         }
       }
 

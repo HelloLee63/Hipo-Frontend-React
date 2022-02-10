@@ -4,7 +4,7 @@ import { useSessionStorage } from "react-use-storage";
 import { useMemo, useState, useCallback, useEffect, useContext } from "react";
 import { RinkebyTestnetNetwork } from '../../networks/rinkeby-testnet'
 import { isDevelopmentMode, isProductionMode } from "../../utils";
-
+import { MainnetNetwork } from "../../networks/mainnet";
 
 const Context = createContext(InvariantContext('NetworkProvider'));
 
@@ -19,7 +19,7 @@ const networks = (() => {
             // OptimisticKovanNetwork,
             // TestnetNetwork,
             // OptimisticKovanNetwork,
-            // MainnetNetwork,
+           
             // OptimisticMainnetNetwork,
             // PolygonNetwork,
             // AvalancheTestnetNetwork,
@@ -29,25 +29,26 @@ const networks = (() => {
             // ArbitrumTestnetNetwork,
             // ArbitrumNetwork,
             RinkebyTestnetNetwork,
+            MainnetNetwork,
         ]
     }
 
     if (isProductionMode) {
-        return [
-            // MainnetNetwork, 
+        return [          
             // PolygonNetwork, 
             // AvalancheNetwork, 
             // BinanceNetwork, 
             // TestnetNetwork, 
             // ArbitrumNetwork
             RinkebyTestnetNetwork,
+            MainnetNetwork, 
         ]
     }
 
     return []
 })()
 
-const NetworkProvider = (props) => {
+const NetworkProvider = props => {
     const { children } = props
 
     const [lastNetwork, setLastNetwork] = useSessionStorage('last_network')

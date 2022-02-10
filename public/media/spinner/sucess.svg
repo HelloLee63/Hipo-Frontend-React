@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="118px" height="118px" viewBox="0 0 118 118" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>chenggong</title>
+    <defs>
+        <filter x="-31.9%" y="-31.9%" width="163.8%" height="163.8%" filterUnits="objectBoundingBox" id="filter-1">
+            <feOffset dx="0" dy="4" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset>
+            <feGaussianBlur stdDeviation="4.5" in="shadowOffsetOuter1" result="shadowBlurOuter1"></feGaussianBlur>
+            <feColorMatrix values="0 0 0 0 0.0500443427   0 0 0 0 0.856317935   0 0 0 0 0.149198727  0 0 0 0.280130026 0" type="matrix" in="shadowBlurOuter1" result="shadowMatrixOuter1"></feColorMatrix>
+            <feMerge>
+                <feMergeNode in="shadowMatrixOuter1"></feMergeNode>
+                <feMergeNode in="SourceGraphic"></feMergeNode>
+            </feMerge>
+        </filter>
+    </defs>
+    <g id="页面-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="完成订单/抵押" transform="translate(-696.000000, -263.000000)" fill="#07C160" fill-rule="nonzero">
+            <g id="信息/数量" transform="translate(478.000000, 99.000000)">
+                <g id="提示" transform="translate(0.000000, 105.000000)">
+                    <g id="编组" transform="translate(190.000000, 78.000000)">
+                        <g id="chenggong" filter="url(#filter-1)" transform="translate(47.000000, 0.000000)">
+                            <path d="M40,80 C17.90861,80 0,62.09139 0,40 C0,17.90861 17.90861,0 40,0 C62.09139,0 80,17.90861 80,40 C80,62.09139 62.09139,80 40,80 Z M36.1257812,50.5314062 L24.685625,38.9542969 L17.1428125,46.16 C22.6285156,49.1142969 30.3142187,54.5028906 36.8970312,62.8571094 C41.5485156,54.1142969 55.885625,36.2285937 62.8570312,34.6285937 C61.7313281,30.12 61.0970312,21.6571094 62.8570312,17.1428906 C48.56,26.5714062 36.1257812,50.5314062 36.1257812,50.5314062 L36.1257812,50.5314062 Z" id="形状"></path>
+                        </g>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

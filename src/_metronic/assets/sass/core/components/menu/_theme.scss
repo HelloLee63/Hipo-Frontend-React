@@ -173,7 +173,6 @@
 .menu-show-bg-light-primary {
   .menu-item {
     @include menu-link-show-state($primary, $primary, $primary, $primary, $primary-light);
-    background-color: rgb(255, 255, 255);
   }
 }
 
@@ -201,7 +200,6 @@
 .menu-hover-title-primary {
   .menu-item {
     @include menu-link-hover-state($primary, null, null, null, null);
-    
   }
 }
 

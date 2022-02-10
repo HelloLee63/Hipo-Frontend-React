@@ -66,8 +66,10 @@ $dark-light: $gray-200 !default; // Custom variable
 $dark-inverse: if(isDarkMode(), $gray-100, $white) !default; // Custom variable
 
 // Primary colors
-$primary: #3699ff !default; // Bootstrap variable
-$primary-active: #187de4 !default; // Custom variable
+// $primary: #3699ff !default; // Bootstrap variable
+$primary: #003eff !default; // Bootstrap variable
+// $primary-active: #187de4 !default; // Custom variable
+$primary-active: #003eff !default; // Custom variable
 $primary-light: if(isDarkMode(), #212e48, #f1faff) !default; // Custom variable
 $primary-inverse: $white !default; // Custom variable
 
@@ -322,6 +324,7 @@ $position-values: (
 // Settings for the `<body>` element.
 $body-bg: if(isDarkMode(), #1e1e2d, $white) !default;
 $body-color: $gray-900 !default;
+
 $body-text-align: null !default;
 
 // Links
