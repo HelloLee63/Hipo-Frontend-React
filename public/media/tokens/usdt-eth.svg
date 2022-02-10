@@ -1,21 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <svg width="73px" height="40px" viewBox="0 0 73 40" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-    <title>编组 14</title>
-    <defs>
-        <linearGradient x1="50%" y1="0%" x2="50%" y2="100%" id="linearGradient-1">
-            <stop stop-color="#6786A4" offset="0%"></stop>
-            <stop stop-color="#284583" offset="100%"></stop>
-        </linearGradient>
-        <linearGradient x1="100%" y1="50%" x2="0%" y2="50%" id="linearGradient-2">
-            <stop stop-color="#4FB685" offset="0%"></stop>
-            <stop stop-color="#2E8374" offset="100%"></stop>
-        </linearGradient>
-    </defs>
+    <title>USDT-ETH/纯色</title>
     <g id="页面-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-        <g id="画板" transform="translate(-465.000000, -252.000000)">
-            <g id="编组-14" transform="translate(465.857143, 252.000000)">
+        <g id="画板" transform="translate(-243.000000, -195.000000)">
+            <g id="USDT-ETH/纯色" transform="translate(243.857143, 195.000000)">
                 <g id="ETH" transform="translate(31.285714, 0.000000)">
-                    <circle id="椭圆形" fill="url(#linearGradient-1)" cx="20" cy="20" r="20"></circle>
+                    <circle id="椭圆形" fill="#436191" cx="20" cy="20" r="20"></circle>
                     <polygon id="路径-4" fill="#D8D8D8" points="19.515396 27.6128268 20.1110369 27.955643 20.5136597 27.7842349 20.1129944 36.7020786"></polygon>
                     <polygon id="路径-3" fill="#D8D8D8" points="20.1110369 3.16384181 9.71751412 19.8872316 20.1110369 25.9887006 30.5084746 19.8870056"></polygon>
                     <g id="编组-25" transform="translate(9.717514, 3.163842)">
@@ -28,7 +18,7 @@
                     </g>
                 </g>
                 <g id="USDT">
-                    <circle id="椭圆形" fill="url(#linearGradient-2)" cx="20" cy="20" r="20"></circle>
+                    <circle id="椭圆形" fill="#379279" cx="20" cy="20" r="20"></circle>
                     <g id="编组-24" transform="translate(7.005650, 8.587571)" fill="#FFFFFF">
                         <polygon id="T" fill-rule="nonzero" points="15.6564972 12.7223294 15.6564972 5.1687672 22.8429379 5.1687672 22.8429379 -7.22585833e-15 3.1819209 -7.22585833e-15 3.1819209 5.1687672 10.3683616 5.1687672 10.3683616 12.7223294"></polygon>
                         <rect id="矩形" x="10.3954802" y="14.191256" width="5.19774011" height="10.3954802"></rect>

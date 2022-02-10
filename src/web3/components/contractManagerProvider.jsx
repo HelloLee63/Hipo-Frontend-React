@@ -3,6 +3,7 @@ import { useWeb3 } from "../../components/providers/web3Provider";
 import { useReload } from "../../hooks/useReload";
 import { InvariantContext } from "../../utils/context";
 import { useWallet } from "../../wallets/walletProvider";
+import DebtTokenContract from "../contracts/DebtTokenContract";
 import Erc20Contract from "../erc20Contract";
 import Web3Contract from "../web3Contract";
 import ContractListener from "./contract-listener";
@@ -34,6 +35,21 @@ export function useErc20Contract(address, abi = []) {
   // const contract = new Erc20Contract(abi, address)
 
   const contract = manager.getContract(address, () => new Erc20Contract(abi, address))
+  
+  contract.on(Web3Contract.UPDATE_DATA, reload)
+
+  return contract
+}
+
+export function useDebtTokenContract(address) {
+  const [reload] = useReload()
+  const manager = useContractManager()
+
+  if (!address) {
+    return undefined
+  }
+
+  const contract = manager.getContract(address, () => new DebtTokenContract(address))
   
   contract.on(Web3Contract.UPDATE_DATA, reload)
 

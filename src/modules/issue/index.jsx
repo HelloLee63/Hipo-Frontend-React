@@ -1,20 +1,14 @@
-import KnownTokensProvider from "../../components/providers/knownTokensProvider"
-import TokensProvider from "../../components/providers/tokensProvider"
-import ContractManagerProvider from "../../web3/components/contractManagerProvider"
+import DebtPoolProvider from "./providers/debt-pool-provider"
+import DebtPoolsProvider from "./providers/debt-pools-provider"
 import IssueWizards from "./views/issue-bond"
 
 const IssueModule = () => {
-  return (
-    <ContractManagerProvider>
-      <TokensProvider>
-        <KnownTokensProvider>
-          
-            
-              <IssueWizards />
-            
-        </KnownTokensProvider>
-      </TokensProvider>
-    </ContractManagerProvider>
+  return (    
+    <DebtPoolsProvider>
+      <DebtPoolProvider>           
+        <IssueWizards />
+      </DebtPoolProvider>
+    </DebtPoolsProvider>       
   )
 }
 

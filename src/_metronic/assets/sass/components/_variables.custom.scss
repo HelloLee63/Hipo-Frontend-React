@@ -6,7 +6,7 @@
 
 // Theme colors
 // Primary
-$primary: if(isDarkMode(), #3699ff, #009ef7);
+$primary: if(isDarkMode(), #003eff, #003eff);
 $primary-active: if(isDarkMode(), #187de4, #0095e8);
 $primary-light: if(isDarkMode(), #212e48, #f1faff);
 $primary-inverse: #ffffff;
@@ -18,10 +18,16 @@ $success-light: if(isDarkMode(), #1c3238, #e8fff3);
 $success-inverse: #ffffff;
 
 // Info
-$info: if(isDarkMode(), #8950fc, #7239ea);
+$info: if(isDarkMode(), #EFF2FD, #EFF2FD);
 $info-active: if(isDarkMode(), #7337ee, #5014d0);
 $info-light: if(isDarkMode(), #2f264f, #f8f5ff);
 $info-inverse: #ffffff;
+
+// // Info
+// $info: if(isDarkMode(), #8950fc, #7239ea);
+// $info-active: if(isDarkMode(), #7337ee, #5014d0);
+// $info-light: if(isDarkMode(), #2f264f, #f8f5ff);
+// $info-inverse: #ffffff;
 
 // Danger
 $danger: if(isDarkMode(), #f64e60, #f1416c);
@@ -34,3 +40,9 @@ $warning: if(isDarkMode(), #ffa800, #ffc700);
 $warning-active: if(isDarkMode(), #ee9d01, #f1bc00);
 $warning-light: if(isDarkMode(), #392f28, #fff8dd);
 $warning-inverse: #ffffff;
+
+//
+$sidedata: if(isDarkMode(), #c9d5f9, #c9d5f9);
+$sidedata-active: if(isDarkMode(), #ee9d01, #f1bc00);
+$sidedata-light: if(isDarkMode(), #392f28, #fff8dd);
+$sidedata-inverse: #ffffff;

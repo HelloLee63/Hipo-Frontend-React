@@ -7,44 +7,40 @@ const Overview = () => {
           <div className='col-xl-3'>
             <StatisticsWidget
               className='card-xl-stretch mb-xl-8'
-              svgIcon='/media/icons/duotune/general/gen032.svg'
               color='white'
               iconColor='primary'
-              title='500M$'
-              description='SAP UI Progress'
+              title='$3,895,254,378.87'
+              description='Total Value Locked'
             />
           </div>
 
           <div className='col-xl-3'>
             <StatisticsWidget
               className='card-xl-stretch mb-xl-8'
-              svgIcon='/media/icons/duotune/ecommerce/ecm008.svg'
-              color='dark'
+              color='white'
               iconColor='white'
-              title='+3000'
-              description='New Customers'
+              title='-'
+              description='Hipo Price'
             />
           </div>
 
           <div className='col-xl-3'>
             <StatisticsWidget
               className='card-xl-stretch mb-xl-8'
-              svgIcon='/media/icons/duotune/finance/fin006.svg'
-              color='warning'
+              color='white'
               iconColor='white'
-              title='$50,000'
-              description='Milestone Reached'
+              title='-'
+              description='Hipo Rewards'
             />
           </div>
 
           <div className='col-xl-3'>
             <StatisticsWidget
               className='card-xl-stretch mb-5 mb-xl-8'
-              svgIcon='/media/icons/duotune/graphs/gra007.svg'
-              color='info'
+              color='white'
               iconColor='white'
-              title='$50,000'
-              description='Milestone Reached'
+              title='-'
+              description='Time Left'
             />
           </div>
         </div>

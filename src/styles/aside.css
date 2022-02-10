@@ -27,6 +27,7 @@
 .aside-menu .menu-item a:hover {
   text-decoration: none !important;
   background-color: #c1cef7;
+  color: #003Eff
 }
 
 .aside-menu .menu-item .menu-link {

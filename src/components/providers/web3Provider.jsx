@@ -6,11 +6,12 @@ import { InvariantContext } from "../../utils/context";
 import { MetamaskConnector } from "../../wallets/connectors/metamask";
 import { useWallet } from "../../wallets/walletProvider";
 import { Text } from "../custom/typography";
-import { Modal } from "../modal";
 import { useGeneral } from "./generalProvider";
 import { useNetwork } from "./networkProvider";
 import Icon from "../custom/icon";
 import { MainnetNetwork } from "../../networks/mainnet";
+import { KTSVG } from "../../_metronic/helpers/components/KTSVG";
+import Button from "../antd/button";
 
 export const MainnetHttpsWeb3Provider = new Web3.providers.HttpProvider(MainnetNetwork.rpc.httpsUrl);
 export const RinkebyHttpsWeb3Provider = new Web3.providers.HttpProvider(RinkebyTestnetNetwork.rpc.httpsUrl)
@@ -188,35 +189,43 @@ const Web3Provider = props => {
             <Context.Provider value={value}>
                 {children}
                 {networkSelectVisible && (
-                    <Modal
-                        heading={
-                            <Text type='h3' weight='bold' color='primary'>
-                                Select network
-                            </Text>
-                        }
-                        closeHandle={ showNetworkSelect } >
-                        <div className="flex flow-row row-gap-16 p-24">
-                            {networks.map(network => (
-                                <button 
-                                    key={ network.id }
-                                    className="button-ghose-monochrome p-16"
-                                    style={{ height: 'inherit' }}
-                                    onClick={() => switchNetwork(network.id)}>
-                                    <Icon name={network.meta.logo} width={40} height={40} className='mr-12' />
-                                    <div className="flex flow-row align-start">
-                                        <Text type='p1' weight='semibold' color='primary'>
-                                            {network.meta.name}
-                                        </Text>
-                                        {network === activeNetwork && (
-                                            <Text type='small' weight='semibold' color='secondary'>
-                                                Connected
-                                            </Text>
-                                        )}
+                    <div className="modal fade" id='hipo_connect_network' aria-hidden='true'>
+                        <div className="modal-dialog modal-dialog-centered mw-568px">
+                            <div className="modal-content">
+                                <div className="modal-header">
+                                    <h3>
+                                        <span className='card-label fw-bolder fs-3 mb-1'>Select Network</span>
+                                    </h3>
+                                
+                                    <div className='btn btn-sm btn-icon btn-active-color-primary' data-bs-dismiss='modal'>
+                                        <KTSVG path='/media/icons/duotune/arrows/arr061.svg' className='svg-icon-1' />
                                     </div>
-                                </button>
-                            ))}
+                                </div>
+                    
+                                <div className='modal-body py-lg-5 px-lg-10'>
+                                    {networks.map(network => (
+                                    <Button
+                                        key = {network.id}
+                                        type = "select"
+                                        style = {{ height: '96px' }}
+                                        onClick = {() => switchNetwork(network.id)}>
+                                        <Icon name={network.meta.logo} width={40} height={40} className='mr-12' />
+                                        <div className="flex flow-row align-start">
+                                            <Text type='p1' weight='semibold' color='primary'>
+                                                {network.meta.name}
+                                            </Text>
+                                            {network === activeNetwork && (
+                                                <Text type='small' weight='semibold' color='secondary'>
+                                                    Connected
+                                                </Text>
+                                            )}
+                                        </div>
+                                    </Button>
+                                    ))}
+                                </div>              
+                            </div>
                         </div>
-                    </Modal>
+                    </div>
                 )}
             </Context.Provider>
         )    

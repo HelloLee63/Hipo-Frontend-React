@@ -60,7 +60,7 @@ const Web3WalletProvider = props => {
     const [ensName, setENSName] = useState()
     const [ensAvatar, setENSAvatar]= useState()
 
-    const [connectWalletModal, setConnectWalletModal] = useState()
+    const [connectWalletModal, setConnectWalletModal] = useState(false)
     const [unsupportedChainModal, setUnsupportedChainModal] = useState()
     const [installMetaMaskModal, setInstallMetaMaskModal] = useState()
 
@@ -205,7 +205,8 @@ const Web3WalletProvider = props => {
     return (
         <Context.Provider value={value}>
             {props.children}
-            {connectWalletModal && <ConnectWalletModal onCancel={() => setConnectWalletModal(false)} />}
+            <ConnectWalletModal />
+            {/* {connectWalletModal && <ConnectWalletModal onCancel={() => setConnectWalletModal(false)} />} */}
             {/* {installMetaMaskModal && <InstallMetaMaskModal onCancel={() => setInstallMetaMaskModal(false)} />}
             {unsuportedChainModal && <unsuportedChainModal onCancel={() => setUnsupportedChainModal(false)} />} */}
         </Context.Provider>

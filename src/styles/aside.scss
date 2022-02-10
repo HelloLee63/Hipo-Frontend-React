@@ -88,8 +88,8 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        // width: get($menu, link, bullet, width);
-        // margin-right: get($menu, link, bullet, space);
+        width: get($menu, link, bullet, width);
+        margin-right: get($menu, link, bullet, space);
       }
   
       // Menu Label

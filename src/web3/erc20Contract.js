@@ -1,5 +1,6 @@
-import { BigNumber } from 'ethers';
-import { AbiItem } from 'web3-utils';
+import { ethers } from 'ethers';
+
+import BigNumber from 'bignumber.js';
 import Web3Contract, { createAbiItem } from './web3Contract';
 
 const ERC20ABI = [
@@ -50,7 +51,7 @@ export default class Erc20Contract extends Web3Contract {
   }
 
   isAllowedOf(spenderAddress) {
-    return this.getAllowanceOf(spenderAddress)?.gt(BigNumber.bigNumberify(0));
+    return this.getAllowanceOf(spenderAddress)?.gt(BigNumber(0));
   }
 
   async loadCommon() {
@@ -64,7 +65,7 @@ export default class Erc20Contract extends Web3Contract {
     this.name = name;
     this.symbol = symbol;
     this.decimals = Number(decimals);
-    this.totalSupply = BigNumber.from(totalSupply);
+    this.totalSupply = new BigNumber(totalSupply);
     this.emit(Web3Contract.UPDATE_DATA);
   }
 
@@ -75,8 +76,7 @@ export default class Erc20Contract extends Web3Contract {
     }
  
     const balance = await this.call('balanceOf', [address]);
- 
-    const value = BigNumber.from(balance);
+    const value = new BigNumber(balance);
 
     if (value) {
       this.balances.set(address, value);
@@ -93,9 +93,8 @@ export default class Erc20Contract extends Web3Contract {
 
     const allowance = await this.call('allowance', [address, spenderAddress]);
     
-    const value = BigNumber.from(allowance);
-    
-
+    const value = new BigNumber(allowance);
+  
     if (value) {
       this.allowances.set(spenderAddress, value);
       this.emit(Web3Contract.UPDATE_DATA);
@@ -107,7 +106,7 @@ export default class Erc20Contract extends Web3Contract {
       return Promise.reject(new Error('Invalid spender address!'));
     }
 
-    const value = enable ? BigNumber.bigNumberify(-1) : BigNumber.bigNumberify(0);
+    const value = enable ? ethers.constants.MaxUint256 : ethers.constants.Zero
 
     await this.send('approve', [spenderAddress, value]);
     await this.loadAllowance(spenderAddress).catch(() => undefined);

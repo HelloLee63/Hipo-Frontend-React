@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="47px" height="36px" viewBox="0 0 47 36" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>token/ICON/USDT/45</title>
+    <defs>
+        <linearGradient x1="-18.107815%" y1="111.646596%" x2="114.121961%" y2="2.80712688%" id="linearGradient-1">
+            <stop stop-color="#003EFF" offset="0%"></stop>
+            <stop stop-color="#FF257B" offset="51.6366035%"></stop>
+            <stop stop-color="#FFB700" offset="100%"></stop>
+        </linearGradient>
+        <linearGradient x1="-18.107815%" y1="114.806664%" x2="114.121961%" y2="0.387971376%" id="linearGradient-2">
+            <stop stop-color="#003EFF" offset="0%"></stop>
+            <stop stop-color="#FF257B" offset="51.6366035%"></stop>
+            <stop stop-color="#FFB700" offset="100%"></stop>
+        </linearGradient>
+        <linearGradient x1="15.0062463%" y1="88.7963945%" x2="92.2400945%" y2="0%" id="linearGradient-3">
+            <stop stop-color="#3A39E1" offset="0%"></stop>
+            <stop stop-color="#FF2C75" offset="51.5686361%"></stop>
+            <stop stop-color="#FF8828" offset="100%"></stop>
+        </linearGradient>
+        <linearGradient x1="100%" y1="50%" x2="0%" y2="50%" id="linearGradient-4">
+            <stop stop-color="#4FB685" offset="0%"></stop>
+            <stop stop-color="#2E8374" offset="100%"></stop>
+        </linearGradient>
+    </defs>
+    <g id="token/ICON/USDT/45" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="token图标" transform="translate(1.000000, 1.000000)">
+            <path d="M12.0540097,0.163352248 C10.5116216,0.665991537 9.06360854,1.37634424 7.74328708,2.26122318 M6.09450062,3.51318649 C4.37224636,4.98870823 2.94150241,6.79241044 1.90006508,8.82687696 C0.685113208,11.2003072 0,13.8878032 0,16.7346939 C0,19.2253624 0.524387837,21.5940296 1.46918689,23.7371232 C3.15743863,27.5665951 6.18805286,30.675816 9.9677916,32.4738539 M17.5,34.1666667 C22.3244797,34.1666667 26.6929835,32.221991 29.8586074,29.0766402 C30.2066589,28.7308177 32.3300495,29.5236462 32.5856936,29.1734748 C32.7778613,28.9102509 33.7493208,27.5004436 33.9267684,27.2263805 C34.1725673,26.8467507 32.694471,25.4008661 32.9107009,25.0017583 C33.0560638,24.7334537 33.5036348,23.8016246 33.5873378,23.6074743 M34.286579,21.6773595 C34.7508416,20.1103866 35,18.4515242 35,16.7346939 C35,13.9172823 34.3290018,11.2559815 33.1375062,8.90070729 C32.7823114,8.19858041 32.1499291,7.21104952 31.2403593,5.93811461 C31.2403593,5.93811461 31.0196871,6.11016854 30.5783429,6.45427641" id="形状" stroke="url(#linearGradient-1)" stroke-linecap="round" stroke-linejoin="round"></path>
+            <ellipse id="椭圆形" stroke="url(#linearGradient-2)" fill="#FFFFFF" cx="17.5" cy="16.7346939" rx="15.25" ry="15.1887755"></ellipse>
+            <polygon id="路径_3备份" fill="url(#linearGradient-3)" fill-rule="nonzero" points="18.0466989 8.36734694 15.9117552 11.987283 10.5 11.987283 10.5 25.1016653 16.1251744 25.1016653 16.1251744 13.3977062 18.0478261 10.068792 18.0478261 25.1020408 24.5 25.1020408 24.5 8.36734694"></polygon>
+        </g>
+        <g id="IOCN/TIME" transform="translate(27.000000, 16.000000)">
+            <circle id="椭圆形" stroke="#FFFFFF" stroke-width="1.5" fill="#3A967A" cx="10" cy="10" r="9.25"></circle>
+            <text id="45" font-family="PingFangSC-Semibold, PingFang SC" font-size="12" font-weight="500" letter-spacing="-0.5" fill="#FFFFFF">
+                <tspan x="3" y="15">45</tspan>
+            </text>
+        </g>
+        <g id="ICON/ALGO" transform="translate(27.000000, 1.000000)">
+            <g id="USDT" transform="translate(1.000000, 1.000000)">
+                <circle id="椭圆形" fill="url(#linearGradient-4)" cx="9" cy="9" r="9"></circle>
+                <g id="编组-24" transform="translate(3.152542, 3.864407)" fill="#FFFFFF">
+                    <polygon id="T" fill-rule="nonzero" points="7.04542373 5.72504824 7.04542373 2.32594524 10.279322 2.32594524 10.279322 -3.25163625e-15 1.43186441 -3.25163625e-15 1.43186441 2.32594524 4.66576271 2.32594524 4.66576271 5.72504824"></polygon>
+                    <rect id="矩形" x="4.6779661" y="6.38606519" width="2.33898305" height="4.6779661"></rect>
+                    <path d="M5.79661017,3.53860756 C8.99798957,3.53860756 11.5932203,4.22156303 11.5932203,5.06403129 C11.5932203,5.90649955 8.99798957,6.58945502 5.79661017,6.58945502 C2.59523077,6.58945502 0,5.90649955 0,5.06403129 C0,4.22156303 2.59523077,3.53860756 5.79661017,3.53860756 Z M5.79661017,3.64030248 C2.98838263,3.64030248 0.406779661,4.20943203 0.406779661,4.91148892 C0.406779661,5.6135458 2.98838263,6.18267536 5.79661017,6.18267536 C8.60483771,6.18267536 11.1864407,5.6135458 11.1864407,4.91148892 C11.1864407,4.20943203 8.60483771,3.64030248 5.79661017,3.64030248 Z" id="形状结合"></path>
+                </g>
+            </g>
+            <circle id="椭圆形" stroke="#FFFFFF" stroke-width="1.5" cx="10" cy="10" r="9.25"></circle>
+        </g>
+    </g>
+</svg>

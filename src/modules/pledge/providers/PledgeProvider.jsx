@@ -9,6 +9,7 @@ import CollateralsListContract from '../contracts/CollateralsListContract'
 import BondPriceContract from '../../bond-market/contracts/BondPriceContract'
 import IssuerLtvContract from '../contracts/IssuerLtvContract'
 import { useTokens } from '../../../components/providers/tokensProvider'
+import ReservesListContract from '../../bond-market/contracts/ReservesListContract'
 
 const Context = React.createContext('PledgeProvider')
 
@@ -89,11 +90,20 @@ const PledgeProvider = props => {
     )
   }
 
+  async function getReservesList() {
+    const financingPoolAddress = '0x3376B3f38B2F8DeAaA0FC71aeBc5A2845178d990'
+    const reservesListContract = new ReservesListContract(financingPoolAddress)
+
+    reservesListContract.setCallProvider(RinkebyHttpsWeb3Provider)
+    await reservesListContract.loadReservesList()
+  }
+
   const value = {
     getCollateralsList,
     getCollateralConfigurationData,
     getIssuerLtv,
-    getBondPrice
+    getBondPrice,
+    getReservesList
   }
 
   return (

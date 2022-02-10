@@ -1484,7 +1484,7 @@ const ABI =
 ]
 class PledgeContract extends Web3Contract {
     constructor(address) {
-        super(ABI, address)
+        super(PledgeABI, address)
     }
 
     pledge(collateralAsset, collateralAssetAmount, gasPrice) {

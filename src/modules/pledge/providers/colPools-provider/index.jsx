@@ -2,79 +2,82 @@ import { createContext, useCallback, useContext, useEffect, useMemo } from "reac
 import { useConfig } from "../../../../components/providers/configProvider";
 import { useKnownTokens } from "../../../../components/providers/knownTokensProvider";
 import { InvariantContext } from "../../../../utils/context";
-import { useWallet } from "../../../../wallets/walletProvider";
 import { useErc20Contract } from "../../../../web3/components/contractManagerProvider";
-import { usePledge } from "../PledgeProvider";
+import { useProtocolData } from "../../../../web3/components/providers/ProtocolDataProvider";
 
+export const Collaterals = {
+  cuUSDCWETH: 'cuUSDCWETH',
+  cuWETHUSDT: 'cuWETHUSDT',
+  cuDAIWETH: 'cuDAIWETH',
+}
 
 const Context = createContext(InvariantContext('ColPoolsProvider'))
-
 
 export function useColPools() {
     return useContext(Context)
 }
 
 const ColPoolsProvider = props => {
+  
+  const { children } = props  
+  const { 
+    usdcwethLpToken, 
+    wethusdtLpToken, 
+    daiwethLpToken,
+    cuUSDCWETH,
+    cuWETHUSDT,
+    cuDAIWETH
 
-  const { children } = props
+  
+  } = useKnownTokens()
   const config = useConfig()
-  const walletCtx = useWallet()
-  // const pledgeContract = usePledge()
-
-  const { wethusdcLpToken, wethdaiLpToken, usdtwethLpToken} = useKnownTokens()
-
-  const colWETHUSDCContract = useErc20Contract(config.contracts.col?.wethusdcLpToken)
-  console.log(config.contracts);
-  console.log(config.contracts.col);
-  console.log(colWETHUSDCContract);
-  const colWETHDAIContract = useErc20Contract(config.contracts.col?.wethdaiLpToken)
-  const colUSDTWETHContract = useErc20Contract(config.contracts.col?.usdtwethLpToken)
+  const protocolData = useProtocolData()
+  // const cuUSDCWETHContract = useErc20Contract(config.contracts.col?.cuUSDCWETH)
+  // const cuWETHUSDTContract = useErc20Contract(config.contracts.col?.cuWETHUSDT)
+  // const cuDAIWETHContract = useErc20Contract(config.contracts.col?.cuDAIWETH)
+  
 
   const colPools = useMemo(
     () => [
       {
-        name: 'WETHUSDC',
-        lable: 'WETH/USDC',
-        tokens: [wethusdcLpToken],
-        contract: colWETHUSDCContract
+        name: Collaterals.cuUSDCWETH,
+        lable: 'USDC/WETH',
+        desc: 'Uniswap V2',
+        tokens: [usdcwethLpToken],
+        contract: cuUSDCWETH.contract
       },
       {
-        name: 'WETHUSDC',
-        lable: 'WETH/USDC',
-        tokens: [wethdaiLpToken],
-        contract: colWETHDAIContract
+        name: Collaterals.cuWETHUSDT,        
+        lable: 'WETH/USDT',
+        desc: 'Uniswap V2',
+        tokens: [wethusdtLpToken],
+        contract: cuWETHUSDT.contract
       },
       {
-        name: 'WETHUSDC',
-        lable: 'WETH/USDC',
-        tokens: [usdtwethLpToken],
-        contract: colUSDTWETHContract
+        name: Collaterals.cuDAIWETH,
+        lable: 'DAI/WETH',
+        desc: 'Uniswap V2',
+        tokens: [daiwethLpToken],
+        contract: cuDAIWETH.contract
       },
     ]
   )
 
-  useEffect(() => {
-    colPools.forEach(colPool => {
-
-    })
-  }, [colPools])
-
-  const getColKonwnPoolByToken = useCallback(
-    (token) => {
-      return colPools.find(pool => pool.tokens[0] === token)
+  const getColPoolByToken = useCallback(
+    (lable) => {
+      return protocolData.colPools.find(colPool => colPool.lable === lable)
     },
-    [colPools]
+    [protocolData.colPools]
   )
 
   const value = {
     colPools,
-    getColKonwnPoolByToken,
-    
+    getColPoolByToken,
   }
 
   return (
     <Context.Provider value={value}>
-      {props.children}
+      { children }
     </Context.Provider>
   )
 }

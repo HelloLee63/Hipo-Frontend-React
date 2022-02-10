@@ -10,7 +10,7 @@ class CollateralsListContract extends Web3Contract {
     
     collaterals
 
-    async getCollateralsList() {
+    async loadCollateralsList() {
         const collaterals = await this.call('getCollateralsList', [])
         this.collaterals = collaterals
         this.emit(Web3Contract.UPDATE_DATA)

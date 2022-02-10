@@ -389,6 +389,7 @@ const USDC = {
       const tokensRef = useRef(new Map())
       const assetsRef = useRef(new Map())
       const collateralAssetsRef = useRef(new Map())
+      
 
       useEffect(() => {
           const promises = ALL_TOKENS.map(async(token) => {

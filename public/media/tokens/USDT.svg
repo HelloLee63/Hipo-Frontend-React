@@ -1,16 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <svg width="32px" height="32px" viewBox="0 0 32 32" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-    <title>USDT</title>
-    <defs>
-        <linearGradient x1="100%" y1="50%" x2="0%" y2="50%" id="linearGradient-1">
-            <stop stop-color="#4FB685" offset="0%"></stop>
-            <stop stop-color="#2E8374" offset="100%"></stop>
-        </linearGradient>
-    </defs>
+    <title>USDT/纯色</title>
     <g id="页面-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-        <g id="画板" transform="translate(-574.000000, -351.000000)">
-            <g id="USDT" transform="translate(574.000000, 351.000000)">
-                <circle id="椭圆形" fill="url(#linearGradient-1)" cx="16" cy="16" r="16"></circle>
+        <g id="画板" transform="translate(-239.000000, -361.000000)">
+            <g id="USDT" transform="translate(239.000000, 361.000000)">
+                <circle id="椭圆形" fill="#379279" cx="16" cy="16" r="16"></circle>
                 <g id="编组-24" transform="translate(5.604520, 6.870056)" fill="#FFFFFF">
                     <polygon id="T" fill-rule="nonzero" points="12.5251977 10.1778635 12.5251977 4.13501376 18.2743503 4.13501376 18.2743503 -5.78068666e-15 2.54553672 -5.78068666e-15 2.54553672 4.13501376 8.29468927 4.13501376 8.29468927 10.1778635"></polygon>
                     <rect id="矩形" x="8.31638418" y="11.3530048" width="4.15819209" height="8.31638418"></rect>

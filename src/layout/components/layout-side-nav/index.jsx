@@ -5,41 +5,10 @@ import clsx from "clsx"
 import toAbsoluteUrl from "../../../_metronic/helpers/AssetHelpers"
 import { KTSVG } from "../../../_metronic/helpers/components/KTSVG"
 
-
 const AsideDefault = () => {
     const {config, classes} = useLayout()
     const { aside } = config
 
-    // return (
-    //     <div className={cn("aside", s.asideImg)}>
-    //         {/* begin::Brand */}
-    //         <div className={ s.logo }>
-    //             <Link to='#'>
-    //                 <img 
-    //                     alt='logo'
-    //                     className="h-40px logo"
-    //                     src='../../../media/logos/logo.svg'
-    //                 />
-    //             </Link>
-    //         </div>
-    //         <div className='aside-menu flex-column-fluid'>
-    //             <AsideMenu asideMenuCSSClasses={classes.asideMenu} />
-    //         </div>
-    //     </div>
-    // )
-    // return (
-    //     <div className="aside d-flex flex-column">
-    //         {/* begin::Brand */}
-    //         <div className={s.logo}>
-    //             <Link to='#'>
-    //                 <img alt='logo' className="h-40px" src='../../../media/logos/logo.svg'/>
-    //             </Link>
-    //         </div>
-    //         <div>
-    //             <AsideMenu />
-    //         </div>
-    //     </div>
-    // )
     return (
         <div
           id='kt_aside'
@@ -106,13 +75,13 @@ const AsideDefault = () => {
             <a
               target='_blank'
               className='btn btn-custom btn-primary w-100'
-              href={process.env.REACT_APP_PREVIEW_DOCS_URL}
+              href='https://docs.hipo.one'
               data-bs-toggle='tooltip'
               data-bs-trigger='hover'
               data-bs-dismiss-='click'
               title='Check out the complete documentation with over 100 components'
             >
-              <span className='btn-label'>Docs & Components</span>
+              <span className='btn-label'>Docs</span>
               <span className='svg-icon btn-icon svg-icon-2'>
                 <KTSVG path='/media/icons/duotune/general/gen005.svg' />
               </span>

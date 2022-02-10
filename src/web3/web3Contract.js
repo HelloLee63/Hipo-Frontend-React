@@ -146,13 +146,13 @@ class Web3Contract {
   static UPDATE_ACCOUNT = 'update:account';
   static UPDATE_DATA = 'update:data';
 
-//   private readonly _events: EventEmitter;
-//   private readonly _abi: AbiItem[];
-//   private readonly _callContract: EthContract;
-//   private readonly _sendContract: EthContract;
-//   readonly address: string;
-//   name: string;
-//   account?: string;
+  _events
+  _abi
+  _callContract
+  _sendContract
+  address
+  name
+  account
 
   constructor(abi, address, name) {
     if (!address) {

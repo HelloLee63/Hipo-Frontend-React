@@ -1,14 +1,17 @@
+import BondMarketProvider from "./providers/BondMarketProvider"
 import Bonds from "./views/Bonds"
 import Overview from "./views/Overview"
 
 const BondMarket = () => {
   return (
-    <div className="d-flex flex-column">
-      <h2 className='pb-5'>Overview</h2>
-      <Overview />
-      <h2>Bonds</h2>
-      <Bonds className='pt-5'/>
-    </div>
+    <BondMarketProvider>
+      <div className="d-flex flex-column">
+        <h3 className='pb-5'>Overview</h3>
+        <Overview />
+        <h3 className="pb-5">Bonds</h3>
+        <Bonds />
+      </div>
+    </BondMarketProvider>
   )
 }
 
