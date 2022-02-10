@@ -7,7 +7,6 @@ import { useDebtPools } from "../../providers/debt-pools-provider"
 const SelectCollateral = ({ prevStep }) => {
 
   const debtPools = useDebtPools()
-  const debtPoolCtx = useDebtPool()
 
   // const collateralAssetTypeFormik = useFormik({
   //   initialValues: {
@@ -29,14 +28,19 @@ const SelectCollateral = ({ prevStep }) => {
               <div className='mb-0'>
                 <label className='d-flex flex-stack mb-5 cursor-pointer'>
                   <span className='d-flex align-items-center me-2'>
-                    <TokenIcon tokenName={collateral.collateralAsset.symbol} tokenDesc={collateral.collateralAsset.name} tokenIcon={collateral.collateralAsset.icon}/>
+                    <TokenIcon 
+                      tokenName={collateral.collateralAsset.symbol} 
+                      tokenDesc={collateral.collateralAsset.name} 
+                      tokenIcon={collateral.collateralAsset.icon}
+                    />
                   </span>
                   <span className='form-check form-check-custom form-check-solid'>
                     <Field 
                       className='form-check-input' 
                       type='radio' 
                       name='collateralAssetType'
-                      value={collateral.collateralAsset.symbol} />
+                      value={collateral.collateralAsset.symbol} 
+                    />
                   </span>
                 </label>
               </div>

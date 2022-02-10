@@ -25,8 +25,11 @@ const IssueWizards = () => {
   const [initValues] = useState(issueInits)
   const walletCtx = useWallet()
   const activePool = debtPoolCtx.debtPool
+  const collateral = debtPoolCtx.collateral
   const debtAssetAddress = activePool.debtAsset.address
   const duration = new BigNumber(activePool.duration)
+
+  console.log(collateral);
 
   const protocolData = useProtocolData()
   
