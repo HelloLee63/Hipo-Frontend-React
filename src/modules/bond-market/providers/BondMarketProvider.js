@@ -226,8 +226,6 @@ const BondMarketProvider = props => {
       .then(data => {return data})
   }, [])
 
-  console.log(getTransactions);
-
   const value = {
     Bonds,
     getTransactions,
