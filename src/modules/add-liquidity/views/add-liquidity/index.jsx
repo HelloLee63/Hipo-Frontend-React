@@ -180,7 +180,7 @@ const AddLiquidityView = () => {
         <div className="col-4">
           <div className="card">
             <div className="card-body">
-              <h6 className=" pb-3">Bond Market</h6>
+              {/* <h6 className=" pb-3">Bond Market</h6>
 
               <div className="d-flex justify-content-between p-2 mb-1 bg-info rounded" >
                 <div className="mr-5">
@@ -225,8 +225,8 @@ const AddLiquidityView = () => {
                 <div className="me-3">
                   <span className="fs-7 fw-bolder align-content-center"></span>
                 </div> 
-              </div>
-              <h6 className="pt-5 pb-3">Your Wallet</h6>
+              </div> */}
+              <h6 className="pt-3 pb-7">Your Wallet</h6>
               <div className="d-flex justify-content-between p-2 mb-1 bg-info rounded" >
                 <div className="fs-7">
                   <KTSVG path={wethToken.icon} className="pe-2 svg-icon svg-icon-2x" />
