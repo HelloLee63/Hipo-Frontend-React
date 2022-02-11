@@ -1,7 +1,7 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 
 import BigNumber from 'bignumber.js'
-import { ErrorMessage, useFormik} from 'formik'
+import { useFormik} from 'formik'
 import { useMemo, useEffect, useState } from 'react'
 import { useConfig } from '../../../../components/providers/configProvider'
 import TokenIcon from '../../../../components/token-icon'

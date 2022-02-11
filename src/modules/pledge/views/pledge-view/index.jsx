@@ -195,13 +195,13 @@ const PledgeView = () => {
         <div className="col-4">
           <div className="card">
             <div className="card-body">
-              <h6 className=" pb-3">Collateral Configuration</h6>
+              {/* <h6 className=" pb-3">Collateral Configuration</h6>
               <div className="d-flex justify-content-between p-2 mb-1 rounded" >
                 <div className="mr-5">
                   <span className="fs-7  p-0 mb-0 align-content-center">Max LTV</span>                  
                 </div>
                 <div className="me-3">
-                  <span className="fs-7  align-content-center">{formatPercent(maxLtv / 100)}</span>
+                  <span className="fs-7  align-content-center">{formatPercent(maxLtv / 100) ?? '-'}</span>
                 </div> 
               </div>
 
@@ -210,10 +210,10 @@ const PledgeView = () => {
                   <span className="fs-7  align-content-center">Liquidation Threshold</span>                  
                 </div>
                 <div className="me-3">
-                  <span className="fs-7  align-content-center">{formatPercent(liquidationThreshold / 100)}</span>
+                  <span className="fs-7  align-content-center">{formatPercent(liquidationThreshold / 100) ?? '-'}</span>
                 </div> 
               </div>
-              <div className='separator my-7'></div>
+              <div className='separator my-7'></div> */}
               <h6 className="pt-3 pb-7">Your Wallet</h6>
               <div className="d-flex justify-content-between p-2 mb-1 bg-info rounded" >
                 <div className="fs-7">
@@ -221,7 +221,7 @@ const PledgeView = () => {
                   <span className="fs-7 fw-bolder p-0 mb-0 align-content-center">{wethToken.symbol}</span>
                 </div>
                 <div className="fs-7 me-3">
-                  <span className="p-1 m-1 fs-7 fw-bolder align-content-center">{formatToken(balanceOfWETHToken, {scale: decimalsOfWETHToken})}</span>
+                  <span className="p-1 m-1 fs-7 fw-bolder align-content-center">{formatToken(balanceOfWETHToken, {scale: decimalsOfWETHToken}) ?? '-'}</span>
                 </div> 
               </div>
               <div className="d-flex justify-content-between p-2 mb-1 bg-info rounded" >
@@ -230,7 +230,7 @@ const PledgeView = () => {
                   <span className="fs-7 fw-bolder p-0 mb-0 align-content-center">{usdcToken.symbol}</span>
                 </div>
                 <div className="fs-7 me-3">
-                  <span className="p-1 m-1 fs-7 fw-bolder align-content-center">{formatToken(balanceOfUSDCToken, {scale: decimalsOfUSDCToken})}</span>
+                  <span className="p-1 m-1 fs-7 fw-bolder align-content-center">{formatToken(balanceOfUSDCToken, {scale: decimalsOfUSDCToken}) ?? '-'}</span>
                 </div> 
               </div>
               <div className="d-flex justify-content-between p-2 mb-1 bg-info rounded" >
@@ -239,7 +239,7 @@ const PledgeView = () => {
                   <span className="fs-7 fw-bolder p-0 mb-0 align-content-center">{usdtToken.symbol}</span>
                 </div>
                 <div className="fs-7 me-3">
-                  <span className="p-1 m-1 fs-7 fw-bolder align-content-center">{formatToken(balanceOfUSDTToken, {scale: decimalsOfUSDTToken})}</span>
+                  <span className="p-1 m-1 fs-7 fw-bolder align-content-center">{formatToken(balanceOfUSDTToken, {scale: decimalsOfUSDTToken}) ?? '-'}</span>
                 </div> 
               </div>
               <div className="d-flex justify-content-between p-2 mb-1 bg-info rounded" >
@@ -248,7 +248,7 @@ const PledgeView = () => {
                   <span className="fs-7 fw-bolder p-0 mb-0 align-content-center">{daiToken.symbol}</span>
                 </div>
                 <div className="fs-7 me-3">
-                  <span className="p-1 m-1 fs-7 fw-bolder align-content-center">{formatToken(balanceOfDAIToken, {scale: decimalsOfDAIToken})}</span>
+                  <span className="p-1 m-1 fs-7 fw-bolder align-content-center">{formatToken(balanceOfDAIToken, {scale: decimalsOfDAIToken}) ?? '-'}</span>
                 </div> 
               </div>
               <div className="d-flex justify-content-between p-2 mb-1 bg-info rounded" >
@@ -257,7 +257,7 @@ const PledgeView = () => {
                   <span className="fs-7 fw-bolder p-0 mb-0 align-content-center">{usdcwethLpToken.symbol}</span>
                 </div>
                 <div className="fs-7 me-3">
-                  <span className="p-1 m-1 fs-7 fw-bolder align-content-center">{formatToken(balanceOfUSDCWETHToken, {scale: decimalsOfUSDCWETHToken})}</span>
+                  <span className="p-1 m-1 fs-7 fw-bolder align-content-center">{formatToken(balanceOfUSDCWETHToken, {scale: decimalsOfUSDCWETHToken}) ?? '-'}</span>
                 </div> 
               </div>
               <div className="d-flex justify-content-between p-2 mb-1 bg-info rounded" >
@@ -266,7 +266,7 @@ const PledgeView = () => {
                   <span className="fs-7 fw-bolder p-0 mb-0 align-content-center">{wethusdtLpToken.symbol}</span>
                 </div>
                 <div className="fs-7 me-3">
-                  <span className="p-1 m-1 fs-7 fw-bolder align-content-center">{formatToken(balanceOfWETHUSDTToken, {scale: decimalsOfWETHUSDTToken})}</span>
+                  <span className="p-1 m-1 fs-7 fw-bolder align-content-center">{formatToken(balanceOfWETHUSDTToken, {scale: decimalsOfWETHUSDTToken}) ?? '-'}</span>
                 </div> 
               </div>
               <div className="d-flex justify-content-between p-2 mb-1 bg-info rounded" >
@@ -275,7 +275,7 @@ const PledgeView = () => {
                   <span className="fs-7 fw-bolder p-0 mb-0 align-content-center">{daiwethLpToken.symbol}</span>
                 </div>
                 <div className="fs-7 me-3">
-                  <span className="p-1 m-1 fs-7 fw-bolder align-content-center">{formatToken(balanceOfDAIWETHToken, {scale: decimalsOfDAIWETHToken})}</span>
+                  <span className="p-1 m-1 fs-7 fw-bolder align-content-center">{formatToken(balanceOfDAIWETHToken, {scale: decimalsOfDAIWETHToken}) ?? '-'}</span>
                 </div> 
               </div>
             </div>

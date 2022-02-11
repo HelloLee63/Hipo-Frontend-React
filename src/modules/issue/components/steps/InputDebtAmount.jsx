@@ -1,6 +1,6 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import BigNumber from 'bignumber.js'
-import { Field, ErrorMessage, useFormik } from 'formik'
+import { Field, useFormik } from 'formik'
 import { useEffect, useState } from 'react'
 import { useConfig } from '../../../../components/providers/configProvider'
 import TokenIcon from '../../../../components/token-icon'
@@ -42,7 +42,7 @@ const InputDebtAssetAmount = ({ prevStep }) => {
 
   const issueFormik = useFormik({
     initialValues: {
-      debtAssetAmount: '0.0',
+      debtAssetAmount: '',
     }
   })
 
@@ -123,15 +123,26 @@ const InputDebtAssetAmount = ({ prevStep }) => {
 
       <div className='card mb-2'>
         <div className='card-body p-0'>
-          <Field
-              type='text'
-              className='form-control form-control-lg form-control-solid fw-bolder bg-white border-0 text-danger text-center align-center'
-              placeholder='0.0'
-              name='debtAssetAmount'
-              onChange={issueFormik.handleChange}
-              value={issueFormik.values.debtAssetAmount}
-              style={{ fontSize: 48 }}
-            />
+          <input
+            id='amount'
+            type='text'
+            className='form-control form-control-lg form-control-solid fw-bolder bg-white border-0 text-primary text-center align-center'
+            placeholder='0.0'
+            name='debtAssetAmount'
+            // onChange={issueFormik.handleChange}
+            value={issueFormik.values.debtAssetAmount}
+            style={{ fontSize: 48 }}
+            autoComplete='off'
+            onChange={e => {
+              e.preventDefault();
+              const { value } = e.target;              
+              // const regex = /^(0*[1-9][0-9]*(\.[0-9]*)?|0*\.[0-9]*[1-9][0-9]*)$/;
+              const regex = /^(0*[0-9][0-9]*(\.[0-9]*)?|0*\.[0-9]*[1-9][0-9]*)$/;
+              if (regex.test(value)) {
+                issueFormik.setFieldValue('debtAssetAmount', value);
+              }
+            }}
+          />
         </div>
       </div>
 
@@ -147,7 +158,7 @@ const InputDebtAssetAmount = ({ prevStep }) => {
               <div className='symbol symbol-50px me-2'>
                 <KTSVG path={activePool.debtAsset.icon} className='svg-icon svg-icon-2x' />
               </div>
-              <span className='badge badge-light-success fs-6 fw-bolder my-2'>{formatToken(walletBalance, {scale: decimals, tokenName: activePool.debtAsset.symbol})}</span>
+              <span className='fs-6 fw-bolder my-2'>{formatToken(walletBalance, {scale: decimals, tokenName: activePool.debtAsset.symbol})}</span>
             </div>
           </div>
           {/* begin::Title */}
@@ -161,7 +172,7 @@ const InputDebtAssetAmount = ({ prevStep }) => {
               <div className='symbol symbol-50px me-2'>
                 <KTSVG path={activePool.debtAsset.icon} className='svg-icon svg-icon-2x' />
               </div>
-              <span className='badge badge-light-success fs-6 fw-bolder my-2'>{formatToken(bondPrice, {scale: 18, tokenName: activePool.debtAsset.symbol}) ?? '-'}</span>
+              <span className='fs-6 fw-bolder my-2'>{formatToken(bondPrice, {scale: 18, tokenName: activePool.debtAsset.symbol}) ?? '-'}</span>
             </div>
           </div>
           {/* end::Title */}
@@ -177,7 +188,7 @@ const InputDebtAssetAmount = ({ prevStep }) => {
               <div className='symbol symbol-50px me-2'>
                 <KTSVG path={activePool.debtAsset.icon} className='svg-icon svg-icon-2x' />
               </div>
-              <span className='badge badge-light-success fs-6 fw-bolder my-2'>{APR ?? '-'}</span>
+              <span className='fs-6 fw-bolder my-2'>{APR ?? '-'}</span>
             </div>
           </div>
           {/* end::Title */}
@@ -193,7 +204,7 @@ const InputDebtAssetAmount = ({ prevStep }) => {
               <div className='symbol symbol-50px me-2'>
                 <KTSVG path={debtPoolCtx.collateral.collateralAsset.icon} className='svg-icon svg-icon-2x' />
               </div>
-              <span className='badge badge-light-success fs-6 fw-bolder my-2'>{APR ?? '-'}</span>
+              <span className='fs-6 fw-bolder my-2'>{APR ?? '-'}</span>
             </div>
           </div>
           {/* end::Title */}
