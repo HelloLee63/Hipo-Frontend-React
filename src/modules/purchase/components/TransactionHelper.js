@@ -8,10 +8,6 @@ const purchaseSchemas = [
   Yup.object({
     bondAssetDuration: Yup.string().required().label('Asset Duration'), 
   }),
-
-  Yup.object({
-    collateralAssetAmount: Yup.string().required().label('Collateral Asset Amount'),
-  }),
 ]
 
 const purchaseInits = {

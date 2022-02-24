@@ -127,7 +127,7 @@ export const MainnetNetwork = {
   meta: {
     chainId: MAINNET_CHAIN_ID,
     name: isDevelopmentMode ? 'Ethereum Mainnet (Alpha)' : 'Ethereum Mainnet',
-    logo: 'mainnet-logo',
+    logo: '/media/networks/ethereum.svg',
   },
   rpc: {
     httpsUrl: RPC_HTTPS_URL,

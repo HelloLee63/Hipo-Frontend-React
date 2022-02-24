@@ -1,15 +1,9 @@
 import { createContext, useCallback, useContext, useEffect, useMemo } from "react";
-import { useConfig } from "../../../../components/providers/configProvider";
 import { useKnownTokens } from "../../../../components/providers/knownTokensProvider";
+import { useReload } from "../../../../hooks/useReload";
 import { InvariantContext } from "../../../../utils/context";
-import { useErc20Contract } from "../../../../web3/components/contractManagerProvider";
-import { useProtocolData } from "../../../../web3/components/providers/ProtocolDataProvider";
-
-export const Collaterals = {
-  cuUSDCWETH: 'cuUSDCWETH',
-  cuWETHUSDT: 'cuWETHUSDT',
-  cuDAIWETH: 'cuDAIWETH',
-}
+import { useWallet } from "../../../../wallets/walletProvider";
+import { useWalletData } from "../../../../web3/components/providers/WalletDataProvider";
 
 const Context = createContext(InvariantContext('ColPoolsProvider'))
 
@@ -18,61 +12,77 @@ export function useColPools() {
 }
 
 const ColPoolsProvider = props => {
-  
+
   const { children } = props  
+
+  const walletCtx = useWallet()
+  const [reload] = useReload()
+  const walletData = useWalletData()
+  
+  console.log('ColPoolsProvider is rendered');
+  
   const { 
     usdcwethLpToken, 
     wethusdtLpToken, 
     daiwethLpToken,
     cuUSDCWETH,
     cuWETHUSDT,
-    cuDAIWETH
-
-  
+    cuDAIWETH  
   } = useKnownTokens()
-  const config = useConfig()
-  const protocolData = useProtocolData()
-  // const cuUSDCWETHContract = useErc20Contract(config.contracts.col?.cuUSDCWETH)
-  // const cuWETHUSDTContract = useErc20Contract(config.contracts.col?.cuWETHUSDT)
-  // const cuDAIWETHContract = useErc20Contract(config.contracts.col?.cuDAIWETH)
   
-
   const colPools = useMemo(
     () => [
       {
-        name: Collaterals.cuUSDCWETH,
-        lable: 'USDC/WETH',
-        desc: 'Uniswap V2',
-        tokens: [usdcwethLpToken],
+        token: cuUSDCWETH,
+        underlyingAsset: usdcwethLpToken,
         contract: cuUSDCWETH.contract
       },
       {
-        name: Collaterals.cuWETHUSDT,        
-        lable: 'WETH/USDT',
-        desc: 'Uniswap V2',
-        tokens: [wethusdtLpToken],
+        token: cuWETHUSDT,
+        underlyingAsset: wethusdtLpToken,
         contract: cuWETHUSDT.contract
       },
       {
-        name: Collaterals.cuDAIWETH,
-        lable: 'DAI/WETH',
-        desc: 'Uniswap V2',
-        tokens: [daiwethLpToken],
+        token: cuDAIWETH,
+        underlyingAsset: daiwethLpToken,
         contract: cuDAIWETH.contract
       },
-    ]
-  )
+    ], [])
 
-  const getColPoolByToken = useCallback(
-    (lable) => {
-      return protocolData.colPools.find(colPool => colPool.lable === lable)
-    },
-    [protocolData.colPools]
-  )
+  const getColPoolBySymbol = useCallback(
+    (symbol) => {
+      return colPools.find(colPool => colPool.underlyingAsset.symbol === symbol)
+    }, [colPools])
+  
+  useEffect(() => {
+    if(walletCtx.account) {
+      colPools.forEach(colPool => {
+        (colPool.contract).loadBalance().then(reload).catch(Error)
+      })
+    }
+  }, [colPools, walletCtx.account])
+
+  useEffect(() => {
+    if (walletCtx.account) {
+      colPools.forEach(colPool => {
+        walletData.walletDataContract.loadIssuerLtv(
+          walletCtx.account, colPool.underlyingAsset.address).then(reload).catch(Error)
+      })
+    }
+  }, [colPools, walletCtx.account])
+
+  useEffect(() => {
+    if (walletCtx.account) {
+      colPools.forEach(colPool => {
+        walletData.walletDataContract.loadIssuerTotalDebts(
+          walletCtx.account, colPool.underlyingAsset.address).then(reload).catch(Error)
+      })      
+    }
+  }, [colPools, walletCtx.account])
 
   const value = {
     colPools,
-    getColPoolByToken,
+    getColPoolBySymbol,
   }
 
   return (

@@ -76,4 +76,3 @@ import React, {
   }
   
   export {MetronicSplashScreenProvider, LayoutSplashScreen}
-  

@@ -12,6 +12,7 @@ import Icon from "../custom/icon";
 import { MainnetNetwork } from "../../networks/mainnet";
 import { KTSVG } from "../../_metronic/helpers/components/KTSVG";
 import Button from "../antd/button";
+import TokenIcon from "../token-icon";
 
 export const MainnetHttpsWeb3Provider = new Web3.providers.HttpProvider(MainnetNetwork.rpc.httpsUrl);
 export const RinkebyHttpsWeb3Provider = new Web3.providers.HttpProvider(RinkebyTestnetNetwork.rpc.httpsUrl)
@@ -30,6 +31,8 @@ export function useWeb3() {
 }
 
 const Web3Provider = props => {
+
+    console.log('Web3 Provider is rendered');
     const { children } = props
     const { windowState } = useGeneral()
     const { networks, activeNetwork, changeNetwork, findNetwork, findNetworkByChainId, defaultNetwork } = useNetwork()
@@ -186,48 +189,53 @@ const Web3Provider = props => {
         }
 
         return (
-            <Context.Provider value={value}>
-                {children}
-                {networkSelectVisible && (
-                    <div className="modal fade" id='hipo_connect_network' aria-hidden='true'>
-                        <div className="modal-dialog modal-dialog-centered mw-568px">
-                            <div className="modal-content">
-                                <div className="modal-header">
-                                    <h3>
-                                        <span className='card-label fw-bolder fs-3 mb-1'>Select Network</span>
-                                    </h3>
-                                
-                                    <div className='btn btn-sm btn-icon btn-active-color-primary' data-bs-dismiss='modal'>
-                                        <KTSVG path='/media/icons/duotune/arrows/arr061.svg' className='svg-icon-1' />
-                                    </div>
-                                </div>
-                    
-                                <div className='modal-body py-lg-5 px-lg-10'>
-                                    {networks.map(network => (
-                                    <Button
-                                        key = {network.id}
-                                        type = "select"
-                                        style = {{ height: '96px' }}
-                                        onClick = {() => switchNetwork(network.id)}>
-                                        <Icon name={network.meta.logo} width={40} height={40} className='mr-12' />
-                                        <div className="flex flow-row align-start">
-                                            <Text type='p1' weight='semibold' color='primary'>
-                                                {network.meta.name}
-                                            </Text>
-                                            {network === activeNetwork && (
-                                                <Text type='small' weight='semibold' color='secondary'>
-                                                    Connected
-                                                </Text>
-                                            )}
-                                        </div>
-                                    </Button>
-                                    ))}
-                                </div>              
-                            </div>
-                        </div>
+          <Context.Provider value={value}>
+            {children}
+            <div className="modal fade" id='hipo_connect_network' aria-hidden='true'>
+              <div className="modal-dialog modal-dialog-centered mw-568px">
+                <div className="modal-content">
+                  <div className="modal-header">
+                    <h3>
+                      <span className='card-label fw-bolder fs-3 mb-1'>Select Network</span>
+                    </h3>
+                  
+                    <div className='btn btn-sm btn-icon btn-active-color-primary' data-bs-dismiss='modal'>
+                      <KTSVG path='/media/icons/duotune/arrows/arr061.svg' className='svg-icon-1' />
                     </div>
-                )}
-            </Context.Provider>
+                  </div>
+      
+                  <div className='modal-body flex-column-auto py-lg-5 px-lg-10'>
+                    <div className="d-flex flex-column flex-column-auto menu-item">
+                      {networks.map(network => (
+                      <div
+                        key = {network.id}
+                        type = "select"
+                        className="btn btn-sm btn-light-primary mb-3"
+                        style = {{ height: '60px' }}
+                        data-bs-dismiss='modal'
+                        onClick = {() => switchNetwork(network.id)}
+                      >
+                        <div className='d-flex d-flex-fluid align-items-center'>
+                          <div className='symbol symbol-50px me-5'>
+                            <KTSVG path={network.meta.logo} className='svg-icon svg-icon-3x' />
+                          </div>
+                          <div className='d-flex justify-content-start flex-column'>
+                            <div className='text-dark fw-bolder fs-6'>
+                              { network.meta.name }
+                            </div>
+                            <span className='text-muted justify-content-start fw-bold fs-6'>
+                              {network === activeNetwork && 'Connected' }
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+                      ))}
+                    </div>
+                  </div>              
+                </div>
+              </div>
+            </div>
+          </Context.Provider>
         )    
 }
 

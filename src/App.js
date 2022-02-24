@@ -9,14 +9,16 @@ import { AppRoutes } from './routing/AppRoutes.jsx';
 import { LayoutProvider } from './layout/core/LayoutProvider.jsx';
 import ContractManagerProvider from './web3/components/contractManagerProvider.jsx';
 
-import TokensProvider from './components/providers/tokensProvider.jsx';
 import KnownTokensProvider from './components/providers/knownTokensProvider.jsx';
 import ProtocolDataProvider from './web3/components/providers/ProtocolDataProvider.js';
 import WalletDataProvider from './web3/components/providers/WalletDataProvider.js';
 import FinancingPoolProvider from './web3/components/providers/FinancingPoolProvider.js';
 import BondMarketProvider from './modules/bond-market/providers/BondMarketProvider.js';
+import PoolsProvider from './components/providers/poolsProvider.jsx';
 
 const App = () => {
+
+  console.log('App is rendered');
   return (
     <div>
       <BrowserRouter>
@@ -27,19 +29,19 @@ const App = () => {
                 <WalletProvider>
                   <Web3Provider>
                     <ContractManagerProvider>
-                      <TokensProvider>
-                        <KnownTokensProvider>
+                      <KnownTokensProvider>
+                        <PoolsProvider>
                           <ProtocolDataProvider>
                             <WalletDataProvider>
-                              <FinancingPoolProvider>                                  
-                                <BondMarketProvider>      
-                                  <AppRoutes />
-                                </BondMarketProvider>                                    
+                              <FinancingPoolProvider>
+                                <BondMarketProvider>                                   
+                                  <AppRoutes /> 
+                                </BondMarketProvider>                              
                               </FinancingPoolProvider>
                             </WalletDataProvider>   
                           </ProtocolDataProvider>
-                        </KnownTokensProvider>
-                      </TokensProvider>                       
+                        </PoolsProvider>
+                      </KnownTokensProvider>
                     </ContractManagerProvider>
                   </Web3Provider>
                 </WalletProvider>

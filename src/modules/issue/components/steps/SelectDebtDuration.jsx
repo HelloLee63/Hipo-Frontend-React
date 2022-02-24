@@ -1,30 +1,27 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import { Field } from 'formik'
+import { DurationsMeta } from '../../../../components/providers/poolsProvider'
 import { KTSVG } from '../../../../_metronic/helpers/components/KTSVG'
 import { useDebtPool } from '../../providers/debt-pool-provider'
-import { useDebtPools } from '../../providers/debt-pools-provider'
 
 const SelectDebtDuration = ({ prevStep }) => {
 
-  const debtPoolsCtx = useDebtPools()
-  const debtDurations = debtPoolsCtx.DurationsMeta
-  const debtPoolCtx = useDebtPool()
-  const activePool = debtPoolCtx.debtPool
-
+  const {bondPool} = useDebtPool()
+  
   return (
     <div className='w-100'>
       <div className='card mb-2'>
         <div className='card-body pt-3 pb-3'>
           <div className='d-flex align-items-center'>
             <div className='symbol symbol-50px me-2'>
-              <KTSVG path={activePool.debtAsset.icon} className='svg-icon svg-icon-3x' />
+              <KTSVG path={bondPool.bondAsset.icon} className='svg-icon svg-icon-3x' />
             </div>
             <div className='d-flex justify-content-start flex-column'>
-              <a href='#' className='text-dark fw-bolder text-hover-primary mb-1 fs-6'>
-                { activePool.debtAsset.symbol }
-              </a>
+              <div className='text-dark fw-bolder text-hover-primary mb-1 fs-6'>
+                { bondPool.bondAsset.symbol }
+              </div>
               <span className='text-muted fw-bold text-muted d-block fs-7'>
-                { activePool.debtAsset.name } 
+                { bondPool.bondAsset.name } 
               </span>
             </div>
           </div>
@@ -32,12 +29,12 @@ const SelectDebtDuration = ({ prevStep }) => {
       </div>
       <div className='card'>
         <div className='card-body'>
-        { debtDurations.map((debtDuration) => (
+        { DurationsMeta.map((debtDuration) => (
           <div key={ debtDuration.id } className='mb-0 fs-6 fw-bolder fv-row'>
             <div className='mb-0'>
               <label className='d-flex flex-stack mb-5 cursor-pointer'>
                 <span className='d-flex align-items-center me-2'>
-                  {debtDuration.lable}
+                  {debtDuration.description}
                 </span>
                 <span className='form-check form-check-custom form-check-solid'>
                   <Field className='form-check-input' type='radio' name='debtDuration' value={ debtDuration.duration } />
@@ -75,8 +72,7 @@ const SelectDebtDuration = ({ prevStep }) => {
             </span>
           </button>
         </div>
-      </div>
-                  
+      </div>                  
     </div>
   )
 }

@@ -1,6 +1,7 @@
-// import { useProtocolData } from "../../../web3/components/providers/ProtocolDataProvider"
+import BigNumber from "bignumber.js"
 import { Link } from "../../../components/button"
 import { useProtocolData } from "../../../web3/components/providers/ProtocolDataProvider"
+import { calAPY, formatPercent, formatToken } from "../../../web3/utils"
 import { KTSVG } from "../../../_metronic/helpers/components/KTSVG"
 import { useBondMarket } from "../providers/BondMarketProvider"
 
@@ -9,28 +10,26 @@ const Bonds = ({ className }) => {
   const bondMarket = useBondMarket()
   const bonds = bondMarket.Bonds
   const protocolData = useProtocolData()
+  const bondPriceArray = protocolData.protocolDataContract.bondPriceArray
+
+  console.log('Bonds is rendered');
 
   return (
     <div className={`card ${className}`}>
       <div className='card-body py-3'>
-        {/* begin::Table container */}
         <div className='table-responsive'>
-          {/* begin::Table */}
           <table className='table align-middle gs-0 gy-4'>
-            {/* begin::Table head */}
             <thead>
               <tr className='fw-bolder text-muted bg-light'>
-                <th className='ps-4 min-w-325px rounded-start'>BOND</th>
-                <th className='min-w-125px'>Bond Price</th>
-                <th className='min-w-125px'>APY</th>
+                <th className='ps-4 min-w-225px rounded-start'>BOND</th>
+                <th className='min-w-175px'>Bond Price</th>
+                <th className='min-w-175px'>APY</th>
                 <th className='min-w-200px'>Market Size</th>
                 <th className='min-w-150px'>Volumn(24H)</th>
                 <th className='min-w-200px text-end rounded-end'></th>
               </tr>
             </thead>
-            {/* end::Table head */}
 
-            {/* begin::Table body */}
             <tbody>
             { bonds.map((bond) => (
               <tr key={ bond.id }>
@@ -52,39 +51,39 @@ const Bonds = ({ className }) => {
                   </div>
                 </td>
                 <td>
-                  <a href='#' className='text-dark fw-bolder text-hover-primary d-block mb-1 fs-6'>
-                    { protocolData.protocolDataContract.bondPriceArray?.find(
-                      p => p.asset === bond.asset.address && 
-                      p.duration === bond.duration) ?? '-'}
-                  </a>
-                  <span className='text-muted fw-bold text-muted d-block fs-7'>Paid</span>
+                  <div className='text-dark fw-bolder text-hover-primary d-block mb-1 fs-6'>                    
+                    { formatToken(bondPriceArray?.find(
+                      p => p.assetAddress === bond.asset.address && 
+                      p.duration === bond.duration)?.price, {scale: 18, tokenName: bond.asset.symbol}) ?? '-' }
+                  </div>
                 </td>
                 <td>
-                  <a href='#' className='text-dark fw-bolder text-hover-primary d-block mb-1 fs-6'>
-                    $520
-                  </a>
-                  <span className='text-muted fw-bold text-muted d-block fs-7'>Rejected</span>
+                  <div className='text-dark fw-bolder text-hover-primary d-block mb-1 fs-6'>
+                    { formatPercent(calAPY(bondPriceArray?.find(
+                      p => p.assetAddress === bond.asset.address && 
+                      p.duration === bond.duration)?.price, 18, Number(bond.duration))) ?? '-' }
+                  </div>
                 </td>
                 <td>
-                  <a href='#' className='text-dark fw-bolder text-hover-primary d-block mb-1 fs-6'>
-                    Bradly Beal
-                  </a>
-                  <span className='text-muted fw-bold text-muted d-block fs-7'>Insurance</span>
+                  <div href='#' className='text-dark fw-bolder text-hover-primary d-block mb-1 fs-6'>
+                    { formatToken(
+                      (new BigNumber(bond.lpToken.contract.totalSupply).plus
+                      (new BigNumber(bond.bondToken.contract.totalSupply))), 
+                      {scale: bond.bondToken.decimals, tokenName: bond.asset.symbol} ) ?? '-' }
+                  </div>
                 </td>
                 <td>
-                  <span className='badge badge-light-primary fs-7 fw-bold'>Approved</span>
+                  <div href='#' className='text-dark fw-bolder text-hover-primary d-block mb-1 fs-6'>
+                    -
+                  </div>
                 </td>
               </tr>
             ))}
             </tbody>           
-            {/* end::Table body */}
             
           </table>
-          {/* end::Table */}
         </div>
-        {/* end::Table container */}
       </div>
-      {/* begin::Body */}
     </div>
   )
 }

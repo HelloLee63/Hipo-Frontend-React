@@ -1513,13 +1513,23 @@ class FinancingPoolContract extends Web3Contract {
 
   purchase(asset, duration, amount) {
     
-    if (this.account) {
+    if (!this.account) {
       return Promise.reject()
     }
 
     return this.send('purchase', [asset, duration, amount], {
-      form: this.account
+      from: this.account
     })
+  }
+
+  issue(collateralAsset, asset, amount, duration) {
+	if (!this.account) {
+		return Promise.reject()
+	}
+
+	return this.send('issue', [collateralAsset, asset, amount, duration], {
+		from: this.account
+	})
   }
 }
 

@@ -2,32 +2,24 @@ import { Form, Formik } from "formik"
 import { useEffect, useRef, useState } from "react"
 import { useKnownTokens } from "../../../../components/providers/knownTokensProvider"
 import { useWallet } from "../../../../wallets/walletProvider"
-import { useProtocolData } from "../../../../web3/components/providers/ProtocolDataProvider"
-import { formatPercent, formatToken } from "../../../../web3/utils"
+import { formatToken } from "../../../../web3/utils"
 import { StepperComponent } from "../../../../_metronic/assets/ts/components"
 import { KTSVG } from "../../../../_metronic/helpers/components/KTSVG"
+import CompleteTransaction from "../../components/steps/CompleTransaction"
 import { ConfirmTransaction } from "../../components/steps/ConfirmTransaction"
 import { InputAmount } from "../../components/steps/InputAmount"
 import { SelectCollateralAsset } from "../../components/steps/SelectCollateralAsset"
 import { pledgeInits, pledgeSchemas } from "../../components/TransactionHelper"
 import { useColPool } from "../../providers/colPool-provider"
 
-
 const PledgeView = () => {
 
-  const { poolLable, setPoolLable, pledging } = useColPool()
-  const [approveVisible, setApproveVisible] = useState(false)    
+  const { setPoolSymbol } = useColPool()
   const stepperRef = useRef(null)
   const stepper = useRef(null)
   const [currentSchema, setCurrentSchema] = useState(pledgeSchemas[0])
   const [initValues] = useState(pledgeInits)
   const walletCtx = useWallet()
-  const protocolData = useProtocolData()
-  const colPoolCtx = useColPool()
-  const collateralAddress = colPoolCtx.colPool.tokens[0].address
-
-  const maxLtv = protocolData.protocolDataContract.maxLtvMap?.get(collateralAddress)
-  const liquidationThreshold = protocolData.protocolDataContract.thresholdMap?.get(collateralAddress)
 
   const { 
     wethToken, 
@@ -55,16 +47,11 @@ const PledgeView = () => {
   const decimalsOfWETHUSDTToken = wethusdtLpToken.decimals
   const decimalsOfDAIWETHToken = daiwethLpToken.decimals
 
-
   const loadStepper = () => {
     stepper.current = StepperComponent.createInsance(stepperRef.current)
   }
 
   const prevStep = () => {
-
-    if(approveVisible) {
-      setApproveVisible(preApproveVisible => !preApproveVisible)
-    }
 
     if (!stepper.current) {
       return
@@ -81,8 +68,8 @@ const PledgeView = () => {
       return
     }
 
-    if (stepper.current.currentStepIndex == 1) {
-      setPoolLable(values.collateralAssetType)
+    if (stepper.current.currentStepIndex === 1) {
+      setPoolSymbol(() => values.collateralAssetType)  
     }
 
     setCurrentSchema(pledgeSchemas[stepper.current.currentStepIndex])
@@ -119,7 +106,6 @@ const PledgeView = () => {
 
                   <div className='stepper-label d-flex align-content-center'>
                     <h6 className='stepper-title'>Select Collateral</h6>
-                    {/* <div className='stepper-desc fw-bold'>Select Collateral Asset</div> */}
                   </div>      
                 </div>
 
@@ -132,7 +118,6 @@ const PledgeView = () => {
 
                   <div className='stepper-label d-flex align-content-center'>
                     <h6 className='stepper-title'>Input Amount</h6>
-                    {/* <div className='stepper-desc fw-bold'>Input Amount</div> */}
                   </div>      
                 </div>
 
@@ -145,11 +130,8 @@ const PledgeView = () => {
 
                   <div className='stepper-label'>
                     <h6 className='stepper-title'>Confirm Transaciton</h6>
-                    {/* <div className='stepper-desc fw-bold'>Confirm Your Transaciton</div> */}
                   </div>      
                 </div>
-
-
 
                 <div className='stepper-item' data-kt-stepper-element='nav'>
                   <div className='stepper-line w-20px'></div>
@@ -160,7 +142,6 @@ const PledgeView = () => {
 
                   <div className='stepper-label'>
                     <h6 className='stepper-title'>Complete</h6>
-                    {/* <div className='stepper-desc fw-bold'>Completed</div> */}
                   </div>      
                 </div>
               </div>
@@ -181,11 +162,15 @@ const PledgeView = () => {
                 </div>
 
                 <div data-kt-stepper-element='content'>                
-                  <InputAmount prevStep={prevStep} poolLable={poolLable} approveVisible= {approveVisible} setApproveVisible={setApproveVisible}/>
+                  <InputAmount prevStep={prevStep} />
                 </div>
 
                 <div data-kt-stepper-element='content'>
-                  <ConfirmTransaction prevStep={prevStep} />
+                  <ConfirmTransaction handleMethod={stepper.current} prevStep={prevStep} />
+                </div>
+
+                <div data-kt-stepper-element='content'>
+                  <CompleteTransaction />
                 </div>
               </Form>
             )}
@@ -195,25 +180,6 @@ const PledgeView = () => {
         <div className="col-4">
           <div className="card">
             <div className="card-body">
-              {/* <h6 className=" pb-3">Collateral Configuration</h6>
-              <div className="d-flex justify-content-between p-2 mb-1 rounded" >
-                <div className="mr-5">
-                  <span className="fs-7  p-0 mb-0 align-content-center">Max LTV</span>                  
-                </div>
-                <div className="me-3">
-                  <span className="fs-7  align-content-center">{formatPercent(maxLtv / 100) ?? '-'}</span>
-                </div> 
-              </div>
-
-              <div className="d-flex justify-content-between p-2 mb-1  rounded" >
-                <div className="mr-5">
-                  <span className="fs-7  align-content-center">Liquidation Threshold</span>                  
-                </div>
-                <div className="me-3">
-                  <span className="fs-7  align-content-center">{formatPercent(liquidationThreshold / 100) ?? '-'}</span>
-                </div> 
-              </div>
-              <div className='separator my-7'></div> */}
               <h6 className="pt-3 pb-7">Your Wallet</h6>
               <div className="d-flex justify-content-between p-2 mb-1 bg-info rounded" >
                 <div className="fs-7">

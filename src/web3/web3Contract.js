@@ -10,10 +10,7 @@ import EventEmitter from 'wolfy87-eventemitter';
 import { WEB3_ERROR_VALUE } from '../components/providers/web3Provider';
 import { getGasValue } from './utils';
 
-
 // import { PolygonHttpsWeb3Provider, WEB3_ERROR_VALUE } from 'components/providers/web3Provider';
-
-
 
 export class AbiTuple {
   items = [];

@@ -1,44 +1,43 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import BigNumber from 'bignumber.js'
-import { Field, useFormik } from 'formik'
+import { useFormik } from 'formik'
 import { useEffect, useState } from 'react'
 import { useConfig } from '../../../../components/providers/configProvider'
 import TokenIcon from '../../../../components/token-icon'
 import { useWallet } from '../../../../wallets/walletProvider'
 import { useProtocolData } from '../../../../web3/components/providers/ProtocolDataProvider'
-import { calAPY, formatPercent, formatToken } from '../../../../web3/utils'
+import { calAPY, formatPercent, formatToken, scaleBy } from '../../../../web3/utils'
 import { KTSVG } from '../../../../_metronic/helpers/components/KTSVG'
 import { useDebtPool } from '../../providers/debt-pool-provider'
 
 const InputDebtAssetAmount = ({ prevStep }) => {
-  const debtPoolCtx = useDebtPool()
-  const activePool = debtPoolCtx.debtPool
-  const tokenName = activePool.debtAsset.symbol
-  const tokenIcon = activePool.debtAsset.icon
-  const tokenDesc = activePool.debtAsset.desc
+
   const walletCtx = useWallet()
-  const decimals = activePool.debtAsset.contract.decimals
+  const config = useConfig()
+  const { bondPool, collateral, setIssueAmount } = useDebtPool()
+
+  const protocolData = useProtocolData()
+
   const [walletConnectVisible, setWalletConnectVisible] = useState(false)
   const [approveVisible, setApproveVisible] = useState(false)
   const [submitDisabledVisible, setSubmitDisabledVisible] = useState(false)
   const [submitVisible, setSubmitVisible] = useState(false)
-  const walletBalance = activePool.debtAsset.contract.balances?.get(walletCtx.account)
-  const config = useConfig()
-  const allowance = activePool.debtAsset.contract.allowances?.get(config.contracts.financingPool.financingPool)
   const [isEnabling, setEnabling] = useState(false)
-  const debtAssetAddress = activePool.debtAsset.address
-  const duration = new BigNumber(activePool.duration)
-  const protocolData = useProtocolData()
+
+  const walletBalance = bondPool.bondAsset.contract.balances?.get(walletCtx.account)
+  const allowance = bondPool.bondAsset.contract.allowances?.get(config.contracts.financingPool.financingPool)
+   
+  const debtAssetAddress = bondPool.bondAsset.address
+  const duration = bondPool.duration.duration
+  const decimals = bondPool.bondAsset.decimals
+
+  const bondIcon = bondPool?.icon
+  const bondSymbol = bondPool.bondAsset.symbol
+  const bondDurationDesc = bondPool.duration.description
   
-  const priceData = protocolData.protocolDataContract.bondPriceArray?.filter(function(data) {
-    if(data.assetAddress === debtAssetAddress && BigNumber(data.duration).eq(duration)){
-      return true
-    }
-  })
-
-  const bondPrice = priceData[0]?.price
-
-  const APR = formatPercent(calAPY(bondPrice, 18, Number(duration)))
+  const price = protocolData.getBondPrice(debtAssetAddress, duration)
+  
+  const APR = formatPercent(calAPY(price, decimals, Number(bondPool.duration.duration)))
 
   const issueFormik = useFormik({
     initialValues: {
@@ -47,65 +46,75 @@ const InputDebtAssetAmount = ({ prevStep }) => {
   })
 
   const inputAmount = new BigNumber(issueFormik.values.debtAssetAmount)
+  let value = new BigNumber(scaleBy(inputAmount, decimals))
+
+  const borrowAmount = new BigNumber(scaleBy(1, 18))
+
+  const collateralAmount = walletCtx.account ? collateral.contract.balances?.get(walletCtx.account) : undefined
 
   useEffect(() => {
-    if(walletCtx.account) {
-      if((new BigNumber(allowance).lt(inputAmount)) && !walletConnectVisible){
-        setApproveVisible(true)
-      } else {
-        setApproveVisible(false)
+
+    if (!walletCtx.account) {
+      setWalletConnectVisible(() => true)
+      setApproveVisible(() => false)
+      setSubmitDisabledVisible(() => false)
+      setSubmitVisible(() => false)
+      return
+    }
+
+    if (walletCtx.account) {
+      setWalletConnectVisible(() => false)
+
+      if (value.eq(0) || value.isNaN()) {
+        setSubmitDisabledVisible(() => true)
+        setApproveVisible(() => false)
+        setSubmitVisible(() => false)
+        return
       }
-    } else {
-      setApproveVisible(false)
-    }
-  }, [walletConnectVisible, inputAmount, walletCtx.account])
 
-  useEffect(() => {
-    if(!walletCtx.account) {
-      setWalletConnectVisible(true)
-    } else {
-      setWalletConnectVisible(false)
-    }
-  }, [walletCtx.account])
-
-  useEffect(() => {
-    if(inputAmount.eq(0)) {
-      if(!walletConnectVisible && !approveVisible && !submitVisible){
-        setSubmitDisabledVisible(true)
-      } else {
-        setSubmitDisabledVisible(false)
+      if (value.gt(0) && value.gt(allowance)) {
+        setApproveVisible(() => true)
+        setSubmitDisabledVisible(() => false)
+        setSubmitVisible(() => false)
+        return
       }
-    } else {
-      setSubmitDisabledVisible(false)
-    }
-    
-  }, [inputAmount, walletConnectVisible, approveVisible, submitVisible])
 
-  useEffect(() => {
-    if(walletCtx.account && inputAmount.gt(0)) {
-      if(!approveVisible && !walletConnectVisible) {
-        setSubmitVisible(true)
-      } else {
-        setSubmitVisible(false)
+      if (value.gt(0) && value.lte(allowance)) {
+        setApproveVisible(() => false)
+
+        if (value.gt(walletBalance)) {
+          setSubmitDisabledVisible(() => true)
+          setSubmitVisible(() => false)
+          return
+        }
+
+        if (value.lte(walletBalance)) {
+          setSubmitVisible(() => true)
+          setSubmitDisabledVisible(() => false)
+          return
+        }
       }
-    } else {
-      setSubmitVisible(false)
     }
-  }, [inputAmount, walletCtx.account, approveVisible, walletConnectVisible, submitDisabledVisible])
+
+  }, [walletCtx.account, value, walletBalance, allowance])
+
+  function handleSubmit() {
+    setIssueAmount(() => inputAmount)
+  }
 
   async function handleApprove() {
 
     if(walletCtx.account) {
       
-      setEnabling(true)
+      setEnabling(() => true)
 
       try {
-        await activePool.debtAsset.contract.approve(config.contracts.financingPool.financingPool, true)
+        await bondPool.bondAsset.contract.approve(config.contracts.financingPool.financingPool, true)
       } catch(e) {
         console.error(e)
       }
 
-      setEnabling(false)      
+      setEnabling(() => false)      
     }     
   }
   
@@ -114,9 +123,9 @@ const InputDebtAssetAmount = ({ prevStep }) => {
       <div className='card mb-2'>
         <div className='card-body pt-3 pb-3'>
           <TokenIcon 
-            tokenName={tokenName} 
-            tokenIcon={tokenIcon}
-            tokenDesc={tokenDesc} 
+            tokenName={`${bondSymbol} Bond`} 
+            tokenIcon={bondIcon}
+            tokenDesc={bondDurationDesc} 
           />
         </div>
       </div>
@@ -126,17 +135,15 @@ const InputDebtAssetAmount = ({ prevStep }) => {
           <input
             id='amount'
             type='text'
-            className='form-control form-control-lg form-control-solid fw-bolder bg-white border-0 text-primary text-center align-center'
+            className='form-control form-control-lg form-control-solid fw-bolder bg-white border-0 text-primary align-center'
             placeholder='0.0'
             name='debtAssetAmount'
-            // onChange={issueFormik.handleChange}
             value={issueFormik.values.debtAssetAmount}
             style={{ fontSize: 48 }}
             autoComplete='off'
             onChange={e => {
               e.preventDefault();
               const { value } = e.target;              
-              // const regex = /^(0*[1-9][0-9]*(\.[0-9]*)?|0*\.[0-9]*[1-9][0-9]*)$/;
               const regex = /^(0*[0-9][0-9]*(\.[0-9]*)?|0*\.[0-9]*[1-9][0-9]*)$/;
               if (regex.test(value)) {
                 issueFormik.setFieldValue('debtAssetAmount', value);
@@ -151,14 +158,14 @@ const InputDebtAssetAmount = ({ prevStep }) => {
           <div className='d-flex align-items-sm-center mb-4'>          
             <div className='d-flex flex-row-fluid flex-wrap align-items-center'>
               <div className='flex-grow-1 me-2'>
-                <a href='#' className='text-gray-800 fw-bolder text-hover-primary fs-6'>
-                  Wallet
-                </a>
+                <div className='text-gray-800 fw-bolder fs-6'>
+                  You will borrow
+                </div>
               </div>
               <div className='symbol symbol-50px me-2'>
-                <KTSVG path={activePool.debtAsset.icon} className='svg-icon svg-icon-2x' />
+                <KTSVG path={bondPool.bondAsset.icon} className='svg-icon svg-icon-1x' />
               </div>
-              <span className='fs-6 fw-bolder my-2'>{formatToken(walletBalance, {scale: decimals, tokenName: activePool.debtAsset.symbol})}</span>
+              <span className='fs-6 fw-bolder my-2'>{formatToken(walletBalance, {scale: decimals, tokenName: bondPool.bondAsset.symbol})}</span>
             </div>
           </div>
           {/* begin::Title */}
@@ -170,9 +177,9 @@ const InputDebtAssetAmount = ({ prevStep }) => {
                 </a>
               </div>
               <div className='symbol symbol-50px me-2'>
-                <KTSVG path={activePool.debtAsset.icon} className='svg-icon svg-icon-2x' />
+                <KTSVG path={bondPool.bondAsset.icon} className='svg-icon svg-icon-2x' />
               </div>
-              <span className='fs-6 fw-bolder my-2'>{formatToken(bondPrice, {scale: 18, tokenName: activePool.debtAsset.symbol}) ?? '-'}</span>
+              <span className='fs-6 fw-bolder my-2'>{formatToken(price, {scale: 18, tokenName: bondPool.bondAsset.symbol}) ?? '-'}</span>
             </div>
           </div>
           {/* end::Title */}
@@ -186,7 +193,7 @@ const InputDebtAssetAmount = ({ prevStep }) => {
                 </a>
               </div>
               <div className='symbol symbol-50px me-2'>
-                <KTSVG path={activePool.debtAsset.icon} className='svg-icon svg-icon-2x' />
+                <KTSVG path={bondPool.bondAsset.icon} className='svg-icon svg-icon-2x' />
               </div>
               <span className='fs-6 fw-bolder my-2'>{APR ?? '-'}</span>
             </div>
@@ -202,9 +209,9 @@ const InputDebtAssetAmount = ({ prevStep }) => {
                 </a>
               </div>
               <div className='symbol symbol-50px me-2'>
-                <KTSVG path={debtPoolCtx.collateral.collateralAsset.icon} className='svg-icon svg-icon-2x' />
+                <KTSVG path={collateral.collateralAsset.icon} className='svg-icon svg-icon-2x' />
               </div>
-              <span className='fs-6 fw-bolder my-2'>{APR ?? '-'}</span>
+              <span className='fs-6 fw-bolder my-2'>{formatToken(collateralAmount, { scale: 18 }) ?? '-'}</span>
             </div>
           </div>
           {/* end::Title */}
@@ -286,6 +293,7 @@ const InputDebtAssetAmount = ({ prevStep }) => {
           <button 
             type='submit' 
             className='btn btn-lg btn-primary me-0'
+            onClick={handleSubmit}
           >
             <span className='indicator-label'>              
               Submit

@@ -1,12 +1,11 @@
-import BigNumber from "bignumber.js"
 import { Form, Formik } from "formik"
 import { useEffect, useRef, useState } from "react"
 import { useKnownTokens } from "../../../../components/providers/knownTokensProvider"
 import { useWallet } from "../../../../wallets/walletProvider"
-import { useProtocolData } from "../../../../web3/components/providers/ProtocolDataProvider"
-import { calAPY, formatPercent, formatToken } from "../../../../web3/utils"
+import { formatToken } from "../../../../web3/utils"
 import { StepperComponent } from "../../../../_metronic/assets/ts/components"
 import { KTSVG } from "../../../../_metronic/helpers/components/KTSVG"
+import CompleteIssueTransaction from "../../components/steps/CompleteIssueTransaction"
 import { ConfirmTransaction } from "../../components/steps/ConfirmTransaction"
 import { InputDebtAssetAmount } from "../../components/steps/InputDebtAmount"
 import SelectCollateral from "../../components/steps/SelectCollateral"
@@ -15,33 +14,14 @@ import { SelectDebtDuration } from "../../components/steps/SelectDebtDuration"
 import { issueInits, issueSchemas } from "../../components/TransactionHelper"
 import { useDebtPool } from "../../providers/debt-pool-provider"
 
-
 const IssueWizards = () => {
 
-  const debtPoolCtx = useDebtPool()
+  const { setPoolSymbol, setDebtAssetToken, setDebtDuration } = useDebtPool()
   const stepperRef = useRef(null)
   const stepper = useRef(null)
   const [currentSchema, setCurrentSchema] = useState(issueSchemas[0])
   const [initValues] = useState(issueInits)
   const walletCtx = useWallet()
-  const activePool = debtPoolCtx.debtPool
-  const collateral = debtPoolCtx.collateral
-  const debtAssetAddress = activePool.debtAsset.address
-  const duration = new BigNumber(activePool.duration)
-
-  console.log(collateral);
-
-  const protocolData = useProtocolData()
-  
-  const priceData = protocolData.protocolDataContract.bondPriceArray?.filter(function(data) {
-    if(data.assetAddress === debtAssetAddress && BigNumber(data.duration).eq(duration)){
-      return true
-    }
-  })
-
-  const bondPrice = priceData[0]?.price
-
-  const APR = formatPercent(calAPY(bondPrice, 18, Number(duration)))
 
   const { 
     wethToken, 
@@ -86,15 +66,15 @@ const IssueWizards = () => {
   const submitStep = (values, actions) => {
 
     if(stepper.current.currentStepIndex === 1) {
-      debtPoolCtx.setPoolSymbol(values.collateralAssetType)
+      setPoolSymbol(values.collateralAssetType)
     }
 
     if(stepper.current.currentStepIndex === 2) {
-      debtPoolCtx.setDebtAssetToken(values.debtAssetType)
+      setDebtAssetToken(values.debtAssetType)
     }
 
     if(stepper.current.currentStepIndex === 3) {
-      debtPoolCtx.setDebtDuration(values.debtDuration)
+      setDebtDuration(values.debtDuration)
     }
 
     if (!stepper.current) {
@@ -126,7 +106,6 @@ const IssueWizards = () => {
           <div className="card">
             <div className="card-body">
               <div className="stepper-nav">
-                {/* step 1 start: */}
                 <div className='stepper-item current' data-kt-stepper-element='nav'>
                   <div className='stepper-line w-20px'></div>
                   <div className='stepper-icon w-20px h-20px'>
@@ -136,12 +115,9 @@ const IssueWizards = () => {
 
                   <div className='stepper-label'>
                     <h3 className='stepper-title'>Select Collateral</h3>
-                    {/* <div className='stepper-desc fw-bold'>Select Collateral Asset</div> */}
                   </div>      
                 </div>
-                {/* step 1 end */}
 
-                {/* step 2 start: */}
                 <div className='stepper-item' data-kt-stepper-element='nav'>
                   <div className='stepper-line w-20px'></div>
                   <div className='stepper-icon w-20px h-20px'>
@@ -151,12 +127,9 @@ const IssueWizards = () => {
 
                   <div className='stepper-label'>
                       <h3 className='stepper-title'>Select Asset</h3>
-                      {/* <div className='stepper-desc fw-bold'>Select Asset</div> */}
                   </div>      
                 </div>
-                {/* step 2 end */}
 
-                {/* step 3 start: */}
                 <div className='stepper-item' data-kt-stepper-element='nav'>
                   <div className='stepper-line w-20px'></div>
                   <div className='stepper-icon w-20px h-20px'>
@@ -166,12 +139,9 @@ const IssueWizards = () => {
 
                   <div className='stepper-label'>
                     <h3 className='stepper-title'>Select Duration</h3>
-                    {/* <div className='stepper-desc fw-bold'>Select Duration</div> */}
                   </div>      
                 </div>
-                {/* step 3 end */}
 
-                {/* step 4 start: */}
                 <div className='stepper-item' data-kt-stepper-element='nav'>
                   <div className='stepper-line w-20px'></div>
                   <div className='stepper-icon w-20px h-20px'>
@@ -181,12 +151,9 @@ const IssueWizards = () => {
 
                   <div className='stepper-label'>
                     <h3 className='stepper-title'>Input Amount</h3>
-                    {/* <div className='stepper-desc fw-bold'>Input Amount</div> */}
                   </div>      
                 </div>
-                {/* step 4 end */}
 
-                {/* step 5 start: */}
                 <div className='stepper-item' data-kt-stepper-element='nav'>
                   <div className='stepper-line w-20px'></div>
 
@@ -197,10 +164,21 @@ const IssueWizards = () => {
 
                   <div className='stepper-label'>
                     <h3 className='stepper-title'>Confirm Transaction</h3>
-                    {/* <div className='stepper-desc fw-bold'>Input Amount</div> */}
                   </div>      
                 </div>
-                {/* step 5 end */}
+
+                <div className='stepper-item' data-kt-stepper-element='nav'>
+                  <div className='stepper-line w-20px'></div>
+
+                  <div className='stepper-icon w-20px h-20px'>
+                    <i className='stepper-check fas fa-check'></i>
+                    <span className='stepper-number'>6</span>
+                  </div>
+
+                  <div className='stepper-label'>
+                    <h3 className='stepper-title'>Complete</h3>
+                  </div>      
+                </div>
               </div>
             </div>
           </div>
@@ -227,7 +205,11 @@ const IssueWizards = () => {
                 </div>
 
                 <div data-kt-stepper-element='content'>
-                  <ConfirmTransaction prevStep={prevStep} />
+                  <ConfirmTransaction  handleMethod={stepper.current} prevStep={prevStep} />
+                </div>
+
+                <div data-kt-stepper-element='content'>
+                  <CompleteIssueTransaction />
                 </div>
               </Form>
             )}
@@ -237,55 +219,6 @@ const IssueWizards = () => {
         <div className="col-4">
           <div className="card">
             <div className="card-body">
-              {/* <h6 className=" pb-3">Bond Market</h6>
-
-              <div className="d-flex justify-content-between p-2 mb-1  rounded" >
-                <div className="mr-5">
-                  <span className="fs-7  p-0 mb-0 align-content-center">Bond Price</span>                  
-                </div>
-                <div className="me-3">
-                  <span className="fs-7 align-content-center">{formatToken(bondPrice, {scale: 18, tokenName: activePool.debtAsset.symbol}) ?? '-'}</span>
-                </div> 
-              </div>
-
-              <div className="d-flex justify-content-between p-2 mb-1 rounded" >
-                <div className="mr-5">
-                  <span className="fs-7 p-0 mb-0 align-content-center">Duration</span>                  
-                </div>
-                <div className="me-3">
-                  <span className="fs-7 align-content-center">{activePool.duration} Days</span>
-                </div> 
-              </div>
-
-              <div className="d-flex justify-content-between p-2 mb-1 rounded" >
-                <div className="mr-5">
-                  <span className="fs-7  p-0 mb-0 align-content-center">Fixed Interest Rate (APR)</span>                  
-                </div>
-                <div className="me-3">
-                  <span className="fs-7  align-content-center">{APR}</span>
-                </div> 
-              </div>
-
-              <div className="d-flex justify-content-between p-2 mb-1 rounded" >
-                <div className="mr-5">
-                  <span className="fs-7  align-content-center">Your Collateral</span>                  
-                </div>
-                <div className="me-3">
-                  <span className="fs-7  align-content-center"></span>
-                </div> 
-              </div>
-
-              <div className="d-flex justify-content-between p-2 mb-1 rounded" >
-                <div className="mr-5">
-                  <span className="fs-7  align-content-center">LTV</span>                  
-                </div>
-                <div className="me-3">
-                  <span className="fs-7  align-content-center"></span>
-                </div> 
-              </div>
-
-              <div className='separator my-7'></div> */}
-
               <h6 className="pt-3 pb-7">Your Wallet</h6>
               <div className="d-flex justify-content-between p-2 mb-1 bg-info rounded" >
                 <div className="fs-7">
@@ -354,8 +287,7 @@ const IssueWizards = () => {
           </div>
         </div>
       </div>
-    </div>
-    
+    </div>    
   )
 }
 

@@ -57,6 +57,8 @@ export function useDebtTokenContract(address) {
 }
 
 const ContractManagerProvider = props => {
+
+  console.log('Contract Manager Provider is rendered');
   const { children } = props
 
   const wallet = useWallet()

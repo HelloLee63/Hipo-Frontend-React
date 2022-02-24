@@ -18,15 +18,13 @@ class ProtocolDataContract extends Web3Contract {
       super(ProtocolDataABI, address, '')
       this.maxLtvMap = new Map()
       this.thresholdMap = new Map()
-      this.bondPriceMap = new Map()
       this.bondPriceObject = new Object()
       this.bondPriceArray = new Array()
-      
 
       this.on(Web3Contract.UPDATE_DATA, () => {
         // this.maxLtvMap.clear()
         // this.thresholdMap.clear()
-        this.bondPriceMap.clear()
+        // this.bondPriceArray = []
         this.emit(Web3Contract.UPDATE_DATA)
       })
   }
@@ -40,43 +38,43 @@ class ProtocolDataContract extends Web3Contract {
 
         const configuration = Object.values(this.collateralConfigurationData)
         
-
         if(configuration) {
           this.maxLtvMap.set(collateralAssetAddress, configuration[1])
           
           this.thresholdMap.set(collateralAssetAddress, configuration[2])
           
-          this.emit(Web3Contract.UPDATE_ACCOUNT)
-          
+          this.emit(Web3Contract.UPDATE_ACCOUNT)          
         }        
     }
 
     async loadBondPrice(assetAddress, duration, hipoV1AMMfactory) {
         const bondPrice = await this.call('getBondPrice', [assetAddress, duration, hipoV1AMMfactory])
+        this.bondPriceObject = {}
   
         if (bondPrice) {
           this.bondPrice = bondPrice
-          this.bondPriceMap.set(assetAddress, bondPrice)
 
           this.bondPriceObject.assetAddress = assetAddress
-          this.bondPriceObject.duration = duration
+          this.bondPriceObject.duration = duration.toString()
           this.bondPriceObject.price = bondPrice
 
-          if(this.bondPriceArray.length === 0) {
+          if (this.bondPriceArray.length === 0) {
             this.bondPriceArray.push(this.bondPriceObject)
           }
             
-          const priceData = this.bondPriceArray.filter(function(data) {
+          this.bondPriceArray.forEach((data) => {
 
-            if(data.assetAddress !== assetAddress || data.duration !== duration) {
+            if(data.assetAddress !== assetAddress && data.duration !== duration) {
               this.bondPriceArray.push(this.bondPriceObject)
             }
 
-            if(data.assetAddress === assetAddress || data.duration === duration) {
+            if(data.assetAddress === assetAddress && data.duration === duration) {
               data.price = bondPrice
             }              
           })
 
+          console.log(this.bondPriceArray);
+          
           this.emit(Web3Contract.UPDATE_DATA)
         }        
       }

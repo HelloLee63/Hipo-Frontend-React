@@ -1,6 +1,5 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import { ErrorMessage, Field, useFormik} from 'formik'
-
+import { useFormik} from 'formik'
 import TokenIcon from '../../../../components/token-icon'
 import { useWallet } from '../../../../wallets/walletProvider'
 import { useProtocolData } from '../../../../web3/components/providers/ProtocolDataProvider'
@@ -10,21 +9,14 @@ import { useEffect, useState } from 'react'
 import { useConfig } from '../../../../components/providers/configProvider'
 import { calAPY, formatPercent, formatToken, scaleBy } from '../../../../web3/utils'
 import BigNumber from 'bignumber.js'
-import { useFinancingPool } from '../../../../web3/components/providers/FinancingPoolProvider'
 
 const InputPurchaseAmount = ({ prevStep }) => {
 
-  const bondPoolCtx = useBondPool()
-  const activePool = bondPoolCtx.bondPool
-  const wallet = useWallet()
+  const walletCtx = useWallet()
   const config = useConfig()
-  const walletBalance = activePool.bondAsset.contract.balances?.get(wallet.account)
+  const bondPoolCtx = useBondPool()
+
   const protocolData = useProtocolData()
-  const bondPrice = protocolData.protocolDataContract.bondPriceMap?.get(activePool.bondAsset.address)
-  const decimals = activePool.bondAsset.decimals
-  const allowance = activePool.bondAsset.contract.allowances.get(config.contracts.financingPool.financingPool)
-  const APY = formatPercent(calAPY(bondPrice, decimals, Number(activePool.duration)))
-  const financingPool = useFinancingPool()
 
   const [walletConnectVisible, setWalletConnectVisible] = useState(false)
   const [approveVisible, setApproveVisible] = useState(false)
@@ -32,80 +24,38 @@ const InputPurchaseAmount = ({ prevStep }) => {
   const [submitVisible, setSubmitVisible] = useState(false)
   const [isEnabling, setEnabling] = useState(false)
 
+  const activePool = bondPoolCtx.pool
+  const walletBalance = activePool.bondAsset.contract.balances?.get(walletCtx.account)
+  const allowance = activePool.bondAsset.contract.allowances.get(config.contracts.financingPool.financingPool)
+
+  console.log(allowance);
+  const decimals = activePool.bondAsset.decimals
+  
+  const bondPrice = protocolData.getBondPrice(activePool.bondAsset.address, activePool.duration.duration)
+  // const APY = formatPercent(calAPY(bondPrice, decimals, Number(activePool.duration)))
+  const APY = protocolData.getBondPrice(activePool.bondAsset.address, activePool.duration.duration, activePool.bondAsset.symbol)?.apy
+
   const formik = useFormik({
     initialValues: {
-      bondAssetAmount: '0.0',
+      bondAssetAmount: '',
     }
   })
 
   const inputAssetAmount = new BigNumber(formik.values.bondAssetAmount)
-
-  useEffect(() => {
-    if(wallet.account) {
-      if((new BigNumber(allowance).lt(inputAssetAmount)) && !walletConnectVisible){
-        setApproveVisible(true)
-      } else {
-        setApproveVisible(false)
-      }
-    } else {
-      setApproveVisible(false)
-    }
-  }, [walletConnectVisible, inputAssetAmount, wallet.account])
-
-  useEffect(() => {
-    if(!wallet.account) {
-      setWalletConnectVisible(true)
-    } else {
-      setWalletConnectVisible(false)
-    }
-  }, [wallet.account])
-
-  useEffect(() => {
-    if(inputAssetAmount.eq(0) || inputAssetAmount.isNaN()) {
-      if(!walletConnectVisible && !approveVisible && !submitVisible){
-        setSubmitDisabledVisible(true)
-      } else {
-        setSubmitDisabledVisible(false)
-      }
-    } else {
-      setSubmitDisabledVisible(false)
-    }
-    
-  }, [inputAssetAmount, walletConnectVisible, approveVisible, submitVisible])
-
-  useEffect(() => {
-    if(wallet.account && inputAssetAmount.gt(0)) {
-      if(!approveVisible && !walletConnectVisible) {
-        setSubmitVisible(true)
-      } else {
-        setSubmitVisible(false)
-      }
-    } else {
-      setSubmitVisible(false)
-    }
-  }, [inputAssetAmount, wallet.account, approveVisible, walletConnectVisible, submitDisabledVisible])
-
-
-  useEffect(() => {
-    if (allowance?.lte(new BigNumber(formik.values.bondAssetAmount))){
-      bondPoolCtx.setApproveVisible(true)
-    } else {
-      bondPoolCtx.setApproveVisible(false)
-    }
-  }, [allowance, formik.values.bondAssetAmount])
+  const value = new BigNumber(scaleBy(inputAssetAmount, decimals))
 
   function handleSubmit() {
-    bondPoolCtx.setPurchaseAmount(inputAssetAmount)
+    bondPoolCtx.setPurchaseAmount(() => inputAssetAmount)
   }
 
   async function handleApprove() {
 
-    if(wallet.account) {
+    if(walletCtx.account) {
       
       setEnabling(true)
 
       try {
-        await bondPoolCtx.bondPool.bondAsset.contract.approve(config.contracts.financingPool.financingPool, true)
+        await bondPoolCtx.pool.bondAsset.contract.approve(config.contracts.financingPool.financingPool, true)
       } catch(e) {
         console.error(e)
       }
@@ -114,24 +64,59 @@ const InputPurchaseAmount = ({ prevStep }) => {
     }     
   }
 
-  async function handlePurchase() {
-    let value = scaleBy(inputAssetAmount, decimals)
-    let assetAddress = activePool.bondAsset.address
-    let duration = new BigNumber(activePool.duration)
+  useEffect(() => {
 
-    try {
-      await financingPool.financingPoolContract?.purchase(assetAddress, duration, value)
-    } catch (e) {}
-  }
+    if (!walletCtx.account) {
+      setWalletConnectVisible(() => true)
+      setApproveVisible(() => false)
+      setSubmitDisabledVisible(() => false)
+      setSubmitVisible(() => false)
+      return
+    }
+
+    if (walletCtx.account) {
+      setWalletConnectVisible(() => false)
+
+      if (value.eq(0) || value.isNaN()) {
+        setSubmitDisabledVisible(() => true)
+        setApproveVisible(() => false)
+        setSubmitVisible(() => false)
+        return
+      }
+
+      if (value.gt(0) && value.gt(allowance)) {
+        setApproveVisible(() => true)
+        setSubmitDisabledVisible(() => false)
+        setSubmitVisible(() => false)
+        return
+      }
+
+      if (value.gt(0) && value.lte(allowance)) {
+        setApproveVisible(() => false)
+
+        if (value.gt(walletBalance)) {
+          setSubmitDisabledVisible(() => true)
+          setSubmitVisible(() => false)
+          return
+        }
+
+        if (value.lte(walletBalance)) {
+          setSubmitVisible(() => true)
+          setSubmitDisabledVisible(() => false)
+          return
+        }
+      }
+    }
+
+  }, [walletCtx.account, value, walletBalance, allowance])
 
   return (
     <div>
       <div className='card mb-2'>
         <div className='card-body pt-3 pb-3'>
           <TokenIcon 
-            className='' 
             tokenName={activePool.bondAsset.symbol}
-            tokenDesc={activePool.duration}
+            tokenDesc={activePool.duration.description}
             tokenIcon={activePool.icon}
           />
         </div>
@@ -139,15 +124,24 @@ const InputPurchaseAmount = ({ prevStep }) => {
 
       <div className='card mb-2'>
         <div className='card-body p-0'>
-          <Field
-              type='text'
-              className='form-control form-control-lg fw-bolder bg-white border-0 text-primary text-center align-center'
-              placeholder='0.0'
-              name='bondAssetAmount'
-              onChange={formik.handleChange}
-              value={formik.values.bondAssetAmount}
-              style={{ fontSize: 48 }}
-            />
+          <input
+            id='purchaseAmount'
+            type='text'
+            className='form-control form-control-lg fw-bolder bg-white border-0 text-primary align-center'
+            placeholder='0.0'
+            name='bondAssetAmount'
+            value={formik.values.bondAssetAmount}
+            autoComplete='off'              
+            style={{ fontSize: 48 }}
+            onChange={e => {
+              e.preventDefault();
+              const { value } = e.target;              
+              const regex = /^(0*[0-9][0-9]*(\.[0-9]*)?|0*\.[0-9]*[1-9][0-9]*)$/;
+              if (regex.test(value)) {
+                formik.setFieldValue('bondAssetAmount', value);
+              }
+            }}
+          />
         </div>
       </div>
       
@@ -160,9 +154,21 @@ const InputPurchaseAmount = ({ prevStep }) => {
               </a>
             </div>
             <div className='symbol symbol-50px me-2'>
-              <KTSVG path={activePool.bondAsset.icon} className='svg-icon svg-icon-2x' />
+              <KTSVG path={activePool.bondAsset.icon} className='svg-icon svg-icon-1x' />
             </div>
             <span className='fs-6 fw-bolder my-2'></span>
+          </div>
+
+          <div className='d-flex flex-row-fluid flex-wrap align-items-center  mb-4'>
+            <div className='flex-grow-1 me-2'>
+              <a href='#' className='text-gray-800 fw-bolder text-hover-primary fs-6'>
+                Bond Price
+              </a>
+            </div>
+            <div className='symbol symbol-50px me-2'>
+              <KTSVG path={activePool.icon} className='svg-icon svg-icon-1x' />
+            </div>
+            <span className='fs-6 fw-bolder my-2'>{formatToken(bondPrice, { scale: 18, tokenName: activePool.bondAsset.symbol}) ?? '-'}</span>
           </div>
 
           <div className='d-flex flex-row-fluid flex-wrap align-items-center mb-4'>
@@ -206,6 +212,7 @@ const InputPurchaseAmount = ({ prevStep }) => {
             Back
           </button>
         </div>
+
         {walletConnectVisible &&
         <div>            
           <button 
@@ -222,6 +229,7 @@ const InputPurchaseAmount = ({ prevStep }) => {
             </span>
           </button>
         </div>}
+
         {approveVisible &&
         <div>            
           <button 
@@ -245,6 +253,7 @@ const InputPurchaseAmount = ({ prevStep }) => {
             
           </button>
         </div>}
+
         {submitDisabledVisible &&
         <div>            
           <button 
@@ -253,7 +262,7 @@ const InputPurchaseAmount = ({ prevStep }) => {
             disabled
           >
             <span className='indicator-label'>              
-              Submit
+              Submit2
               <KTSVG
                 path='/media/icons/duotune/arrows/arr064.svg'
                 className='svg-icon-3 ms-2 me-0'
@@ -261,6 +270,7 @@ const InputPurchaseAmount = ({ prevStep }) => {
             </span>
           </button>
         </div>}
+
         {submitVisible &&
         <div>            
           <button 
@@ -278,8 +288,7 @@ const InputPurchaseAmount = ({ prevStep }) => {
           </button>
         </div>}
       </div>
-    </div>
-    
+    </div>    
   )
 }
 

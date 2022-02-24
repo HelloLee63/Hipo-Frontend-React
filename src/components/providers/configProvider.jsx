@@ -10,6 +10,8 @@ export function useConfig() {
 }
 
 const ConfigProvider = props => {
+
+    console.log('Config provider is rendered');
     const { children } = props
     const { activeNetwork } = useNetwork()
     const config = activeNetwork.config

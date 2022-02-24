@@ -1,35 +1,15 @@
 import { useState, useMemo, useEffect, createContext, useCallback, useRef, useContext } from "react";
 import { useSessionStorage } from "react-use-storage";
-import SafeProvider, { useSafeAppSDK } from '@gnosis.pm/safe-apps-react-sdk'
-
-// import { AbstractConnector } from '@web3-react/abstract-connector';
 import { UnsupportedChainIdError, Web3ReactProvider, useWeb3React } from '@web3-react/core';
 import { NoEthereumProviderError } from '@web3-react/injected-connector';
-
-
-// import * as Antd from 'antd';
 import BigNumber from 'bignumber.js';
 import { ethers } from 'ethers';
 import Web3 from 'web3';
 import EventEmitter from 'wolfy87-eventemitter';
-
 import { useNetwork } from "../components/providers/networkProvider";
-
 import { InvariantContext } from "../utils/context";
-
-
 import ConnectWalletModal from './components/connetct-wallet-modal/index';
-// import InstallMetaMaskModal from 'wallets/components/install-metamask-modal';
-// import UnsupportedChainModal from 'wallets/components/unsupported-chain-modal';
-// import CoinbaseWalletConfig from 'wallets/connectors/coinbase';
-// import GnosisSafeConfig from 'wallets/connectors/gnosis-safe';
-// import LedgerWalletConfig from 'wallets/connectors/ledger';
 import MetamaskWalletConfig from './connectors/metamask';
-// import PortisWalletConfig from 'wallets/connectors/portis';
-// import TrezorWalletConfig from 'wallets/connectors/trezor';
-// import WalletConnectConfig from 'wallets/connectors/wallet-connect';
-
-// import WalletConnectConfig from "./connectors/wallet-connect";
 
 export const WalletConnectors = [
     MetamaskWalletConfig,
@@ -42,24 +22,23 @@ export function useWallet() {
 }
 
 const Web3WalletProvider = props => {
+
+    console.log('Web3 Wallet Provider is rendered');
+
     const { activeNetwork } = useNetwork();
     const web3React = useWeb3React();
-    // const safeApps = useSafeAppSDK();
-    const [sessionProvider, setSessionProvider, removeSessionProvider] = useSessionStorage('wallet_provider',)
- 
+    const [sessionProvider, setSessionProvider, removeSessionProvider] = useSessionStorage('wallet_provider') 
     const event = useMemo(() => new EventEmitter(), [])
-
     const [initialized, setInitialized] = useState(false)
     const [connecting, setConnecting] = useState()
-
     const connectingRef = useRef(connecting)
     connectingRef.current = connecting
 
     const [activeMeta, setActivemeta] = useState()
     const [ethBalance, setEthBalance] = useState()
     const [ensName, setENSName] = useState()
-    const [ensAvatar, setENSAvatar]= useState()
 
+    const [ensAvatar, setENSAvatar]= useState()
     const [connectWalletModal, setConnectWalletModal] = useState(false)
     const [unsupportedChainModal, setUnsupportedChainModal] = useState()
     const [installMetaMaskModal, setInstallMetaMaskModal] = useState()
@@ -126,7 +105,7 @@ const Web3WalletProvider = props => {
     )
 
     useEffect(() => {
-        setEthBalance(undefined);
+        setEthBalance(undefined)
         setENSName(undefined)
         setENSAvatar(undefined)
 
@@ -175,55 +154,43 @@ const Web3WalletProvider = props => {
         })()
     }, [])
 
-    // useEffect(() => {
-    //     if (safeApps.connected) {
-    //         connect(GnosisSafeConfig).catch(Error)
-    //     }
-    // }, [safeApps.connected])
-
     const value = {
-        initialized,
-        connecting,
-        isActive: web3React.active,
-        account: web3React.account ?? undefined,
-        meta: activeMeta,
-        connector: web3React.connector,
-        provider: web3React.library,
-        ethBalance,
-        showWalletModal: () => {
-            setConnectWalletModal(true)
-        },
-        connect,
-        disconnect,
-        event,
-        ens: {
-            name: ensName,
-            avatar: ensAvatar,
-        },
+			initialized,
+			connecting,
+			isActive: web3React.active,
+			account: web3React.account ?? undefined,
+			meta: activeMeta,
+			connector: web3React.connector,
+			provider: web3React.library,
+			ethBalance,
+			connect,
+			disconnect,
+			event,
+			ens: {
+					name: ensName,
+					avatar: ensAvatar,
+			},
     }
 
     return (
         <Context.Provider value={value}>
             {props.children}
             <ConnectWalletModal />
-            {/* {connectWalletModal && <ConnectWalletModal onCancel={() => setConnectWalletModal(false)} />} */}
-            {/* {installMetaMaskModal && <InstallMetaMaskModal onCancel={() => setInstallMetaMaskModal(false)} />}
-            {unsuportedChainModal && <unsuportedChainModal onCancel={() => setUnsupportedChainModal(false)} />} */}
         </Context.Provider>
     )
 }
 
 const WalletProvider = props => {
-    const { children } = props
 
-    return (
-        <Web3ReactProvider getLibrary={library => library}>
-            {/* <SafeProvider> */}
-            <Web3WalletProvider>{children}</Web3WalletProvider>
-            {/* </SafeProvider> */}
-        </Web3ReactProvider>
-    )
+	console.log('Wallet Provider is rendered');
 
+	const { children } = props
+
+	return (
+		<Web3ReactProvider getLibrary={library => library}>
+			<Web3WalletProvider>{children}</Web3WalletProvider>
+		</Web3ReactProvider>
+	)
 }
 
 export default WalletProvider

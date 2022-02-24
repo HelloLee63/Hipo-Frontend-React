@@ -1,33 +1,28 @@
-import BigNumber from "bignumber.js"
 import { Form, Formik } from "formik"
 import { useEffect, useRef, useState } from "react"
-import { useConfig } from "../../../../components/providers/configProvider"
+
 import { useKnownTokens } from "../../../../components/providers/knownTokensProvider"
 import { useWallet } from "../../../../wallets/walletProvider"
-import { useProtocolData } from "../../../../web3/components/providers/ProtocolDataProvider"
-import { calAPY, formatPercent, formatToken } from "../../../../web3/utils"
+import { formatToken } from "../../../../web3/utils"
 import { StepperComponent } from "../../../../_metronic/assets/ts/components"
 import { KTSVG } from "../../../../_metronic/helpers/components/KTSVG"
 import { BorrowedAsset } from "../../components/steps/BorrowedAsset"
+import CompletePurchaseTransaction from "../../components/steps/CompletePurchaseTransaction"
+import ConfirmPurchaseTransaction from "../../components/steps/ConfirmPurchaseTransaction"
 import { InputPurchaseAmount } from "../../components/steps/InputPurchaseAmount"
 import { SelectBondDuration } from "../../components/steps/SelectBondDuration"
 import { purchaseInits, purchaseSchemas } from "../../components/TransactionHelper"
 import { useBondPool } from "../../providers/bond-pool-provider"
 
-const PurchaseView = props => {
+const PurchaseView = () => {
 
-  const { approveVisible, setApproveVisible, setSymbol, setDuration } = useBondPool()
-  const bondPoolCtx = useBondPool()
-  const activePool = bondPoolCtx.bondPool
-  const config = useConfig()
-  const [enabling, setEnabling] = useState(false)
-
+  const walletCtx = useWallet()
+  const { setSymbol, setDuration } = useBondPool()
+  
   const stepperRef = useRef(null)
   const stepper = useRef(null)
   const [currentSchema, setCurrentSchema] = useState(purchaseSchemas[0])
   const [initValues] = useState(purchaseInits)
-  const walletCtx = useWallet()
-
 
   const { 
     wethToken, 
@@ -54,20 +49,6 @@ const PurchaseView = props => {
   const decimalsOfUSDCWETHToken = usdcwethLpToken.decimals
   const decimalsOfWETHUSDTToken = wethusdtLpToken.decimals
   const decimalsOfDAIWETHToken = daiwethLpToken.decimals
-
-  const protocolData = useProtocolData()
-  const duration = activePool.duration
-  const bondAssetAddress = activePool.bondAsset.address
-  
-  const priceData = protocolData.protocolDataContract.bondPriceArray?.filter(function(data) {
-    if(data.assetAddress === bondAssetAddress && BigNumber(data.duration).eq(duration)){
-      return true
-    }
-  })
-
-  const bondPrice = priceData[0]?.price
-
-  const APR = formatPercent(calAPY(bondPrice, 18, Number(duration)))
 
   const loadStepper = () => {
     stepper.current = StepperComponent.createInsance(stepperRef.current)
@@ -97,10 +78,6 @@ const PurchaseView = props => {
       setDuration(values.bondAssetDuration)
     }
 
-    // if ( approveVisible) {
-    //   handleEnable()
-    // }
-
     setCurrentSchema(purchaseSchemas[stepper.current.currentStepIndex])
 
     if (stepper.current.currentStepIndex !== stepper.current.totatStepsNumber) {
@@ -119,16 +96,6 @@ const PurchaseView = props => {
     loadStepper()
   }, [stepperRef])
 
-  async function handleEnable() {
-    setEnabling(true)
-
-    try {
-      await bondPoolCtx.bondPool.bondAsset.contract.approve(config.contracts.financingPool?.financingPool, true)
-    } catch {}
-    setApproveVisible(false)
-    setEnabling(false)
-  }
-
   return (
     <div ref={stepperRef} className='stepper stepper-pills stepper-column' id='kt_create_account_stepper'>
       <div className="row">
@@ -136,51 +103,76 @@ const PurchaseView = props => {
           <div className="card">
             <div className="card-body">
               <div className='stepper-nav'>
-              <div className='stepper-item current' data-kt-stepper-element='nav'>
-                <div className='stepper-line w-20px'></div>
-                <div className='stepper-icon w-20px h-20px'>
-                  <i className='stepper-check fas fa-check'></i>
-                  <span className='stepper-number'>1</span>
+                <div className='stepper-item current' data-kt-stepper-element='nav'>
+                  <div className='stepper-line w-20px'></div>
+                  <div className='stepper-icon w-20px h-20px'>
+                    <i className='stepper-check fas fa-check'></i>
+                    <span className='stepper-number'>1</span>
+                  </div>
+
+                  <div className='stepper-label'>
+                    <h3 className='stepper-title'>Select Asset</h3>
+                  </div>      
                 </div>
 
-                <div className='stepper-label'>
-                  <h3 className='stepper-title'>Select Asset</h3>
-                  {/* <div className='stepper-desc fw-bold'>Borrowed Asset</div> */}
-                </div>      
-              </div>
+                <div className='stepper-item' data-kt-stepper-element='nav'>
+                  <div className='stepper-line w-20px'></div>
+                  <div className='stepper-icon w-20px h-20px'>
+                    <i className='stepper-check fas fa-check'></i>
+                    <span className='stepper-number'>2</span>
+                  </div>
 
-              <div className='stepper-item' data-kt-stepper-element='nav'>
-                <div className='stepper-line w-20px'></div>
-                <div className='stepper-icon w-20px h-20px'>
-                  <i className='stepper-check fas fa-check'></i>
-                  <span className='stepper-number'>2</span>
+                  <div className='stepper-label'>
+                    <h3 className='stepper-title'>Select Duration</h3>
+                  </div>      
                 </div>
 
-                <div className='stepper-label'>
-                  <h3 className='stepper-title'>Select Duration</h3>
-                  {/* <div className='stepper-desc fw-bold'>Select Duration</div> */}
-                </div>      
-              </div>
+                <div className='stepper-item' data-kt-stepper-element='nav'>
+                  <div className='stepper-line w-20px'></div>
+                  <div className='stepper-icon w-20px h-20px'>
+                    <i className='stepper-check fas fa-check'></i>
+                    <span className='stepper-number'>3</span>
+                  </div>
 
-              <div className='stepper-item' data-kt-stepper-element='nav'>
-                <div className='stepper-line w-20px'></div>
-                <div className='stepper-icon w-20px h-20px'>
-                  <i className='stepper-check fas fa-check'></i>
-                  <span className='stepper-number'>3</span>
+                  <div className='stepper-label'>
+                    <h3 className='stepper-title'>Input Amount</h3>
+                  </div>      
+                </div> 
+
+                <div className='stepper-item' data-kt-stepper-element='nav'>
+                  <div className='stepper-line w-20px'></div>
+                  <div className='stepper-icon w-20px h-20px'>
+                    <i className='stepper-check fas fa-check'></i>
+                    <span className='stepper-number'>4</span>
+                  </div>
+
+                  <div className='stepper-label'>
+                    <h3 className='stepper-title'>Confirm Transaction</h3>
+                  </div>      
                 </div>
 
-                <div className='stepper-label'>
-                  <h3 className='stepper-title'>Input Amount</h3>
-                  {/* <div className='stepper-desc fw-bold'>Input Amount</div> */}
-                </div>      
-              </div>                       
+                <div className='stepper-item' data-kt-stepper-element='nav'>
+                  <div className='stepper-line w-20px'></div>
+                  <div className='stepper-icon w-20px h-20px'>
+                    <i className='stepper-check fas fa-check'></i>
+                    <span className='stepper-number'>5</span>
+                  </div>
+
+                  <div className='stepper-label'>
+                    <h3 className='stepper-title'>Complete</h3>
+                  </div>      
+                </div>                      
               </div>
             </div>
           </div>
         </div>
 
         <div className="col-5">
-          <Formik validationSchema={currentSchema} initialValues={initValues} onSubmit={submitStep}>
+          <Formik 
+            validationSchema={currentSchema} 
+            initialValues={initValues} 
+            onSubmit={submitStep}
+          >
             {() => (
               <Form noValidate id='kt_create_account_form'>
                 <div className="current" data-kt-stepper-element='content'>
@@ -195,6 +187,13 @@ const PurchaseView = props => {
                   <InputPurchaseAmount prevStep={prevStep} />
                 </div>
 
+                <div data-kt-stepper-element='content'>
+                  <ConfirmPurchaseTransaction handleMethod={stepper.current} prevStep={prevStep} />
+                </div>
+
+                <div data-kt-stepper-element='content'>
+                  <CompletePurchaseTransaction  />
+                </div>
               </Form>
             )}
           </Formik>
@@ -203,35 +202,6 @@ const PurchaseView = props => {
         <div className="col-4">
           <div className="card">
             <div className="card-body">
-              {/* <h6 className=" pb-3">Bond Market</h6>
-
-              <div className="d-flex justify-content-between p-2 mb-1 bg-info rounded" >
-                <div className="mr-5">
-                  <span className="fs-7 fw-bolder p-0 mb-0 align-content-center">Bond Price</span>                  
-                </div>
-                <div className="me-3">
-                  <span className="fs-7 fw-bolder align-content-center">{formatToken(bondPrice, {scale: 18, tokenName: activePool.bondAsset.symbol}) ?? '-'}</span>
-                </div> 
-              </div>
-
-              <div className="d-flex justify-content-between p-2 mb-1 bg-info rounded" >
-                <div className="mr-5">
-                  <span className="fs-7 fw-bolder p-0 mb-0 align-content-center">Duration</span>                  
-                </div>
-                <div className="me-3">
-                  <span className="fs-7 fw-bolder align-content-center">{activePool.duration} Days</span>
-                </div> 
-              </div>
-
-              <div className="d-flex justify-content-between p-2 mb-1 bg-info rounded" >
-                <div className="mr-5">
-                  <span className="fs-7 fw-bolder p-0 mb-0 align-content-center">Fixed Interest Rate (APR)</span>                  
-                </div>
-                <div className="me-3">
-                  <span className="fs-7 fw-bolder align-content-center">{APR}</span>
-                </div> 
-              </div> */}
-
               <h6 className="pt-3 pb-7">Your Wallet</h6>
               <div className="d-flex justify-content-between p-2 mb-1 bg-info rounded" >
                 <div className="fs-7">

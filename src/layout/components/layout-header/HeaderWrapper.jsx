@@ -70,5 +70,4 @@ export function HeaderWrapper() {
           </div>
         </div>
       )
-    }
-    
+    }    

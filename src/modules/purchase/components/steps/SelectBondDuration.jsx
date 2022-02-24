@@ -1,13 +1,12 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import { Field } from 'formik'
+import { DurationsMeta } from '../../../../components/providers/poolsProvider'
 import { KTSVG } from '../../../../_metronic/helpers/components/KTSVG'
 import { useBondPool } from '../../providers/bond-pool-provider'
-import { useBondPools } from '../../providers/bond-pools-provider'
 
 const SelectBondDuration = ({ prevStep }) => {
 
-  const { BondDurations } = useBondPools()
-  const { bondAsset } = useBondPool()
+  const { pool } = useBondPool()
 
   return (
     <div className='w-100'>
@@ -15,14 +14,14 @@ const SelectBondDuration = ({ prevStep }) => {
         <div className='card-body pt-3 pb-3'>
           <div className='d-flex align-items-center'>
             <div className='symbol symbol-50px me-2'>
-              <KTSVG path={bondAsset.icon} className='svg-icon svg-icon-3x' />
+              <KTSVG path={pool.bondAsset.icon} className='svg-icon svg-icon-3x' />
             </div>
             <div className='d-flex justify-content-start flex-column'>
-              <a href='#' className='text-dark fw-bolder text-hover-primary mb-1 fs-6'>
-                { bondAsset.symbol }
-              </a>
+              <div className='text-dark fw-bolder text-hover-primary mb-1 fs-6'>
+                { pool.bondAsset.symbol }
+              </div>
               <span className='text-muted fw-bold text-muted d-block fs-7'>
-                { bondAsset.name } 
+                { pool.bondAsset.name } 
               </span>
             </div>
           </div>
@@ -31,12 +30,12 @@ const SelectBondDuration = ({ prevStep }) => {
       
       <div className='card mb-1'>
         <div className='card-body'>
-          { BondDurations.map((selectedDuration) => (
+          { DurationsMeta.map((selectedDuration) => (
           <div key={ selectedDuration.id } className='fs-6 fw-bolder mb-0 fv-row'>
             <div className='mb-0'>
               <label className='d-flex flex-stack mb-5 cursor-pointer'>
                 <span className='d-flex align-items-center me-2 fs-5 fs-bolder'>
-                  {selectedDuration.lable}
+                  {selectedDuration.description}
                 </span>
                 <span className='form-check form-check-custom form-check-solid'>
                   <Field className='form-check-input fs-5 fs-bolder' type='radio' name='bondAssetDuration' value={ selectedDuration.duration } />

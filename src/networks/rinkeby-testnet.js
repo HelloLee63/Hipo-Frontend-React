@@ -12,7 +12,7 @@ export const RINKEBY_CHAIN_ID = 4;
 export const DEFAULT_RPC_POOLING_INTERVAL = 12_000
 
 export const RinkebyTestnetConfig = {
-    title: 'Hipo Rinkeby',
+    title: 'Hipo: Decentralized Bond Protocol',
     features: {
         pledge: true,
         issue: true,
@@ -112,7 +112,8 @@ export const RinkebyTestnetConfig = {
         bUSDC60: '0x6E147fd0dE2b5a2CA9A329116E88B9BEF668D679',
         bUSDT5: '0xB482156624cCABE6Ed1f8758e5EFE73e9d20a918',
         bUSDT10: '0xEf04c1Eca228733407736b05b5BD97386e729A54',
-        bUSDT15: '0xf9Bd5c375bde221f32C3421F107816f0AD8f378a',
+        // bUSDT15: '0xf9Bd5c375bde221f32C3421F107816f0AD8f378a',
+        bUSDT15: '0xEf04c1Eca228733407736b05b5BD97386e729A54',
         bUSDT30: '0xeb3498efD35E54d43a52415d9520Bba15ef7f722',
         bUSDT45: '0xDDfB5b483D64d68ea41FC8cBA105187305105400',
         bUSDT60: '0xC26995180b67c311c8Ad30A4382182c1ccFCB60D',
@@ -146,19 +147,6 @@ export const RinkebyTestnetConfig = {
             financingPool: '0x3376B3f38B2F8DeAaA0FC71aeBc5A2845178d990',
         },
         hipoV1AMMfactory: '0xCc4f21c5FB18330Ba23B0541c2A0ba7b9f4ef353',
-        yf: {
-            staking: '0xb0Fa2BeEe3Cf36a7Ac7E99B885b48538Ab364853',
-            stable: '0xB3F7abF8FA1Df0fF61C5AC38d35e20490419f4bb',
-            unilp: '0xC25c37c387C5C909a94055F4f16184ca325D3a76',
-            bond: '0x3FdFb07472ea4771E1aD66FD3b87b265Cd4ec112',
-        },
-        se: {
-            ePoolPeriphery: '0x33c8d6f8271675eda1a0e72558d4904c96c7a888',
-            ePoolHelper: '0x8a63822d8c1be5590bbf72fb58e69285a776a5df',
-          },
-        sa: {
-            loupe: '0xb7D7E8F3526187e065bc674b19E0BBa42B569f6d',
-        },
     },
 }
 
@@ -180,7 +168,7 @@ export const RinkebyTestnetNetwork = {
     type: 'Ethereum',
     meta: {
         chainId: RINKEBY_CHAIN_ID,
-        name: isDevelopmentMode ? 'Rinkeby (Alpha)' : 'Rinkeby',
+        name: isDevelopmentMode ? 'Rinkeby Testnet' : 'Rinkeby Testnet',
         logo: '/media/networks/ethereum.svg',
     },
     rpc: {

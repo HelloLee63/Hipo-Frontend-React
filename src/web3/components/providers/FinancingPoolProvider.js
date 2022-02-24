@@ -17,6 +17,8 @@ export function useFinancingPool() {
 }
 
 const FinancingPoolProvider = props => {
+
+    console.log('Financing Provider is rendered');
     const { children } = props
     const config = useConfig()
 

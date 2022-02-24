@@ -1,11 +1,9 @@
-import BigNumber from "bignumber.js";
-import { createContext, useCallback, useContext, useEffect, useMemo, useState } from "react";
+import { createContext, useContext, useEffect, useMemo, useState } from "react";
 import { useConfig } from "../../../../components/providers/configProvider";
+import { usePools } from "../../../../components/providers/poolsProvider";
 import { useReload } from "../../../../hooks/useReload";
 import { InvariantContext } from "../../../../utils/context";
 import { useWallet } from "../../../../wallets/walletProvider";
-import { useProtocolData } from "../../../../web3/components/providers/ProtocolDataProvider";
-import { useDebtPools } from "../debt-pools-provider";
 
 const Context = createContext(InvariantContext('DebtPoolProvider'))
 
@@ -14,50 +12,43 @@ export function useDebtPool() {
 }
 
 const DebtPoolProvider = props => {
+  
   const { children } = props
   const [ poolSymbol, setPoolSymbol ] = useState('USDC/WETH')
   const [ debtAssetToken, setDebtAssetToken ] = useState('WETH')
   const [debtDuration, setDebtDuration ] = useState('300')
-  const debtPoolsCtx = useDebtPools()
+  const [issueAmount, setIssueAmount] = useState(0)
+
   const walletCtx = useWallet()
   const [reload] = useReload()
   const config = useConfig()
-  const protocolData = useProtocolData()
 
-  const debtPool = useMemo(() => debtPoolsCtx.getDebtAssetByLable(debtDuration, debtAssetToken), [debtDuration, debtAssetToken])
-  const collateral = useMemo(() => debtPoolsCtx.getCollateralAssetBySymbol(poolSymbol),[poolSymbol])
+  const { getCollateralPoolBySymbol, getPoolByBond } = usePools()
 
-  const getBondPrice = useCallback(
-    (debtAssetAddress, duration, factory) => {    
-      return protocolData.protocolDataContract.loadBondPrice(debtAssetAddress, duration, factory)    
-  }, [debtPool])
+  const collateral = useMemo(() => getCollateralPoolBySymbol(poolSymbol),[poolSymbol])
 
-  useEffect(() => {
-    if (walletCtx.account) {
-      debtPool.debtAsset.contract.loadBalance().then(reload).catch(Error)
-    }
-  }, [debtPool, walletCtx.account])
+  const bondPool = useMemo(() => getPoolByBond(debtAssetToken, debtDuration), [debtDuration, debtAssetToken])
 
   useEffect(() => {
     if(walletCtx.account) {
-      debtPool.debtAsset.contract.loadAllowance(config.contracts.financingPool?.financingPool).then(reload).catch(Error)
+      bondPool.bondAsset.contract.loadAllowance(config.contracts.financingPool?.financingPool).then(reload).catch(Error)
     }
-  }, [debtPool, walletCtx.account])
-
-  useEffect(() => {
-    debtPool.debtAsset.contract.loadCommon().then(reload).catch(Error)
-  }, [debtPool])
+  }, [bondPool, walletCtx.account])
 
   const value = {
-    debtPool,
+    bondPool,
+    collateral,
+
     debtAssetToken,
     debtDuration,
     poolSymbol,
-    collateral,
+    
     setPoolSymbol,
     setDebtAssetToken,
     setDebtDuration,
-    getBondPrice
+
+    issueAmount, 
+    setIssueAmount
   }
 
   return (

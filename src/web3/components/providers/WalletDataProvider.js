@@ -1,4 +1,4 @@
-import { createContext, useContext, useEffect } from "react";
+import { createContext, useCallback, useContext, useEffect } from "react";
 import { useConfig } from "../../../components/providers/configProvider";
 import { useKnownTokens } from "../../../components/providers/knownTokensProvider";
 import { useReload } from "../../../hooks/useReload";
@@ -35,6 +35,25 @@ const WalletDataProvider = props => {
     wethusdtLpToken,
     daiwethLpToken, 
   } = useKnownTokens()
+
+  const getIssuerLtv = useCallback(
+    (collateralAssetAddress) => {
+      if (walletCtx.account) {
+        return walletDataContract.issuerLtvArray?.find(obj => 
+          obj.issuer === walletCtx.account && obj.collateralAssetAddress === collateralAssetAddress
+        )
+      }      
+    }, [walletCtx.account, walletDataContract.issuerLtvArray])
+
+  const getIssuerTotalDebts = useCallback(
+    (collateralAssetAddress) => {
+      if (walletCtx.account) {
+        return walletDataContract.issuerTotalDebtsArray?.find(obj => 
+          obj.issuer === walletCtx.account && obj.collateralAssetAddress === collateralAssetAddress
+        )
+      }
+    }, [walletCtx.account, walletDataContract.issuerTotalDebtsArray]
+  )
 
   useEffect(() => {
     if(walletCtx.account) {
@@ -80,8 +99,9 @@ const WalletDataProvider = props => {
 
   const value = {
     walletDataContract,
+    getIssuerLtv,
+    getIssuerTotalDebts,
   }
-
 
   return (
     <Context.Provider value={value}>

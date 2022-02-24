@@ -6,7 +6,7 @@ import { useDebtPool } from "../../providers/debt-pool-provider"
 const SelectDebtAsset = ({ prevStep }) => {
 
   const { collateral } = useDebtPool()
-  const underlyingAssets = collateral?.underlyingAssets
+  const underlyingAssets = collateral.underlyingAssets
   
   return (
     <div className='w-100'>
@@ -17,7 +17,11 @@ const SelectDebtAsset = ({ prevStep }) => {
               <div className='mb-0'>
                 <label className='d-flex flex-stack mb-5 cursor-pointer'>
                   <span className='d-flex align-items-center me-2'>
-                    <TokenIcon tokenName={underlyingAsset.symbol} tokenIcon={underlyingAsset.icon}/>
+                    <TokenIcon 
+                      tokenName={underlyingAsset.symbol}
+                      tokenDesc={underlyingAsset.name} 
+                      tokenIcon={underlyingAsset.icon}
+                    />
                   </span>
                   <span className='form-check form-check-custom form-check-solid'>
                     <Field className='form-check-input' type='radio' name='debtAssetType' value={underlyingAsset.symbol} />

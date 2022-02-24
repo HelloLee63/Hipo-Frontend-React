@@ -13,7 +13,7 @@ const DefaultTitle = () => {
           id='kt_page_title'
           data-kt-swapper='true'
           data-kt-swapper-mode='prepend'
-          data-kt-swapper-parent="{default: '#kt_content_container', 'lg': '#kt_toolbar_container'}"
+          data-kt-swapper-parent="{default: '#kt_toolbar_container', 'lg': '#kt_toolbar_container'}"
           className={clsx('page-title d-flex', classes.pageTitle.join(' '))}>
             {/* begin::Title */}
             {pageTitle && (

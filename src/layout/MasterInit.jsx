@@ -2,7 +2,6 @@ import { useEffect, useRef } from "react";
 import { DrawerComponent, MenuComponent, ScrollComponent, ScrollTopComponent, StickyComponent, SwapperComponent, ToggleComponent } from "../_metronic/assets/ts/components";
 import { useLayout } from "./core";
 
-
 export function MasterInit() {
   const { config } = useLayout()
   const isFirstRun = useRef(true)

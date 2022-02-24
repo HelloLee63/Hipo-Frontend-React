@@ -20,6 +20,8 @@ const GeneralProvider = props => {
     
     const theme = selectedTheme || osColorScheme;
 
+    console.log('General provider is rendered');
+
     useWindowEventListener('visibilitychange', () => {
         setVisibilityState(window.document.visibilityState);        
     });

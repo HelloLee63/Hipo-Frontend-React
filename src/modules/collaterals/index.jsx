@@ -1,12 +1,15 @@
-import CollateralsProvider from "./providers/collateral-provider"
-import CollateralsView from "./views"
+import ColPoolProvider from "../pledge/providers/colPool-provider"
+import ColPoolsProvider from "../pledge/providers/colPools-provider"
+import CollateralsView from "./views/collaterals-view"
 
 const Collaterals = () => {
 
   return (
-    <CollateralsProvider>
-      <CollateralsView />
-    </CollateralsProvider>
+    <ColPoolsProvider>
+      <ColPoolProvider>
+        <CollateralsView />
+      </ColPoolProvider>
+    </ColPoolsProvider>
   )
 }
 

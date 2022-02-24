@@ -49,6 +49,8 @@ const networks = (() => {
 })()
 
 const NetworkProvider = props => {
+
+    console.log('Network Provider is rendered');
     const { children } = props
 
     const [lastNetwork, setLastNetwork] = useSessionStorage('last_network')

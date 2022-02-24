@@ -7,6 +7,7 @@ import { DrawerComponent } from '../../_metronic/assets/ts/components'
 const Content = ({children}) => {
   const {classes} = useLayout()
   const location = useLocation()
+
   useEffect(() => {
     DrawerComponent.hideAll()
   }, [location])

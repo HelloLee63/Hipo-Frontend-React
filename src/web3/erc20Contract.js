@@ -98,7 +98,7 @@ export default class Erc20Contract extends Web3Contract {
     if (value) {
       this.allowances.set(spenderAddress, value);
       this.emit(Web3Contract.UPDATE_DATA);
-    }
+    } 
   }
 
   async approve(spenderAddress, enable) {
