@@ -1,6 +1,6 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import BigNumber from 'bignumber.js'
-import { ErrorMessage, Field, useFormik } from 'formik'
+import { useFormik } from 'formik'
 import { useEffect, useState } from 'react'
 import { useConfig } from '../../../../components/providers/configProvider'
 import TokenIcon from '../../../../components/token-icon'
@@ -12,109 +12,130 @@ import { useLiquidityPool } from '../../providers/liquidity-pool-provider'
 
 const InputAssetAmount = ({ prevStep }) => {
 
-  const liquidityPoolCtx = useLiquidityPool()
   const walletCtx = useWallet()
   const config = useConfig()
-  const activeLiquidityPool = liquidityPoolCtx.liquidityPool
-  const walletBalance = activeLiquidityPool.asset.contract.balances?.get(walletCtx.account)
-  const decimals = activeLiquidityPool.asset.decimals
-  const allowance = activeLiquidityPool.asset.contract.allowances?.get(config.contracts.financingPool.financingPool)
+  const financingPool = useFinancingPool()
+
+  const { pool, setAddAmount } = useLiquidityPool()
+
+  const walletBalance = pool.bondAsset.contract.balances?.get(walletCtx.account)
+
+  const decimals = pool.bondAsset.decimals
+  const allowance = pool.bondAsset.contract.allowances?.get(config.contracts.financingPool.financingPool)
+
+
   const [walletConnectVisible, setWalletConnectVisible] = useState(false)
   const [approveVisible, setApproveVisible] = useState(false)
-  const financingPool = useFinancingPool()
+  const [submitDisabledVisible, setSubmitDisabledVisible] = useState(false)
+  const [submitVisible, setSubmitVisible] = useState(false)
+  const [isEnabling, setEnabling] = useState(false)
   
   const addLiquidityFormik = useFormik({
     initialValues: {
-      assetAmount: '0.0',
+      assetAmount: '',
     }
   })
 
   const inputAssetAmount = new BigNumber(addLiquidityFormik.values.assetAmount)
+  let value = new BigNumber(scaleBy(inputAssetAmount, decimals))
 
   useEffect(() => {
-    if(walletCtx.account) {
-      if(BigNumber(allowance).lt(inputAssetAmount)) {
-        setApproveVisible(true)
+
+    if (!walletCtx.account) {
+      setWalletConnectVisible(() => true)
+      setApproveVisible(() => false)
+      setSubmitDisabledVisible(() => false)
+      setSubmitVisible(() => false)
+      return
+    }
+
+    if (walletCtx.account) {
+      setWalletConnectVisible(() => false)
+
+      if (value.eq(0) || value.isNaN()) {
+        setSubmitDisabledVisible(() => true)
+        setApproveVisible(() => false)
+        setSubmitVisible(() => false)
+        return
+      }
+
+      if (value.gt(0) && value.gt(allowance)) {
+        setApproveVisible(() => true)
+        setSubmitDisabledVisible(() => false)
+        setSubmitVisible(() => false)
+        return
+      }
+
+      if (value.gt(0) && value.lte(allowance)) {
+        setApproveVisible(() => false)
+
+        if (value.gt(walletBalance)) {
+          setSubmitDisabledVisible(() => true)
+          setSubmitVisible(() => false)
+          return
+        }
+
+        if (value.lte(walletBalance)) {
+          setSubmitVisible(() => true)
+          setSubmitDisabledVisible(() => false)
+          return
+        }
       }
     }
-  }, [allowance, inputAssetAmount])
 
-  useEffect(() => {
-    if(!walletCtx.account) {
-      setWalletConnectVisible(true)
-    }
-  }, [walletCtx.account, addLiquidityFormik.values.assetAmount])
+  }, [walletCtx.account, value, walletBalance, allowance])
 
-  useEffect(() => {
+  function handleSubmit() {
+    setAddAmount(() => inputAssetAmount)
+  }
+
+  async function handleApprove() {
+
     if(walletCtx.account) {
-      setWalletConnectVisible(false)
-    }
-  }, [walletCtx.account])
+      
+      setEnabling(() => true)
 
-  useEffect(() => {
-    if(!walletCtx.account) {
-      setApproveVisible(false)
-    }
-  },[walletCtx.account, addLiquidityFormik.values.assetAmount])
+      try {
+        await pool.bondAsset.contract.approve(config.contracts.financingPool.financingPool, true)
+      } catch(e) {
+        console.error(e)
+      }
 
-  useEffect(() => {
-    if(walletCtx.account && !approveVisible && inputAssetAmount.gt(BigNumber(0))){
-      document.getElementById('add_transaction_button').disabled = false
-    }
-  }, [walletCtx.account, addLiquidityFormik.values.assetAmount, approveVisible])
-
-  useEffect(() => {
-    if(addLiquidityFormik.values.assetAmount === 0)
-    document.getElementById('add_transaction_button').disabled = true
-  }, [addLiquidityFormik])
-
-  function handleApprove() {    
-      activeLiquidityPool.asset.contract.approve(config.contracts.financingPool.financingPool, true)
-  }
-
-  function handleBack() {    
-    addLiquidityFormik.resetForm()
-    setApproveVisible(false)
-    setWalletConnectVisible(false)
-    document.getElementById('add_transaction_button').disabled = true
-    prevStep()    
-  }
-
-  async function handleAddLiquidity() {
-    
-    // activeLiquidityPool.setAdding(true)
-
-    let value = scaleBy(inputAssetAmount, decimals)
-    let assetAddress = activeLiquidityPool.asset.address
-    let duration = new BigNumber(activeLiquidityPool.duration)
-
-    try {
-      await financingPool.financingPoolContract?.addLiquidity(assetAddress, duration, value)
-    } catch (e) {}
-  }  
+      setEnabling(() => false)      
+    }     
+  } 
 
   return (
     <div>
       <div className='card mb-2'>
         <div className='card-body pt-3 pb-3'>
           <TokenIcon 
-            tokenName={liquidityPoolCtx.liquidityPool.asset.symbol} 
-            tokeDesc={liquidityPoolCtx.liquidityPool.duration} 
-            tokenIcon={liquidityPoolCtx.liquidityPool.asset.icon} 
+            tokenName={pool.bondAsset.symbol} 
+            tokenDesc={pool.duration.description} 
+            tokenIcon={pool.icon} 
           />
         </div>
       </div>
 
       <div className='card mb-2'>
         <div className='card-body p-0'>
-        <Field
+          <input
+            id='addLiquidityAmount'
             type='text'
-            className='form-control form-control-lg form-control-solid fw-bolder bg-white border-0 text-primary text-center align-center'
+            className='form-control form-control-lg form-control-solid fw-bolder bg-white border-0 text-primary align-center'
             placeholder='0.0'
             name='assetAmount'
-            onChange={addLiquidityFormik.handleChange}
             value={addLiquidityFormik.values.assetAmount}
             style={{ fontSize: 48 }}
+            autoComplete='off'
+            onChange={e => {
+              e.preventDefault();
+              const { value } = e.target;              
+              const regex = /^(0*[0-9][0-9]*(\.[0-9]*)?|0*\.[0-9]*[1-9][0-9]*)$/;
+              if (regex.test(value)) {
+                addLiquidityFormik.setFieldValue('assetAmount', value);
+              }
+            }}
           />
         </div>
       </div>
@@ -129,10 +150,10 @@ const InputAssetAmount = ({ prevStep }) => {
                 </a>
               </div>
               <div className='symbol symbol-50px me-2'>
-                <KTSVG path={liquidityPoolCtx.liquidityPool.asset.icon} className='svg-icon svg-icon-2x' />
+                <KTSVG path={pool.bondAsset.icon} className='svg-icon svg-icon-2x' />
               </div>
               {/* { getHumanValue(walletBalance?, decimals).toString() ?? '-' } */}
-            <span className='badge badge-light-success fs-6 fw-bolder my-2'>{formatToken(inputAssetAmount, {tokenName: activeLiquidityPool.asset.symbol})}</span>
+            <span className='badge badge-light-success fs-6 fw-bolder my-2'>{formatToken(inputAssetAmount, {tokenName: pool.bondAsset.symbol})}</span>
             </div>
           </div>
 
@@ -144,7 +165,7 @@ const InputAssetAmount = ({ prevStep }) => {
                 </a>
               </div>
               <div className='symbol symbol-50px me-2'>
-                <KTSVG path={liquidityPoolCtx.liquidityPool.asset.icon} className='svg-icon svg-icon-2x' />
+                <KTSVG path={pool.bondAsset.icon} className='svg-icon svg-icon-2x' />
               </div>
               {/* { getHumanValue(walletBalance?, decimals).toString() ?? '-' } */}
               <span className='badge badge-light-success fs-6 fw-bolder my-2'></span>
@@ -159,7 +180,7 @@ const InputAssetAmount = ({ prevStep }) => {
                 </a>
               </div>
               <div className='symbol symbol-50px me-2'>
-                <KTSVG path={liquidityPoolCtx.liquidityPool.asset.icon} className='svg-icon svg-icon-2x' />
+                <KTSVG path={pool.bondAsset.icon} className='svg-icon svg-icon-2x' />
               </div>
               {/* { getHumanValue(walletBalance?, decimals).toString() ?? '-' } */}
             <span className='badge badge-light-success fs-6 fw-bolder my-2'></span>
@@ -169,10 +190,10 @@ const InputAssetAmount = ({ prevStep }) => {
         </div>
       </div>
 
-      <div className='d-flex flex-stack pt-2'>
+      <div className='d-flex flex-row-fluid flex-stack pt-2'>
         <div className='mr-0'>
           <button
-            onClick={handleBack}
+            onClick={prevStep}
             type='button'
             className='btn btn-lg btn-light-primary me-3'
             data-kt-stepper-action='previous'
@@ -184,9 +205,8 @@ const InputAssetAmount = ({ prevStep }) => {
             Back
           </button>
         </div>
-
-        <div>
-          {walletConnectVisible && 
+        {walletConnectVisible &&
+        <div>            
           <button 
             type='button' 
             className='btn btn-lg btn-secondary me-0'
@@ -199,40 +219,63 @@ const InputAssetAmount = ({ prevStep }) => {
                 className='svg-icon-3 ms-2 me-0'
               />
             </span>
-          </button>}
-
-          {approveVisible && !walletConnectVisible &&
+          </button>
+        </div>}
+        {approveVisible &&
+        <div>            
           <button 
             type='button' 
-            onClick={handleApprove} 
             className='btn btn-lg btn-primary me-0'
+            onClick={handleApprove}
           >
-            <span className='indicator-label'>              
+            {isEnabling ? 
+            (<div>
+              <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+              Approving...
+            </div>) 
+            :              
+            (<span className='indicator-label'>              
               Approve
               <KTSVG
-                path='/media/icons/duotune/arrows/arr064.svg'
+                path='/media/icons/duotune/arrows/arr064.svg '
                 className='svg-icon-3 ms-2 me-0'
               />
-            </span>
-          </button>}
-
-          {!walletConnectVisible && !approveVisible &&
+            </span>)}
+            
+          </button>
+        </div>}
+        {submitDisabledVisible &&
+        <div>            
           <button 
             type='button' 
-            onClick={handleAddLiquidity} 
             className='btn btn-lg btn-primary me-0'
-            // disabled
-            id = 'add_transaction_button'
+            disabled
           >
             <span className='indicator-label'>              
-              Transaction
+              Submit
               <KTSVG
                 path='/media/icons/duotune/arrows/arr064.svg'
                 className='svg-icon-3 ms-2 me-0'
               />
             </span>
-          </button>}
-        </div>
+          </button>
+        </div>}
+        {submitVisible &&
+        <div>            
+          <button 
+            type='submit' 
+            className='btn btn-lg btn-primary me-0'
+            onClick={handleSubmit}
+          >
+            <span className='indicator-label'>              
+              Submit
+              <KTSVG
+                path='/media/icons/duotune/arrows/arr064.svg'
+                className='svg-icon-3 ms-2 me-0'
+              />
+            </span>
+          </button>
+        </div>}
       </div>
     </div>         
   )

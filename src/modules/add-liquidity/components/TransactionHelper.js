@@ -7,15 +7,12 @@ const addLiquiditySchemas = [
   Yup.object({
     assetDuration: Yup.string().required().label('Asset Duration'),
   }),
-  Yup.object({
-    assetAmount: Yup.number().required().label('Asset Amount'),
-  }),
 ]
 
 const addLiquidityInits = {
   assetType: 'WETH',
   assetDuration: '300',
-  assetAmount: 0.0
+  
 }
 
 export {addLiquiditySchemas, addLiquidityInits}

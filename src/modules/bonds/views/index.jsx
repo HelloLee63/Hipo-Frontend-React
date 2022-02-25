@@ -1,38 +1,35 @@
 import BigNumber from "bignumber.js"
+import { usePools } from "../../../components/providers/poolsProvider"
 import { useReload } from "../../../hooks/useReload"
 import { useWallet } from "../../../wallets/walletProvider"
 import { useDebtToken } from "../../../web3/components/providers/DebtTokenProvider"
 
 
-const BondsView = props => {
+const BondsView = () => {
 
-  const dTokenProvider = useDebtToken()
-  const dTokens = dTokenProvider.dTokens
   const walletCtx = useWallet()
-  const [reload] = useReload()
-  console.log(dTokens);
+  const { bondPools } = usePools()
+
+  const bTokenBalance = () => {
+
+    if (walletCtx.account) {
+
+      bondPools.forEach(pool => {
+        const balance = pool.bToken.contract.balances?.get(walletCtx.account)
+
+        if (balance?.gt(0)) {
+
+          console.log("this is great than zero");
+        }
+      })
+    }
+  }
+
+
 
   return (
     <>
-      {dTokens.map(dToken => {
-        if(walletCtx.account) {
-          const debtsList = dToken.contract.loadDebtsList(walletCtx.account).then(reload).catch(Error)
-          // console.log(debtsList);
-          // debtsList.map(
-          //   debtId => { 
-          //     const debtData = dToken.contract.loadDebtData(walletCtx.account, debtId).then(reload).catch(Error)
-          //     const debtStartTimestamp = debtData[0]
-          //     const debtAmount = debtData[1]
-          //     const collateralAssetAddress = debtData[2]
-
-          //     if(new BigNumber(debtAmount.gt(new BigNumber(0)))){
-          //       console.log(debtStartTimestamp);
-          //       console.log(collateralAssetAddress);
-          //     }
-          //   }
-          // )
-        }
-      })}
+      
     </>
   )
 }

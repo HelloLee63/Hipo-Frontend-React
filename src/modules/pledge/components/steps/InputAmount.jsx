@@ -17,18 +17,18 @@ const InputAmount = ({ prevStep }) => {
   console.log('Pledge Input Amount is rendered');
 
   const { colPool, tokenSymbol, tokenName, tokenIcon, setPledgeAmount } = useColPool()
-  const collateralAddress = colPool.underlyingAsset.address
+  const collateralAddress = colPool.collateralAsset.address
   const { getTokenByAddress } = useKnownTokens()
 
   const config = useConfig()
   const wallet = useWallet()
-  const walletBalance = colPool.underlyingAsset.contract.balances?.get(wallet.account)
-  const pledgedBalance = colPool.token.contract.balances?.get(wallet.account)
+  const walletBalance = colPool.collateralAsset.contract.balances?.get(wallet.account)
+  const pledgedBalance = colPool.contract.balances?.get(wallet.account)
 
-  const allowance = colPool.underlyingAsset.contract.allowances?.get(config.contracts.financingPool.financingPool)
+  const allowance = colPool.collateralAsset.contract.allowances?.get(config.contracts.financingPool.financingPool)
 
-  const assetDecimals = colPool.underlyingAsset.decimals
-  const colDecimals = colPool.token.decimals
+  const assetDecimals = colPool.collateralAsset.decimals
+  const colDecimals = colPool.collateralAsset.decimals
 
   const walletData = useWalletData()
   const issuerLtv = walletData.getIssuerLtv(collateralAddress)

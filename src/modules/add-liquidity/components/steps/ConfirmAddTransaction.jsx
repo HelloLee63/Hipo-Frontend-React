@@ -1,52 +1,61 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
-
+import BigNumber from 'bignumber.js'
 import { useEffect, useState } from 'react'
 import TokenIcon from '../../../../components/token-icon'
+import { useFinancingPool } from '../../../../web3/components/providers/FinancingPoolProvider'
 import { formatToken, scaleBy } from '../../../../web3/utils'
 import { KTSVG } from '../../../../_metronic/helpers/components/KTSVG'
-import { useColPool } from '../../providers/colPool-provider'
-import { useFinancingPool } from '../../../../web3/components/providers/FinancingPoolProvider'
+import { useLiquidityPool } from '../../providers/liquidity-pool-provider'
 
-const ConfirmTransaction = ({ prevStep, handleMethod }) => {
-
-  const { colPool, tokenSymbol, tokenName, tokenIcon, pledgeAmount } = useColPool()
+const ConfirmAddTransaction = ({ prevStep, handleMethod }) => {
+  const { pool, addAmount } = useLiquidityPool()
   const financingPool = useFinancingPool()
-  
-  const assetDecimals = colPool.collateralAsset.decimals 
 
-  const [inputAmount, setInputAmount] = useState(pledgeAmount)  
+  const tokenName = pool.bondAsset.symbol
+  const tokenIcon = pool.icon
+  const tokenDesc = pool.duration.description
+  const decimals = pool.bondAsset.decimals
+  
   const [transacting, setTransacting] = useState(false)
+  const [inputAmount, setInputAmount] = useState(addAmount)
 
   useEffect(() => {
-    setInputAmount(() => pledgeAmount)
-  }, [pledgeAmount])
+    setInputAmount(() => addAmount)
+  }, [addAmount])
 
-  async function handlePledge() {
-
+  async function handleAddLiquidity() {
+    
     setTransacting(() => true)
 
-    let value = scaleBy(inputAmount, assetDecimals)
-    let assetAddress = colPool.collateralAsset.address
+    let value = scaleBy(inputAmount, decimals)
+    let assetAddress = pool.bondAsset.address
+    let duration = new BigNumber(pool.duration.duration)
 
     try {
-      await financingPool.financingPoolContract?.pledge(assetAddress, value)
+      await financingPool.financingPoolContract?.addLiquidity(assetAddress, duration, value)
     } catch (e) {}
 
     setTransacting(() => false)
-    handleMethod.goto(4)
-  }
 
-  return (    
+    handleMethod.goto(5)
+  } 
+ 
+  return (
     <div className='w-100'>
-      <div>      
-        <div className="card mb-2">
-          <div className="card-body pt-3 pb-3">
-            <TokenIcon tokenName={ tokenSymbol } tokenDesc={ tokenName } tokenIcon={ tokenIcon }/>
+      <div>
+        <div className='card mb-2'>
+          <div className='card-body pt-3 pb-3'>
+            <TokenIcon 
+            tokenName={tokenName} 
+            tokenIcon={tokenIcon}
+            tokenDesc={tokenDesc} 
+            />
           </div>
         </div>
-        <div className="card mb-2">
-          <div className="card-body p-0">
-            {transacting ? (
+
+        <div className='card mb-2'>
+          <div className='card-body p-0'>
+          {transacting ? (
             <div className='text-center' style={{ fontSize: 65}}>
               <div className='align-items-center spinner-grow spinner-grow-sm text-primary'></div>
               <div className='align-items-center spinner-grow spinner-grow-sm text-primary'></div>
@@ -62,7 +71,8 @@ const ConfirmTransaction = ({ prevStep, handleMethod }) => {
               value={formatToken(inputAmount)}
               style={{ fontSize: 48 }}
             />)}
-          </div>       
+            
+          </div>
         </div>
       </div>
 
@@ -84,7 +94,7 @@ const ConfirmTransaction = ({ prevStep, handleMethod }) => {
         </div>
         <div>
           <button 
-            onClick={handlePledge}              
+            onClick={handleAddLiquidity}              
             type='submit'
             disabled={transacting ? true : false}
             className='btn btn-lg btn-primary me-0'
@@ -98,9 +108,9 @@ const ConfirmTransaction = ({ prevStep, handleMethod }) => {
             </span>
           </button>            
         </div>
-      </div>                  
-    </div> 
+      </div>
+    </div>   
   )
 }
 
-export {ConfirmTransaction}
+export {ConfirmAddTransaction}

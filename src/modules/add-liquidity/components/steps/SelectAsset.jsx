@@ -1,23 +1,27 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import { Field } from 'formik'
+import { usePools } from '../../../../components/providers/poolsProvider'
 import TokenIcon from '../../../../components/token-icon'
 import { KTSVG } from '../../../../_metronic/helpers/components/KTSVG'
-import { useLiquidityPools } from '../../providers/liquidity-pools-provider'
 
 const SelectAsset = ({ prevStep }) => {
 
-  const { Assets } = useLiquidityPools()
+  const { assets } = usePools()
   
   return (
     <div className='w-100'>
       <div className='card'>
         <div className='card-body'>
-        { Assets.map((asset) => (
+        { assets.map((asset) => (
           <div key={ asset.symbol } className='mb-0 fv-row'>
             <div className='mb-0'>
               <label className='d-flex flex-stack mb-5 cursor-pointer'>
                 <span className='d-flex align-items-center me-2'>
-                  <TokenIcon tokenName={asset.symbol} tokenIcon={asset.icon}/>
+                  <TokenIcon 
+                    tokenName={asset.symbol} 
+                    tokenIcon={asset.icon}
+                    tokenDesc={asset.name}
+                  />
                 </span>
                 <span className='form-check form-check-custom form-check-solid'>
                   <Field className='form-check-input' type='radio' name='assetType' value={asset.symbol} />

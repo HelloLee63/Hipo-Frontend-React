@@ -1,14 +1,12 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import { Field } from 'formik'
+import { DurationsMeta } from '../../../../components/providers/poolsProvider'
 import { KTSVG } from '../../../../_metronic/helpers/components/KTSVG'
 import { useLiquidityPool } from '../../providers/liquidity-pool-provider'
-import { useLiquidityPools } from '../../providers/liquidity-pools-provider'
 
 const SelectDuration = ({ prevStep }) => {
 
-  const { assets, pools, durations } = useLiquidityPools()
-  const liquidityPoolCtx = useLiquidityPool()
-  const activePool = liquidityPoolCtx.liquidityPool
+  const { pool } = useLiquidityPool()
 
   return (
     <div className='w-100'>
@@ -16,14 +14,14 @@ const SelectDuration = ({ prevStep }) => {
         <div className='card-body pt-3 pb-3'>
           <div className='d-flex align-items-center'>
             <div className='symbol symbol-50px me-2'>
-              <KTSVG path={activePool.asset.icon} className='svg-icon svg-icon-3x' />
+              <KTSVG path={pool.bondAsset.icon} className='svg-icon svg-icon-3x' />
             </div>
             <div className='d-flex justify-content-start flex-column'>
-              <a href='#' className='text-dark fw-bolder text-hover-primary mb-1 fs-6'>
-                { activePool.asset.symbol }
-              </a>
+              <div className='text-dark fw-bolder mb-1 fs-6'>
+                { pool.bondAsset.symbol }
+              </div>
               <span className='text-muted fw-bold text-muted d-block fs-7'>
-                { activePool.asset.name } 
+                { pool.bondAsset.name } 
               </span>
             </div>
           </div>
@@ -32,20 +30,20 @@ const SelectDuration = ({ prevStep }) => {
 
       <div className='card mb-1'>
         <div className='card-body'>
-          { durations.map((selectedDuration) => (
-            <div key={ selectedDuration.id } className='mb-0 fv-row fs-6 fw-bolder'>
+          { DurationsMeta.map((selectedDuration) => (
+            <div key={ selectedDuration.id } className='fs-6 fw-bolder mb-0 fv-row'>
               <div className='mb-0'>
                 <label className='d-flex flex-stack mb-5 cursor-pointer'>
-                  <span className='d-flex align-items-center me-2'>
-                    {selectedDuration.lable}
+                  <span className='d-flex align-items-center me-2 fs-5 fs-bolder'>
+                    {selectedDuration.description}
                   </span>
                   <span className='form-check form-check-custom form-check-solid'>
-                    <Field className='form-check-input' type='radio' name='assetDuration' value={ selectedDuration.duration } />
+                    <Field className='form-check-input fs-5 fs-bolder' type='radio' name='assetDuration' value={ selectedDuration.duration } />
                   </span>
                 </label>
               </div>
             </div>
-          ))}
+            ))}
         </div>
       </div>
         

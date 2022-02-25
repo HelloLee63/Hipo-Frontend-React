@@ -1,9 +1,9 @@
 import { createContext, useContext, useEffect, useMemo, useState } from "react"
 import { useConfig } from "../../../../components/providers/configProvider"
+import { usePools } from "../../../../components/providers/poolsProvider"
 import { useReload } from "../../../../hooks/useReload"
 import { InvariantContext } from "../../../../utils/context"
 import { useWallet } from "../../../../wallets/walletProvider"
-import { useLiquidityPools } from "../liquidity-pools-provider"
 
 const Context = createContext(InvariantContext('LiquidityPoolProvider'))
 
@@ -16,45 +16,35 @@ const LiquidityPoolProvider = props => {
   const { children } = props
   const config = useConfig()
   const walletCtx = useWallet()
-  const liquidityPoolsCtx = useLiquidityPools()
-  const [assetSymbol, setAssetSymbol] = useState(liquidityPoolsCtx.Assets[0].symbol)
-  const [duration, setDuration] = useState(liquidityPoolsCtx.durations[0].duration)
-  const [enabling, setEnabling] = useState(false)
-  const [approveVisible, setApproveVisible] = useState(false)
-  const [adding, setAdding] = useState(false)
-  
   const [reload] = useReload()
-  const liquidityPool = useMemo(() => liquidityPoolsCtx.getLiquidityPool(assetSymbol, duration), [assetSymbol, duration])
+
+  const { bondPools, getPoolByBond } = usePools()
+
+  const [assetSymbol, setAssetSymbol] = useState(bondPools[0].bondAsset.symbol)
+  const [duration, setDuration] = useState(bondPools[0].duration.duration)
+
+  console.log(duration);
+  const [addAmount, setAddAmount] = useState(0)
+
+  const pool = useMemo(() => getPoolByBond(assetSymbol, duration), [assetSymbol, duration])
 
   useEffect(() => {
-    liquidityPool.asset.contract.loadCommon().then(reload).catch(Error)
-  }, [liquidityPool])
-  
-  useEffect(() => {
     if (walletCtx.account) {
-      liquidityPool?.asset.contract.loadBalance().then(reload).catch(Error)
+      pool?.bondAsset.contract.loadAllowance(config.contracts.financingPool?.financingPool).then(reload).catch(Error)
       }
-    }, [liquidityPool, walletCtx.account])
-
-  useEffect(() => {
-    if (walletCtx.account) {
-      liquidityPool?.contract.loadBalance().then(reload).catch(Error)
-    }
-  })
-
-  useEffect(() => {
-    if (walletCtx.account) {
-      liquidityPool?.asset.contract.loadAllowance(config.contracts.financingPool?.financingPool).then(reload).catch(Error)
-      }
-  }, [liquidityPool, walletCtx.account])
+  }, [pool, walletCtx.account])
 
   const value = {
+    pool,
+
+    assetSymbol,
     setAssetSymbol,
-    setEnabling,
+
+    duration,
     setDuration,
-    liquidityPool,
-    adding, 
-    setAdding,
+
+    addAmount, 
+    setAddAmount,
   }
 
   return (

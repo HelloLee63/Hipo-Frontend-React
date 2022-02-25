@@ -1,9 +1,9 @@
-import { useDebtPool } from "../../providers/debt-pool-provider"
 import TokenIcon from "../../../../components/token-icon"
 import { KTSVG } from "../../../../_metronic/helpers/components/KTSVG"
+import { useLiquidityPool } from "../../providers/liquidity-pool-provider"
 
-const CompleteIssueTransaction = () => {
-  const { bondPool } = useDebtPool()
+const CompleteAddTransaction = () => {
+  const { pool } = useLiquidityPool()
   
   return (
     <div className='w-100'>
@@ -11,9 +11,9 @@ const CompleteIssueTransaction = () => {
         <div className="card mb-2">
           <div className="card-body pt-3 pb-3">
             <TokenIcon 
-              tokenName={ bondPool.bondAsset.symbol } 
-              tokenDesc={ bondPool.duration.description } 
-              tokenIcon={ bondPool.icon }/>
+              tokenName={ pool.bondAsset.symbol } 
+              tokenDesc={ pool.duration.description } 
+              tokenIcon={ pool.icon }/>
           </div>
         </div>
 
@@ -58,4 +58,5 @@ const CompleteIssueTransaction = () => {
     </div> 
   )
 }
-export default CompleteIssueTransaction
+
+export default CompleteAddTransaction

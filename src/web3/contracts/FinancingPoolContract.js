@@ -1531,6 +1531,8 @@ class FinancingPoolContract extends Web3Contract {
 		from: this.account
 	})
   }
+
+  
 }
 
 export default FinancingPoolContract

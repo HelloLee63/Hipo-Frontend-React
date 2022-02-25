@@ -3,6 +3,7 @@ import { useWeb3 } from "../../components/providers/web3Provider";
 import { useReload } from "../../hooks/useReload";
 import { InvariantContext } from "../../utils/context";
 import { useWallet } from "../../wallets/walletProvider";
+import BondTokenContract from "../contracts/BondTokenContract";
 import DebtTokenContract from "../contracts/DebtTokenContract";
 import Erc20Contract from "../erc20Contract";
 import Web3Contract from "../web3Contract";
@@ -50,6 +51,21 @@ export function useDebtTokenContract(address) {
   }
 
   const contract = manager.getContract(address, () => new DebtTokenContract(address))
+  
+  contract.on(Web3Contract.UPDATE_DATA, reload)
+
+  return contract
+}
+
+export function useBondTokenContract(address) {
+  const [reload] = useReload()
+  const manager = useContractManager()
+
+  if (!address) {
+    return undefined
+  }
+
+  const contract = manager.getContract(address, () => new BondTokenContract(address))
   
   contract.on(Web3Contract.UPDATE_DATA, reload)
 

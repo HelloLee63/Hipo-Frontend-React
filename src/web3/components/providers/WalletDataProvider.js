@@ -1,6 +1,6 @@
 import { createContext, useCallback, useContext, useEffect } from "react";
 import { useConfig } from "../../../components/providers/configProvider";
-import { useKnownTokens } from "../../../components/providers/knownTokensProvider";
+import { usePools } from "../../../components/providers/poolsProvider";
 import { useReload } from "../../../hooks/useReload";
 import { InvariantContext } from "../../../utils/context";
 import { useWallet } from "../../../wallets/walletProvider";
@@ -21,20 +21,13 @@ export function useWalletData() {
 
 const WalletDataProvider = props => {
   const { children } = props
+
   const config = useConfig()
-  const walletDataContract = useWalletDataContract(config.contracts.dataProvider.walletDataProvider)
   const walletCtx = useWallet()
   const [reload] = useReload()
+  const { assets, collateralPools, bondPools } = usePools()
 
-  const { 
-    wethToken, 
-    usdcToken, 
-    usdtToken, 
-    daiToken, 
-    usdcwethLpToken,
-    wethusdtLpToken,
-    daiwethLpToken, 
-  } = useKnownTokens()
+  const walletDataContract = useWalletDataContract(config.contracts.dataProvider.walletDataProvider)
 
   const getIssuerLtv = useCallback(
     (collateralAssetAddress) => {
@@ -57,45 +50,67 @@ const WalletDataProvider = props => {
 
   useEffect(() => {
     if(walletCtx.account) {
-      wethToken.contract.loadBalance().then(reload).catch(Error)
+      assets.forEach(asset => {
+        asset.contract.loadBalance().then(reload).catch(Error)
+      })
     }
-  },[walletCtx.account])
+  },[assets, walletCtx.account])
+
+  useEffect(() => {
+    if (walletCtx.account) {
+      collateralPools.forEach(pool => {
+        pool.collateralAsset.contract.loadBalance().then(reload).catch(Error)
+      })
+    }
+  }, [collateralPools, walletCtx.account])
 
   useEffect(() => {
     if(walletCtx.account) {
-      usdcToken.contract.loadBalance().then(reload).catch(Error)
+      collateralPools.forEach(pool => {
+        (pool.contract).loadBalance().then(reload).catch(Error)
+      })
     }
-  },[walletCtx.account])
+  }, [collateralPools, walletCtx.account])
 
   useEffect(() => {
-    if(walletCtx.account) {
-      usdtToken.contract.loadBalance().then(reload).catch(Error)
+    if (walletCtx.account) {
+      collateralPools.forEach(pool => {
+        walletDataContract.loadIssuerLtv(
+          walletCtx.account, pool.collateralAsset.address).then(reload).catch(Error)
+      })
     }
-  },[walletCtx.account])
+  }, [collateralPools, walletCtx.account, walletDataContract])
 
   useEffect(() => {
-    if(walletCtx.account) {
-      daiToken.contract.loadBalance().then(reload).catch(Error)
+    if (walletCtx.account) {
+      collateralPools.forEach(pool => {
+        walletDataContract.loadIssuerTotalDebts(
+          walletCtx.account, pool.collateralAsset.address).then(reload).catch(Error)
+      })      
     }
-  },[walletCtx.account])
+  }, [collateralPools, walletCtx.account])
 
   useEffect(() => {
-    if(walletCtx.account) {
-      usdcwethLpToken.contract.loadBalance().then(reload).catch(Error)
+    if (walletCtx.account) {
+      bondPools.forEach(pool => {
+        pool.bToken.contract.loadBalance().then(reload).catch(Error)
+      })
     }
-  },[walletCtx.account])
+  }, [bondPools, walletCtx.account])
 
   useEffect(() => {
-    if(walletCtx.account) {
-      wethusdtLpToken.contract.loadBalance().then(reload).catch(Error)
+    if (walletCtx.account) {
+      bondPools.forEach(pool => {
+        pool.dToken.contract.loadBalance().then(reload).catch(Error)
+      })
     }
-  },[walletCtx.account])
+  }, [bondPools, walletCtx.account])
 
   useEffect(() => {
-    if(walletCtx.account) {
-      daiwethLpToken.contract.loadBalance().then(reload).catch(Error)
-    }
-  },[walletCtx.account])
+    assets.forEach(asset => {
+      asset.contract.loadCommon().then(reload).catch(Error)
+    })
+  }, [assets])
 
   const value = {
     walletDataContract,

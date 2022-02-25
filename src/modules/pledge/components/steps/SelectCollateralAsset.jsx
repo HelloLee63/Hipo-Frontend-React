@@ -1,26 +1,26 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import { Field } from 'formik'
+import { usePools } from '../../../../components/providers/poolsProvider'
 import TokenIcon from '../../../../components/token-icon'
 import { KTSVG } from '../../../../_metronic/helpers/components/KTSVG'
-import { useColPools } from '../../providers/colPools-provider'
 
 const SelectCollateralAsset = ({ prevStep }) => {
 
-  const { colPools } = useColPools()
+  const { collateralPools } = usePools()
 
   return (     
     <div className='w-100'>
       <div className="card mb-2">
         <div className="card-body">
-          { colPools.map((colPool) => (
-          <div key={ colPool.underlyingAsset.symbol } className='mb-0 fv-row'>
+          { collateralPools.map((pool) => (
+          <div key={ pool.collateralAsset.symbol } className='mb-0 fv-row'>
             <div className='mb-0'>
               <label className='d-flex flex-stack mb-5 cursor-pointer'>
                 <span className='d-flex align-items-center me-2'>
-                  <TokenIcon tokenName={colPool.underlyingAsset.symbol} tokenDesc={colPool.underlyingAsset.name} tokenIcon={colPool.underlyingAsset.icon}/>
+                  <TokenIcon tokenName={pool.collateralAsset.symbol} tokenDesc={pool.collateralAsset.name} tokenIcon={pool.collateralAsset.icon}/>
                 </span>
                 <span className='form-check form-check-custom form-check-solid'>
-                  <Field className='form-check-input' type='radio' name='collateralAssetType' value={colPool.underlyingAsset.symbol} />
+                  <Field className='form-check-input' type='radio' name='collateralAssetType' value={pool.collateralAsset.symbol} />
                 </span>
               </label>
             </div>

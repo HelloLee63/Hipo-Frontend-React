@@ -1,11 +1,12 @@
 import { Form, Formik } from "formik"
 import { useEffect, useRef, useState } from "react"
-import { useConfig } from "../../../../components/providers/configProvider"
 import { useKnownTokens } from "../../../../components/providers/knownTokensProvider"
 import { useWallet } from "../../../../wallets/walletProvider"
 import { formatToken } from "../../../../web3/utils"
 import { StepperComponent } from "../../../../_metronic/assets/ts/components"
 import { KTSVG } from "../../../../_metronic/helpers/components/KTSVG"
+import CompleteAddTransaction from "../../components/steps/CompleteAddTransaction"
+import { ConfirmAddTransaction } from "../../components/steps/ConfirmAddTransaction"
 import { InputAssetAmount } from "../../components/steps/InputAssetAmount"
 import { SelectAsset } from "../../components/steps/SelectAsset"
 import { SelectDuration } from "../../components/steps/SelectDuration"
@@ -15,10 +16,9 @@ import { useLiquidityPool } from "../../providers/liquidity-pool-provider"
 
 const AddLiquidityView = () => {
 
-  const liquidityPoolCtx = useLiquidityPool()
-  const activeLiquidityPool = liquidityPoolCtx.liquidityPool
-  const config = useConfig()
   const walletCtx = useWallet()
+
+  const { setAssetSymbol, setDuration } = useLiquidityPool()
 
   const stepperRef = useRef(null)
   const stepper = useRef(null)
@@ -71,11 +71,11 @@ const AddLiquidityView = () => {
     }
 
     if (stepper.current.currentStepIndex === 1) {
-      liquidityPoolCtx.setAssetSymbol(values.assetType)
+      setAssetSymbol(values.assetType)
     }
 
     if (stepper.current.currentStepIndex === 2) {
-      liquidityPoolCtx.setDuration(values.assetDuration)
+      setDuration(values.assetDuration)
     }
 
     setCurrentSchema(addLiquiditySchemas[stepper.current.currentStepIndex])
@@ -95,17 +95,6 @@ const AddLiquidityView = () => {
     loadStepper()
   }, [stepperRef])
 
-  async function handleEnable() {
-    liquidityPoolCtx.setEnabling(true)
-
-    try {
-      await activeLiquidityPool.asset.contract.approve(config.contracts.financingPool?.financingPool, true)
-    } catch {
-
-      liquidityPoolCtx.setEnabling(false)
-    }
-  }
-
   return (
     <div ref={stepperRef} className='stepper stepper-pills stepper-column' id='kt_create_account_stepper'>
       <div className="row">
@@ -113,45 +102,69 @@ const AddLiquidityView = () => {
           <div className="card">
             <div className="card-body">
               <div className='stepper-nav'>
-              <div className='stepper-item current' data-kt-stepper-element='nav'>
-                <div className='stepper-line w-20px'></div>
+                <div className='stepper-item current' data-kt-stepper-element='nav'>
+                  <div className='stepper-line w-20px'></div>
 
-                <div className='stepper-icon w-20px h-20px'>
-                  <i className='stepper-check fas fa-check'></i>
-                  <span className='stepper-number'>1</span>
+                  <div className='stepper-icon w-20px h-20px'>
+                    <i className='stepper-check fas fa-check'></i>
+                    <span className='stepper-number'>1</span>
+                  </div>
+
+                  <div className='stepper-label'>
+                    <h3 className='stepper-title'>Select Asset</h3>
+                    {/* <div className='stepper-desc fw-bold'>Select Asset</div> */}
+                  </div>     
                 </div>
 
-                <div className='stepper-label'>
-                  <h3 className='stepper-title'>Select Asset</h3>
-                  {/* <div className='stepper-desc fw-bold'>Select Asset</div> */}
-                </div>     
-              </div>
+                <div className='stepper-item' data-kt-stepper-element='nav'>
+                  <div className='stepper-line w-20px'></div>
+                  <div className='stepper-icon w-20px h-20px'>
+                    <i className='stepper-check fas fa-check'></i>
+                    <span className='stepper-number'>2</span>
+                  </div>
 
-              <div className='stepper-item' data-kt-stepper-element='nav'>
-                <div className='stepper-line w-20px'></div>
-                <div className='stepper-icon w-20px h-20px'>
-                  <i className='stepper-check fas fa-check'></i>
-                  <span className='stepper-number'>2</span>
+                  <div className='stepper-label'>
+                    <h3 className='stepper-title'>Select Duration</h3>
+                    {/* <div className='stepper-desc fw-bold'>Select Duration</div> */}
+                  </div>      
                 </div>
 
-                <div className='stepper-label'>
-                  <h3 className='stepper-title'>Select Duration</h3>
-                  {/* <div className='stepper-desc fw-bold'>Select Duration</div> */}
-                </div>      
-              </div>
+                <div className='stepper-item' data-kt-stepper-element='nav'>
+                  <div className='stepper-line w-20px'></div>
+                  <div className='stepper-icon w-20px h-20px'>
+                    <i className='stepper-check fas fa-check'></i>
+                    <span className='stepper-number'>3</span>
+                  </div>
 
-              <div className='stepper-item' data-kt-stepper-element='nav'>
-                <div className='stepper-line w-20px'></div>
-                <div className='stepper-icon w-20px h-20px'>
-                  <i className='stepper-check fas fa-check'></i>
-                  <span className='stepper-number'>3</span>
+                  <div className='stepper-label'>
+                    <h3 className='stepper-title'>Input Amount</h3>
+                    {/* <div className='stepper-desc fw-bold'>Input Amount</div> */}
+                  </div>      
                 </div>
 
-                <div className='stepper-label'>
-                  <h3 className='stepper-title'>Input Amount</h3>
-                  {/* <div className='stepper-desc fw-bold'>Input Amount</div> */}
-                </div>      
-              </div>
+                <div className='stepper-item' data-kt-stepper-element='nav'>
+                  <div className='stepper-line w-20px'></div>
+                  <div className='stepper-icon w-20px h-20px'>
+                    <i className='stepper-check fas fa-check'></i>
+                    <span className='stepper-number'>4</span>
+                  </div>
+
+                  <div className='stepper-label'>
+                    <h3 className='stepper-title'>Confirm Transaction</h3>
+                  </div>      
+                </div>
+
+                <div className='stepper-item' data-kt-stepper-element='nav'>
+                  <div className='stepper-line w-20px'></div>
+                  <div className='stepper-icon w-20px h-20px'>
+                    <i className='stepper-check fas fa-check'></i>
+                    <span className='stepper-number'>5</span>
+                  </div>
+
+                  <div className='stepper-label'>
+                    <h3 className='stepper-title'>Complete</h3>
+                  </div>      
+                </div>
               </div>
             </div>
           </div>
@@ -171,6 +184,14 @@ const AddLiquidityView = () => {
 
                 <div data-kt-stepper-element='content'>
                   <InputAssetAmount prevStep={prevStep}/>
+                </div>
+
+                <div data-kt-stepper-element='content'>
+                  <ConfirmAddTransaction handleMethod={stepper.current} prevStep={prevStep}/>
+                </div>
+
+                <div data-kt-stepper-element='content'>
+                  <CompleteAddTransaction />
                 </div>
               </Form>
             )}
