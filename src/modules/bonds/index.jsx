@@ -1,12 +1,12 @@
-import DebtTokenProvider from "../../web3/components/providers/DebtTokenProvider"
+import BondPoolProvider from "../purchase/providers/bond-pool-provider"
 import BondsView from "./views"
 
-const BondsModule = props => {
+const BondsModule = () => {
 
   return (
-    <DebtTokenProvider>
+    <BondPoolProvider>
       <BondsView />
-    </DebtTokenProvider>
+    </BondPoolProvider>    
   )
 }
 

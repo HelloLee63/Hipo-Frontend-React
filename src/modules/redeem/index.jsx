@@ -4,9 +4,9 @@ import RedeemView from "./views/redeem-view"
 const RedeemModule = () => {
 
   return (        
-    <ColPoolProvider>        
+    // <ColPoolProvider>        
       <RedeemView />    
-    </ColPoolProvider>    
+    // </ColPoolProvider>    
   )
 }
 

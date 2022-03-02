@@ -1,24 +1,21 @@
-import BigNumber from "bignumber.js"
-import { useCallback, useEffect, useState } from "react"
-import { Link } from "react-router-dom"
-import { usePools } from "../../../components/providers/poolsProvider"
-import TokenIcon from "../../../components/token-icon"
-import { useWallet } from "../../../wallets/walletProvider"
-import { useWalletData } from "../../../web3/components/providers/WalletDataProvider"
-import { formatToken } from "../../../web3/utils"
-import { KTSVG } from "../../../_metronic/helpers/components/KTSVG"
+import { useEffect, useState } from "react"
+import { Link } from "../../../../components/button"
+import TransactionLink from "../../../../components/button/transaction-link"
+import { usePools } from "../../../../components/providers/poolsProvider"
+import TokenIcon from "../../../../components/token-icon"
+import { useWallet } from "../../../../wallets/walletProvider"
+import { useWalletData } from "../../../../web3/components/providers/WalletDataProvider"
 
-const BondsView = () => {
+const DebtsView = () => {
 
   const walletCtx = useWallet()
-
-  const { bondPools } = usePools()
-  const { getBondsList, getBondData, getBalanceOfBToken } = useWalletData()
-
   const [isInvested, setIsInvested] = useState(false)
 
+  const { bondPools } = usePools()
 
-  const balance = getBalanceOfBToken()
+  const { getBalanceOfDToken, getDebtsList } = useWalletData()
+
+  const balance = getBalanceOfDToken()
 
   useEffect(() => {    
 
@@ -36,7 +33,7 @@ const BondsView = () => {
 
   if (walletCtx.account && !isInvested) {
     return (
-      <div>No Pledged</div>
+      <div>No Debts</div>
     )
   }
 
@@ -45,23 +42,14 @@ const BondsView = () => {
       <div>Please Connect Your Wallet</div>
     )
   }
-
+  
   return (
     <>
-      <div>
-        <Link to='/investments'>
-          <button>My Investments</button>
-        </Link>
-        <Link to='/debts'>
-          <button>My Debts</button>
-        </Link>
-      </div>
+      <TransactionLink name='Purchase Bond' transaction='/purchase'/>
       <div className='row g-5 g-xl-8'>
-        { 
-          bondPools.map(pool => (
-            getBondsList(pool)?.map((obj) => (
-              
-              <div key={obj} className='col-xl-4'>
+        { bondPools.map(pool => (
+          getDebtsList(pool)?.map(id => (
+            <div key={id} className='col-xl-4'>
                 <div className="card mb-2">
                   <div className="card-body pt-3 pb-3">
                     <TokenIcon 
@@ -82,7 +70,7 @@ const BondsView = () => {
                               Purchased at
                             </div>
                           </div>
-                          {getBondData(pool, obj)?.bondData[2] ?? '-'}
+                          {/* {getBondData(pool, obj)?.bondData[2] ?? '-'} */}
 
                           {/* {formatToken(pool.contract.balances?.get(walletCtx.account), {scale: pool.collateralAsset.decimals}) ?? '-'} */}
                           <span className='fs-6 fw-bolder my-2'></span>
@@ -96,7 +84,7 @@ const BondsView = () => {
                               Matured at
                             </div>
                           </div>
-                          {getBondData(pool, obj)?.bondData[2] ?? '-'}
+                          {/* {getBondData(pool, obj)?.bondData[2] ?? '-'} */}
                           <span className='fs-6 fw-bolder my-2'></span>
                         </div>
                     </div>
@@ -108,7 +96,7 @@ const BondsView = () => {
                               Bond Duration
                             </div>
                           </div>
-                          {pool.duration.description ?? '-'}
+                          {/* {pool.duration.description ?? '-'} */}
                           <span className='fs-6 fw-bolder my-2'></span>
                         </div>
                     </div>
@@ -123,8 +111,9 @@ const BondsView = () => {
                           </a>
                         </div>
                         <div className='symbol symbol-50px me-2'>
-                          <KTSVG path={pool.bondAsset.icon ?? ''} className='svg-icon svg-icon-1x' />
-                        </div>{formatToken(getBondData(pool, obj)?.bondData[0], {scale: pool.bToken.decimals, tokenName: pool.bondAsset.symbol}) ?? '-'}
+                          {/* <KTSVG path={pool.bondAsset.icon ?? ''} className='svg-icon svg-icon-1x' /> */}
+                        </div>
+                        {/* {formatToken(getBondData(pool, obj)?.bondData[0], {scale: pool.bToken.decimals, tokenName: pool.bondAsset.symbol}) ?? '-'} */}
                         
                         <span className='fs-6 fw-bolder my-2'></span>
                       </div>
@@ -138,8 +127,9 @@ const BondsView = () => {
                           </a>
                         </div>
                         <div className='symbol symbol-50px me-2'>
-                          <KTSVG path={pool.bondAsset.icon ?? ''} className='svg-icon svg-icon-1x' />
-                        </div>{formatToken(getBondData(pool, obj)?.bondData[1], {scale: pool.bToken.decimals, tokenName: pool.bondAsset.symbol}) ?? '-'}
+                          {/* <KTSVG path={pool.bondAsset.icon ?? ''} className='svg-icon svg-icon-1x' /> */}
+                        </div>
+                        {/* {formatToken(getBondData(pool, obj)?.bondData[1], {scale: pool.bToken.decimals, tokenName: pool.bondAsset.symbol}) ?? '-'} */}
                         
                         <span className='fs-6 fw-bolder my-2'></span>
                       </div>
@@ -153,8 +143,9 @@ const BondsView = () => {
                           </a>
                         </div>
                         <div className='symbol symbol-50px me-2'>
-                          <KTSVG path={pool.bondAsset.icon ?? ''} className='svg-icon svg-icon-1x' />
-                        </div>{formatToken(getBondData(pool, obj)?.bondData[1], {scale: pool.bToken.decimals, tokenName: pool.bondAsset.symbol}) ?? '-'}
+                          {/* <KTSVG path={pool.bondAsset.icon ?? ''} className='svg-icon svg-icon-1x' /> */}
+                        </div>
+                        {/* {formatToken(getBondData(pool, obj)?.bondData[1], {scale: pool.bToken.decimals, tokenName: pool.bondAsset.symbol}) ?? '-'} */}
                         
                         <span className='fs-6 fw-bolder my-2'></span>
                       </div>
@@ -168,8 +159,9 @@ const BondsView = () => {
                           </a>
                         </div>
                         <div className='symbol symbol-50px me-2'>
-                          <KTSVG path={pool.bondAsset.icon ?? ''} className='svg-icon svg-icon-1x' />
-                        </div>{formatToken(getBondData(pool, obj)?.bondData[1], {scale: pool.bToken.decimals, tokenName: pool.bondAsset.symbol}) ?? '-'}
+                          {/* <KTSVG path={pool.bondAsset.icon ?? ''} className='svg-icon svg-icon-1x' /> */}
+                        </div>
+                        {/* {formatToken(getBondData(pool, obj)?.bondData[1], {scale: pool.bToken.decimals, tokenName: pool.bondAsset.symbol}) ?? '-'} */}
                         
                         <span className='fs-6 fw-bolder my-2'></span>
                       </div>
@@ -181,18 +173,18 @@ const BondsView = () => {
                   <Link to='/redeem'>
                     <button type='button' className='btn btn-lg btn-primary me-0'>
                       <span className='indicator-label'>                    
-                        Withdraw                                   
+                        Repay                                   
                       </span>
                     </button>
                   </Link>
                 </div>       
-              </div>
-            ))
-          ))                       
+            </div>
+          ))
+        ))
         }
       </div>
     </>
   )
 }
 
-export default BondsView
+export default DebtsView

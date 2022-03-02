@@ -1,20 +1,21 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 
 import BigNumber from 'bignumber.js'
-import { useFormik} from 'formik'
+import { Field, useFormik} from 'formik'
 import { useEffect, useState } from 'react'
 import { useConfig } from '../../../../components/providers/configProvider'
 import { useKnownTokens } from '../../../../components/providers/knownTokensProvider'
-import TokenIcon from '../../../../components/token-icon'
+import CollateralToken from '../../../../components/token-icon/CollateralToken'
+import TransactionAssetDataItem from '../../../../components/transaction-data-item/TransactionAssetDataItem'
+import TransactionCollateralDataItem from '../../../../components/transaction-data-item/TransactionCollateralDataItem'
+import TransactionLtvDataItem from '../../../../components/transaction-data-item/TransactionLtvDataItem'
 import { useWallet } from '../../../../wallets/walletProvider'
 import { useWalletData } from '../../../../web3/components/providers/WalletDataProvider'
-import { formatPercent, formatToken, scaleBy } from '../../../../web3/utils'
+import { scaleBy } from '../../../../web3/utils'
 import { KTSVG } from '../../../../_metronic/helpers/components/KTSVG'
 import { useColPool } from '../../providers/colPool-provider'
 
 const InputAmount = ({ prevStep }) => {
-
-  console.log('Pledge Input Amount is rendered');
 
   const { colPool, tokenSymbol, tokenName, tokenIcon, setPledgeAmount } = useColPool()
   const collateralAddress = colPool.collateralAsset.address
@@ -40,12 +41,10 @@ const InputAmount = ({ prevStep }) => {
   const debtBAmount = issuerTotalDebt?.debtBAmount
 
   const debtAToken = getTokenByAddress(debtAAddress?.toLowerCase())
-  const debtASymbol = debtAToken?.symbol
   const debtAIcon = debtAToken?.icon
   const debtADecimals = debtAToken?.decimals
 
   const debtBToken = getTokenByAddress(debtBAddress?.toLowerCase())
-  const debtBSymbol = debtBToken?.symbol
   const debtBIcon = debtBToken?.icon
   const debtBDecimals = debtBToken?.decimals
   
@@ -136,23 +135,27 @@ const InputAmount = ({ prevStep }) => {
   }
 
   return (
-    <div>       
+    <div>
+      <div className="pb-5 text-dark fs-5 fw-bolder">Input Amount</div>       
       <div className="card mb-2">
         <div className="card-body pt-3 pb-3">
-          <TokenIcon className='' tokenName={ tokenSymbol } tokenDesc={ tokenName } tokenIcon={ tokenIcon }/>
+          <CollateralToken 
+            tokenIcon={ tokenIcon } 
+            tokenSymbol={ tokenSymbol } 
+            tokenName={ tokenName }/>
         </div>
       </div>
 
       <div className="card mb-2">
-        <div className="card-body p-0">
-          <input
+        <div className="card-body pt-5 pb-5">
+          <Field
             id='amount'
             type='text'
-            className='form-control form-control-lg  fw-bolder bg-white border-0 text-primary align-center'
+            className='p-0 form-control form-control-lg  fw-bolder bg-white border-0 text-primary align-center'
             placeholder='0.0'
             name='collateralAssetAmount'
             value={assetAmount.values.collateralAssetAmount}
-            style={{ fontSize: 48 }}
+            style={{ fontSize: 58 }}
             autoComplete='off'
             onChange={e => {
               e.preventDefault();
@@ -168,58 +171,33 @@ const InputAmount = ({ prevStep }) => {
 
       <div className="card mb-2">
         <div className="card-body">
-          <div className='d-flex align-items-sm-center mb-4'>
-            <div className='d-flex flex-row-fluid flex-wrap align-items-center'>
-              <div className='flex-grow-1 me-2'>
-                <div className='text-muted fw-bolder fs-6'>
-                  You Pledged
-                </div>
-              </div>
-              <div className='symbol symbol-50px me-2'>
-                <KTSVG path={tokenIcon} className='svg-icon svg-icon-2x' />
-              </div>
-              <span className='fs-6 fw-bolder my-2'>{formatToken(pledgedBalance, {scale: colDecimals, tokenName: tokenSymbol}) ?? '-'}</span>
-            </div>
-          </div>
 
-          <div className='d-flex align-items-sm-center mb-4'>
-            <div className='d-flex flex-row-fluid flex-wrap align-items-center'>
-              <div className='flex-grow-1 me-2'>
-                <div className='text-muted fw-bolder fs-6'>
-                  Your Collateral LTV
-                </div>
-                </div>
-                  <span className='fs-6 fw-bolder my-2'>{formatPercent(formatToken(issuerLtv?.ltv, {scale: 18}), 4) ?? '-'}</span>
-                </div>
-          </div>
+          <TransactionCollateralDataItem 
+            title='Your Pledged'
+            tokenIcon={tokenIcon}
+            decimals={colDecimals}
+            balance={pledgedBalance}
+          />
 
-          <div className='d-flex align-items-sm-center mb-4'>
-            <div className='d-flex flex-row-fluid flex-wrap align-items-center'>
-              <div className='flex-grow-1 me-2'>
-                <div className='text-muted fw-bolder fs-6'>
-                  Your Debts
-                </div>
-              </div>
-              <div className='symbol symbol-50px me-2'>
-                <KTSVG path={debtAIcon} className='svg-icon svg-icon-1x' />
-              </div>
-              <span className='fs-6 fw-bolder my-2'>{formatToken(debtAAmount, {scale: debtADecimals, tokenName: debtASymbol}) ?? '-'}</span>
-            </div>
-          </div>
+          <TransactionLtvDataItem 
+            title='Your Collateral LTV'
+            balance={issuerLtv?.ltv}
+            decimals={18}
+          />
 
-          <div className='d-flex align-items-sm-center mb-4'>
-            <div className='d-flex flex-row-fluid flex-wrap align-items-center'>
-              <div className='flex-grow-1 me-2'>
-                <div className='text-muted fw-bolder text-hover-primary fs-6'>
-                        
-                </div>
-              </div>
-              <div className='symbol symbol-50px me-2'>
-                <KTSVG path={debtBIcon} className='svg-icon svg-icon-1x' />
-              </div>
-              <span className='fs-6 fw-bolder my-2'>{formatToken(debtBAmount, {scale: debtBDecimals, tokenName: debtBSymbol}) ?? '-'}</span>
-            </div>
-          </div>
+          <TransactionAssetDataItem
+            title='Your Debts'
+            tokenIcon={debtAIcon}
+            decimals={debtADecimals}
+            balance={debtAAmount}  
+          />
+
+          <TransactionAssetDataItem
+            title=''
+            tokenIcon={debtBIcon}
+            decimals={debtBDecimals}
+            balance={debtBAmount}  
+          />
         </div>       
       </div>
 

@@ -4,6 +4,7 @@ import { useFormik } from 'formik'
 import { useEffect, useState } from 'react'
 import { useConfig } from '../../../../components/providers/configProvider'
 import TokenIcon from '../../../../components/token-icon'
+import TransactionAssetDataItem from '../../../../components/transaction-data-item/TransactionAssetDataItem'
 import { useWallet } from '../../../../wallets/walletProvider'
 import { useProtocolData } from '../../../../web3/components/providers/ProtocolDataProvider'
 import { calAPY, formatPercent, formatToken, scaleBy } from '../../../../web3/utils'
@@ -168,6 +169,13 @@ const InputDebtAssetAmount = ({ prevStep }) => {
               <span className='fs-6 fw-bolder my-2'>{formatToken(walletBalance, {scale: decimals, tokenName: bondPool.bondAsset.symbol})}</span>
             </div>
           </div>
+
+          <TransactionAssetDataItem
+            title='You will borrow'
+            tokenIcon={bondPool.bondAsset.icon}
+            balance={walletBalance}
+            decimals={decimals}           
+          />
           {/* begin::Title */}
           <div className='d-flex align-items-sm-center mb-4'>          
             <div className='d-flex flex-row-fluid flex-wrap align-items-center'>

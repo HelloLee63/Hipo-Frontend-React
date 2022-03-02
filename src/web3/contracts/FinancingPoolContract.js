@@ -1500,6 +1500,16 @@ class FinancingPoolContract extends Web3Contract {
     })
   }
 
+  redeem(collateralAsset, amount) {
+    if (!this.account) {
+      return Promise.reject()
+    }
+
+    return this.send('redeem', [collateralAsset, amount], {
+      from: this.account
+    })
+  }
+
   addLiquidity(asset, duration, amount) {
 
     if (!this.account) {

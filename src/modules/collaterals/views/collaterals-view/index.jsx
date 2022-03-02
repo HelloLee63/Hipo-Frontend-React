@@ -1,21 +1,27 @@
 import BigNumber from "bignumber.js"
 import { useCallback, useEffect, useState } from "react"
 import { Link } from "react-router-dom"
+import TransactionLink from "../../../../components/button/transaction-link"
 import { useKnownTokens } from "../../../../components/providers/knownTokensProvider"
 import { usePools } from "../../../../components/providers/poolsProvider"
-import TokenIcon from "../../../../components/token-icon"
+import CollateralToken from "../../../../components/token-icon/CollateralToken"
+import TransactionAssetDataItem from "../../../../components/transaction-data-item/TransactionAssetDataItem"
+import TransactionCollateralDataItem from "../../../../components/transaction-data-item/TransactionCollateralDataItem"
+import TransactionLtvDataItem from "../../../../components/transaction-data-item/TransactionLtvDataItem"
 import { useWallet } from "../../../../wallets/walletProvider"
 import { useProtocolData } from "../../../../web3/components/providers/ProtocolDataProvider"
 import { useWalletData } from "../../../../web3/components/providers/WalletDataProvider"
 
 import { formatPercent, formatToken } from "../../../../web3/utils"
 import { KTSVG } from "../../../../_metronic/helpers/components/KTSVG"
+import { useColPool } from "../../../pledge/providers/colPool-provider"
 
 const CollateralsView = () => {
 
   const walletCtx = useWallet()
 
   const { collateralPools } = usePools()
+  const { setPoolSymbol } = useColPool()
 
   const protocolData = useProtocolData()  
   const walletData = useWalletData()
@@ -31,7 +37,6 @@ const CollateralsView = () => {
     if (walletCtx.account) {
       collateralPools.map(pool => {
         const balance = new BigNumber(pool.contract.balances?.get(walletCtx.account))
-        console.log(balance);
         amount = BigNumber.sum(amount, balance)
       })
     }
@@ -65,18 +70,25 @@ const CollateralsView = () => {
     )
   }
 
+  function handleCurrenSymbol(symbol) {
+    setPoolSymbol(() => symbol)
+  }
+
   return (
-    <div className='row g-5 g-xl-8'>
+    <>
+      <TransactionLink name='Pledge' transaction='/pledge'/>
+      <div className='row g-5 g-xl-8'>
     { 
       collateralPools.map(pool =>  (
         pool.contract.balances?.get(walletCtx.account)?.toString() > 0 &&
         <div key={pool.collateralAsset.symbol} className='col-xl-4'>
           <div className="card mb-2">
             <div className="card-body pt-3 pb-3">
-              <TokenIcon 
+              
+              <CollateralToken 
                 tokenIcon={pool.collateralAsset.icon} 
-                tokenName={pool.collateralAsset.symbol} 
-                tokenDesc={pool.collateralAsset.name}                
+                tokenSymbol={pool.collateralAsset.symbol} 
+                tokenName={pool.collateralAsset.name} 
               />
             </div>
           </div>
@@ -84,112 +96,73 @@ const CollateralsView = () => {
           <div className="card">
             <div className="card-body">
 
-              <div className='d-flex align-items-sm-center mb-7'>
-                  <div className='d-flex flex-row-fluid flex-wrap align-items-center'>
-                    <div className='flex-grow-1 me-2'>
-                      <div className='text-muted fw-bolder fs-6'>
-                        Amount
-                      </div>
-                    </div>
-                    <div className='symbol symbol-50px me-2'>
-                      <KTSVG path={pool.collateralAsset.icon} className='svg-icon svg-icon-2x' />
-                    </div>
-                    {formatToken(pool.contract.balances?.get(walletCtx.account), {scale: pool.collateralAsset.decimals}) ?? '-'}
-                    <span className='fs-6 fw-bolder my-2'></span>
-                  </div>
-              </div>
+              <TransactionCollateralDataItem
+                title='Amount'
+                tokenIcon={pool.collateralAsset.icon}
+                balance={pool.contract.balances?.get(walletCtx.account)}
+                decimals={pool.collateralAsset.decimals}
+              />
 
-              <div className='separator my-7'></div>
+              <div className='separator my-5'></div>
 
-              <div className='d-flex align-items-sm-center mb-7'>
-                <div className='d-flex flex-row-fluid flex-wrap align-items-center'>
-                  <div className='flex-grow-1 me-2'>
-                    <a href='#' className='text-muted fw-bolder fs-6'>
-                      Debts
-                    </a>
-                  </div>
-                  <div className='symbol symbol-50px me-2'>
-                    <KTSVG path={getTokenByAddress(walletData.getIssuerTotalDebts(pool.collateralAsset.address)?.debtBAddress?.toLowerCase())?.icon} className='svg-icon svg-icon-1x' />
-                  </div>
-                  {formatToken(walletData.getIssuerTotalDebts(pool.collateralAsset.address)?.debtBAmount, {scale: getTokenByAddress(walletData.getIssuerTotalDebts(pool.collateralAsset.address)?.debtBAddress?.toLowerCase())?.decimals}) ?? '-'}
-                  <span className='fs-6 fw-bolder my-2'></span>
-                </div>
-              </div>
+              <TransactionAssetDataItem 
+                title='Debts'
+                tokenIcon={getTokenByAddress(walletData.getIssuerTotalDebts(pool.collateralAsset.address)?.debtAAddress?.toLowerCase())?.icon}
+                balance={walletData.getIssuerTotalDebts(pool.collateralAsset.address)?.debtAAmount}
+                decimals={getTokenByAddress(walletData.getIssuerTotalDebts(pool.collateralAsset.address)?.debtAAddress?.toLowerCase())?.decimals}
+              />
 
-              <div className='d-flex align-items-sm-center mb-7'>
-                <div className='d-flex flex-row-fluid flex-wrap align-items-center'>
-                  <div className='flex-grow-1 me-2'>
-                    <div className='text-muted fw-bolder fs-6'>
-                          
-                    </div>
-                  </div>
-                  <div className='symbol symbol-50px me-2'>
-                    <KTSVG path={getTokenByAddress(walletData.getIssuerTotalDebts(pool.collateralAsset.address)?.debtAAddress?.toLowerCase())?.icon} className='svg-icon svg-icon-1x' />
-                  </div>
-                  {formatToken(walletData.getIssuerTotalDebts(pool.collateralAsset.address)?.debtAAmount, {scale: getTokenByAddress(walletData.getIssuerTotalDebts(pool.collateralAsset.address)?.debtAAddress?.toLowerCase())?.decimals}) ?? '-'}
-                  <span className='fs-6 fw-bolder my-2'></span>
-                </div>
-              </div>
+              <TransactionAssetDataItem 
+                title=''
+                tokenIcon={getTokenByAddress(walletData.getIssuerTotalDebts(pool.collateralAsset.address)?.debtBAddress?.toLowerCase())?.icon}
+                balance={walletData.getIssuerTotalDebts(pool.collateralAsset.address)?.debtBAmount}
+                decimals={getTokenByAddress(walletData.getIssuerTotalDebts(pool.collateralAsset.address)?.debtBAddress?.toLowerCase())?.decimals}
+              />              
 
-              <div className='separator my-7'></div>
+              <div className='separator my-5'></div>
 
-              <div className='d-flex align-items-sm-center mb-7'>
-                <div className='d-flex flex-row-fluid flex-wrap align-items-center'>
-                  <div className='flex-grow-1 me-2'>
-                    <a href='#' className='text-muted fw-bolder fs-6'>
-                      LTV
-                    </a>
-                  </div>
-                  {formatPercent(formatToken(walletData.getIssuerLtv(pool.collateralAsset.address)?.ltv, 
-                    {scale: 18}), 4) ?? '-'}
-                  <span className='fs-6 fw-bolder my-2'></span>
-                </div>
-              </div>
+              <TransactionLtvDataItem 
+                title='LTV'
+                balance={walletData.getIssuerLtv(pool.collateralAsset.address)?.ltv}
+                decimals={18}
+              />
 
-              <div className='d-flex align-items-sm-center mb-7'>
-                <div className='d-flex flex-row-fluid flex-wrap align-items-center'>
-                  <div className='flex-grow-1 me-2'>
-                    <a href='#' className='text-muted fw-bolder fs-6'>
-                      Max LTV
-                    </a>
-                  </div>
-                  <span className='fs-6 fw-bolder my-2'>{formatPercent(protocolData.protocolDataContract.maxLtvMap?.get(pool.collateralAsset.address) / 100)}</span>
-                </div>
-              </div>
+              <TransactionLtvDataItem 
+                title='Max LTV'
+                balance={protocolData.protocolDataContract.maxLtvMap?.get(pool.collateralAsset.address)}
+                decimals={2}
+              />
 
-              <div className='d-flex align-items-sm-center mb-7'>
-                <div className='d-flex flex-row-fluid flex-wrap align-items-center'>
-                  <div className='flex-grow-1 me-2'>
-                    <a href='#' className='text-muted fw-bolder fs-6'>
-                      Liquidation Threshold
-                    </a>
-                  </div>
-                  <span className='fs-6 fw-bolder my-2'>{formatPercent(protocolData.protocolDataContract.thresholdMap.get(pool.collateralAsset.address) / 100)}</span>
-                </div>
-              </div>
+              <TransactionLtvDataItem 
+                title='Liquidation Threshold'
+                balance={protocolData.protocolDataContract.thresholdMap.get(pool.collateralAsset.address)}
+                decimals={2}
+              />
             </div>
           </div>
 
           <div className='d-flex flex-stack pt-3'>
             <Link to='/redeem'>
-              <button type='button' className='btn btn-lg btn-primary me-0'>
-                <span className='indicator-label'>                    
+              <button onClick={() => handleCurrenSymbol(pool.collateralAsset.symbol)} className='btn btn-lg btn-primary me-0'>
+                <span className='indicator-label'>  
                   Redeem                                   
                 </span>
               </button>
             </Link>
 
-            <div>
-              <button type='button' className='btn btn-lg btn-primary me-0'>
+            <Link to='/pledge'>
+              <button className='btn btn-lg btn-primary me-0'>
                 <span className='indicator-label'>              
                   Add
                 </span>
               </button>
-            </div>
+            </Link>
           </div>       
         </div>))            
     }        
-    </div>  
+      </div>
+    </>
+      
   )
 }
 

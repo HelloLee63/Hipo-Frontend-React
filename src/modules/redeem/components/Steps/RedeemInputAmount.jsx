@@ -5,40 +5,35 @@ import { useFormik} from 'formik'
 import { useEffect, useState } from 'react'
 import { useConfig } from '../../../../components/providers/configProvider'
 import { useKnownTokens } from '../../../../components/providers/knownTokensProvider'
-import TokenIcon from '../../../../components/token-icon'
+import TitleLable from '../../../../components/title-lable'
+import CollateralToken from '../../../../components/token-icon/CollateralToken'
+import TransactionAssetDataItem from '../../../../components/transaction-data-item/TransactionAssetDataItem'
+import TransactionCollateralDataItem from '../../../../components/transaction-data-item/TransactionCollateralDataItem'
+import TransactionLtvDataItem from '../../../../components/transaction-data-item/TransactionLtvDataItem'
 import { useWallet } from '../../../../wallets/walletProvider'
 import { useWalletData } from '../../../../web3/components/providers/WalletDataProvider'
-import { formatPercent, formatToken, scaleBy } from '../../../../web3/utils'
+import { scaleBy } from '../../../../web3/utils'
 import { KTSVG } from '../../../../_metronic/helpers/components/KTSVG'
-import { useColPool } from '../../providers/colPool-provider'
+import { useColPool } from '../../../pledge/providers/colPool-provider'
 
 const RedeemInputAmount = ({ prevStep }) => {
 
-  const { colPool, tokenSymbol, tokenName, tokenIcon, setPledgeAmount } = useColPool()
-  const collateralAddress = colPool.underlyingAsset.address
+  const { colPool, tokenSymbol, tokenName, tokenIcon, setRedeemAmount } = useColPool()
+  const collateralAddress = colPool.collateralAsset.address
   const { getTokenByAddress } = useKnownTokens()
 
   const config = useConfig()
   const wallet = useWallet()
-  const walletBalance = colPool.underlyingAsset.contract.balances?.get(wallet.account)
-  const pledgedBalance = colPool.token.contract.balances?.get(wallet.account)
+  const walletBalance = colPool.collateralAsset.contract.balances?.get(wallet.account)
+  const pledgedBalance = colPool.contract.balances?.get(wallet.account)
 
-  const allowance = colPool.underlyingAsset.contract.allowances?.get(config.contracts.financingPool.financingPool)
+  const allowance = colPool.contract.allowances?.get(config.contracts.financingPool.financingPool)
 
-  const assetDecimals = colPool.underlyingAsset.decimals
-  const colDecimals = colPool.token.decimals
+  const colDecimals = colPool.collateralAsset.decimals
 
   const walletData = useWalletData()
-  const issuerLtv = walletData.walletDataContract.issuerLtvArray?.find(
-    data => data.issuer === wallet.account && data.collateralAssetAddress === collateralAddress)
-
-  console.log(issuerLtv);
-  console.log(walletData.walletDataContract.issuerLtvArray);
-  console.log(wallet.account);
-  console.log(collateralAddress);
-
-  const issuerTotalDebt = walletData.walletDataContract.issuerTotalDebtsArray?.find(
-    obj => obj.issuer === wallet.account && obj.collateralAssetAddress === collateralAddress)
+  const issuerLtv = walletData.getIssuerLtv(collateralAddress)
+  const issuerTotalDebt = walletData.getIssuerTotalDebts(collateralAddress)
 
   const debtAAddress = issuerTotalDebt?.debtAAddress
   const debtBAddress = issuerTotalDebt?.debtBAddress
@@ -46,12 +41,10 @@ const RedeemInputAmount = ({ prevStep }) => {
   const debtBAmount = issuerTotalDebt?.debtBAmount
 
   const debtAToken = getTokenByAddress(debtAAddress?.toLowerCase())
-  const debtASymbol = debtAToken?.symbol
   const debtAIcon = debtAToken?.icon
   const debtADecimals = debtAToken?.decimals
 
   const debtBToken = getTokenByAddress(debtBAddress?.toLowerCase())
-  const debtBSymbol = debtBToken?.symbol
   const debtBIcon = debtBToken?.icon
   const debtBDecimals = debtBToken?.decimals
   
@@ -68,12 +61,7 @@ const RedeemInputAmount = ({ prevStep }) => {
   })
 
   const inputAmount = new BigNumber(assetAmount.values.collateralAssetAmount)
-
-  console.log(inputAmount);
-
-  let value = new BigNumber(scaleBy(inputAmount, assetDecimals)) 
-
-  console.log(value);
+  let value = new BigNumber(scaleBy(inputAmount, colDecimals)) 
 
   useEffect(() => {
     if (!wallet.account) {
@@ -124,10 +112,10 @@ const RedeemInputAmount = ({ prevStep }) => {
         }
       }
     }
-  }, [wallet.account, value, walletBalance])
+  }, [wallet.account, value, walletBalance, allowance])
 
   function handleSubmit() {
-    setPledgeAmount(() => inputAmount)
+    setRedeemAmount(() => inputAmount)
   }
   
   async function handleApprove() {
@@ -137,7 +125,7 @@ const RedeemInputAmount = ({ prevStep }) => {
       setEnabling(true)
 
       try {
-        await colPool.underlyingAsset.contract.approve(config.contracts.financingPool.financingPool, true)
+        await colPool.contract.approve(config.contracts.financingPool.financingPool, true)
       } catch(e) {
         console.error(e)
       }
@@ -147,23 +135,27 @@ const RedeemInputAmount = ({ prevStep }) => {
   }
 
   return (
-    <div>       
+    <div>
+      <div className="pb-5 text-dark fs-5 fw-bolder">Input Amount</div>       
       <div className="card mb-2">
         <div className="card-body pt-3 pb-3">
-          <TokenIcon className='' tokenName={ tokenSymbol } tokenDesc={ tokenName } tokenIcon={ tokenIcon }/>
+          <CollateralToken 
+            tokenIcon={ tokenIcon } 
+            tokenSymbol={ tokenSymbol } 
+            tokenName={ tokenName }/>
         </div>
       </div>
 
       <div className="card mb-2">
-        <div className="card-body p-0">
+        <div className="card-body pt-5 pb-5">
           <input
             id='amount'
             type='text'
-            className='form-control form-control-lg  fw-bolder bg-white border-0 text-primary align-center'
+            className='p-0 form-control form-control-lg  fw-bolder bg-white border-0 text-primary align-center'
             placeholder='0.0'
             name='collateralAssetAmount'
             value={assetAmount.values.collateralAssetAmount}
-            style={{ fontSize: 48 }}
+            style={{ fontSize: 58 }}
             autoComplete='off'
             onChange={e => {
               e.preventDefault();
@@ -179,58 +171,33 @@ const RedeemInputAmount = ({ prevStep }) => {
 
       <div className="card mb-2">
         <div className="card-body">
-          <div className='d-flex align-items-sm-center mb-4'>
-            <div className='d-flex flex-row-fluid flex-wrap align-items-center'>
-              <div className='flex-grow-1 me-2'>
-                <div className='text-muted fw-bolder fs-6'>
-                  You Pledged
-                </div>
-              </div>
-              <div className='symbol symbol-50px me-2'>
-                <KTSVG path={tokenIcon} className='svg-icon svg-icon-2x' />
-              </div>
-              <span className='fs-6 fw-bolder my-2'>{formatToken(pledgedBalance, {scale: colDecimals, tokenName: tokenSymbol}) ?? '-'}</span>
-            </div>
-          </div>
 
-          <div className='d-flex align-items-sm-center mb-4'>
-            <div className='d-flex flex-row-fluid flex-wrap align-items-center'>
-              <div className='flex-grow-1 me-2'>
-                <div className='text-muted fw-bolder fs-6'>
-                  Your Collateral LTV
-                </div>
-                </div>
-                  <span className='fs-6 fw-bolder my-2'>{formatPercent(formatToken(issuerLtv?.ltv, {scale: 18}), 4) ?? '-'}</span>
-                </div>
-          </div>
+          <TransactionCollateralDataItem 
+            title='Your Pledged'
+            tokenIcon={tokenIcon}
+            decimals={colDecimals}
+            balance={pledgedBalance}
+          />
 
-          <div className='d-flex align-items-sm-center mb-4'>
-            <div className='d-flex flex-row-fluid flex-wrap align-items-center'>
-              <div className='flex-grow-1 me-2'>
-                <div className='text-muted fw-bolder fs-6'>
-                  Your Debts
-                </div>
-              </div>
-              <div className='symbol symbol-50px me-2'>
-                <KTSVG path={debtAIcon} className='svg-icon svg-icon-1x' />
-              </div>
-              <span className='fs-6 fw-bolder my-2'>{formatToken(debtAAmount, {scale: debtADecimals, tokenName: debtASymbol}) ?? '-'}</span>
-            </div>
-          </div>
+          <TransactionLtvDataItem 
+            title='Your Collateral LTV'
+            balance={issuerLtv?.ltv}
+            decimals={18}
+          />
 
-          <div className='d-flex align-items-sm-center mb-4'>
-            <div className='d-flex flex-row-fluid flex-wrap align-items-center'>
-              <div className='flex-grow-1 me-2'>
-                <div className='text-muted fw-bolder text-hover-primary fs-6'>
-                        
-                </div>
-              </div>
-              <div className='symbol symbol-50px me-2'>
-                <KTSVG path={debtBIcon} className='svg-icon svg-icon-1x' />
-              </div>
-              <span className='fs-6 fw-bolder my-2'>{formatToken(debtBAmount, {scale: debtBDecimals, tokenName: debtBSymbol}) ?? '-'}</span>
-            </div>
-          </div>
+          <TransactionAssetDataItem
+            title='Your Debts'
+            tokenIcon={debtAIcon}
+            decimals={debtADecimals}
+            balance={debtAAmount}  
+          />
+
+          <TransactionAssetDataItem
+            title=''
+            tokenIcon={debtBIcon}
+            decimals={debtBDecimals}
+            balance={debtBAmount}  
+          />
         </div>       
       </div>
 
@@ -266,7 +233,8 @@ const RedeemInputAmount = ({ prevStep }) => {
             </span>
           </button>
         </div>}
-        {approveVisible &&
+
+        { approveVisible &&
         <div>            
           <button 
             type='button' 
@@ -290,7 +258,7 @@ const RedeemInputAmount = ({ prevStep }) => {
           </button>
         </div>}
 
-        {submitDisabledVisible &&
+        { submitDisabledVisible &&
         <div>            
           <button 
             type='button' 
@@ -307,7 +275,7 @@ const RedeemInputAmount = ({ prevStep }) => {
           </button>
         </div>}
 
-        {submitVisible &&
+        { submitVisible &&
         <div>            
           <button 
             type='submit' 

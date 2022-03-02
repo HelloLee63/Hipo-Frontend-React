@@ -15,6 +15,8 @@ import WalletDataProvider from './web3/components/providers/WalletDataProvider.j
 import FinancingPoolProvider from './web3/components/providers/FinancingPoolProvider.js';
 import BondMarketProvider from './modules/bond-market/providers/BondMarketProvider.js';
 import PoolsProvider from './components/providers/poolsProvider.jsx';
+import BalanceDataProvider from './web3/components/providers/BalanceDataProvider.js';
+import ColPoolProvider from './modules/pledge/providers/colPool-provider/index.jsx';
 
 const App = () => {
 
@@ -33,11 +35,15 @@ const App = () => {
                         <PoolsProvider>
                           <ProtocolDataProvider>
                             <WalletDataProvider>
-                              <FinancingPoolProvider>
-                                <BondMarketProvider>                                   
-                                  <AppRoutes /> 
-                                </BondMarketProvider>                              
-                              </FinancingPoolProvider>
+                              <BalanceDataProvider>
+                                <FinancingPoolProvider>
+                                  <BondMarketProvider> 
+                                    <ColPoolProvider>                                 
+                                      <AppRoutes /> 
+                                    </ColPoolProvider> 
+                                  </BondMarketProvider>                              
+                                </FinancingPoolProvider>
+                              </BalanceDataProvider>
                             </WalletDataProvider>   
                           </ProtocolDataProvider>
                         </PoolsProvider>

@@ -4,9 +4,9 @@ import CollateralsView from "./views/collaterals-view"
 const Collaterals = () => {
 
   return (
-    <ColPoolProvider>
+    // <ColPoolProvider>
       <CollateralsView />
-    </ColPoolProvider> 
+    // </ColPoolProvider> 
   )
 }
 

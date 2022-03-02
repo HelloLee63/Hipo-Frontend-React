@@ -20,11 +20,11 @@ class DebtTokenContract extends Erc20Contract {
     this.debtsListMap = new Map()
     this.debtsCountMap = new Map()
 
-    this.on(Web3Contract.UPDATE_DATA, () => {
+    this.on(Web3Contract.UPDATE_ACCOUNT, () => {
       this.debtsByCollateralMap.clear()
       this.debtsListMap.clear()
       this.debtsCountMap.clear()
-      // this.emit(Web3Contract.UPDATE_ACCOUNT)
+      this.emit(Web3Contract.UPDATE_DATA)
     })    
   }
 
@@ -33,6 +33,10 @@ class DebtTokenContract extends Erc20Contract {
   delay
   debtsCount
   debtData
+
+  getListsOf(address = this.account) {
+    return address ? this.debtsListMap.get(address) : undefined
+  }
 
   async loadDebtsByCollateral(issuer, collateralAsset) {
     const debtsByCollateral = await this.call('getIssuerDebtsOfCollateral', [issuer, collateralAsset])
@@ -43,8 +47,9 @@ class DebtTokenContract extends Erc20Contract {
   async loadDebtsList(issuer) {
     const debtsList = await this.call('getIssuerDebtsList', [issuer])
     this.debtsList = debtsList
+    console.log(debtsList);
     this.debtsListMap.set(issuer, debtsList)
-    console.log(this.debtsList);
+    console.log(this.debtsListMap);
     this.emit(Web3Contract.UPDATE_DATA)
   }
 

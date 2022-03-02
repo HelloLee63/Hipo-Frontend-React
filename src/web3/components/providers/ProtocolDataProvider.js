@@ -23,7 +23,7 @@ const ProtocolDataProvider = ({ children }) => {
   const protocolDataContract = useProtocolDataContract(config.contracts.dataProvider.protocolDataProvider)
   const [reload] = useReload()
 
-  console.log('Protocol Data Provider is rendered');
+  // console.log('Protocol Data Provider is rendered');
 
   const { bondPools, collateralPools } = usePools()
 

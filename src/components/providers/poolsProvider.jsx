@@ -115,6 +115,32 @@ const PoolsProvider = ({ children }) => {
     dDAI30,
     dDAI45,
     dDAI60,
+
+    lpWETH5,
+    lpWETH10,
+    lpWETH15,
+    lpWETH30,
+    lpWETH45,
+    lpWETH60,
+    lpUSDC5,
+    lpUSDC10,
+    lpUSDC15,
+    lpUSDC30,
+    lpUSDC45,
+    lpUSDC60,
+    lpUSDT5,
+    lpUSDT10,
+    lpUSDT15,
+    lpUSDT30,
+    lpUSDT45,
+    lpUSDT60,
+    lpDAI5,
+    lpDAI10,
+    lpDAI15,
+    lpDAI30,
+    lpDAI45,
+    lpDAI60,
+
   } = useKnownTokens()
 
   const assets = useMemo(() => [wethToken, usdcToken, usdtToken, daiToken], [])
@@ -126,6 +152,7 @@ const PoolsProvider = ({ children }) => {
       icon: '/media/tokens/ICON/WETH/5.svg',
       bToken: bWETH5,
       dToken: dWETH5,
+      lpToken: lpWETH5,
       contract: bWETH5.contract
     },
     {
@@ -134,6 +161,7 @@ const PoolsProvider = ({ children }) => {
       icon: '/media/tokens/ICON/WETH/10.svg',
       bToken: bWETH10,
       dToken: dWETH10,
+      lpToken: lpWETH10,
       contract: bWETH10.contract
     },
     {
@@ -142,6 +170,7 @@ const PoolsProvider = ({ children }) => {
       icon: '/media/tokens/ICON/WETH/15.svg',
       bToken: bWETH15,
       dToken: dWETH15,
+      lpToken: lpWETH15,
       contract: bWETH15.contract
     },
     {
@@ -150,6 +179,7 @@ const PoolsProvider = ({ children }) => {
       icon: '/media/tokens/ICON/WETH/30.svg',
       bToken: bWETH30,
       dToken: dWETH30,
+      lpToken: lpWETH30,
       contract: bWETH30.contract
     },
     {
@@ -158,6 +188,7 @@ const PoolsProvider = ({ children }) => {
       icon: '/media/tokens/ICON/WETH/45.svg',
       bToken: bWETH45,
       dToken: dWETH45,
+      lpToken: lpWETH45,
       contract: bWETH45.contract
     },
     {
@@ -166,6 +197,7 @@ const PoolsProvider = ({ children }) => {
       icon: '/media/tokens/ICON/WETH/60.svg',
       bToken: bWETH60,
       dToken: dWETH60,
+      lpToken: lpWETH60,
       contract: bWETH60.contract
     },
     {
@@ -174,6 +206,7 @@ const PoolsProvider = ({ children }) => {
       icon: '/media/tokens/ICON/USDC/5.svg',
       bToken: bUSDC5,
       dToken: dUSDC5,
+      lpToken: lpUSDC5,
       contract: bUSDC5.contract
     },
     {
@@ -182,6 +215,7 @@ const PoolsProvider = ({ children }) => {
       icon: '/media/tokens/ICON/USDC/10.svg',
       bToken: bUSDC10,
       dToken: dUSDC10,
+      lpToken: lpUSDC10,
       contract: bUSDC10.contract
     },
     {
@@ -190,6 +224,7 @@ const PoolsProvider = ({ children }) => {
       icon: '/media/tokens/ICON/USDC/15.svg',
       bToken: bUSDC15,
       dToken: dUSDC15,
+      lpToken: lpUSDC15,
       contract: bUSDC15.contract
     },
     {
@@ -198,6 +233,7 @@ const PoolsProvider = ({ children }) => {
       icon: '/media/tokens/ICON/USDC/30.svg',
       bToken: bUSDC30,
       dToken: dUSDC30,
+      lpToken: lpUSDC30,
       contract: bUSDC30.contract
     },
     {
@@ -206,6 +242,7 @@ const PoolsProvider = ({ children }) => {
       icon: '/media/tokens/ICON/USDC/45.svg',
       bToken: bUSDC45,
       dToken: dUSDC45,
+      lpToken: lpUSDC45,
       contract: bUSDC45.contract
     },
     {
@@ -214,6 +251,7 @@ const PoolsProvider = ({ children }) => {
       icon: '/media/tokens/ICON/USDC/60.svg',
       bToken: bUSDC60,
       dToken: dUSDC60,
+      lpToken: lpUSDC60,
       contract: bUSDC60.contract
     },
     {
@@ -222,6 +260,7 @@ const PoolsProvider = ({ children }) => {
       icon: '/media/tokens/ICON/USDT/5.svg',
       bToken: bUSDT5,
       dToken: dUSDT5,
+      lpToken: lpUSDT5,
       contract: bUSDT5.contract
     },
     {
@@ -230,6 +269,7 @@ const PoolsProvider = ({ children }) => {
       icon: '/media/tokens/ICON/USDT/10.svg',
       bToken: bUSDT10,
       dToken: dUSDT10,
+      lpToken: lpUSDT10,
       contract: bUSDT10.contract
     },
     {
@@ -238,6 +278,7 @@ const PoolsProvider = ({ children }) => {
       icon: '/media/tokens/ICON/USDT/15.svg',
       bToken: bUSDT15,
       dToken: dUSDT15,
+      lpToken: lpUSDT15,
       contract: bUSDT15.contract
     },
     {
@@ -246,6 +287,7 @@ const PoolsProvider = ({ children }) => {
       icon: '/media/tokens/ICON/USDT/30.svg',
       bToken: bUSDT30,
       dToken: dUSDT30,
+      lpToken: lpUSDT30,
       contract: bUSDT30.contract
     },
     {
@@ -254,6 +296,7 @@ const PoolsProvider = ({ children }) => {
       icon: '/media/tokens/ICON/USDT/45.svg',
       bToken: bUSDT45,
       dToken: dUSDT45,
+      lpToken: lpUSDT45,
       contract: bUSDT45.contract
     },
     {
@@ -262,6 +305,7 @@ const PoolsProvider = ({ children }) => {
       icon: '/media/tokens/ICON/USDT/60.svg',
       bToken: bUSDT60,
       dToken: dUSDT60,
+      lpToken: lpUSDT60,
       contract: bUSDT60.contract
     },
     {
@@ -270,6 +314,7 @@ const PoolsProvider = ({ children }) => {
       icon: '/media/tokens/ICON/DAI/5.svg',
       bToken: bDAI5,
       dToken: dDAI5,
+      lpToken: lpDAI5,
       contract: bDAI5.contract
     },
     {
@@ -278,6 +323,7 @@ const PoolsProvider = ({ children }) => {
       icon: '/media/tokens/ICON/DAI/10.svg',
       bToken: bDAI10,
       dToken: dDAI10,
+      lpToken: lpDAI10,
       contract: bDAI10.contract
     },
     {
@@ -286,6 +332,7 @@ const PoolsProvider = ({ children }) => {
       icon: '/media/tokens/ICON/DAI/15.svg',
       bToken: bDAI15,
       dToken: dDAI15,
+      lpToken: lpDAI15,
       contract: bDAI15.contract
     },
     {
@@ -294,6 +341,7 @@ const PoolsProvider = ({ children }) => {
       icon: '/media/tokens/ICON/DAI/30.svg',
       bToken: bDAI30,
       dToken: dDAI30,
+      lpToken: lpDAI30,
       contract: bDAI30.contract
     },
     {
@@ -302,6 +350,7 @@ const PoolsProvider = ({ children }) => {
       icon: '/media/tokens/ICON/DAI/45.svg',
       bToken: bDAI45,
       dToken: dDAI45,
+      lpToken: lpDAI45,
       contract: bDAI45.contract
     },
     {
@@ -310,6 +359,7 @@ const PoolsProvider = ({ children }) => {
       icon: '/media/tokens/ICON/DAI/60.svg',
       bToken: bDAI60,
       dToken: dDAI60,
+      lpToken: lpDAI60,
       contract: bDAI60.contract
     },
   ], [])

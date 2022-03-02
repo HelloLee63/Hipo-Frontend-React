@@ -1,28 +1,26 @@
-/* eslint-disable jsx-a11y/anchor-is-valid */
-
 import { useEffect, useState } from 'react'
+import TitleLable from '../../../../components/title-lable'
+import CollateralToken from '../../../../components/token-icon/CollateralToken'
+import { useFinancingPool } from '../../../../web3/components/providers/FinancingPoolProvider'
 import { formatToken, scaleBy } from '../../../../web3/utils'
 import { KTSVG } from '../../../../_metronic/helpers/components/KTSVG'
-import { useColPool } from '../../providers/colPool-provider'
-import { useFinancingPool } from '../../../../web3/components/providers/FinancingPoolProvider'
-import CollateralToken from '../../../../components/token-icon/CollateralToken'
-import TitleLable from '../../../../components/title-lable'
+import { useColPool } from '../../../pledge/providers/colPool-provider'
 
-const ConfirmTransaction = ({ prevStep, handleMethod }) => {
+const RedeemConfirmTransaction = ({ prevStep, handleMethod }) => {
 
-  const { colPool, tokenSymbol, tokenName, tokenIcon, pledgeAmount } = useColPool()
+  const { colPool, tokenSymbol, tokenName, tokenIcon, redeemAmount } = useColPool()
   const financingPool = useFinancingPool()
   
   const assetDecimals = colPool.collateralAsset.decimals 
 
-  const [inputAmount, setInputAmount] = useState(pledgeAmount)  
+  const [inputAmount, setInputAmount] = useState(redeemAmount)  
   const [transacting, setTransacting] = useState(false)
 
   useEffect(() => {
-    setInputAmount(() => pledgeAmount)
-  }, [pledgeAmount])
+    setInputAmount(() => redeemAmount)
+  }, [redeemAmount])
 
-  async function handlePledge() {
+  async function handleRedeem() {
 
     setTransacting(() => true)
 
@@ -30,11 +28,11 @@ const ConfirmTransaction = ({ prevStep, handleMethod }) => {
     let assetAddress = colPool.collateralAsset.address
 
     try {
-      await financingPool.financingPoolContract?.pledge(assetAddress, value)
+      await financingPool.financingPoolContract?.redeem(assetAddress, value)
     } catch (e) {}
 
     setTransacting(() => false)
-    handleMethod.goto(4)
+    handleMethod.goto(3)
   }
 
   return (    
@@ -90,7 +88,7 @@ const ConfirmTransaction = ({ prevStep, handleMethod }) => {
         </div>
         <div>
           <button 
-            onClick={handlePledge}              
+            onClick={handleRedeem}              
             type='submit'
             disabled={transacting ? true : false}
             className='btn btn-lg btn-primary me-0'
@@ -109,4 +107,4 @@ const ConfirmTransaction = ({ prevStep, handleMethod }) => {
   )
 }
 
-export {ConfirmTransaction}
+export {RedeemConfirmTransaction}

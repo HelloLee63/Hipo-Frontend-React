@@ -1,6 +1,6 @@
 import { createContext, useCallback, useContext, useMemo } from 'react';
 import { InvariantContext } from '../../utils/context';
-import { useDebtTokenContract, useErc20Contract } from '../../web3/components/contractManagerProvider';
+import { useBondTokenContract, useDebtTokenContract, useErc20Contract } from '../../web3/components/contractManagerProvider';
 import { useConfig } from './configProvider';
 
 export const KnownTokens = {
@@ -113,7 +113,7 @@ export function useKnownTokens() {
 
 const KnownTokensProvider = props => {
 
-  console.log('Known Token Provider is rendered');
+  // console.log('Known Token Provider is rendered');
 
   const { children } = props;
   const config = useConfig();
@@ -191,30 +191,30 @@ const KnownTokensProvider = props => {
 
   //Bond Tokens
 
-  const bWETH5Contract = useErc20Contract(config.tokens.bWETH5)
-  const bWETH10Contract = useErc20Contract(config.tokens.bWETH10)
-  const bWETH15Contract = useErc20Contract(config.tokens.bWETH15)
-  const bWETH30Contract = useErc20Contract(config.tokens.bWETH30)
-  const bWETH45Contract = useErc20Contract(config.tokens.bWETH45)
-  const bWETH60Contract = useErc20Contract(config.tokens.bWETH60)
-  const bUSDC5Contract = useErc20Contract(config.tokens.bUSDC5)
-  const bUSDC10Contract = useErc20Contract(config.tokens.bUSDC10)
-  const bUSDC15Contract = useErc20Contract(config.tokens.bUSDC15)
-  const bUSDC30Contract = useErc20Contract(config.tokens.bUSDC30)
-  const bUSDC45Contract = useErc20Contract(config.tokens.bUSDC45)
-  const bUSDC60Contract = useErc20Contract(config.tokens.bUSDC60)
-  const bUSDT5Contract = useErc20Contract(config.tokens.bUSDT5)
-  const bUSDT10Contract = useErc20Contract(config.tokens.bUSDT10)
-  const bUSDT15Contract = useErc20Contract(config.tokens.bUSDT15)
-  const bUSDT30Contract = useErc20Contract(config.tokens.bUSDT30)
-  const bUSDT45Contract = useErc20Contract(config.tokens.bUSDT45)
-  const bUSDT60Contract = useErc20Contract(config.tokens.bUSDT60)  
-  const bDAI5Contract = useErc20Contract(config.tokens.bDAI5)
-  const bDAI10Contract = useErc20Contract(config.tokens.bDAI10)
-  const bDAI15Contract = useErc20Contract(config.tokens.bDAI15)
-  const bDAI30Contract = useErc20Contract(config.tokens.bDAI30)
-  const bDAI45Contract = useErc20Contract(config.tokens.bDAI45)
-  const bDAI60Contract = useErc20Contract(config.tokens.bDAI60)
+  const bWETH5Contract = useBondTokenContract(config.tokens.bWETH5)
+  const bWETH10Contract = useBondTokenContract(config.tokens.bWETH10)
+  const bWETH15Contract = useBondTokenContract(config.tokens.bWETH15)
+  const bWETH30Contract = useBondTokenContract(config.tokens.bWETH30)
+  const bWETH45Contract = useBondTokenContract(config.tokens.bWETH45)
+  const bWETH60Contract = useBondTokenContract(config.tokens.bWETH60)
+  const bUSDC5Contract = useBondTokenContract(config.tokens.bUSDC5)
+  const bUSDC10Contract = useBondTokenContract(config.tokens.bUSDC10)
+  const bUSDC15Contract = useBondTokenContract(config.tokens.bUSDC15)
+  const bUSDC30Contract = useBondTokenContract(config.tokens.bUSDC30)
+  const bUSDC45Contract = useBondTokenContract(config.tokens.bUSDC45)
+  const bUSDC60Contract = useBondTokenContract(config.tokens.bUSDC60)
+  const bUSDT5Contract = useBondTokenContract(config.tokens.bUSDT5)
+  const bUSDT10Contract = useBondTokenContract(config.tokens.bUSDT10)
+  const bUSDT15Contract = useBondTokenContract(config.tokens.bUSDT15)
+  const bUSDT30Contract = useBondTokenContract(config.tokens.bUSDT30)
+  const bUSDT45Contract = useBondTokenContract(config.tokens.bUSDT45)
+  const bUSDT60Contract = useBondTokenContract(config.tokens.bUSDT60)  
+  const bDAI5Contract = useBondTokenContract(config.tokens.bDAI5)
+  const bDAI10Contract = useBondTokenContract(config.tokens.bDAI10)
+  const bDAI15Contract = useBondTokenContract(config.tokens.bDAI15)
+  const bDAI30Contract = useBondTokenContract(config.tokens.bDAI30)
+  const bDAI45Contract = useBondTokenContract(config.tokens.bDAI45)
+  const bDAI60Contract = useBondTokenContract(config.tokens.bDAI60)
 
   const debtTokens = useMemo(
     () => [

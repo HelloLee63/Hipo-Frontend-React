@@ -1,9 +1,9 @@
 import TitleLable from "../../../../components/title-lable"
 import CollateralToken from "../../../../components/token-icon/CollateralToken"
 import { KTSVG } from "../../../../_metronic/helpers/components/KTSVG"
-import { useColPool } from "../../providers/colPool-provider"
+import { useColPool } from "../../../pledge/providers/colPool-provider"
 
-const CompleteTransaction = () => {
+const RedeemCompleteTransaction = () => {
 
   const { tokenSymbol, tokenName, tokenIcon } = useColPool()
 
@@ -44,4 +44,4 @@ const CompleteTransaction = () => {
   )
 }
 
-export default CompleteTransaction
+export default RedeemCompleteTransaction

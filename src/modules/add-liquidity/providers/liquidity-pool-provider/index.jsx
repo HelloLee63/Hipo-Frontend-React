@@ -22,8 +22,6 @@ const LiquidityPoolProvider = props => {
 
   const [assetSymbol, setAssetSymbol] = useState(bondPools[0].bondAsset.symbol)
   const [duration, setDuration] = useState(bondPools[0].duration.duration)
-
-  console.log(duration);
   const [addAmount, setAddAmount] = useState(0)
 
   const pool = useMemo(() => getPoolByBond(assetSymbol, duration), [assetSymbol, duration])

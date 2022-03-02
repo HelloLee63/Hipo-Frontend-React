@@ -7,6 +7,7 @@ import BondMarket from "../modules/bond-market"
 import { useBondMarket } from "../modules/bond-market/providers/BondMarketProvider"
 import BondDetails from "../modules/bond-market/views/BondDetails"
 import BondsModule from "../modules/bonds"
+import DebtsView from "../modules/bonds/views/debts"
 import Collaterals from "../modules/collaterals"
 import IssueModule from "../modules/issue"
 import PledgeModule from "../modules/pledge"
@@ -124,6 +125,7 @@ const AppRoutes = () => {
         <Route path='/bonds' element={<MasterLayout><PageTitle breadcrumbs={bondsBreadCrumbs}>Bonds</PageTitle><BondsModule /></MasterLayout>} />
         <Route path='/pools' element={<MasterLayout><PageTitle breadcrumbs={poolsBreadCrumbs}>Pools</PageTitle><Pools /></MasterLayout>} />
         <Route path='/redeem' element={<MasterLayout><PageTitle breadcrumbs={redeemBreadCrumbs}>Redeem</PageTitle><RedeemModule /></MasterLayout>} />
+        <Route path='/debts' element={<MasterLayout><PageTitle breadcrumbs={redeemBreadCrumbs}>Redeem</PageTitle><DebtsView /></MasterLayout>} />
       </Routes>
       <MasterInit />
     </>

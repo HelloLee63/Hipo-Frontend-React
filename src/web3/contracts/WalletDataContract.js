@@ -47,35 +47,35 @@ class WalletDataContract extends Web3Contract {
             this.issuerLtvObject.issuer = issuer
             this.issuerLtvObject.collateralAssetAddress = collateralAssetAddress
             this.issuerLtvObject.ltv = issuerLtv
-            console.log(issuer);
-            console.log(collateralAssetAddress);
-            console.log(issuerLtv);
+            // console.log(issuer);
+            // console.log(collateralAssetAddress);
+            // console.log(issuerLtv);
 
-            console.log(this.issuerLtvObject);
-            console.log(this.issuerLtvArray);
+            // console.log(this.issuerLtvObject);
+            // console.log(this.issuerLtvArray);
 
             if(this.issuerLtvArray.length === 0) {
 
-                console.log('lengthe is Zero');
-                console.log(this.issuerLtvObject);
+                // console.log('lengthe is Zero');
+                // console.log(this.issuerLtvObject);
                 this.issuerLtvArray.push(this.issuerLtvObject)
-                console.log(this.issuerTotalDebtsArray);
+                // console.log(this.issuerTotalDebtsArray);
             }
 
             this.issuerLtvArray.map((obj) => {
 
                 if(obj.issuer !== issuer || obj.collateralAssetAddress !== collateralAssetAddress) {
-                    console.log('push is execute');
+                    // console.log('push is execute');
                   this.issuerLtvArray.push(this.issuerLtvObject)
                 }
     
                 if(obj.issuer === issuer && obj.collateralAssetAddress === collateralAssetAddress) {
-                    console.log('update is execute');
+                    // console.log('update is execute');
                   obj.ltv = issuerLtv
                 }              
             })
 
-            console.log(this.issuerLtvArray);
+            // console.log(this.issuerLtvArray);
 
             this.issuerLtv = issuerLtv
             this.emit(Web3Contract.UPDATE_DATA)
@@ -98,7 +98,7 @@ class WalletDataContract extends Web3Contract {
             this.issuerTotalDebtsObject.issuer = issuer
             this.issuerTotalDebtsObject.collateralAssetAddress = collateralAssetAddress
 
-            console.log(this.issuerTotalDebtsObject);
+            // console.log(this.issuerTotalDebtsObject);
 
             if (this.issuerTotalDebtsArray.length === 0) {
                 this.issuerTotalDebtsArray.push(this.issuerTotalDebtsObject)
@@ -120,7 +120,7 @@ class WalletDataContract extends Web3Contract {
                 }              
             })
 
-            console.log(this.issuerTotalDebtsArray);
+            // console.log(this.issuerTotalDebtsArray);
         }
 
         this.emit(Web3Contract.UPDATE_DATA)      

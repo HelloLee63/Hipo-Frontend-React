@@ -73,7 +73,7 @@ class ProtocolDataContract extends Web3Contract {
             }              
           })
 
-          console.log(this.bondPriceArray);
+          // console.log(this.bondPriceArray);
           
           this.emit(Web3Contract.UPDATE_DATA)
         }        

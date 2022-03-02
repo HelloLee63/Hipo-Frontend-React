@@ -7,9 +7,9 @@ const TokenIcon = ({tokenName, tokenDesc, tokenIcon}) => {
         <KTSVG path={tokenIcon} className='svg-icon svg-icon-5x' />
       </div>
       <div className='d-flex justify-content-start flex-column'>
-        <a href='#' className='text-dark fw-bolder text-hover-primary mb-1 fs-6'>
+        <div className='text-dark fw-bolder text-hover-primary mb-1 fs-6'>
           { tokenName }
-        </a>
+        </div>
         <span className='text-muted fw-bold text-muted d-block fs-7'>
           { tokenDesc }
         </span>

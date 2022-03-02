@@ -1,27 +1,26 @@
+import { usePools } from "../../../components/providers/poolsProvider"
 import TokenIcon from "../../../components/token-icon"
 import { useWallet } from "../../../wallets/walletProvider"
 import { KTSVG } from "../../../_metronic/helpers/components/KTSVG"
-import { useLiquidityPools } from "../../add-liquidity/providers/liquidity-pools-provider"
 
 const PoolsView = () => {
 
-  const liquidityPoolsCtx = useLiquidityPools()
-  const pools = liquidityPoolsCtx.LiquidityPools
+  const { bondPools } = usePools()
   const walletCtx = useWallet()
 
   return (
     <>
       <div className="row g-5 g-xl-8">
         {
-          pools.map(pool => (
-            pool.contract.balances.get(walletCtx.account)?.toString() > 0 &&
-            <div key={pool.asset.symbol} className="col-xl-4">
+          bondPools.map(pool => (
+            pool.lpToken.contract.balances.get(walletCtx.account)?.toString() > 0 &&
+            <div key={pool.bondAsset.symbol} className="col-xl-4">
               <div className="card mb-2">
                 <div className="card-body pt-3 pb-3">
                   <TokenIcon 
                     tokenIcon={pool.icon} 
-                    tokenName={pool.asset.symbol} 
-                    tokenDesc={pool.duration}               
+                    tokenName={pool.bondAsset.symbol} 
+                    tokenDesc={pool.duration.duration}               
                   />
                 </div>
               </div>
@@ -31,12 +30,12 @@ const PoolsView = () => {
                   <div className='d-flex align-items-sm-center mb-7'>
                     <div className='d-flex flex-row-fluid flex-wrap align-items-center'>
                       <div className='flex-grow-1 me-2'>
-                        <a href='#' className='text-muted fw-bolder fs-6'>
+                        <div className='text-muted fw-bolder fs-6'>
                           Amount
-                        </a>
+                        </div>
                       </div>
                       <div className='symbol symbol-50px me-2'>
-                        <KTSVG path={pool.asset.icon} className='svg-icon svg-icon-2x' />
+                        <KTSVG path={pool.bondAsset.icon} className='svg-icon svg-icon-1x' />
                       </div>
                       {/* {formatToken(pledgedBalance, {scale: colDecimals, tokenName: colPoolCtx.colPool.tokens[0].symbol}) ?? '-'} */}
                       <span className='fs-6 fw-bolder my-2'></span>
@@ -46,12 +45,12 @@ const PoolsView = () => {
                   <div className='d-flex align-items-sm-center mb-7'>
                     <div className='d-flex flex-row-fluid flex-wrap align-items-center'>
                       <div className='flex-grow-1 me-2'>
-                        <a href='#' className='text-muted fw-bolder fs-6'>
+                        <div  className='text-muted fw-bolder fs-6'>
                           Interest Pool
-                        </a>
+                        </div>
                       </div>
                       <div className='symbol symbol-50px me-2'>
-                        <KTSVG path={pool.asset.icon} className='svg-icon svg-icon-2x' />
+                        <KTSVG path={pool.bondAsset.icon} className='svg-icon svg-icon-1x' />
                       </div>
                       {/* {formatToken(pledgedBalance, {scale: colDecimals, tokenName: colPoolCtx.colPool.tokens[0].symbol}) ?? '-'} */}
                       <span className='fs-6 fw-bolder my-2'></span>
@@ -61,12 +60,12 @@ const PoolsView = () => {
                   <div className='d-flex align-items-sm-center mb-7'>
                     <div className='d-flex flex-row-fluid flex-wrap align-items-center'>
                       <div className='flex-grow-1 me-2'>
-                        <a href='#' className='text-muted fw-bolder fs-6'>
+                        <div href='#' className='text-muted fw-bolder fs-6'>
                           Lending Pool
-                        </a>
+                        </div>
                       </div>
                       <div className='symbol symbol-50px me-2'>
-                        <KTSVG path={pool.asset.icon} className='svg-icon svg-icon-2x' />
+                        <KTSVG path={pool.bondAsset.icon} className='svg-icon svg-icon-1x' />
                       </div>
                       {/* {formatToken(pledgedBalance, {scale: colDecimals, tokenName: colPoolCtx.colPool.tokens[0].symbol}) ?? '-'} */}
                       <span className='fs-6 fw-bolder my-2'></span>
@@ -76,9 +75,9 @@ const PoolsView = () => {
                   <div className='d-flex align-items-sm-center mb-7'>
                     <div className='d-flex flex-row-fluid flex-wrap align-items-center'>
                       <div className='flex-grow-1 me-2'>
-                        <a href='#' className='text-muted fw-bolder fs-6'>
+                        <div className='text-muted fw-bolder fs-6'>
                           Pool Share
-                        </a>
+                        </div>
                       </div>
                       {/* {formatToken(pledgedBalance, {scale: colDecimals, tokenName: colPoolCtx.colPool.tokens[0].symbol}) ?? '-'} */}
                       <span className='fs-6 fw-bolder my-2'></span>

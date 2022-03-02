@@ -30,10 +30,17 @@ const ColPoolProvider = props => {
   const tokenIcon = colPool.collateralAsset.icon
 
   const [pledgeAmount, setPledgeAmount] = useState(0)
+  const [redeemAmount, setRedeemAmount] = useState(0)
 
   useEffect(() => {
     if (walletCtx.account) {
       colPool.collateralAsset.contract.loadAllowance(config.contracts.financingPool?.financingPool).then(reload).catch(Error)
+    }
+  }, [colPool, walletCtx.account])
+
+  useEffect(() => {
+    if (walletCtx.account) {
+      colPool.contract.loadAllowance(config.contracts.financingPool?.financingPool).then(reload).catch(Error)
     }
   }, [colPool, walletCtx.account])
 
@@ -48,6 +55,9 @@ const ColPoolProvider = props => {
     
     pledgeAmount, 
     setPledgeAmount,
+
+    redeemAmount, 
+    setRedeemAmount
   }
 
   return (

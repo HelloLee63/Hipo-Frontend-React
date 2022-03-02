@@ -39,6 +39,14 @@ const BondPoolProvider = props => {
       pool.bondAsset.contract.loadAllowance(config.contracts.financingPool.financingPool).then(reload).catch(Error)
     }
   }, [pool, wallet.account])
+
+  useEffect(() => {
+    if (wallet.account) {
+      bondPools.forEach(pool => {
+        pool.bToken.contract.loadInvestorBondsData(wallet.account).then(reload).catch(Error)      
+      })
+    }    
+  }, [bondPools, wallet.account])
   
   const value = {
     pool,

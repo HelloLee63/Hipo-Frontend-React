@@ -1,14 +1,12 @@
-import LiquidityPoolsProvider from "../add-liquidity/providers/liquidity-pools-provider"
+import LiquidityPoolProvider from "../add-liquidity/providers/liquidity-pool-provider"
 import PoolsView from "./views"
 
-
-
-const Pools = props => {
+const Pools = () => {
 
   return (
-    <LiquidityPoolsProvider>
+    <LiquidityPoolProvider>
       <PoolsView />
-    </LiquidityPoolsProvider>
+    </LiquidityPoolProvider>
   )
 }
 
