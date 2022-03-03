@@ -1,5 +1,6 @@
 import { Form, Formik } from "formik"
 import { useEffect, useRef, useState } from "react"
+import TitleLable from "../../../../components/title-lable"
 import WalletBalanceCard from "../../../../components/wallet-balance-card"
 import { useBalanceData } from "../../../../web3/components/providers/BalanceDataProvider"
 import { StepperComponent } from "../../../../_metronic/assets/ts/components"
@@ -72,6 +73,7 @@ const PurchaseView = () => {
     <div ref={stepperRef} className='stepper stepper-pills stepper-column' id='kt_create_account_stepper'>
       <div className="row">
         <div className="col-3">
+          <TitleLable title='Steps' />
           <div className="card">
             <div className="card-body">
               <div className='stepper-nav'>
@@ -148,7 +150,7 @@ const PurchaseView = () => {
             {() => (
               <Form noValidate id='kt_create_account_form'>
                 <div className="current" data-kt-stepper-element='content'>
-                  <BorrowedAsset  prevStep={prevStep} />
+                  <BorrowedAsset />
                 </div>
 
                 <div data-kt-stepper-element='content'>
@@ -174,8 +176,7 @@ const PurchaseView = () => {
         <div className="col-4">
           <div className="card">
             <div className="card-body">
-              <h6 className="pt-3 pb-7">Your Wallet</h6>
-              
+              <h6 className="pb-4">Your Wallet</h6>             
               <WalletBalanceCard datas={balanceDatas} />
             </div>
           </div>

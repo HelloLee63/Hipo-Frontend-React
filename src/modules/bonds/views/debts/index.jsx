@@ -4,6 +4,9 @@ import TransactionLink from "../../../../components/button/transaction-link"
 import { usePools } from "../../../../components/providers/poolsProvider"
 import TokenIcon from "../../../../components/token-icon"
 import TransactionAssetDataItem from "../../../../components/transaction-data-item/TransactionAssetDataItem"
+import TransactionCollateralDataItem from "../../../../components/transaction-data-item/TransactionCollateralDataItem"
+import TransactionDurationDataItem from "../../../../components/transaction-data-item/TransactionDurationDataItem"
+import TransactionLtvDataItem from "../../../../components/transaction-data-item/TransactionLtvDataItem"
 import { useWallet } from "../../../../wallets/walletProvider"
 import { useWalletData } from "../../../../web3/components/providers/WalletDataProvider"
 import { useDebtPool } from "../../../issue/providers/debt-pool-provider"
@@ -11,11 +14,11 @@ import { useDebtPool } from "../../../issue/providers/debt-pool-provider"
 const DebtsView = () => {
 
   const walletCtx = useWallet()
-  const { setDebtAssetToken, setDebtDuration, setPoolSymbol } = useDebtPool()
+  const { setDebtAssetToken, setDebtDuration, setPoolSymbol, setDebtId } = useDebtPool()
 
   const { bondPools, getCollateralPoolByAddress } = usePools()
 
-  const { getBalanceOfDToken, getDebtsList, getDebtData  } = useWalletData()
+  const { getBalanceOfDToken, getDebtsList, getDebtData, getIssuerLtv  } = useWalletData()
 
   const [isInvested, setIsInvested] = useState(false)
 
@@ -47,14 +50,19 @@ const DebtsView = () => {
     )
   }
 
-  function handleCurrenSymbol(id, pool) {
+  function handleCurrentSymbol(id, pool) {
 
     const debtData = getDebtData(pool, id)
-    const collateralPool = getCollateralPoolByAddress(debtData[2])
+    const collateralPool = getCollateralPoolByAddress(debtData.data[2])
     
     setPoolSymbol(() => collateralPool.collateralAsset.symbol)
-    setDebtAssetToken(() => pool.bondAsset.symbol)
+    // setDebtAssetToken(() => pool.bondAsset.symbol)
+    // setDebtDuration(() => pool.duration.duration)
+
+    setDebtAssetToken(() => bondPools[7].bondAsset.symbol)
+    console.log();
     setDebtDuration(() => pool.duration.duration)
+    setDebtId(() => id)
   }
   
   return (
@@ -64,127 +72,74 @@ const DebtsView = () => {
         { bondPools.map(pool => (
           getDebtsList(pool)?.map(id => (
             <div key={id} className='col-xl-4'>
-                <div className="card mb-2">
-                  <div className="card-body pt-3 pb-3">
-                    <TokenIcon 
-                      tokenIcon={pool.icon} 
-                      tokenName={pool.bondAsset.symbol} 
-                      tokenDesc={pool.duration.description}                
-                    />
-                  </div>
+              <div className="card mb-2">
+                <div className="card-body pt-3 pb-3">
+                  <TokenIcon 
+                    tokenIcon={pool.icon} 
+                    tokenName={pool.bondAsset.symbol} 
+                    tokenDesc={pool.duration.description}                
+                  />
                 </div>
+              </div>
 
-                <div className="card">
-                  <div className="card-body">
-                    <TransactionAssetDataItem 
-                      title={id}
-                      balance={getDebtData(pool, id)}
-                      decimals={0}
-                    />
+              <div className="card">
+                <div className="card-body">
+                  <TransactionAssetDataItem 
+                    title='Purchase At'
+                    balance={getDebtData(pool, id)?.data[0]}
+                    decimals={0}
+                  />
 
+                  <TransactionAssetDataItem 
+                    title='Matured At'
+                    balance={getDebtData(pool, id)?.data[0]}
+                    decimals={0}
+                  />
 
-                    <div className='d-flex align-items-sm-center mb-7'>
-                        <div className='d-flex flex-row-fluid flex-wrap align-items-center'>
-                          <div className='flex-grow-1 me-2'>
-                            <div className='text-muted fw-bolder fs-6'>
-                              Matured at
-                            </div>
-                          </div>
-                          {/* {getBondData(pool, obj)?.bondData[2] ?? '-'} */}
-                          <span className='fs-6 fw-bolder my-2'></span>
-                        </div>
-                    </div>
+                  <TransactionDurationDataItem 
+                    title='Duration'
+                    duration={pool.duration.description}
+                  />
 
-                    <div className='d-flex align-items-sm-center mb-7'>
-                        <div className='d-flex flex-row-fluid flex-wrap align-items-center'>
-                          <div className='flex-grow-1 me-2'>
-                            <div className='text-muted fw-bolder fs-6'>
-                              Bond Duration
-                            </div>
-                          </div>
-                          {/* {pool.duration.description ?? '-'} */}
-                          <span className='fs-6 fw-bolder my-2'></span>
-                        </div>
-                    </div>
+                  <TransactionAssetDataItem 
+                    title='Deadline'
+                    balance={getDebtData(pool, id)?.data[0]}
+                    decimals={0}
+                  />
 
-                    <div className='separator my-7'></div>
+                  <div className='separator my-7'></div>
 
-                    <div className='d-flex align-items-sm-center mb-7'>
-                      <div className='d-flex flex-row-fluid flex-wrap align-items-center'>
-                        <div className='flex-grow-1 me-2'>
-                          <a href='#' className='text-muted fw-bolder fs-6'>
-                            You can withdraw
-                          </a>
-                        </div>
-                        <div className='symbol symbol-50px me-2'>
-                          {/* <KTSVG path={pool.bondAsset.icon ?? ''} className='svg-icon svg-icon-1x' /> */}
-                        </div>
-                        {/* {formatToken(getBondData(pool, obj)?.bondData[0], {scale: pool.bToken.decimals, tokenName: pool.bondAsset.symbol}) ?? '-'} */}
-                        
-                        <span className='fs-6 fw-bolder my-2'></span>
-                      </div>
-                    </div>
+                  <TransactionAssetDataItem 
+                    title='You Need Pay'
+                    tokenIcon={pool.bondAsset.icon}
+                    balance={getDebtData(pool, id)?.data[1]}
+                    decimals={pool.bondAsset.decimals}
+                  />
 
-                    <div className='d-flex align-items-sm-center mb-7'>
-                      <div className='d-flex flex-row-fluid flex-wrap align-items-center'>
-                        <div className='flex-grow-1 me-2'>
-                          <a href='#' className='text-muted fw-bolder fs-6'>
-                            Principal
-                          </a>
-                        </div>
-                        <div className='symbol symbol-50px me-2'>
-                          {/* <KTSVG path={pool.bondAsset.icon ?? ''} className='svg-icon svg-icon-1x' /> */}
-                        </div>
-                        {/* {formatToken(getBondData(pool, obj)?.bondData[1], {scale: pool.bToken.decimals, tokenName: pool.bondAsset.symbol}) ?? '-'} */}
-                        
-                        <span className='fs-6 fw-bolder my-2'></span>
-                      </div>
-                    </div>
+                  <div className='separator my-7'></div>
 
-                    <div className='d-flex align-items-sm-center mb-7'>
-                      <div className='d-flex flex-row-fluid flex-wrap align-items-center'>
-                        <div className='flex-grow-1 me-2'>
-                          <a href='#' className='text-muted fw-bolder fs-6'>
-                            Fixed Income
-                          </a>
-                        </div>
-                        <div className='symbol symbol-50px me-2'>
-                          {/* <KTSVG path={pool.bondAsset.icon ?? ''} className='svg-icon svg-icon-1x' /> */}
-                        </div>
-                        {/* {formatToken(getBondData(pool, obj)?.bondData[1], {scale: pool.bToken.decimals, tokenName: pool.bondAsset.symbol}) ?? '-'} */}
-                        
-                        <span className='fs-6 fw-bolder my-2'></span>
-                      </div>
-                    </div>
+                  <TransactionCollateralDataItem
+                    title='Collateral' 
+                    tokenIcon = {getDebtData(pool, id)?.data[2] ? getCollateralPoolByAddress(getDebtData(pool, id)?.data[2]).collateralAsset.icon : undefined}
+                    balance = {getDebtData(pool, id)?.data[2] ? getCollateralPoolByAddress(getDebtData(pool, id)?.data[2]).collateralAsset.contract.balances?.get(walletCtx.account): undefined }
+                    decimals = {getDebtData(pool, id)?.data[2] ? getCollateralPoolByAddress(getDebtData(pool, id)?.data[2]).collateralAsset.decimals : undefined}
+                  />
 
-                    <div className='d-flex align-items-sm-center mb-7'>
-                      <div className='d-flex flex-row-fluid flex-wrap align-items-center'>
-                        <div className='flex-grow-1 me-2'>
-                          <a href='#' className='text-muted fw-bolder fs-6'>
-                            Fixed Income
-                          </a>
-                        </div>
-                        <div className='symbol symbol-50px me-2'>
-                          {/* <KTSVG path={pool.bondAsset.icon ?? ''} className='svg-icon svg-icon-1x' /> */}
-                        </div>
-                        {/* {formatToken(getBondData(pool, obj)?.bondData[1], {scale: pool.bToken.decimals, tokenName: pool.bondAsset.symbol}) ?? '-'} */}
-                        
-                        <span className='fs-6 fw-bolder my-2'></span>
-                      </div>
-                    </div>
-                  </div>
+                  <TransactionLtvDataItem 
+                    title='Your Collateral LTV'
+                    balance={getDebtData(pool, id)?.data[2] ? getIssuerLtv(getCollateralPoolByAddress(getDebtData(pool, id)?.data[2]).collateralAsset.address)?.ltv : undefined}
+                    decimals={18}
+                  />
                 </div>
-
-                <div className='d-flex flex-stack pt-3'>
-                  <Link to='/repay'>
-                    <button type='button'  onClick={() => {handleCurrenSymbol(id, pool)}} className='btn btn-lg btn-primary me-0'>
-                      <span className='indicator-label'>                    
-                        Repay                                   
-                      </span>
-                    </button>
-                  </Link>
-                </div>       
-            </div>
+              </div>
+              <Link to='/repay'>
+                <div className='d-grid pt-3'>                  
+                  <button onClick={() => handleCurrentSymbol(id, pool)} className='btn btn-primary'>                                
+                    Repay
+                  </button>                 
+                </div>
+              </Link>                      
+            </div>            
           ))
         ))
         }

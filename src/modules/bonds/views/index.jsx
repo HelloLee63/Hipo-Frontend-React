@@ -1,12 +1,12 @@
-import BigNumber from "bignumber.js"
-import { useCallback, useEffect, useState } from "react"
+import { useEffect, useState } from "react"
 import { Link } from "react-router-dom"
+import TransactionLink from "../../../components/button/transaction-link"
 import { usePools } from "../../../components/providers/poolsProvider"
 import TokenIcon from "../../../components/token-icon"
+import TransactionAssetDataItem from "../../../components/transaction-data-item/TransactionAssetDataItem"
+import TransactionDurationDataItem from "../../../components/transaction-data-item/TransactionDurationDataItem"
 import { useWallet } from "../../../wallets/walletProvider"
 import { useWalletData } from "../../../web3/components/providers/WalletDataProvider"
-import { formatToken } from "../../../web3/utils"
-import { KTSVG } from "../../../_metronic/helpers/components/KTSVG"
 
 const BondsView = () => {
 
@@ -16,7 +16,6 @@ const BondsView = () => {
   const { getBondsList, getBondData, getBalanceOfBToken } = useWalletData()
 
   const [isInvested, setIsInvested] = useState(false)
-
 
   const balance = getBalanceOfBToken()
 
@@ -48,14 +47,18 @@ const BondsView = () => {
 
   return (
     <>
-      <div>
-        <Link to='/investments'>
-          <button>My Investments</button>
-        </Link>
-        <Link to='/debts'>
-          <button>My Debts</button>
-        </Link>
+      <div className="d-flex justify-content-between">
+        <div>
+          <Link to='/investments'>
+            <button>My Investments</button>
+          </Link>
+          <Link to='/debts'>
+            <button>My Debts</button>
+          </Link>
+        </div>        
+        <TransactionLink name='Issue Bond' transaction='/issue'/>        
       </div>
+        
       <div className='row g-5 g-xl-8'>
         { 
           bondPools.map(pool => (
@@ -75,117 +78,49 @@ const BondsView = () => {
                 <div className="card">
                   <div className="card-body">
 
-                    <div className='d-flex align-items-sm-center mb-7'>
-                        <div className='d-flex flex-row-fluid flex-wrap align-items-center'>
-                          <div className='flex-grow-1 me-2'>
-                            <div className='text-muted fw-bolder fs-6'>
-                              Purchased at
-                            </div>
-                          </div>
-                          {getBondData(pool, obj)?.bondData[2] ?? '-'}
+                    <TransactionDurationDataItem 
+                      title='Purchased At'
+                      duration={getBondData(pool, obj)?.bondData[2] ?? '-'}
+                    />
 
-                          {/* {formatToken(pool.contract.balances?.get(walletCtx.account), {scale: pool.collateralAsset.decimals}) ?? '-'} */}
-                          <span className='fs-6 fw-bolder my-2'></span>
-                        </div>
-                    </div>
+                    <TransactionDurationDataItem 
+                      title='Matured At'
+                      duration={getBondData(pool, obj)?.bondData[2] ?? '-'}
+                    />
 
-                    <div className='d-flex align-items-sm-center mb-7'>
-                        <div className='d-flex flex-row-fluid flex-wrap align-items-center'>
-                          <div className='flex-grow-1 me-2'>
-                            <div className='text-muted fw-bolder fs-6'>
-                              Matured at
-                            </div>
-                          </div>
-                          {getBondData(pool, obj)?.bondData[2] ?? '-'}
-                          <span className='fs-6 fw-bolder my-2'></span>
-                        </div>
-                    </div>
-
-                    <div className='d-flex align-items-sm-center mb-7'>
-                        <div className='d-flex flex-row-fluid flex-wrap align-items-center'>
-                          <div className='flex-grow-1 me-2'>
-                            <div className='text-muted fw-bolder fs-6'>
-                              Bond Duration
-                            </div>
-                          </div>
-                          {pool.duration.description ?? '-'}
-                          <span className='fs-6 fw-bolder my-2'></span>
-                        </div>
-                    </div>
+                    <TransactionDurationDataItem
+                      title='Bond Duration'
+                      duration={pool.duration.description ?? '-'}
+                    />
 
                     <div className='separator my-7'></div>
 
-                    <div className='d-flex align-items-sm-center mb-7'>
-                      <div className='d-flex flex-row-fluid flex-wrap align-items-center'>
-                        <div className='flex-grow-1 me-2'>
-                          <a href='#' className='text-muted fw-bolder fs-6'>
-                            You can withdraw
-                          </a>
-                        </div>
-                        <div className='symbol symbol-50px me-2'>
-                          <KTSVG path={pool.bondAsset.icon ?? ''} className='svg-icon svg-icon-1x' />
-                        </div>{formatToken(getBondData(pool, obj)?.bondData[0], {scale: pool.bToken.decimals, tokenName: pool.bondAsset.symbol}) ?? '-'}
-                        
-                        <span className='fs-6 fw-bolder my-2'></span>
-                      </div>
-                    </div>
+                    <TransactionAssetDataItem 
+                      title='You can withdraw'
+                      tokenIcon={pool.bondAsset.icon ?? ''}
+                      balance={getBondData(pool, obj)?.bondData[0]}
+                      decimals={pool.bToken.decimals}
+                    />
 
-                    <div className='d-flex align-items-sm-center mb-7'>
-                      <div className='d-flex flex-row-fluid flex-wrap align-items-center'>
-                        <div className='flex-grow-1 me-2'>
-                          <a href='#' className='text-muted fw-bolder fs-6'>
-                            Principal
-                          </a>
-                        </div>
-                        <div className='symbol symbol-50px me-2'>
-                          <KTSVG path={pool.bondAsset.icon ?? ''} className='svg-icon svg-icon-1x' />
-                        </div>{formatToken(getBondData(pool, obj)?.bondData[1], {scale: pool.bToken.decimals, tokenName: pool.bondAsset.symbol}) ?? '-'}
-                        
-                        <span className='fs-6 fw-bolder my-2'></span>
-                      </div>
-                    </div>
-
-                    <div className='d-flex align-items-sm-center mb-7'>
-                      <div className='d-flex flex-row-fluid flex-wrap align-items-center'>
-                        <div className='flex-grow-1 me-2'>
-                          <a href='#' className='text-muted fw-bolder fs-6'>
-                            Fixed Income
-                          </a>
-                        </div>
-                        <div className='symbol symbol-50px me-2'>
-                          <KTSVG path={pool.bondAsset.icon ?? ''} className='svg-icon svg-icon-1x' />
-                        </div>{formatToken(getBondData(pool, obj)?.bondData[1], {scale: pool.bToken.decimals, tokenName: pool.bondAsset.symbol}) ?? '-'}
-                        
-                        <span className='fs-6 fw-bolder my-2'></span>
-                      </div>
-                    </div>
-
-                    <div className='d-flex align-items-sm-center mb-7'>
-                      <div className='d-flex flex-row-fluid flex-wrap align-items-center'>
-                        <div className='flex-grow-1 me-2'>
-                          <a href='#' className='text-muted fw-bolder fs-6'>
-                            Fixed Income
-                          </a>
-                        </div>
-                        <div className='symbol symbol-50px me-2'>
-                          <KTSVG path={pool.bondAsset.icon ?? ''} className='svg-icon svg-icon-1x' />
-                        </div>{formatToken(getBondData(pool, obj)?.bondData[1], {scale: pool.bToken.decimals, tokenName: pool.bondAsset.symbol}) ?? '-'}
-                        
-                        <span className='fs-6 fw-bolder my-2'></span>
-                      </div>
-                    </div>
+                    <TransactionAssetDataItem 
+                      title='Principal'
+                      tokenIcon={pool.bondAsset.icon ?? ''}
+                      balance={getBondData(pool, obj)?.bondData[1]}
+                      decimals={pool.bToken.decimals}
+                    />
                   </div>
                 </div>
+                
+                <Link to='/redeem'>
+                  <div className='d-grid pt-3'>
 
-                <div className='d-flex flex-stack pt-3'>
-                  <Link to='/redeem'>
-                    <button type='button' className='btn btn-lg btn-primary me-0'>
-                      <span className='indicator-label'>                    
-                        Withdraw                                   
-                      </span>
-                    </button>
-                  </Link>
-                </div>       
+                  <button type='button' className='btn btn-primary'>
+                    <span className='indicator-label'>                    
+                      Withdraw                                   
+                    </span>
+                  </button>
+                  </div> 
+                </Link>                      
               </div>
             ))
           ))                       

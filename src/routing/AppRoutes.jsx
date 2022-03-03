@@ -14,6 +14,7 @@ import PledgeModule from "../modules/pledge"
 import Pools from "../modules/pools"
 import PurchaseBondModule from "../modules/purchase"
 import RedeemModule from "../modules/redeem"
+import RemoveLiquidityModule from "../modules/remove"
 import RepayModule from "../modules/repay"
 
 
@@ -126,8 +127,9 @@ const AppRoutes = () => {
         <Route path='/bonds' element={<MasterLayout><PageTitle breadcrumbs={bondsBreadCrumbs}>Bonds</PageTitle><BondsModule /></MasterLayout>} />
         <Route path='/pools' element={<MasterLayout><PageTitle breadcrumbs={poolsBreadCrumbs}>Pools</PageTitle><Pools /></MasterLayout>} />
         <Route path='/redeem' element={<MasterLayout><PageTitle breadcrumbs={redeemBreadCrumbs}>Redeem</PageTitle><RedeemModule /></MasterLayout>} />
-        <Route path='/debts' element={<MasterLayout><PageTitle breadcrumbs={redeemBreadCrumbs}>Redeem</PageTitle><DebtsModule /></MasterLayout>} />
+        <Route path='/debts' element={<MasterLayout><PageTitle breadcrumbs={redeemBreadCrumbs}>Withdraw</PageTitle><DebtsModule /></MasterLayout>} />
         <Route path='/repay' element={<MasterLayout><PageTitle breadcrumbs={redeemBreadCrumbs}>Repay</PageTitle><RepayModule /></MasterLayout>} />
+        <Route path='/remove' element={<MasterLayout><PageTitle breadcrumbs={redeemBreadCrumbs}>Remove</PageTitle><RemoveLiquidityModule /></MasterLayout>} />
       </Routes>
       <MasterInit />
     </>

@@ -3,10 +3,12 @@ import BigNumber from 'bignumber.js'
 import { useFormik } from 'formik'
 import { useEffect, useState } from 'react'
 import { useConfig } from '../../../../components/providers/configProvider'
+import TitleLable from '../../../../components/title-lable'
 import TokenIcon from '../../../../components/token-icon'
+import TransactionAssetDataItem from '../../../../components/transaction-data-item/TransactionAssetDataItem'
 import { useWallet } from '../../../../wallets/walletProvider'
-import { useFinancingPool } from '../../../../web3/components/providers/FinancingPoolProvider'
-import { formatToken, scaleBy } from '../../../../web3/utils'
+import { useProtocolData } from '../../../../web3/components/providers/ProtocolDataProvider'
+import { scaleBy } from '../../../../web3/utils'
 import { KTSVG } from '../../../../_metronic/helpers/components/KTSVG'
 import { useLiquidityPool } from '../../providers/liquidity-pool-provider' 
 
@@ -14,15 +16,16 @@ const InputAssetAmount = ({ prevStep }) => {
 
   const walletCtx = useWallet()
   const config = useConfig()
-  const financingPool = useFinancingPool()
 
   const { pool, setAddAmount } = useLiquidityPool()
+  const { getBondPrice } =useProtocolData()
 
   const walletBalance = pool.bondAsset.contract.balances?.get(walletCtx.account)
 
   const decimals = pool.bondAsset.decimals
   const allowance = pool.bondAsset.contract.allowances?.get(config.contracts.financingPool.financingPool)
 
+  const bondPrice = getBondPrice(pool.bondAsset.address, pool.duration.duration)
 
   const [walletConnectVisible, setWalletConnectVisible] = useState(false)
   const [approveVisible, setApproveVisible] = useState(false)
@@ -38,6 +41,11 @@ const InputAssetAmount = ({ prevStep }) => {
 
   const inputAssetAmount = new BigNumber(addLiquidityFormik.values.assetAmount)
   let value = new BigNumber(scaleBy(inputAssetAmount, decimals))
+  const oneBigNumber = new BigNumber(scaleBy(1, decimals))
+
+  const reservePool = oneBigNumber.minus(new BigNumber(bondPrice)).multipliedBy(inputAssetAmount)
+
+  const interestPool = new BigNumber(bondPrice).multipliedBy(inputAssetAmount)
 
   useEffect(() => {
 
@@ -107,10 +115,11 @@ const InputAssetAmount = ({ prevStep }) => {
 
   return (
     <div>
+      <TitleLable title='Input Amount' />
       <div className='card mb-2'>
         <div className='card-body pt-3 pb-3'>
           <TokenIcon 
-            tokenName={pool.bondAsset.symbol} 
+            tokenName={`${pool.bondAsset.symbol} Bond Pool`} 
             tokenDesc={pool.duration.description} 
             tokenIcon={pool.icon} 
           />
@@ -118,15 +127,15 @@ const InputAssetAmount = ({ prevStep }) => {
       </div>
 
       <div className='card mb-2'>
-        <div className='card-body p-0'>
+        <div className='card-body pt-5 pb-5'>
           <input
             id='addLiquidityAmount'
             type='text'
-            className='form-control form-control-lg form-control-solid fw-bolder bg-white border-0 text-primary align-center'
+            className='p-0 form-control form-control-lg form-control-solid fw-bolder bg-white border-0 text-primary align-center'
             placeholder='0.0'
             name='assetAmount'
             value={addLiquidityFormik.values.assetAmount}
-            style={{ fontSize: 48 }}
+            style={{ fontSize: 58 }}
             autoComplete='off'
             onChange={e => {
               e.preventDefault();
@@ -142,51 +151,28 @@ const InputAssetAmount = ({ prevStep }) => {
 
       <div className='card mb-2'>
         <div className='card-body'>
-          <div className='d-flex align-items-sm-center mb-4'>          
-            <div className='d-flex flex-row-fluid flex-wrap align-items-center'>
-              <div className='flex-grow-1 me-2'>
-                <a href='#' className='text-gray-800 fw-bolder text-hover-primary fs-6'>
-                  Add Asset Amount
-                </a>
-              </div>
-              <div className='symbol symbol-50px me-2'>
-                <KTSVG path={pool.bondAsset.icon} className='svg-icon svg-icon-2x' />
-              </div>
-              {/* { getHumanValue(walletBalance?, decimals).toString() ?? '-' } */}
-            <span className='badge badge-light-success fs-6 fw-bolder my-2'>{formatToken(inputAssetAmount, {tokenName: pool.bondAsset.symbol})}</span>
-            </div>
-          </div>
+          <TransactionAssetDataItem
+            title='Add Asset Amount'
+            tokenIcon={pool.bondAsset.icon}
+            balance={inputAssetAmount}
+            decimals={0}
+          />
 
-          <div className='d-flex align-items-sm-center mb-4'>          
-            <div className='d-flex flex-row-fluid flex-wrap align-items-center'>
-              <div className='flex-grow-1 me-2'>
-                <a href='#' className='text-gray-800 fw-bolder text-hover-primary fs-6'>
-                  Interest Pool
-                </a>
-              </div>
-              <div className='symbol symbol-50px me-2'>
-                <KTSVG path={pool.bondAsset.icon} className='svg-icon svg-icon-2x' />
-              </div>
-              {/* { getHumanValue(walletBalance?, decimals).toString() ?? '-' } */}
-              <span className='badge badge-light-success fs-6 fw-bolder my-2'></span>
-            </div>
-          </div>
+          <div className='separator my-4'></div>
 
-          <div className='d-flex align-items-sm-center mb-4'>          
-            <div className='d-flex flex-row-fluid flex-wrap align-items-center'>
-              <div className='flex-grow-1 me-2'>
-                <a href='#' className='text-gray-800 fw-bolder text-hover-primary fs-6'>
-                  Reserve Pool
-                </a>
-              </div>
-              <div className='symbol symbol-50px me-2'>
-                <KTSVG path={pool.bondAsset.icon} className='svg-icon svg-icon-2x' />
-              </div>
-              {/* { getHumanValue(walletBalance?, decimals).toString() ?? '-' } */}
-            <span className='badge badge-light-success fs-6 fw-bolder my-2'></span>
-            </div>
-          </div>
+          <TransactionAssetDataItem
+            title='Add To Interest Pool'
+            tokenIcon={pool.bondAsset.icon}
+            balance={interestPool}
+            decimals={pool.bondAsset.decimals}
+          />
 
+          <TransactionAssetDataItem
+            title='Add To Reserve Pool'
+            tokenIcon={pool.bondAsset.icon}
+            balance={reservePool}
+            decimals={pool.bondAsset.decimals}
+          />
         </div>
       </div>
 

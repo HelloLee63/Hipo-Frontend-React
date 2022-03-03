@@ -4,7 +4,6 @@ import { usePools } from "../../../../components/providers/poolsProvider";
 import { useReload } from "../../../../hooks/useReload";
 import { InvariantContext } from "../../../../utils/context";
 import { useWallet } from "../../../../wallets/walletProvider";
-import { useWalletData } from "../../../../web3/components/providers/WalletDataProvider";
 
 const Context = createContext(InvariantContext('DebtPoolProvider'))
 
@@ -20,6 +19,10 @@ const DebtPoolProvider = props => {
   const [debtDuration, setDebtDuration ] = useState('300')
   const [issueAmount, setIssueAmount] = useState(0)
 
+  const [debtId, setDebtId] = useState()
+
+  console.log(debtId);
+
   const { bondPools } = usePools()
 
   const walletCtx = useWallet()
@@ -27,11 +30,15 @@ const DebtPoolProvider = props => {
   const config = useConfig()
 
   const { getCollateralPoolBySymbol, getPoolByBond } = usePools()
-  // const { getDebtsList } = useWalletData()
+  
 
   const collateral = useMemo(() => getCollateralPoolBySymbol(poolSymbol),[poolSymbol])
 
+  console.log(collateral);
+
   const bondPool = useMemo(() => getPoolByBond(debtAssetToken, debtDuration), [debtDuration, debtAssetToken])
+
+  console.log(bondPool);
 
   useEffect(() => {
     if(walletCtx.account) {
@@ -61,7 +68,10 @@ const DebtPoolProvider = props => {
     setDebtDuration, 
 
     issueAmount, 
-    setIssueAmount
+    setIssueAmount,
+
+    debtId, 
+    setDebtId,
   }
 
   return (

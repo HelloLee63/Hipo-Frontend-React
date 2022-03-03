@@ -82,8 +82,11 @@ class DebtTokenContract extends Erc20Contract {
 
     if (list?.length > 0) {
       for (let j = 0; j < list.length; j++) {
+        
         const debtData = await this.call('getDebtData', [issuer, list[j]])
         this.debtData = Object.values(debtData)
+
+        debtDataObj = {}
 
         debtDataObj.id = list[j]
         debtDataObj.issuer = issuer

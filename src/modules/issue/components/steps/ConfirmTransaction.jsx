@@ -52,7 +52,7 @@ const ConfirmTransaction = ({ prevStep, handleMethod }) => {
         <div className='card mb-2'>
           <div className='card-body pt-3 pb-3'>
             <TokenIcon 
-            tokenName={tokenName} 
+            tokenName={`${tokenName} Bond`} 
             tokenIcon={tokenIcon}
             tokenDesc={tokenDesc} 
             />
@@ -70,14 +70,13 @@ const ConfirmTransaction = ({ prevStep, handleMethod }) => {
             ) : (
             <input
               type='text'
-              className='p-0 form-control form-control-lg  fw-bolder bg-white border-0 text-primary align-center'
+              className='p-0 form-control form-control-lg fw-bolder bg-white border-0 text-primary align-center'
               placeholder='0.0'
               disabled
               name='collateralAssetAmount'
               value={formatToken(inputAmount)}
               style={{ fontSize: 58 }}
-            />)}
-            
+            />)}            
           </div>
         </div>
       </div>

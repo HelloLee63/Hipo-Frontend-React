@@ -1,6 +1,8 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import { Field } from 'formik'
 import { DurationsMeta } from '../../../../components/providers/poolsProvider'
+import TitleLable from '../../../../components/title-lable'
+import AssetToken from '../../../../components/token-icon/AssetToken'
 import { KTSVG } from '../../../../_metronic/helpers/components/KTSVG'
 import { useBondPool } from '../../providers/bond-pool-provider'
 
@@ -10,21 +12,14 @@ const SelectBondDuration = ({ prevStep }) => {
 
   return (
     <div className='w-100'>
+      <TitleLable title='Select Duration' />
       <div className='card mb-2'>
         <div className='card-body pt-3 pb-3'>
-          <div className='d-flex align-items-center'>
-            <div className='symbol symbol-50px me-2'>
-              <KTSVG path={pool.bondAsset.icon} className='svg-icon svg-icon-3x' />
-            </div>
-            <div className='d-flex justify-content-start flex-column'>
-              <div className='text-dark fw-bolder text-hover-primary mb-1 fs-6'>
-                { pool.bondAsset.symbol }
-              </div>
-              <span className='text-muted fw-bold text-muted d-block fs-7'>
-                { pool.bondAsset.name } 
-              </span>
-            </div>
-          </div>
+          <AssetToken 
+            tokenIcon={pool.bondAsset.icon}
+            tokenSymbol={pool.bondAsset.symbol}
+            tokenName={pool.bondAsset.name}
+          />
         </div>
       </div>
       
@@ -42,6 +37,9 @@ const SelectBondDuration = ({ prevStep }) => {
                 </span>
               </label>
             </div>
+            {selectedDuration.id !== DurationsMeta[DurationsMeta.length - 1].id && 
+              <div className='separator my-6'></div>
+            }
           </div>
           ))}
         </div>

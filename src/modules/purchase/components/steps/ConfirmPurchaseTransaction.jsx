@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react"
+import TitleLable from "../../../../components/title-lable"
 import TokenIcon from "../../../../components/token-icon"
 import { useFinancingPool } from "../../../../web3/components/providers/FinancingPoolProvider"
 import { formatToken, scaleBy } from "../../../../web3/utils"
@@ -39,32 +40,33 @@ const ConfirmPurchaseTransaction = ({ prevStep, handleMethod }) => {
 
   return (    
     <div className='w-100'>
-      <div>      
+      <div>
+        <TitleLable title='Confirm Transaction' />      
         <div className="card mb-2">
           <div className="card-body pt-3 pb-3">
             <TokenIcon 
-              tokenName={ pool.bondAsset.symbol } 
+              tokenName={ `${pool.bondAsset.symbol} Bond` } 
               tokenDesc={ pool.duration.description } 
               tokenIcon={ pool.icon }/>
           </div>
         </div>
         <div className="card mb-2">
-          <div className="card-body p-0">
+          <div className="card-body pt-10 pb-10">
             {transacting ? (
-            <div className='text-center' style={{ fontSize: 65}}>
-              <div className='align-items-center spinner-grow spinner-grow-sm text-primary'></div>
-              <div className='align-items-center spinner-grow spinner-grow-sm text-primary'></div>
-              <div className='align-items-center spinner-grow spinner-grow-sm text-primary'></div>
+            <div className='text-center pt-15 pb-15'>
+              <div class="spinner-border text-primary" role="status">
+                <span class="sr-only">Loading...</span>
+              </div>
             </div>
             ) : (
             <input
               type='text'
-              className='form-control form-control-lg  fw-bolder bg-white border-0 text-primary align-center'
+              className='p-0 form-control form-control-lg fw-bolder bg-white border-0 text-primary align-center'
               placeholder='0.0'
               disabled
               name='collateralAssetAmount'
               value={formatToken(inputAmount)}
-              style={{ fontSize: 48 }}
+              style={{ fontSize: 58 }}
             />)}
           </div>       
         </div>

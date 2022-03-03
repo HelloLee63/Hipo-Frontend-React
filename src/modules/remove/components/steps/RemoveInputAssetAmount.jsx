@@ -5,63 +5,47 @@ import { useEffect, useState } from 'react'
 import { useConfig } from '../../../../components/providers/configProvider'
 import TitleLable from '../../../../components/title-lable'
 import TokenIcon from '../../../../components/token-icon'
-import CollateralToken from '../../../../components/token-icon/AssetToken'
 import TransactionAssetDataItem from '../../../../components/transaction-data-item/TransactionAssetDataItem'
-import TransactionCollateralDataItem from '../../../../components/transaction-data-item/TransactionCollateralDataItem'
-import TransactionLtvDataItem from '../../../../components/transaction-data-item/TransactionLtvDataItem'
 import { useWallet } from '../../../../wallets/walletProvider'
 import { useProtocolData } from '../../../../web3/components/providers/ProtocolDataProvider'
-import { useWalletData } from '../../../../web3/components/providers/WalletDataProvider'
-import { calAPY, formatToken, scaleBy } from '../../../../web3/utils'
+import { scaleBy } from '../../../../web3/utils'
 import { KTSVG } from '../../../../_metronic/helpers/components/KTSVG'
-import { useDebtPool } from '../../providers/debt-pool-provider'
+import { useLiquidityPool } from '../../../add-liquidity/providers/liquidity-pool-provider'
 
-
-const InputDebtAssetAmount = ({ prevStep }) => {
+const RemoveInputAssetAmount = ({ prevStep }) => {
 
   const walletCtx = useWallet()
   const config = useConfig()
-  const { bondPool, collateral, setIssueAmount } = useDebtPool()
 
-  const protocolData = useProtocolData()
-  const walletData = useWalletData()
+  const { pool, setAddAmount } = useLiquidityPool()
+  const { getBondPrice } =useProtocolData()
+
+  const walletBalance = pool.bondAsset.contract.balances?.get(walletCtx.account)
+
+  const decimals = pool.bondAsset.decimals
+  const allowance = pool.bondAsset.contract.allowances?.get(config.contracts.financingPool.financingPool)
+
+  const bondPrice = getBondPrice(pool.bondAsset.address, pool.duration.duration)
 
   const [walletConnectVisible, setWalletConnectVisible] = useState(false)
   const [approveVisible, setApproveVisible] = useState(false)
   const [submitDisabledVisible, setSubmitDisabledVisible] = useState(false)
   const [submitVisible, setSubmitVisible] = useState(false)
   const [isEnabling, setEnabling] = useState(false)
-
-  const walletBalance = bondPool.bondAsset.contract.balances?.get(walletCtx.account)
-  const allowance = bondPool.bondAsset.contract.allowances?.get(config.contracts.financingPool.financingPool)
-   
-  const debtAssetAddress = bondPool.bondAsset.address
-  const duration = bondPool.duration.duration
-  const decimals = bondPool.bondAsset.decimals
-
-  const bondIcon = bondPool?.icon
-  const bondSymbol = bondPool.bondAsset.symbol
-  const bondDurationDesc = bondPool.duration.description
   
-  const price = protocolData.getBondPrice(debtAssetAddress, duration)
-
-  const issuerLtv = walletData.getIssuerLtv(collateral.collateralAsset.address)
-  
-  const issueFormik = useFormik({
+  const addLiquidityFormik = useFormik({
     initialValues: {
-      debtAssetAmount: '',
+      assetAmount: '',
     }
   })
 
-  const inputAmount = new BigNumber(issueFormik.values.debtAssetAmount)
-  let value = new BigNumber(scaleBy(inputAmount, decimals))
+  const inputAssetAmount = new BigNumber(addLiquidityFormik.values.assetAmount)
+  let value = new BigNumber(scaleBy(inputAssetAmount, decimals))
   const oneBigNumber = new BigNumber(scaleBy(1, decimals))
 
-  const interestPayment = oneBigNumber.minus(new BigNumber(price)).multipliedBy(inputAmount)
+  const reservePool = oneBigNumber.minus(new BigNumber(bondPrice)).multipliedBy(inputAssetAmount)
 
-  const borrowedAmount = new BigNumber(price).multipliedBy(inputAmount).minus(interestPayment)
-
-  const collateralAmount = walletCtx.account ? collateral.contract.balances?.get(walletCtx.account) : undefined
+  const interestPool = new BigNumber(bondPrice).multipliedBy(inputAssetAmount)
 
   useEffect(() => {
 
@@ -110,7 +94,7 @@ const InputDebtAssetAmount = ({ prevStep }) => {
   }, [walletCtx.account, value, walletBalance, allowance])
 
   function handleSubmit() {
-    setIssueAmount(() => inputAmount)
+    setAddAmount(() => inputAssetAmount)
   }
 
   async function handleApprove() {
@@ -120,24 +104,24 @@ const InputDebtAssetAmount = ({ prevStep }) => {
       setEnabling(() => true)
 
       try {
-        await bondPool.bondAsset.contract.approve(config.contracts.financingPool.financingPool, true)
+        await pool.bondAsset.contract.approve(config.contracts.financingPool.financingPool, true)
       } catch(e) {
         console.error(e)
       }
 
       setEnabling(() => false)      
     }     
-  }
-  
+  } 
+
   return (
     <div>
       <TitleLable title='Input Amount' />
       <div className='card mb-2'>
         <div className='card-body pt-3 pb-3'>
           <TokenIcon 
-            tokenName={`${bondSymbol} Bond`} 
-            tokenIcon={bondIcon}
-            tokenDesc={bondDurationDesc} 
+            tokenName={`${pool.bondAsset.symbol} Bond Pool`} 
+            tokenDesc={pool.duration.description} 
+            tokenIcon={pool.icon} 
           />
         </div>
       </div>
@@ -145,12 +129,12 @@ const InputDebtAssetAmount = ({ prevStep }) => {
       <div className='card mb-2'>
         <div className='card-body pt-5 pb-5'>
           <input
-            id='amount'
+            id='addLiquidityAmount'
             type='text'
             className='p-0 form-control form-control-lg form-control-solid fw-bolder bg-white border-0 text-primary align-center'
             placeholder='0.0'
-            name='debtAssetAmount'
-            value={issueFormik.values.debtAssetAmount}
+            name='assetAmount'
+            value={addLiquidityFormik.values.assetAmount}
             style={{ fontSize: 58 }}
             autoComplete='off'
             onChange={e => {
@@ -158,7 +142,7 @@ const InputDebtAssetAmount = ({ prevStep }) => {
               const { value } = e.target;              
               const regex = /^(0*[0-9][0-9]*(\.[0-9]*)?|0*\.[0-9]*[1-9][0-9]*)$/;
               if (regex.test(value)) {
-                issueFormik.setFieldValue('debtAssetAmount', value);
+                addLiquidityFormik.setFieldValue('assetAmount', value);
               }
             }}
           />
@@ -167,53 +151,31 @@ const InputDebtAssetAmount = ({ prevStep }) => {
 
       <div className='card mb-2'>
         <div className='card-body'>
-
           <TransactionAssetDataItem
-            title='You will borrow'
-            tokenIcon={bondPool.bondAsset.icon}
-            balance={borrowedAmount}
-            decimals={decimals}           
-          />
-
-          <TransactionAssetDataItem
-            title='Interest Payment'
-            tokenIcon={bondPool.bondAsset.icon}
-            balance={interestPayment}
-            decimals={decimals}           
-          />
-
-          <div className='separator my-4'></div>
-
-          <TransactionAssetDataItem
-            title='Bond Price'
-            tokenIcon={bondPool.bondAsset.icon}
-            balance={price}
-            decimals={18}           
-          />
-
-          <TransactionLtvDataItem 
-            title='Interest(APR)'
-            balance={calAPY(price, decimals, Number(bondPool.duration.duration))}
+            title='Add Asset Amount'
+            tokenIcon={pool.bondAsset.icon}
+            balance={inputAssetAmount}
             decimals={0}
           />
 
           <div className='separator my-4'></div>
 
-          <TransactionCollateralDataItem 
-            title='Collaterals'
-            tokenIcon={collateral.collateralAsset.icon}
-            balance={collateralAmount}
-            decimals={18}
+          <TransactionAssetDataItem
+            title='Add To Interest Pool'
+            tokenIcon={pool.bondAsset.icon}
+            balance={interestPool}
+            decimals={pool.bondAsset.decimals}
           />
 
-          <TransactionLtvDataItem 
-            title='Your Collateral LTV'
-            balance={issuerLtv?.ltv}
-            decimals={18}
+          <TransactionAssetDataItem
+            title='Add To Reserve Pool'
+            tokenIcon={pool.bondAsset.icon}
+            balance={reservePool}
+            decimals={pool.bondAsset.decimals}
           />
-        </div>        
+        </div>
       </div>
-      
+
       <div className='d-flex flex-row-fluid flex-stack pt-2'>
         <div className='mr-0'>
           <button
@@ -301,8 +263,8 @@ const InputDebtAssetAmount = ({ prevStep }) => {
           </button>
         </div>}
       </div>
-    </div> 
+    </div>         
   )
 }
 
-export {InputDebtAssetAmount}
+export {RemoveInputAssetAmount}

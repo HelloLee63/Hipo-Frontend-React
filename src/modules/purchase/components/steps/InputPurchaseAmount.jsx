@@ -7,8 +7,11 @@ import { KTSVG } from '../../../../_metronic/helpers/components/KTSVG'
 import { useBondPool } from '../../providers/bond-pool-provider'
 import { useEffect, useState } from 'react'
 import { useConfig } from '../../../../components/providers/configProvider'
-import { calAPY, formatPercent, formatToken, scaleBy } from '../../../../web3/utils'
+import { calAPY, scaleBy } from '../../../../web3/utils'
 import BigNumber from 'bignumber.js'
+import TitleLable from '../../../../components/title-lable'
+import TransactionAssetDataItem from '../../../../components/transaction-data-item/TransactionAssetDataItem'
+import TransactionLtvDataItem from '../../../../components/transaction-data-item/TransactionLtvDataItem'
 
 const InputPurchaseAmount = ({ prevStep }) => {
 
@@ -28,13 +31,9 @@ const InputPurchaseAmount = ({ prevStep }) => {
   const walletBalance = activePool.bondAsset.contract.balances?.get(walletCtx.account)
   const allowance = activePool.bondAsset.contract.allowances.get(config.contracts.financingPool.financingPool)
 
-  console.log(allowance);
   const decimals = activePool.bondAsset.decimals
   
   const bondPrice = protocolData.getBondPrice(activePool.bondAsset.address, activePool.duration.duration)
-  // const APY = formatPercent(calAPY(bondPrice, decimals, Number(activePool.duration)))
-  const APY = protocolData.getBondPrice(activePool.bondAsset.address, activePool.duration.duration, activePool.bondAsset.symbol)?.apy
-
   const formik = useFormik({
     initialValues: {
       bondAssetAmount: '',
@@ -43,6 +42,11 @@ const InputPurchaseAmount = ({ prevStep }) => {
 
   const inputAssetAmount = new BigNumber(formik.values.bondAssetAmount)
   const value = new BigNumber(scaleBy(inputAssetAmount, decimals))
+  const oneBigNumber = new BigNumber(scaleBy(1, decimals))
+
+  const interest = oneBigNumber.minus(new BigNumber(bondPrice)).multipliedBy(inputAssetAmount)
+
+  const depositedAmount = new BigNumber(bondPrice).multipliedBy(inputAssetAmount)
 
   function handleSubmit() {
     bondPoolCtx.setPurchaseAmount(() => inputAssetAmount)
@@ -112,10 +116,11 @@ const InputPurchaseAmount = ({ prevStep }) => {
 
   return (
     <div>
+      <TitleLable title='Input Amount' />
       <div className='card mb-2'>
         <div className='card-body pt-3 pb-3'>
           <TokenIcon 
-            tokenName={activePool.bondAsset.symbol}
+            tokenName={`${activePool.bondAsset.symbol} Bond`}
             tokenDesc={activePool.duration.description}
             tokenIcon={activePool.icon}
           />
@@ -123,16 +128,16 @@ const InputPurchaseAmount = ({ prevStep }) => {
       </div>
 
       <div className='card mb-2'>
-        <div className='card-body p-0'>
+        <div className='card-body pt-5 pb-5'>
           <input
             id='purchaseAmount'
             type='text'
-            className='form-control form-control-lg fw-bolder bg-white border-0 text-primary align-center'
+            className='p-0 form-control form-control-lg fw-bolder bg-white border-0 text-primary align-center'
             placeholder='0.0'
             name='bondAssetAmount'
             value={formik.values.bondAssetAmount}
             autoComplete='off'              
-            style={{ fontSize: 48 }}
+            style={{ fontSize: 58 }}
             onChange={e => {
               e.preventDefault();
               const { value } = e.target;              
@@ -147,53 +152,33 @@ const InputPurchaseAmount = ({ prevStep }) => {
       
       <div className='card mb-2'>
         <div className='card-body'>
-          <div className='d-flex flex-row-fluid flex-wrap align-items-center  mb-4'>
-            <div className='flex-grow-1 me-2'>
-              <a href='#' className='text-gray-800 fw-bolder text-hover-primary fs-6'>
-                You will deposit
-              </a>
-            </div>
-            <div className='symbol symbol-50px me-2'>
-              <KTSVG path={activePool.bondAsset.icon} className='svg-icon svg-icon-1x' />
-            </div>
-            <span className='fs-6 fw-bolder my-2'></span>
-          </div>
+          <TransactionAssetDataItem 
+            title='You Will Deposit'
+            tokenIcon={activePool.bondAsset.icon}
+            balance={depositedAmount}
+            decimals={activePool.bondAsset.decimals}          
+          />
 
-          <div className='d-flex flex-row-fluid flex-wrap align-items-center  mb-4'>
-            <div className='flex-grow-1 me-2'>
-              <a href='#' className='text-gray-800 fw-bolder text-hover-primary fs-6'>
-                Bond Price
-              </a>
-            </div>
-            <div className='symbol symbol-50px me-2'>
-              <KTSVG path={activePool.icon} className='svg-icon svg-icon-1x' />
-            </div>
-            <span className='fs-6 fw-bolder my-2'>{formatToken(bondPrice, { scale: 18, tokenName: activePool.bondAsset.symbol}) ?? '-'}</span>
-          </div>
+          <TransactionAssetDataItem 
+            title='You Will Get Interest'
+            tokenIcon={activePool.bondAsset.icon}
+            balance={interest}
+            decimals={activePool.bondAsset.decimals}          
+          />
 
-          <div className='d-flex flex-row-fluid flex-wrap align-items-center mb-4'>
-            <div className='flex-grow-1 me-2'>
-              <a href='#' className='text-gray-800 fw-bolder text-hover-primary fs-6'>
-                Interest
-              </a>
-            </div>
-            <div className='symbol symbol-50px me-2'>
-              <KTSVG path={activePool.bondAsset.icon} className='svg-icon svg-icon-2x' />
-            </div>
-            <span className='fs-6 fw-bolder my-2'></span>
-          </div>
+          <div className='separator my-4'></div>
 
-          <div className='d-flex flex-row-fluid flex-wrap align-items-center mb-4'>
-            <div className='flex-grow-1 me-2'>
-              <a href='#' className='text-gray-800 fw-bolder text-hover-primary fs-6'>
-                Rewards (APY)
-              </a>
-            </div>
-            <div className='symbol symbol-50px me-2'>
-              <KTSVG path='' className='svg-icon svg-icon-2x' />
-            </div>
-            <span className='fs-6 fw-bolder my-2'>-</span>
-          </div>
+          <TransactionAssetDataItem 
+            title='Bond Price'
+            balance={bondPrice}
+            decimals={18}
+          />
+
+          <TransactionLtvDataItem 
+            title='Interest (APY)'
+            balance={calAPY(bondPrice, decimals, Number(activePool.duration.duration))}
+            decimals={0}
+          />
         </div>
       </div>
 
@@ -262,7 +247,7 @@ const InputPurchaseAmount = ({ prevStep }) => {
             disabled
           >
             <span className='indicator-label'>              
-              Submit2
+              Submit
               <KTSVG
                 path='/media/icons/duotune/arrows/arr064.svg'
                 className='svg-icon-3 ms-2 me-0'

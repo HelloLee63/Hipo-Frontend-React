@@ -13,7 +13,7 @@ const CompleteIssueTransaction = () => {
         <div className="card mb-2">
           <div className="card-body pt-3 pb-3">
             <TokenIcon 
-              tokenName={ bondPool.bondAsset.symbol } 
+              tokenName={ `${bondPool.bondAsset.symbol} Bond` } 
               tokenDesc={ bondPool.duration.description } 
               tokenIcon={ bondPool.icon }/>
           </div>

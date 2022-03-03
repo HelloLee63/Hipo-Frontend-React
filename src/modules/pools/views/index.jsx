@@ -1,16 +1,70 @@
+import BigNumber from "bignumber.js"
+import { useCallback, useEffect, useState } from "react"
+import { Link } from "react-router-dom"
+import TransactionLink from "../../../components/button/transaction-link"
 import { usePools } from "../../../components/providers/poolsProvider"
 import TokenIcon from "../../../components/token-icon"
+import TransactionAssetDataItem from "../../../components/transaction-data-item/TransactionAssetDataItem"
 import { useWallet } from "../../../wallets/walletProvider"
-import { KTSVG } from "../../../_metronic/helpers/components/KTSVG"
+
+
 
 const PoolsView = () => {
 
   const { bondPools } = usePools()
   const walletCtx = useWallet()
+  // const { setAssetSymbol } = useLiquidityPool()
+
+  const [isAdded, setIsAdded] = useState(false)
+
+  const getBalanceOfLpToken = useCallback(() => {
+    
+    let amount = new BigNumber(0)
+
+    if (walletCtx.account) {
+      bondPools.map(pool => {
+        const balance = new BigNumber(pool.lpToken.contract.balances?.get(walletCtx.account))
+        amount = BigNumber.sum(amount, balance)
+      })
+    }
+    return amount 
+
+  }, [walletCtx.account, bondPools])
+
+  const balance = getBalanceOfLpToken()
+
+  useEffect(() => {
+    if(walletCtx.account) {
+      if(balance?.gt(0)) {
+        setIsAdded(() => true)
+      }
+  
+      if(balance?.eq(0) || balance?.isNaN()) {
+        setIsAdded(() => false)
+      }
+    }
+  }, [walletCtx.account, balance])
+
+  if (walletCtx.account && !isAdded) {
+    return (
+      <div>NO Pledged</div>
+    )
+  }
+
+  if (!walletCtx.account) {
+    return (
+      <div>Please Connect Your Wallet</div>
+    )
+  }
+
+  function handleCurrentLiquidity() {
+    
+  }
 
   return (
     <>
-      <div className="row g-5 g-xl-8">
+      <TransactionLink name='Add Liquidity' transaction='/addliquidity'/>
+      <div className="row g-5 g-xl-8">      
         {
           bondPools.map(pool => (
             pool.lpToken.contract.balances.get(walletCtx.account)?.toString() > 0 &&
@@ -19,7 +73,7 @@ const PoolsView = () => {
                 <div className="card-body pt-3 pb-3">
                   <TokenIcon 
                     tokenIcon={pool.icon} 
-                    tokenName={pool.bondAsset.symbol} 
+                    tokenName={`${pool.bondAsset.symbol} Bond Pool`} 
                     tokenDesc={pool.duration.duration}               
                   />
                 </div>
@@ -27,50 +81,14 @@ const PoolsView = () => {
 
               <div className="card">
                 <div className="card-body">
-                  <div className='d-flex align-items-sm-center mb-7'>
-                    <div className='d-flex flex-row-fluid flex-wrap align-items-center'>
-                      <div className='flex-grow-1 me-2'>
-                        <div className='text-muted fw-bolder fs-6'>
-                          Amount
-                        </div>
-                      </div>
-                      <div className='symbol symbol-50px me-2'>
-                        <KTSVG path={pool.bondAsset.icon} className='svg-icon svg-icon-1x' />
-                      </div>
-                      {/* {formatToken(pledgedBalance, {scale: colDecimals, tokenName: colPoolCtx.colPool.tokens[0].symbol}) ?? '-'} */}
-                      <span className='fs-6 fw-bolder my-2'></span>
-                    </div>
-                  </div>
+                  <TransactionAssetDataItem 
+                    title='Added Amount'
+                    tokenIcon={pool.bondAsset.icon}
+                    balance={pool.lpToken.contract.balances.get(walletCtx.account)}
+                    decimals={pool.lpToken.decimals}
+                  />
 
-                  <div className='d-flex align-items-sm-center mb-7'>
-                    <div className='d-flex flex-row-fluid flex-wrap align-items-center'>
-                      <div className='flex-grow-1 me-2'>
-                        <div  className='text-muted fw-bolder fs-6'>
-                          Interest Pool
-                        </div>
-                      </div>
-                      <div className='symbol symbol-50px me-2'>
-                        <KTSVG path={pool.bondAsset.icon} className='svg-icon svg-icon-1x' />
-                      </div>
-                      {/* {formatToken(pledgedBalance, {scale: colDecimals, tokenName: colPoolCtx.colPool.tokens[0].symbol}) ?? '-'} */}
-                      <span className='fs-6 fw-bolder my-2'></span>
-                    </div>
-                  </div>
-
-                  <div className='d-flex align-items-sm-center mb-7'>
-                    <div className='d-flex flex-row-fluid flex-wrap align-items-center'>
-                      <div className='flex-grow-1 me-2'>
-                        <div href='#' className='text-muted fw-bolder fs-6'>
-                          Lending Pool
-                        </div>
-                      </div>
-                      <div className='symbol symbol-50px me-2'>
-                        <KTSVG path={pool.bondAsset.icon} className='svg-icon svg-icon-1x' />
-                      </div>
-                      {/* {formatToken(pledgedBalance, {scale: colDecimals, tokenName: colPoolCtx.colPool.tokens[0].symbol}) ?? '-'} */}
-                      <span className='fs-6 fw-bolder my-2'></span>
-                    </div>
-                  </div>
+                <div className='separator my-5'></div>
 
                   <div className='d-flex align-items-sm-center mb-7'>
                     <div className='d-flex flex-row-fluid flex-wrap align-items-center'>
@@ -79,7 +97,6 @@ const PoolsView = () => {
                           Pool Share
                         </div>
                       </div>
-                      {/* {formatToken(pledgedBalance, {scale: colDecimals, tokenName: colPoolCtx.colPool.tokens[0].symbol}) ?? '-'} */}
                       <span className='fs-6 fw-bolder my-2'></span>
                     </div>
                   </div>
@@ -87,21 +104,21 @@ const PoolsView = () => {
               </div>
 
               <div className='d-flex flex-stack pt-3'>
-              <div>
+              <Link to='/remove'>
                 <button type='button' className='btn btn-lg btn-primary me-0'>
                   <span className='indicator-label'>              
                     Remove
                   </span>
                 </button>
-              </div>
+              </Link>
 
-              <div>
+              <Link to='/addliquidity'>
                 <button type='button' className='btn btn-lg btn-primary me-0'>
                   <span className='indicator-label'>              
                     Add
                   </span>
                 </button>
-              </div>
+              </Link>
             </div>
             </div>
           ))
