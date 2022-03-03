@@ -3,17 +3,21 @@ import { Link } from "../../../../components/button"
 import TransactionLink from "../../../../components/button/transaction-link"
 import { usePools } from "../../../../components/providers/poolsProvider"
 import TokenIcon from "../../../../components/token-icon"
+import TransactionAssetDataItem from "../../../../components/transaction-data-item/TransactionAssetDataItem"
 import { useWallet } from "../../../../wallets/walletProvider"
 import { useWalletData } from "../../../../web3/components/providers/WalletDataProvider"
+import { useDebtPool } from "../../../issue/providers/debt-pool-provider"
 
 const DebtsView = () => {
 
   const walletCtx = useWallet()
+  const { setDebtAssetToken, setDebtDuration, setPoolSymbol } = useDebtPool()
+
+  const { bondPools, getCollateralPoolByAddress } = usePools()
+
+  const { getBalanceOfDToken, getDebtsList, getDebtData  } = useWalletData()
+
   const [isInvested, setIsInvested] = useState(false)
-
-  const { bondPools } = usePools()
-
-  const { getBalanceOfDToken, getDebtsList } = useWalletData()
 
   const balance = getBalanceOfDToken()
 
@@ -42,6 +46,16 @@ const DebtsView = () => {
       <div>Please Connect Your Wallet</div>
     )
   }
+
+  function handleCurrenSymbol(id, pool) {
+
+    const debtData = getDebtData(pool, id)
+    const collateralPool = getCollateralPoolByAddress(debtData[2])
+    
+    setPoolSymbol(() => collateralPool.collateralAsset.symbol)
+    setDebtAssetToken(() => pool.bondAsset.symbol)
+    setDebtDuration(() => pool.duration.duration)
+  }
   
   return (
     <>
@@ -62,20 +76,12 @@ const DebtsView = () => {
 
                 <div className="card">
                   <div className="card-body">
+                    <TransactionAssetDataItem 
+                      title={id}
+                      balance={getDebtData(pool, id)}
+                      decimals={0}
+                    />
 
-                    <div className='d-flex align-items-sm-center mb-7'>
-                        <div className='d-flex flex-row-fluid flex-wrap align-items-center'>
-                          <div className='flex-grow-1 me-2'>
-                            <div className='text-muted fw-bolder fs-6'>
-                              Purchased at
-                            </div>
-                          </div>
-                          {/* {getBondData(pool, obj)?.bondData[2] ?? '-'} */}
-
-                          {/* {formatToken(pool.contract.balances?.get(walletCtx.account), {scale: pool.collateralAsset.decimals}) ?? '-'} */}
-                          <span className='fs-6 fw-bolder my-2'></span>
-                        </div>
-                    </div>
 
                     <div className='d-flex align-items-sm-center mb-7'>
                         <div className='d-flex flex-row-fluid flex-wrap align-items-center'>
@@ -170,8 +176,8 @@ const DebtsView = () => {
                 </div>
 
                 <div className='d-flex flex-stack pt-3'>
-                  <Link to='/redeem'>
-                    <button type='button' className='btn btn-lg btn-primary me-0'>
+                  <Link to='/repay'>
+                    <button type='button'  onClick={() => {handleCurrenSymbol(id, pool)}} className='btn btn-lg btn-primary me-0'>
                       <span className='indicator-label'>                    
                         Repay                                   
                       </span>

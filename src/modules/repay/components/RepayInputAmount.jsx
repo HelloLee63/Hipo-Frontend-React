@@ -2,22 +2,21 @@
 import BigNumber from 'bignumber.js'
 import { useFormik } from 'formik'
 import { useEffect, useState } from 'react'
-import { useConfig } from '../../../../components/providers/configProvider'
-import TitleLable from '../../../../components/title-lable'
-import TokenIcon from '../../../../components/token-icon'
-import CollateralToken from '../../../../components/token-icon/AssetToken'
-import TransactionAssetDataItem from '../../../../components/transaction-data-item/TransactionAssetDataItem'
-import TransactionCollateralDataItem from '../../../../components/transaction-data-item/TransactionCollateralDataItem'
-import TransactionLtvDataItem from '../../../../components/transaction-data-item/TransactionLtvDataItem'
-import { useWallet } from '../../../../wallets/walletProvider'
-import { useProtocolData } from '../../../../web3/components/providers/ProtocolDataProvider'
-import { useWalletData } from '../../../../web3/components/providers/WalletDataProvider'
-import { calAPY, formatToken, scaleBy } from '../../../../web3/utils'
-import { KTSVG } from '../../../../_metronic/helpers/components/KTSVG'
-import { useDebtPool } from '../../providers/debt-pool-provider'
+import { useConfig } from '../../../components/providers/configProvider'
+import TitleLable from '../../../components/title-lable'
+import TokenIcon from '../../../components/token-icon'
+import CollateralToken from '../../../components/token-icon/CollateralToken'
+import TransactionAssetDataItem from '../../../components/transaction-data-item/TransactionAssetDataItem'
+import TransactionCollateralDataItem from '../../../components/transaction-data-item/TransactionCollateralDataItem'
+import TransactionLtvDataItem from '../../../components/transaction-data-item/TransactionLtvDataItem'
+import { useWallet } from '../../../wallets/walletProvider'
+import { useProtocolData } from '../../../web3/components/providers/ProtocolDataProvider'
+import { useWalletData } from '../../../web3/components/providers/WalletDataProvider'
+import { calAPY, formatToken, scaleBy } from '../../../web3/utils'
+import { KTSVG } from '../../../_metronic/helpers/components/KTSVG'
+import { useDebtPool } from '../../issue/providers/debt-pool-provider'
 
-
-const InputDebtAssetAmount = ({ prevStep }) => {
+const RepayInputAmount = ({ prevStep }) => {
 
   const walletCtx = useWallet()
   const config = useConfig()
@@ -312,4 +311,4 @@ const InputDebtAssetAmount = ({ prevStep }) => {
   )
 }
 
-export {InputDebtAssetAmount}
+export {RepayInputAmount}

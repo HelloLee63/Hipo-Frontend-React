@@ -17,6 +17,8 @@ import BondMarketProvider from './modules/bond-market/providers/BondMarketProvid
 import PoolsProvider from './components/providers/poolsProvider.jsx';
 import BalanceDataProvider from './web3/components/providers/BalanceDataProvider.js';
 import ColPoolProvider from './modules/pledge/providers/colPool-provider/index.jsx';
+import DebtPoolProvider from './modules/issue/providers/debt-pool-provider/index.jsx';
+import BondPoolProvider from './modules/purchase/providers/bond-pool-provider/index.jsx';
 
 const App = () => {
 
@@ -38,8 +40,12 @@ const App = () => {
                               <BalanceDataProvider>
                                 <FinancingPoolProvider>
                                   <BondMarketProvider> 
-                                    <ColPoolProvider>                                 
-                                      <AppRoutes /> 
+                                    <ColPoolProvider>
+                                      <DebtPoolProvider>
+                                        <BondPoolProvider>
+                                          <AppRoutes />
+                                        </BondPoolProvider>                                                                       
+                                      </DebtPoolProvider>   
                                     </ColPoolProvider> 
                                   </BondMarketProvider>                              
                                 </FinancingPoolProvider>

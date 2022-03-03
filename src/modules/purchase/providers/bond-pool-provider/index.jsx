@@ -30,12 +30,6 @@ const BondPoolProvider = props => {
 
   useEffect(() => {
     if(wallet.account) {
-      pool.contract.loadBalance().then(reload).catch(Error)
-    }
-  }, [pool, wallet.account])
-
-  useEffect(() => {
-    if(wallet.account) {
       pool.bondAsset.contract.loadAllowance(config.contracts.financingPool.financingPool).then(reload).catch(Error)
     }
   }, [pool, wallet.account])

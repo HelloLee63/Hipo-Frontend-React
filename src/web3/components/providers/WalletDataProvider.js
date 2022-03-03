@@ -1,5 +1,5 @@
 import BigNumber from "bignumber.js";
-import { createContext, useCallback, useContext, useEffect } from "react";
+import { createContext, useCallback, useContext, useEffect, useMemo } from "react";
 import { useConfig } from "../../../components/providers/configProvider";
 import { usePools } from "../../../components/providers/poolsProvider";
 import { useReload } from "../../../hooks/useReload";
@@ -95,6 +95,14 @@ const WalletDataProvider = props => {
         data.id === id && data.investor === walletCtx.account
       )
     }    
+  }
+
+  const getDebtData = (pool, id) => {
+    if (walletCtx.account) {
+      return pool.dToken.contract.debtDataArray?.find(data => 
+        data.issuer === walletCtx.account && data.id === id    
+      )
+    }
   }
 
   // get wallet balance of assets
@@ -216,7 +224,8 @@ const WalletDataProvider = props => {
     getBondsList,
     getBondData,
 
-    getDebtsList
+    getDebtsList,
+    getDebtData,
   }
 
   return (

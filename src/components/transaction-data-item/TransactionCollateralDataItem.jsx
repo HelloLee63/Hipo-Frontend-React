@@ -10,11 +10,11 @@ const TransactionCollateralDataItem = props => {
       <div className='text-muted fw-bolder fs-6'>
         { title }
       </div>
-      <div className='symbol symbol-50px ms-2 '>
-        <KTSVG path={ tokenIcon } className='svg-icon svg-icon-2x ' />
+      <div className='d-flex justify-content-between symbol symbol-50px'>
+        <KTSVG path={ tokenIcon } className='align-self-center pe-10 svg-icon svg-icon-2x ' />
+        <span className="fs-6 fw-bolder align-self-center text-dark">{formatToken(balance, {scale: decimals, tokenName: tokenSymbol}) ?? '-'}</span>      
       </div> 
 
-      <span className="fs-6 fw-bolder justify-content-end">{formatToken(balance, {scale: decimals, tokenName: tokenSymbol}) ?? '-'}</span>      
     </div>
   )
 }

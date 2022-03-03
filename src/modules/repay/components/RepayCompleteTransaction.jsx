@@ -3,7 +3,7 @@ import TokenIcon from "../../../../components/token-icon"
 import { KTSVG } from "../../../../_metronic/helpers/components/KTSVG"
 import TitleLable from "../../../../components/title-lable"
 
-const CompleteIssueTransaction = () => {
+const RepayCompleteIssueTransaction = () => {
   const { bondPool } = useDebtPool()
   
   return (
@@ -42,4 +42,4 @@ const CompleteIssueTransaction = () => {
     </div> 
   )
 }
-export default CompleteIssueTransaction
+export default RepayCompleteIssueTransaction

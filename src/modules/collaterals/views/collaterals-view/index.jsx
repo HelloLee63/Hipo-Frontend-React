@@ -12,8 +12,6 @@ import { useWallet } from "../../../../wallets/walletProvider"
 import { useProtocolData } from "../../../../web3/components/providers/ProtocolDataProvider"
 import { useWalletData } from "../../../../web3/components/providers/WalletDataProvider"
 
-import { formatPercent, formatToken } from "../../../../web3/utils"
-import { KTSVG } from "../../../../_metronic/helpers/components/KTSVG"
 import { useColPool } from "../../../pledge/providers/colPool-provider"
 
 const CollateralsView = () => {

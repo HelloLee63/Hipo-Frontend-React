@@ -7,7 +7,7 @@ const TransactionLink = props => {
   return (
     <div className="d-flex pb-5 justify-content-end">
       <Link to={transaction}>
-        <div type='button' className="d-flex btn btn-outline-primary">
+        <div type='button' className="d-flex btn btn-primary">
           {name}
         </div>
       </Link>  

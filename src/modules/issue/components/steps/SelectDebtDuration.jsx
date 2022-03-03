@@ -1,6 +1,8 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import { Field } from 'formik'
 import { DurationsMeta } from '../../../../components/providers/poolsProvider'
+import TitleLable from '../../../../components/title-lable'
+import AssetToken from '../../../../components/token-icon/AssetToken'
 import { KTSVG } from '../../../../_metronic/helpers/components/KTSVG'
 import { useDebtPool } from '../../providers/debt-pool-provider'
 
@@ -10,21 +12,14 @@ const SelectDebtDuration = ({ prevStep }) => {
   
   return (
     <div className='w-100'>
+      <TitleLable title='Select Duration' />
       <div className='card mb-2'>
         <div className='card-body pt-3 pb-3'>
-          <div className='d-flex align-items-center'>
-            <div className='symbol symbol-50px me-2'>
-              <KTSVG path={bondPool.bondAsset.icon} className='svg-icon svg-icon-3x' />
-            </div>
-            <div className='d-flex justify-content-start flex-column'>
-              <div className='text-dark fw-bolder text-hover-primary mb-1 fs-6'>
-                { bondPool.bondAsset.symbol }
-              </div>
-              <span className='text-muted fw-bold text-muted d-block fs-7'>
-                { bondPool.bondAsset.name } 
-              </span>
-            </div>
-          </div>
+          <AssetToken
+            tokenIcon={bondPool.bondAsset.icon}
+            tokenSymbol={bondPool.bondAsset.symbol}
+            tokenName={bondPool.bondAsset.name}           
+          />
         </div>
       </div>
       <div className='card'>
@@ -32,7 +27,7 @@ const SelectDebtDuration = ({ prevStep }) => {
         { DurationsMeta.map((debtDuration) => (
           <div key={ debtDuration.id } className='mb-0 fs-6 fw-bolder fv-row'>
             <div className='mb-0'>
-              <label className='d-flex flex-stack mb-5 cursor-pointer'>
+              <label className='d-flex flex-stack mb-1 cursor-pointer'>
                 <span className='d-flex align-items-center me-2'>
                   {debtDuration.description}
                 </span>
@@ -41,6 +36,9 @@ const SelectDebtDuration = ({ prevStep }) => {
                 </span>
               </label>
             </div>
+            {debtDuration.id !== DurationsMeta[DurationsMeta.length - 1].id && 
+              <div className='separator my-6'></div>
+            }
           </div>
         ))}
         </div>

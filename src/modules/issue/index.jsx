@@ -3,9 +3,9 @@ import IssueWizards from "./views/issue-bond"
 
 const IssueModule = () => {
   return (        
-    <DebtPoolProvider>           
+    // <DebtPoolProvider>           
       <IssueWizards />
-    </DebtPoolProvider>
+    // </DebtPoolProvider>
   )
 }
 

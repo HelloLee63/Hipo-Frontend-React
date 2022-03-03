@@ -4,22 +4,17 @@ import TitleLable from "../../../../components/title-lable"
 import WalletBalanceCard from "../../../../components/wallet-balance-card"
 import { useBalanceData } from "../../../../web3/components/providers/BalanceDataProvider"
 import { StepperComponent } from "../../../../_metronic/assets/ts/components"
-import CompleteIssueTransaction from "../../components/steps/CompleteIssueTransaction"
-import { ConfirmTransaction } from "../../components/steps/ConfirmTransaction"
-import { InputDebtAssetAmount } from "../../components/steps/InputDebtAmount"
-import SelectCollateral from "../../components/steps/SelectCollateral"
-import SelectDebtAsset from "../../components/steps/SelectDebtAsset"
-import { SelectDebtDuration } from "../../components/steps/SelectDebtDuration"
-import { issueInits, issueSchemas } from "../../components/TransactionHelper"
-import { useDebtPool } from "../../providers/debt-pool-provider"
+import { useDebtPool } from "../../../issue/providers/debt-pool-provider"
+import { RepayInputAmount } from "../../components/RepayInputAmount"
+import { repayInits, repaySchemas } from "../../components/TransactionHelper"
 
-const IssueWizards = () => {
+const RepayView = () => {
 
   const { setPoolSymbol, setDebtAssetToken, setDebtDuration } = useDebtPool()
   const stepperRef = useRef(null)
   const stepper = useRef(null)
-  const [currentSchema, setCurrentSchema] = useState(issueSchemas[0])
-  const [initValues] = useState(issueInits)
+  const [currentSchema, setCurrentSchema] = useState(repaySchemas[0])
+  const [initValues] = useState(repayInits)
 
   const { balanceDatas } = useBalanceData()
 
@@ -34,7 +29,7 @@ const IssueWizards = () => {
 
     stepper.current.goPrev()
 
-    setCurrentSchema(issueSchemas[stepper.current.currentStepIndex - 1])
+    setCurrentSchema(repaySchemas[stepper.current.currentStepIndex - 1])
   }
 
   const submitStep = (values, actions) => {
@@ -55,7 +50,7 @@ const IssueWizards = () => {
       return
     }
 
-    setCurrentSchema(issueSchemas[stepper.current.currentStepIndex])
+    setCurrentSchema(repaySchemas[stepper.current.currentStepIndex])
 
     if (stepper.current.currentStepIndex !== stepper.current.totatStepsNumber) {
       stepper.current.goNext()
@@ -89,42 +84,6 @@ const IssueWizards = () => {
                   </div>
 
                   <div className='stepper-label'>
-                    <h3 className='stepper-title'>Select Collateral</h3>
-                  </div>      
-                </div>
-
-                <div className='stepper-item' data-kt-stepper-element='nav'>
-                  <div className='stepper-line w-20px'></div>
-                  <div className='stepper-icon w-20px h-20px'>
-                    <i className='stepper-check fas fa-check'></i>
-                    <span className='stepper-number'>2</span>
-                  </div>
-
-                  <div className='stepper-label'>
-                      <h3 className='stepper-title'>Select Asset</h3>
-                  </div>      
-                </div>
-
-                <div className='stepper-item' data-kt-stepper-element='nav'>
-                  <div className='stepper-line w-20px'></div>
-                  <div className='stepper-icon w-20px h-20px'>
-                    <i className='stepper-check fas fa-check'></i>
-                    <span className='stepper-number'>3</span>
-                  </div>
-
-                  <div className='stepper-label'>
-                    <h3 className='stepper-title'>Select Duration</h3>
-                  </div>      
-                </div>
-
-                <div className='stepper-item' data-kt-stepper-element='nav'>
-                  <div className='stepper-line w-20px'></div>
-                  <div className='stepper-icon w-20px h-20px'>
-                    <i className='stepper-check fas fa-check'></i>
-                    <span className='stepper-number'>4</span>
-                  </div>
-
-                  <div className='stepper-label'>
                     <h3 className='stepper-title'>Input Amount</h3>
                   </div>      
                 </div>
@@ -134,7 +93,7 @@ const IssueWizards = () => {
 
                   <div className='stepper-icon w-20px h-20px'>
                     <i className='stepper-check fas fa-check'></i>
-                    <span className='stepper-number'>5</span>
+                    <span className='stepper-number'>2</span>
                   </div>
 
                   <div className='stepper-label'>
@@ -147,7 +106,7 @@ const IssueWizards = () => {
 
                   <div className='stepper-icon w-20px h-20px'>
                     <i className='stepper-check fas fa-check'></i>
-                    <span className='stepper-number'>6</span>
+                    <span className='stepper-number'>3</span>
                   </div>
 
                   <div className='stepper-label'>
@@ -164,27 +123,15 @@ const IssueWizards = () => {
             {() => (
               <Form noValidate id='kt_create_account_form'>
                 <div className="current" data-kt-stepper-element='content'>
-                  <SelectCollateral  prevStep={prevStep} />
+                  <RepayInputAmount prevStep={prevStep} />
                 </div>
 
                 <div data-kt-stepper-element='content'>
-                  <SelectDebtAsset prevStep={prevStep} />
+                  {/* <ConfirmTransaction  handleMethod={stepper.current} prevStep={prevStep} /> */}
                 </div>
 
                 <div data-kt-stepper-element='content'>
-                  <SelectDebtDuration prevStep={prevStep} />
-                </div>
-
-                <div data-kt-stepper-element='content'>
-                  <InputDebtAssetAmount prevStep={prevStep} />
-                </div>
-
-                <div data-kt-stepper-element='content'>
-                  <ConfirmTransaction  handleMethod={stepper.current} prevStep={prevStep} />
-                </div>
-
-                <div data-kt-stepper-element='content'>
-                  <CompleteIssueTransaction />
+                  {/* <CompleteIssueTransaction /> */}
                 </div>
               </Form>
             )}
@@ -204,4 +151,4 @@ const IssueWizards = () => {
   )
 }
 
-export default IssueWizards
+export default RepayView

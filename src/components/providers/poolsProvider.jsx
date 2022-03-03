@@ -391,6 +391,12 @@ const PoolsProvider = ({ children }) => {
     (collateralAssetSymbol) => {
       return collateralPools.find(pool => pool.collateralAsset.symbol === collateralAssetSymbol)
     }, [collateralPools])
+  
+  const getCollateralPoolByAddress = useCallback(
+    (collateralAssetAddress) => {
+      return collateralPools.find(pool => pool.collateralAsset.address === collateralAssetAddress.toLowerCase())
+    }
+  , [collateralPools])
 
   const value = {
     assets,
@@ -398,6 +404,7 @@ const PoolsProvider = ({ children }) => {
     collateralPools,
     getPoolByBond,
     getCollateralPoolBySymbol,
+    getCollateralPoolByAddress
   }
 
   return (

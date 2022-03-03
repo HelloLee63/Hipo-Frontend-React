@@ -1,6 +1,7 @@
 import { Field } from "formik"
 import { usePools } from "../../../../components/providers/poolsProvider"
-import TokenIcon from "../../../../components/token-icon"
+import TitleLable from "../../../../components/title-lable"
+import CollateralToken from "../../../../components/token-icon/CollateralToken"
 import { KTSVG } from "../../../../_metronic/helpers/components/KTSVG"
 
 const SelectCollateral = ({ prevStep }) => {
@@ -9,16 +10,18 @@ const SelectCollateral = ({ prevStep }) => {
 
   return (
     <div className='w-100'>
+      <TitleLable title='Select Collateral' />
       <div className='card mb-2'>
         <div className="card-body">
           {collateralPools.map((collateral) => (
-            <div key={ collateral.collateralAsset.symbol } className='mb-0 fv-row'>
-              <div className='mb-0'>
+            <div key={ collateral.collateralAsset.symbol } className='fv-row'>
+              <div className='pb-0'>
                 <label className='d-flex flex-stack mb-5 cursor-pointer'>
                   <span className='d-flex align-items-center me-2'>
-                    <TokenIcon 
-                      tokenName={collateral.collateralAsset.symbol} 
-                      tokenDesc={collateral.collateralAsset.name} 
+
+                    <CollateralToken 
+                      tokenSymbol={collateral.collateralAsset.symbol} 
+                      tokenName={collateral.collateralAsset.name} 
                       tokenIcon={collateral.collateralAsset.icon}
                     />
                   </span>
@@ -32,13 +35,16 @@ const SelectCollateral = ({ prevStep }) => {
                   </span>
                 </label>
               </div>
+              {collateral.collateralAsset.symbol !== collateralPools[collateralPools.length - 1].collateralAsset.symbol && 
+                <div className='separator my-10'></div>
+              }
             </div>            
           ))} 
         </div>              
       </div>
 
-      <div className='d-flex flex-stack pt-2'>
-        <div className='mr-0'>
+      <div className='pt-3'>
+        <div className='mr-2'>
           <button
             onClick={prevStep}
             type='button'
@@ -53,10 +59,10 @@ const SelectCollateral = ({ prevStep }) => {
           </button>
         </div>
 
-        <div>
-          <button type='submit' className='btn btn-lg btn-primary me-0'>
+        <div className='d-grid'>
+          <button type='submit' className='btn btn-primary'>
             <span className='indicator-label'>              
-              Continue
+              Next
               <KTSVG
                 path='/media/icons/duotune/arrows/arr064.svg'
                 className='svg-icon-3 ms-2 me-0'
@@ -64,7 +70,7 @@ const SelectCollateral = ({ prevStep }) => {
             </span>
           </button>
         </div>
-      </div>            
+      </div>           
     </div>
   )
 }

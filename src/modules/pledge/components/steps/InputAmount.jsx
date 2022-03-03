@@ -5,6 +5,7 @@ import { Field, useFormik} from 'formik'
 import { useEffect, useState } from 'react'
 import { useConfig } from '../../../../components/providers/configProvider'
 import { useKnownTokens } from '../../../../components/providers/knownTokensProvider'
+import TitleLable from '../../../../components/title-lable'
 import CollateralToken from '../../../../components/token-icon/CollateralToken'
 import TransactionAssetDataItem from '../../../../components/transaction-data-item/TransactionAssetDataItem'
 import TransactionCollateralDataItem from '../../../../components/transaction-data-item/TransactionCollateralDataItem'
@@ -136,7 +137,7 @@ const InputAmount = ({ prevStep }) => {
 
   return (
     <div>
-      <div className="pb-5 text-dark fs-5 fw-bolder">Input Amount</div>       
+      <TitleLable title='Input Amount' />      
       <div className="card mb-2">
         <div className="card-body pt-3 pb-3">
           <CollateralToken 
