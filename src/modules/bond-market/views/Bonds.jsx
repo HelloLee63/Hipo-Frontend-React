@@ -1,21 +1,19 @@
 import BigNumber from "bignumber.js"
 import { Link } from "../../../components/button"
+import { usePools } from "../../../components/providers/poolsProvider"
 import { useProtocolData } from "../../../web3/components/providers/ProtocolDataProvider"
 import { calAPY, formatPercent, formatToken } from "../../../web3/utils"
 import { KTSVG } from "../../../_metronic/helpers/components/KTSVG"
-import { useBondMarket } from "../providers/BondMarketProvider"
 
-const Bonds = ({ className }) => {
+const Bonds = () => {
 
-  const bondMarket = useBondMarket()
-  const bonds = bondMarket.Bonds
-  const protocolData = useProtocolData()
-  const bondPriceArray = protocolData.protocolDataContract.bondPriceArray
+  const { bondPools } = usePools()
+  const { getBondPrice } = useProtocolData()
 
   console.log('Bonds is rendered');
 
   return (
-    <div className={`card ${className}`}>
+    <div className='card'>
       <div className='card-body py-3'>
         <div className='table-responsive'>
           <table className='table align-middle gs-0 gy-4'>
@@ -31,20 +29,20 @@ const Bonds = ({ className }) => {
             </thead>
 
             <tbody>
-            { bonds.map((bond) => (
-              <tr key={ bond.id }>
+            { bondPools.map((pool) => (
+              <tr key={ pool.bToken.symbol }>
                 <td>
                   <div className='d-flex align-items-center'>
                     <div className='symbol symbol-50px me-5'>
-                      <KTSVG path={bond.icon} className='svg-icon svg-icon-5x' />
+                      <KTSVG path={pool.icon} className='svg-icon svg-icon-5x' />
                     </div>
                     <div className='d-flex justify-content-start flex-column'>
-                      <Link to={`${bond.asset.symbol.toLowerCase()}${bond.duration}`}>
+                      <Link to={`${pool.bondAsset.symbol.toLowerCase()}${pool.duration.duration}`}>
                         <div className='text-dark fw-bolder text-hover-primary mb-1 fs-6'>
-                            { bond.asset.symbol } Bond
+                            { pool.bondAsset.symbol } Bond
                         </div>
                         <span className='text-muted fw-bold text-muted d-block fs-7'>
-                            { bond.duration } Days
+                            { pool.duration.description }
                         </span>
                       </Link>          
                     </div>
@@ -52,24 +50,20 @@ const Bonds = ({ className }) => {
                 </td>
                 <td>
                   <div className='text-dark fw-bolder text-hover-primary d-block mb-1 fs-6'>                    
-                    { formatToken(bondPriceArray?.find(
-                      p => p.assetAddress === bond.asset.address && 
-                      p.duration === bond.duration)?.price, {scale: 18, tokenName: bond.asset.symbol}) ?? '-' }
+                    { formatToken(getBondPrice(pool.bondAsset.address, pool.duration.duration), { scale: 18 }) ?? '-' }
                   </div>
                 </td>
                 <td>
                   <div className='text-dark fw-bolder text-hover-primary d-block mb-1 fs-6'>
-                    { formatPercent(calAPY(bondPriceArray?.find(
-                      p => p.assetAddress === bond.asset.address && 
-                      p.duration === bond.duration)?.price, 18, Number(bond.duration))) ?? '-' }
+                    { formatPercent(calAPY(getBondPrice(pool.bondAsset.address, pool.duration.duration), 18, Number(pool.duration.duration))) ?? '-' }
                   </div>
                 </td>
                 <td>
                   <div href='#' className='text-dark fw-bolder text-hover-primary d-block mb-1 fs-6'>
                     { formatToken(
-                      (new BigNumber(bond.lpToken.contract.totalSupply).plus
-                      (new BigNumber(bond.bondToken.contract.totalSupply))), 
-                      {scale: bond.bondToken.decimals, tokenName: bond.asset.symbol} ) ?? '-' }
+                      (new BigNumber(pool.lpToken.contract.totalSupply).plus
+                      (new BigNumber(pool.bToken.contract.totalSupply))), 
+                      {scale: pool.bToken.decimals, tokenName: pool.bondAsset.symbol} ) ?? '-' }
                   </div>
                 </td>
                 <td>

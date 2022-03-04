@@ -4,6 +4,8 @@ import TitleLable from "../../../components/title-lable"
 import WalletBalanceCard from "../../../components/wallet-balance-card"
 import { useBalanceData } from "../../../web3/components/providers/BalanceDataProvider"
 import { StepperComponent } from "../../../_metronic/assets/ts/components"
+import RemoveCompleteTransaction from "../components/steps/RemoveCompleteTransaction"
+import { RemoveConfirmTransaction } from "../components/steps/RemoveConfirmTransaction"
 import { RemoveInputAssetAmount } from "../components/steps/RemoveInputAssetAmount"
 import { removeInits, removeSchemas } from "../components/TransactionHelper"
 
@@ -110,9 +112,11 @@ const RemoveLiquidityView = () => {
                 </div>
 
                 <div data-kt-stepper-element='content'>
+                  <RemoveConfirmTransaction prevStep={prevStep} />
                 </div>
 
                 <div data-kt-stepper-element='content'>
+                  <RemoveCompleteTransaction />
                 </div>
               </Form>
             )}

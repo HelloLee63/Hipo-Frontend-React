@@ -187,14 +187,6 @@ const WalletDataProvider = props => {
     }    
   }, [walletCtx.account, bondPools])
 
-  // get common data of each asset includes totalSupply, decimals and etc.
-
-  useEffect(() => {
-    assets.forEach(asset => {
-      asset.contract.loadCommon().then(reload).catch(Error)
-    })
-  }, [assets])
-
   // get bond count of investor on each bToken
 
   useEffect(() => {

@@ -1,14 +1,23 @@
 import { Link } from "react-router-dom"
 import { StatisticsWidget } from "../../../components/statistics/StatisticsWidget"
+import TokenIcon from "../../../components/token-icon"
+import { useProtocolData } from "../../../web3/components/providers/ProtocolDataProvider"
+import { formatToken } from "../../../web3/utils"
 import { KTSVG } from "../../../_metronic/helpers/components/KTSVG"
+import { useBondMarket } from "../providers/BondMarketProvider"
 import Transactions from "./Transactions"
 
-const BondDetails = ({ bond }) => {
+const BondDetails = ({ pool }) => {
+
+  const { getBondPrice } = useProtocolData()
+  const { getMarketSize } = useBondMarket()
+
+  const bondPrice =  formatToken(getBondPrice(pool.bondAsset.address, pool.duration.duration), {scale: 18, tokenName: pool.bondAsset.symbol})
 
   return (
     <div>
-      <Link to='/bondmarket'>
-        <div className='mr-1 pb-10'>
+      <div className='mr-1 pb-3'>
+        <Link to='/bondmarket'>
           <button
             type='button'
             className='btn btn-lg btn-light-primary me-3'
@@ -20,35 +29,27 @@ const BondDetails = ({ bond }) => {
             />
             Back
           </button>
-        </div>
-      </Link>
-      <div className='d-flex align-items-center'>
-        <div className='symbol symbol-50px me-5'>
-          <KTSVG path={bond.icon} className=' svg-icon svg-icon-5x' />
-        </div>
-        <div className='d-flex justify-content-start flex-column'>
-          <div to='weth5days' className='text-dark fw-bolder text-hover-primary mb-1 fs-6'>
-              { bond.asset.symbol } Bond
-          </div>
-          <span className='text-muted fw-bold text-muted d-block fs-7'>
-              { bond.duration } Days
-          </span> 
-        </div>
-        {/* <div className="d-flex">
-          <a className="btn btn-primary">Bond Issue</a>
-          <a className="btn btn-primary">Bond Invest</a>
-          <a className="btn btn-primary">Add Liquidity</a>
-        </div> */}
-        
+        </Link>
       </div>
+      <div className="w-100">
+        <div className="card">
+          <div className="card-body">
+            <TokenIcon 
+              tokenIcon={pool.icon}
+              tokenName={`${pool.bondAsset.symbol} Bond Market`}
+              tokenDesc={pool.duration.description}
+            />
+          </div>
+        </div>
+      </div>                        
       <div className='row pt-10 g-5 g-xl-8'>
           <div className='col-xl-3'>
             <StatisticsWidget
               className='card-xl-stretch mb-xl-8'
               color='white'
               iconColor='primary'
-              title='$3,895,254,378.87'
-              description='Total Value Locked'
+              title={getMarketSize(pool)}
+              description='Market Size'
             />
           </div>
 
@@ -57,8 +58,8 @@ const BondDetails = ({ bond }) => {
               className='card-xl-stretch mb-xl-8'
               color='white'
               iconColor='white'
-              title='$8.99'
-              description='Hipo Price'
+              title={`${bondPrice ?? '-'} /${pool.bondAsset.symbol} Bond`}
+              description='Bond Price'
             />
           </div>
 

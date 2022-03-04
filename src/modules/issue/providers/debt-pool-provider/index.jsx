@@ -21,7 +21,6 @@ const DebtPoolProvider = props => {
 
   const [debtId, setDebtId] = useState()
 
-  console.log(debtId);
 
   const { bondPools } = usePools()
 
@@ -31,14 +30,9 @@ const DebtPoolProvider = props => {
 
   const { getCollateralPoolBySymbol, getPoolByBond } = usePools()
   
-
   const collateral = useMemo(() => getCollateralPoolBySymbol(poolSymbol),[poolSymbol])
 
-  console.log(collateral);
-
   const bondPool = useMemo(() => getPoolByBond(debtAssetToken, debtDuration), [debtDuration, debtAssetToken])
-
-  console.log(bondPool);
 
   useEffect(() => {
     if(walletCtx.account) {

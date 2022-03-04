@@ -19,6 +19,7 @@ import BalanceDataProvider from './web3/components/providers/BalanceDataProvider
 import ColPoolProvider from './modules/pledge/providers/colPool-provider/index.jsx';
 import DebtPoolProvider from './modules/issue/providers/debt-pool-provider/index.jsx';
 import BondPoolProvider from './modules/purchase/providers/bond-pool-provider/index.jsx';
+import LiquidityPoolProvider from './modules/add-liquidity/providers/liquidity-pool-provider/index.jsx';
 
 const App = () => {
 
@@ -39,14 +40,16 @@ const App = () => {
                             <WalletDataProvider>
                               <BalanceDataProvider>
                                 <FinancingPoolProvider>
-                                  <BondMarketProvider> 
-                                    <ColPoolProvider>
-                                      <DebtPoolProvider>
-                                        <BondPoolProvider>
-                                          <AppRoutes />
-                                        </BondPoolProvider>                                                                       
-                                      </DebtPoolProvider>   
-                                    </ColPoolProvider> 
+                                  <BondMarketProvider>
+                                    <LiquidityPoolProvider>
+                                      <ColPoolProvider>
+                                        <DebtPoolProvider>
+                                          <BondPoolProvider>
+                                            <AppRoutes />
+                                          </BondPoolProvider>                                                                       
+                                        </DebtPoolProvider>   
+                                      </ColPoolProvider>
+                                    </LiquidityPoolProvider>  
                                   </BondMarketProvider>                              
                                 </FinancingPoolProvider>
                               </BalanceDataProvider>

@@ -4,9 +4,9 @@ import PoolsView from "./views"
 const Pools = () => {
 
   return (
-    <LiquidityPoolProvider>
+    // <LiquidityPoolProvider>
       <PoolsView />
-    </LiquidityPoolProvider>
+    // </LiquidityPoolProvider>
   )
 }
 

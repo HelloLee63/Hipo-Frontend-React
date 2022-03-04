@@ -6,14 +6,13 @@ import { usePools } from "../../../components/providers/poolsProvider"
 import TokenIcon from "../../../components/token-icon"
 import TransactionAssetDataItem from "../../../components/transaction-data-item/TransactionAssetDataItem"
 import { useWallet } from "../../../wallets/walletProvider"
-
-
+import { useLiquidityPool } from "../../add-liquidity/providers/liquidity-pool-provider"
 
 const PoolsView = () => {
 
   const { bondPools } = usePools()
   const walletCtx = useWallet()
-  // const { setAssetSymbol } = useLiquidityPool()
+  const { setAssetSymbol, setDuration } = useLiquidityPool()
 
   const [isAdded, setIsAdded] = useState(false)
 
@@ -47,7 +46,7 @@ const PoolsView = () => {
 
   if (walletCtx.account && !isAdded) {
     return (
-      <div>NO Pledged</div>
+      <div>No Liquidity</div>
     )
   }
 
@@ -57,8 +56,9 @@ const PoolsView = () => {
     )
   }
 
-  function handleCurrentLiquidity() {
-    
+  function handleCurrentLiquidity(symbol, duration) {
+    setAssetSymbol(() => symbol)
+    setDuration(() => duration)
   }
 
   return (
@@ -105,7 +105,7 @@ const PoolsView = () => {
 
               <div className='d-flex flex-stack pt-3'>
               <Link to='/remove'>
-                <button type='button' className='btn btn-lg btn-primary me-0'>
+                <button onClick={() => handleCurrentLiquidity(pool.bondAsset.symbol, pool.duration.duration)} className='btn btn-lg btn-primary me-0'>
                   <span className='indicator-label'>              
                     Remove
                   </span>

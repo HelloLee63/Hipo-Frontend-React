@@ -1,6 +1,6 @@
 import Web3Contract from "../web3Contract";
 
-const FinancingPoolABI = 
+export const FinancingPoolABI = 
 [
 	{
 		"anonymous": false,
@@ -1519,6 +1519,16 @@ class FinancingPoolContract extends Web3Contract {
     return this.send('addLiquidity', [asset, duration, amount], {
       from: this.account
     })
+  }
+
+  removeLiquidity(asset, duration, amount ) {
+	  if (!this.account) {
+		  return Promise.reject()
+	  }
+
+	  return this.send('removeLiquidity', [asset, duration, amount], {
+		  from: this.account
+	  })
   }
 
   purchase(asset, duration, amount) {

@@ -3,9 +3,9 @@ import RemoveLiquidityView from "./views"
 
 const RemoveLiquidityModule = () => {
     return (
-      <LiquidityPoolProvider>
+      // <LiquidityPoolProvider>
         <RemoveLiquidityView />
-      </LiquidityPoolProvider>
+      // </LiquidityPoolProvider>
     )
 }
 

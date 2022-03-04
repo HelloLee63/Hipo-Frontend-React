@@ -25,7 +25,7 @@ const ProtocolDataProvider = ({ children }) => {
 
   // console.log('Protocol Data Provider is rendered');
 
-  const { bondPools, collateralPools } = usePools()
+  const { bondPools, collateralPools, assets } = usePools()
 
   useEffect(() => {
     bondPools.forEach(pool => {
@@ -39,6 +39,38 @@ const ProtocolDataProvider = ({ children }) => {
       protocolDataContract.loadCollateralConfigurationData(pool.collateralAsset.address) 
     })
   }, [collateralPools, protocolDataContract])
+
+  // get common data of each dToken includes totalSupply, decimals and etc.
+
+  useEffect(() => {
+    bondPools.forEach(pool => {
+      pool.dToken.contract.loadCommon().then(reload).catch(Error)
+    })
+  }, [bondPools])
+
+  // get common data of each lpToken includes totalSupply, decimals and etc.
+
+  useEffect(() => {
+    bondPools.forEach(pool => {
+      pool.lpToken.contract.loadCommon().then(reload).catch(Error)
+    })
+  }, [bondPools])
+
+  // get common data of each bToken includes totalSupply, decimals and etc.
+
+  useEffect(() => {
+    bondPools.forEach(pool => {
+      pool.bToken.contract.loadCommon().then(reload).catch(Error)
+    })
+  }, [bondPools])
+
+  // get common data of each asset includes totalSupply, decimals and etc.
+
+  useEffect(() => {
+    assets.forEach(asset => {
+      asset.contract.loadCommon().then(reload).catch(Error)
+    })
+  }, [assets])
 
   const getBondPrice = useCallback((
     (bondAsset, duration) => {

@@ -3,9 +3,9 @@ import AddLiquidityView from "./views/add-liquidity"
 
 const AddLiquidityModule = () => {
   return (   
-    <LiquidityPoolProvider>
+    // <LiquidityPoolProvider>
       <AddLiquidityView />
-    </LiquidityPoolProvider>
+    // </LiquidityPoolProvider>
   )
 }
 

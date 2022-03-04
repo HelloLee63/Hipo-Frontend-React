@@ -23,6 +23,7 @@ const LiquidityPoolProvider = props => {
   const [assetSymbol, setAssetSymbol] = useState(bondPools[0].bondAsset.symbol)
   const [duration, setDuration] = useState(bondPools[0].duration.duration)
   const [addAmount, setAddAmount] = useState(0)
+  const [removeAmount, setRemoveAmount] = useState(0)
 
   const pool = useMemo(() => getPoolByBond(assetSymbol, duration), [assetSymbol, duration])
 
@@ -43,6 +44,9 @@ const LiquidityPoolProvider = props => {
 
     addAmount, 
     setAddAmount,
+
+    removeAmount, 
+    setRemoveAmount
   }
 
   return (

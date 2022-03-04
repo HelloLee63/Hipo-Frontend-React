@@ -1,4 +1,5 @@
 import { Route, Routes } from "react-router-dom"
+import { usePools } from "../components/providers/poolsProvider"
 import { MasterLayout } from "../layout"
 import { PageTitle } from "../layout/core"
 import { MasterInit } from "../layout/MasterInit"
@@ -21,6 +22,7 @@ import RepayModule from "../modules/repay"
 const AppRoutes = () => {
 
   const bondMarkets = useBondMarket()
+  const { bondPools } = usePools()
 
   const transactionBreadCrumbs = [
     {
@@ -117,8 +119,8 @@ const AppRoutes = () => {
       <Routes>
         <Route path='/bondmarket' element={<MasterLayout><PageTitle breadcrumbs={dashboardBreadCrumbs}>Bonds Market</PageTitle><BondMarket /></MasterLayout>} />
         <Route path='/'  element={<MasterLayout><PageTitle breadcrumbs={dashboardBreadCrumbs}>Bonds Market</PageTitle><BondMarket /></MasterLayout>} />
-        {/* {bondMarkets.Bonds.map(bond => (
-        <Route key={bond.id} path={`bondmarket/${bond.asset.symbol.toLowerCase()}${bond.duration}`} element={<MasterLayout><PageTitle>Bond Market</PageTitle><BondDetails bond={bond} /></MasterLayout>} />))} */}
+        {bondPools.map(pool => (
+        <Route key={pool.bToken.symbol} path={`bondmarket/${pool.bondAsset.symbol.toLowerCase()}${pool.duration.duration}`} element={<MasterLayout><PageTitle>Bond Market</PageTitle><BondDetails pool={pool} /></MasterLayout>} />))}
         <Route path='/pledge' element={<MasterLayout><PageTitle breadcrumbs={transactionBreadCrumbs}>Pledge</PageTitle><PledgeModule /></MasterLayout>} />
         <Route path='/issue' element={<MasterLayout><PageTitle breadcrumbs={transactionBreadCrumbs}>Issue</PageTitle><IssueModule /></MasterLayout>} />
         <Route path='/purchase' element={<MasterLayout><PageTitle breadcrumbs={transactionBreadCrumbs}>Purchase</PageTitle><PurchaseBondModule /></MasterLayout>} />

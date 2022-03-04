@@ -1,13 +1,14 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import BigNumber from 'bignumber.js'
 import { useFormik } from 'formik'
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { useConfig } from '../../../../components/providers/configProvider'
 import TitleLable from '../../../../components/title-lable'
 import TokenIcon from '../../../../components/token-icon'
 import TransactionAssetDataItem from '../../../../components/transaction-data-item/TransactionAssetDataItem'
+import TransactionCollateralDataItem from '../../../../components/transaction-data-item/TransactionCollateralDataItem'
+import TransactionLtvDataItem from '../../../../components/transaction-data-item/TransactionLtvDataItem'
 import { useWallet } from '../../../../wallets/walletProvider'
-import { useProtocolData } from '../../../../web3/components/providers/ProtocolDataProvider'
 import { scaleBy } from '../../../../web3/utils'
 import { KTSVG } from '../../../../_metronic/helpers/components/KTSVG'
 import { useLiquidityPool } from '../../../add-liquidity/providers/liquidity-pool-provider'
@@ -17,15 +18,12 @@ const RemoveInputAssetAmount = ({ prevStep }) => {
   const walletCtx = useWallet()
   const config = useConfig()
 
-  const { pool, setAddAmount } = useLiquidityPool()
-  const { getBondPrice } =useProtocolData()
+  const { pool, setRemoveAmount } = useLiquidityPool()
 
-  const walletBalance = pool.bondAsset.contract.balances?.get(walletCtx.account)
+  const walletBalance = pool.lpToken.contract.balances?.get(walletCtx.account)
 
-  const decimals = pool.bondAsset.decimals
-  const allowance = pool.bondAsset.contract.allowances?.get(config.contracts.financingPool.financingPool)
-
-  const bondPrice = getBondPrice(pool.bondAsset.address, pool.duration.duration)
+  const decimals = pool.lpToken.decimals
+  const allowance = pool.lpToken.contract.allowances?.get(config.contracts.financingPool.financingPool)
 
   const [walletConnectVisible, setWalletConnectVisible] = useState(false)
   const [approveVisible, setApproveVisible] = useState(false)
@@ -33,19 +31,26 @@ const RemoveInputAssetAmount = ({ prevStep }) => {
   const [submitVisible, setSubmitVisible] = useState(false)
   const [isEnabling, setEnabling] = useState(false)
   
-  const addLiquidityFormik = useFormik({
+  const removeLiquidityFormik = useFormik({
     initialValues: {
-      assetAmount: '',
+      bondAmount: '',
     }
   })
 
-  const inputAssetAmount = new BigNumber(addLiquidityFormik.values.assetAmount)
+  const inputAssetAmount = new BigNumber(removeLiquidityFormik.values.bondAmount)
   let value = new BigNumber(scaleBy(inputAssetAmount, decimals))
-  const oneBigNumber = new BigNumber(scaleBy(1, decimals))
 
-  const reservePool = oneBigNumber.minus(new BigNumber(bondPrice)).multipliedBy(inputAssetAmount)
+  console.log(value);
 
-  const interestPool = new BigNumber(bondPrice).multipliedBy(inputAssetAmount)
+  const poolShare = useCallback((pool) => {
+
+    if (walletCtx.account) {
+      const lpTokenTotalSupply = new BigNumber(pool.lpToken.contract.totalSupply)
+      const balance = new BigNumber(pool.lpToken.contract.balances?.get(walletCtx.account))
+      const shares = balance.dividedBy(lpTokenTotalSupply)
+      return shares
+    }    
+  }, [walletCtx.account])
 
   useEffect(() => {
 
@@ -94,7 +99,7 @@ const RemoveInputAssetAmount = ({ prevStep }) => {
   }, [walletCtx.account, value, walletBalance, allowance])
 
   function handleSubmit() {
-    setAddAmount(() => inputAssetAmount)
+    setRemoveAmount(() => inputAssetAmount)
   }
 
   async function handleApprove() {
@@ -104,7 +109,7 @@ const RemoveInputAssetAmount = ({ prevStep }) => {
       setEnabling(() => true)
 
       try {
-        await pool.bondAsset.contract.approve(config.contracts.financingPool.financingPool, true)
+        await pool.lpToken.contract.approve(config.contracts.financingPool.financingPool, true)
       } catch(e) {
         console.error(e)
       }
@@ -134,7 +139,7 @@ const RemoveInputAssetAmount = ({ prevStep }) => {
             className='p-0 form-control form-control-lg form-control-solid fw-bolder bg-white border-0 text-primary align-center'
             placeholder='0.0'
             name='assetAmount'
-            value={addLiquidityFormik.values.assetAmount}
+            value={removeLiquidityFormik.values.bondAmount}
             style={{ fontSize: 58 }}
             autoComplete='off'
             onChange={e => {
@@ -142,7 +147,7 @@ const RemoveInputAssetAmount = ({ prevStep }) => {
               const { value } = e.target;              
               const regex = /^(0*[0-9][0-9]*(\.[0-9]*)?|0*\.[0-9]*[1-9][0-9]*)$/;
               if (regex.test(value)) {
-                addLiquidityFormik.setFieldValue('assetAmount', value);
+                removeLiquidityFormik.setFieldValue('bondAmount', value);
               }
             }}
           />
@@ -151,28 +156,37 @@ const RemoveInputAssetAmount = ({ prevStep }) => {
 
       <div className='card mb-2'>
         <div className='card-body'>
-          <TransactionAssetDataItem
-            title='Add Asset Amount'
-            tokenIcon={pool.bondAsset.icon}
-            balance={inputAssetAmount}
-            decimals={0}
+          <TransactionCollateralDataItem
+            title='You Added'
+            tokenIcon={pool.icon}
+            balance={walletBalance}
+            decimals={pool.lpToken.decimals}
           />
 
           <div className='separator my-4'></div>
 
-          <TransactionAssetDataItem
-            title='Add To Interest Pool'
+          {/* <TransactionAssetDataItem
+            title='Lending Pool Asset'
             tokenIcon={pool.bondAsset.icon}
             balance={interestPool}
             decimals={pool.bondAsset.decimals}
           />
 
           <TransactionAssetDataItem
-            title='Add To Reserve Pool'
+            title='Interest Pool Asset'
             tokenIcon={pool.bondAsset.icon}
             balance={reservePool}
             decimals={pool.bondAsset.decimals}
+          /> */}
+
+          {/* <div className='separator my-4'></div> */}
+
+          <TransactionLtvDataItem
+            title='Pool Shares'
+            balance={poolShare(pool)}
+            decimals={0}
           />
+
         </div>
       </div>
 

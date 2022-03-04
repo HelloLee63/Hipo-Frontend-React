@@ -6,33 +6,33 @@ const Overview = () => {
 
   console.log('Overview is rendered');
 
-  const bondMarket = useBondMarket()
+  // const bondMarket = useBondMarket()
 
-  const { 
-    wethToken, 
-    usdcToken, 
-    usdtToken, 
-    daiToken, 
-    tokens  
-  } = useKnownTokens()
+  // const { 
+  //   wethToken, 
+  //   usdcToken, 
+  //   usdtToken, 
+  //   daiToken, 
+  //   tokens  
+  // } = useKnownTokens()
 
-  const totalCUSDCWETH = bondMarket.colTokens[0].contract.totalSupply?.toString()
-  const totalCWETHUSDT = bondMarket.colTokens[1].contract.totalSupply?.toString()
-  const totalCDAIWETH = bondMarket.colTokens[2].contract.totalSupply?.toString()
-  const decimalsCUSDCWETH = bondMarket.colTokens[0].decimals
-  const decimalsCWETHUSDT = bondMarket.colTokens[1].decimals
-  const decimalsCDAIWETH = bondMarket.colTokens[2].decimals
+  // const totalCUSDCWETH = bondMarket.colTokens[0].contract.totalSupply?.toString()
+  // const totalCWETHUSDT = bondMarket.colTokens[1].contract.totalSupply?.toString()
+  // const totalCDAIWETH = bondMarket.colTokens[2].contract.totalSupply?.toString()
+  // const decimalsCUSDCWETH = bondMarket.colTokens[0].decimals
+  // const decimalsCWETHUSDT = bondMarket.colTokens[1].decimals
+  // const decimalsCDAIWETH = bondMarket.colTokens[2].decimals
 
-  const totalUSDCWETHLpToken = bondMarket.uniPools[0].contract.totalSupply?.toString()
-  const totalWETHUSDTLpToken = bondMarket.uniPools[1].contract.totalSupply?.toString()
-  const totalDAIWETHLpToken = bondMarket.uniPools[2].contract.totalSupply?.toString()
+  // const totalUSDCWETHLpToken = bondMarket.uniPools[0].contract.totalSupply?.toString()
+  // const totalWETHUSDTLpToken = bondMarket.uniPools[1].contract.totalSupply?.toString()
+  // const totalDAIWETHLpToken = bondMarket.uniPools[2].contract.totalSupply?.toString()
 
-  const amountWETHInUsdcPool = wethToken.contract.getBalanceOf(tokens[0].address)?.toString()
-  const amountWETHInUsdtPool = wethToken.contract.getBalanceOf(tokens[1].address)?.toString()
-  const amountWETHInDaiPool = wethToken.contract.getBalanceOf(tokens[2].address)?.toString()
-  const amountUSDCInUsdcPool = usdcToken.contract.getBalanceOf(tokens[0].address)?.toString()
-  const amountUSDTInUsdtPool = usdtToken.contract.getBalanceOf(tokens[1].address)?.toString()
-  const amountDAIInDaiPool = daiToken.contract.getBalanceOf(tokens[2].address)?.toString()
+  // const amountWETHInUsdcPool = wethToken.contract.getBalanceOf(tokens[0].address)?.toString()
+  // const amountWETHInUsdtPool = wethToken.contract.getBalanceOf(tokens[1].address)?.toString()
+  // const amountWETHInDaiPool = wethToken.contract.getBalanceOf(tokens[2].address)?.toString()
+  // const amountUSDCInUsdcPool = usdcToken.contract.getBalanceOf(tokens[0].address)?.toString()
+  // const amountUSDTInUsdtPool = usdtToken.contract.getBalanceOf(tokens[1].address)?.toString()
+  // const amountDAIInDaiPool = daiToken.contract.getBalanceOf(tokens[2].address)?.toString()
 
   return (
     <>

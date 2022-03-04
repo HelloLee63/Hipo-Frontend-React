@@ -1,58 +1,30 @@
-import { useWeb3React } from "@web3-react/core"
 import { useEffect, useState } from "react"
-import useSWR from "swr"
+import Web3 from "web3"
+import { useConfig } from "../../../components/providers/configProvider"
+// import { RPC_HTTPS_URL } from "../../../networks/rinkeby-testnet"
+import { FinancingPoolABI } from "../../../web3/contracts/FinancingPoolContract"
 import { shortenAddr } from "../../../web3/utils"
 
-const Transactions = ({ className }) => {
+const Transactions = () => {
+
+  // const config = useConfig()
+
+  // const address = config.contracts.financingPool.financingPool
+  // const abi = FinancingPoolABI
+  // const web3 = new Web3(RPC_HTTPS_URL)
+  // const contract = new web3.eth.Contract(abi,address)
 
   const [transactions, setTransactions] = useState()
-  const [transactionDataByHash, setTransactionDataByHash] = useState()
 
-  const fetcher = (library) => (...args) => {
-    const [method, ...params] = args
-    console.log(args);
-    console.log(method, params);
-    console.log(method);
-    console.log(params);
-    console.log(library[method]);
-    return library[method](...params)
-  }
-
-  const Balance = () => {
-    const { account, library } = useWeb3React()
-    console.log(account);
-    console.log(library);
-    const { data: balance } = useSWR(['getBalance', account, 'latest'], {fetcher: fetcher(library),})
-    const data = useSWR(['getBalance', account, 'latest'], {fetcher: fetcher(library),})
-    console.log(data);
-    console.log(balance);
-    if (balance) {
-      return <div>...</div>
-    }
-
-    return <div>Balance: {balance?.toString()}</div>
-  }
-
-  useEffect(() => {
-    fetch('https://api-rinkeby.etherscan.io/api?module=account&action=txlist&address=0x3376B3f38B2F8DeAaA0FC71aeBc5A2845178d990&startblock=0&endblock=99999999&sort=asc&apikey=T66G8AXRHGVFJ1VWWPM39PDG59Y8V747E7')
-      .then(res => res.json())
-      .then(data => setTransactions(data))
-  }, [])
-
-  // useEffect(() => {
-  //   fetch('https://api-rinkeby.etherscan.io/api?module=proxy&action=eth_getTransactionReceipt&txhash=0xfff41398f369e3a7c8384ba9b22c048a872bdd5e1e717c0969a2bba2de2bd4a0&apikey=T66G8AXRHGVFJ1VWWPM39PDG59Y8V747E7')
-  //     .then(res => res.json())
-  //     .then(data => setTransactionDataByHash(data))
-  // }, [])
-
-  console.log(transactions?.result);
-  console.log(transactionDataByHash?.result);
+  // contract.getPastEvents('Pledge', {
+  //     fromBlock: 0,
+  //     toBlock: 'latest'
+  // }, (error, events) => { console.log(events); });
 
 
   return (
-    <div className={`card ${className}`}>
+    <div className='card'>
       <div className="card-body py-3">
-        <Balance />
         <div className="table-responsive">
           <table className="table align-middle gs-0 gy-4">
             <thead>
