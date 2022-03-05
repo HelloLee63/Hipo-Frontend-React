@@ -1,11 +1,11 @@
 import BigNumber from "bignumber.js"
-import { Link } from "../../../components/button"
-import { usePools } from "../../../components/providers/poolsProvider"
-import { useProtocolData } from "../../../web3/components/providers/ProtocolDataProvider"
-import { calAPY, formatPercent, formatToken } from "../../../web3/utils"
-import { KTSVG } from "../../../_metronic/helpers/components/KTSVG"
+import { Link } from "react-router-dom"
+import { usePools } from "../../../../components/providers/poolsProvider"
+import { useProtocolData } from "../../../../web3/components/providers/ProtocolDataProvider"
+import { calAPY, formatPercent, formatToken } from "../../../../web3/utils"
+import { KTSVG } from "../../../../_metronic/helpers/components/KTSVG"
 
-const Bonds = () => {
+const BondsList = () => {
 
   const { bondPools } = usePools()
   const { getBondPrice } = useProtocolData()
@@ -19,12 +19,12 @@ const Bonds = () => {
           <table className='table align-middle gs-0 gy-4'>
             <thead>
               <tr className='fw-bolder text-muted bg-light'>
-                <th className='ps-4 min-w-225px rounded-start'>BOND</th>
+                <th className='ps-4 min-w-250px rounded-start'>BOND</th>
                 <th className='min-w-175px'>Bond Price</th>
                 <th className='min-w-175px'>APY</th>
                 <th className='min-w-200px'>Market Size</th>
                 <th className='min-w-150px'>Volumn(24H)</th>
-                <th className='min-w-200px text-end rounded-end'></th>
+                {/* <th className='min-w-200px text-end rounded-end'></th> */}
               </tr>
             </thead>
 
@@ -82,4 +82,4 @@ const Bonds = () => {
   )
 }
 
-export default Bonds
+export default BondsList

@@ -1,8 +1,6 @@
-import { useKnownTokens } from "../../../components/providers/knownTokensProvider"
-import { StatisticsWidget } from "../../../components/statistics/StatisticsWidget"
-import { useBondMarket } from "../providers/BondMarketProvider"
+import { StatisticsWidget } from "../../../../components/statistics/StatisticsWidget";
 
-const Overview = () => {
+const MarketOverview = () => {
 
   console.log('Overview is rendered');
 
@@ -81,4 +79,4 @@ const Overview = () => {
   )
 }
 
-export default Overview
+export default MarketOverview

@@ -4,11 +4,10 @@ import { MasterLayout } from "../layout"
 import { PageTitle } from "../layout/core"
 import { MasterInit } from "../layout/MasterInit"
 import AddLiquidityModule from "../modules/add-liquidity"
-import BondMarket from "../modules/bond-market"
 import { useBondMarket } from "../modules/bond-market/providers/BondMarketProvider"
-import BondDetails from "../modules/bond-market/views/BondDetails"
+import BondDetailsView from "../modules/bond-market/views/bond-details-view"
+import BondMarketView from "../modules/bond-market/views/market-view"
 import BondsModule, { DebtsModule } from "../modules/bonds"
-import DebtsView from "../modules/bonds/views/debts"
 import Collaterals from "../modules/collaterals"
 import IssueModule from "../modules/issue"
 import PledgeModule from "../modules/pledge"
@@ -117,10 +116,13 @@ const AppRoutes = () => {
   return (
     <>
       <Routes>
-        <Route path='/bondmarket' element={<MasterLayout><PageTitle breadcrumbs={dashboardBreadCrumbs}>Bonds Market</PageTitle><BondMarket /></MasterLayout>} />
-        <Route path='/'  element={<MasterLayout><PageTitle breadcrumbs={dashboardBreadCrumbs}>Bonds Market</PageTitle><BondMarket /></MasterLayout>} />
+        <Route path='/bondmarket' element={<MasterLayout><PageTitle breadcrumbs={dashboardBreadCrumbs}>Bonds Market</PageTitle><BondMarketView/></MasterLayout>} />
+        <Route path='/'  element={<MasterLayout><PageTitle breadcrumbs={dashboardBreadCrumbs}>Bonds Market</PageTitle><BondMarketView/></MasterLayout>} />
         {bondPools.map(pool => (
-        <Route key={pool.bToken.symbol} path={`bondmarket/${pool.bondAsset.symbol.toLowerCase()}${pool.duration.duration}`} element={<MasterLayout><PageTitle>Bond Market</PageTitle><BondDetails pool={pool} /></MasterLayout>} />))}
+        <Route key={pool.bToken.symbol} 
+          path={`bondmarket/${pool.bondAsset.symbol.toLowerCase()}${pool.duration.duration}`} 
+          element={<MasterLayout><PageTitle>Bond Market</PageTitle><BondDetailsView pool={pool} /></MasterLayout>} />))}
+        
         <Route path='/pledge' element={<MasterLayout><PageTitle breadcrumbs={transactionBreadCrumbs}>Pledge</PageTitle><PledgeModule /></MasterLayout>} />
         <Route path='/issue' element={<MasterLayout><PageTitle breadcrumbs={transactionBreadCrumbs}>Issue</PageTitle><IssueModule /></MasterLayout>} />
         <Route path='/purchase' element={<MasterLayout><PageTitle breadcrumbs={transactionBreadCrumbs}>Purchase</PageTitle><PurchaseBondModule /></MasterLayout>} />
