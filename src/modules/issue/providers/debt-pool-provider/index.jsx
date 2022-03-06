@@ -21,9 +21,6 @@ const DebtPoolProvider = props => {
 
   const [debtId, setDebtId] = useState()
 
-
-  const { bondPools } = usePools()
-
   const walletCtx = useWallet()
   const [reload] = useReload()
   const config = useConfig()
@@ -39,15 +36,6 @@ const DebtPoolProvider = props => {
       bondPool.bondAsset.contract.loadAllowance(config.contracts.financingPool?.financingPool).then(reload).catch(Error)
     }
   }, [bondPool, walletCtx.account])
-
-  useEffect(() => {
-    if (walletCtx.account) {
-      bondPools.forEach(pool => {
-        pool.dToken.contract.loadDebtData(walletCtx.account).then(reload).catch(Error)
-        }      
-      )
-    }    
-  }, [bondPools, walletCtx.account])
 
   const value = {
     bondPool,

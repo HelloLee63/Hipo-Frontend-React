@@ -10,8 +10,6 @@ const BondsList = () => {
   const { bondPools } = usePools()
   const { getBondPrice } = useProtocolData()
 
-  console.log('Bonds is rendered');
-
   return (
     <div className='card'>
       <div className='card-body py-3'>
@@ -24,7 +22,7 @@ const BondsList = () => {
                 <th className='min-w-175px'>APY</th>
                 <th className='min-w-200px'>Market Size</th>
                 <th className='min-w-150px'>Volumn(24H)</th>
-                {/* <th className='min-w-200px text-end rounded-end'></th> */}
+                <th className='min-w-20px text-end rounded-end'></th>
               </tr>
             </thead>
 

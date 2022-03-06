@@ -140,6 +140,34 @@ class BondTokenContract extends Erc20Contract {
       }
     }  
   }
+
+  async loadBondsData(investor = this.account) {
+
+    if (!investor) {
+      return Promise.reject(new Error('Invalid owner address!'))
+    }
+
+    const ids = await this.getListsOf(investor)
+
+    if (ids.length > 0) {
+      // const getDatas = () => {
+      //   return ids.forEach(id => await this.call('getInvestorBond', [investor, id]))
+      let datas = {}
+      for (let i = 0; i < ids.length; i++) {
+        const data = await this.call('getInvestorBond', [investor, ids[i]])
+        const bondData = Object.values(data)
+        datas.investor = investor
+        datas.bondData = bondData
+        datas.id = bondData[3]
+      } 
+
+      // const datas = getDatas()
+      console.log('datas is ', datas);
+    }
+
+
+ 
+  }
 }
 
 export default BondTokenContract

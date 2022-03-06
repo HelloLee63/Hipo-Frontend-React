@@ -387,6 +387,11 @@ const PoolsProvider = ({ children }) => {
       pool.duration.duration === duration)
   }, [bondPools])
 
+  const getBondPoolByBond = useCallback((bondAsset, duration) => {
+    return bondPools.find((pool) => pool.bondAsset.address === bondAsset && 
+      pool.duration.duration === duration)
+  }, [bondPools])
+
   const getCollateralPoolBySymbol = useCallback(
     (collateralAssetSymbol) => {
       return collateralPools.find(pool => pool.collateralAsset.symbol === collateralAssetSymbol)
@@ -403,6 +408,7 @@ const PoolsProvider = ({ children }) => {
     bondPools,
     collateralPools,
     getPoolByBond,
+    getBondPoolByBond,
     getCollateralPoolBySymbol,
     getCollateralPoolByAddress
   }
