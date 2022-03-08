@@ -28,38 +28,91 @@ const CollateralsView = () => {
   const { getTokenByAddress } = useKnownTokens()
 
   const [isPledged, setIsPledged] = useState(false)
+  const [loading, setLoading] = useState(0)
 
-  const getBalanceOfCollateral = useCallback(() => {
+  // const getBalanceOfCollateral = useCallback(() => {
     
-    let amount = new BigNumber(0)
+  //   let amount = new BigNumber(0)
+
+  //   if (walletCtx.account) {
+  //     collateralPools.map(pool => {
+  //       const balance = new BigNumber(pool.contract.balances?.get(walletCtx.account))
+  //       amount = BigNumber.sum(amount, balance)
+  //     })
+  //   }
+  //   return amount 
+
+  // }, [walletCtx.account, collateralPools])
+
+  function getBalanceOfCollateral() {
+
+    console.log('this is rendered');
+
+    setLoading(() => 5)
+    setLoading(() => 6)
+
+    console.log(loading);
 
     if (walletCtx.account) {
-      collateralPools.map(pool => {
-        const balance = new BigNumber(pool.contract.balances?.get(walletCtx.account))
+      let amount = new BigNumber(0)
+      collateralPools.map(async pool => {
+        console.log('await is executed');
+        const balance = await pool.contract.balances?.get(walletCtx.account)
         amount = BigNumber.sum(amount, balance)
       })
-    }
-    return amount 
 
-  }, [walletCtx.account, collateralPools])
+      console.log('amount is ', amount);
 
-  const balance = getBalanceOfCollateral()
-
-  useEffect(() => {
-    if(walletCtx.account) {
-      if(balance?.gt(0)) {
+      if(amount?.gt(0)) {
         setIsPledged(() => true)
       }
-  
-      if(balance?.eq(0) || balance?.isNaN()) {
+
+      if(amount?.eq(0) || amount?.isNaN()) {
         setIsPledged(() => false)
       }
     }
-  }, [walletCtx.account, balance])
+
+    setLoading(() => 6)
+     
+  }
+
+  useEffect(() => getBalanceOfCollateral(), [walletCtx.account])
+  // {
+  //   if(walletCtx.account) {
+
+  //     const balance = getBalanceOfCollateral()
+  //     if(balance?.gt(0)) {
+  //       setIsPledged(() => true)
+  //     }
+  
+  //     if(balance?.eq(0) || balance?.isNaN()) {
+  //       setIsPledged(() => false)
+  //     }
+  //   }
+  // }, [walletCtx.account])
+
+  console.log(loading);
 
   if (walletCtx.account && !isPledged) {
     return (
-      <div>NO Pledged</div>
+      <>
+        { loading ? (
+        <div className='text-center pt-15 pb-15'>
+          <div className="spinner-border text-primary" role="status">
+            <span className="sr-only">Loading...</span>
+          </div>
+        </div>
+        ) : (
+        // <div>No Pledged</div>
+
+        <div className='text-center pt-15 pb-15'>
+          <div className="spinner-border text-primary" role="status">
+            <span className="sr-only">Loading...</span>
+          </div>
+        </div>
+        )}
+      </>
+      
     )
   }
 

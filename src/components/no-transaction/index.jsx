@@ -8,7 +8,7 @@ const NoTransaction = () => {
         className=''
         alt=''
       />
-      <span></span>
+      <span>There is no relevant transaction record currently.</span>
     </div>
   )
 }

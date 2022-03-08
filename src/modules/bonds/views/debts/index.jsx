@@ -72,9 +72,9 @@ const DebtsView = () => {
 
   useEffect(() => {
     if(walletCtx.account && isIssued ) {
-      setLoading(() => false)
+      // setLoading(() => true)
       getIssueTxs()
-      setLoading(() => true)
+      // setLoading(() => false)
     }    
     
   }, [walletCtx, isIssued])
@@ -82,6 +82,23 @@ const DebtsView = () => {
   if (walletCtx.account && !isIssued) {
     return (
       <div>No Debts</div>
+    )
+  }
+
+  if (walletCtx.account && !isIssued) {
+    return (
+      <div>No Debts</div>
+      // <>
+      //   { loading ? (
+      //   <div className='text-center pt-15 pb-15'>
+      //     <div className="spinner-border text-primary" role="status">
+      //       <span className="sr-only">Loading...</span>
+      //     </div>
+      //   </div>
+      //   ) : (
+      //   <div>No Debts</div>
+      //   )}
+      // </>
     )
   }
 
