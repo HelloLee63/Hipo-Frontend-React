@@ -9,6 +9,7 @@ import TransactionAssetDataItem from "../../../../components/transaction-data-it
 import TransactionCollateralDataItem from "../../../../components/transaction-data-item/TransactionCollateralDataItem"
 import TransactionDurationDataItem from "../../../../components/transaction-data-item/TransactionDurationDataItem"
 import TransactionLtvDataItem from "../../../../components/transaction-data-item/TransactionLtvDataItem"
+import WalletUnconnected from "../../../../components/wallet-unconnected"
 import { RPC_HTTPS_URL } from "../../../../networks/rinkeby-testnet"
 import { useWallet } from "../../../../wallets/walletProvider"
 import { useWalletData } from "../../../../web3/components/providers/WalletDataProvider"
@@ -86,7 +87,7 @@ const DebtsView = () => {
 
   if (!walletCtx.account) {
     return (
-      <div>Please Connect Your Wallet</div>
+      <WalletUnconnected />
     )
   }
 

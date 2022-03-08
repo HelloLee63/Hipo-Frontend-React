@@ -8,6 +8,7 @@ import CollateralToken from "../../../../components/token-icon/CollateralToken"
 import TransactionAssetDataItem from "../../../../components/transaction-data-item/TransactionAssetDataItem"
 import TransactionCollateralDataItem from "../../../../components/transaction-data-item/TransactionCollateralDataItem"
 import TransactionLtvDataItem from "../../../../components/transaction-data-item/TransactionLtvDataItem"
+import WalletUnconnected from "../../../../components/wallet-unconnected"
 import { useWallet } from "../../../../wallets/walletProvider"
 import { useProtocolData } from "../../../../web3/components/providers/ProtocolDataProvider"
 import { useWalletData } from "../../../../web3/components/providers/WalletDataProvider"
@@ -64,7 +65,7 @@ const CollateralsView = () => {
 
   if (!walletCtx.account) {
     return (
-      <div>Please Connect Your Wallet</div>
+      <WalletUnconnected />
     )
   }
 

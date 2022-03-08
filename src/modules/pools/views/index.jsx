@@ -5,6 +5,7 @@ import TransactionLink from "../../../components/button/transaction-link"
 import { usePools } from "../../../components/providers/poolsProvider"
 import TokenIcon from "../../../components/token-icon"
 import TransactionAssetDataItem from "../../../components/transaction-data-item/TransactionAssetDataItem"
+import WalletUnconnected from "../../../components/wallet-unconnected"
 import { useWallet } from "../../../wallets/walletProvider"
 import { useLiquidityPool } from "../../add-liquidity/providers/liquidity-pool-provider"
 
@@ -52,7 +53,7 @@ const PoolsView = () => {
 
   if (!walletCtx.account) {
     return (
-      <div>Please Connect Your Wallet</div>
+      <WalletUnconnected />
     )
   }
 
