@@ -3,6 +3,8 @@ import { useEffect, useState } from "react"
 import { Link } from "react-router-dom"
 import Web3 from "web3"
 import TransactionLink from "../../../components/button/transaction-link"
+import { BondNavTab } from "../../../components/nav-tab"
+import NoTransaction from "../../../components/no-transaction"
 import { useConfig } from "../../../components/providers/configProvider"
 import { usePools } from "../../../components/providers/poolsProvider"
 import TokenIcon from "../../../components/token-icon"
@@ -12,29 +14,28 @@ import TransactionDurationDataItem from "../../../components/transaction-data-it
 import WalletUnconnected from "../../../components/wallet-unconnected"
 import { RPC_HTTPS_URL } from "../../../networks/rinkeby-testnet"
 import { useWallet } from "../../../wallets/walletProvider"
-import { useWalletData } from "../../../web3/components/providers/WalletDataProvider"
 import { FinancingPoolABI } from "../../../web3/contracts/FinancingPoolContract"
 
 const BondsView = () => {
 
   const walletCtx = useWallet()
-
   const config = useConfig()
+  const { getBondPoolByBond } = usePools()
   
   const address = config.contracts.financingPool.financingPool
   const abi = FinancingPoolABI
   const web3 = new Web3(RPC_HTTPS_URL)
   const contract = new web3.eth.Contract(abi,address)
 
-  const { getBondPoolByBond } = usePools()
-  const { getBalanceOfBToken } = useWalletData()
-
-  const [isInvested, setIsInvested] = useState(false)
-  const [purchaseTxs, setPurchaseTxs] = useState()
+  
+  
+  const [conStatus, setConStatus] = useState(false)
   const [loading, setLoading] = useState(false)
-
-  const balance = getBalanceOfBToken()
-
+  const [noTxsStatus, setNoTxsStatus] = useState(false)
+  const [txsStatus, setTxsStatus] = useState(false)
+  
+  const [purchaseTxs, setPurchaseTxs] = useState()
+  
   const getWithdrawAmount = (bondAmount, fees) => BigNumber(bondAmount).minus(BigNumber(fees))
 
   const getPurchaseTxs = async () => {
@@ -52,145 +53,177 @@ const BondsView = () => {
       })
   }
 
-  useEffect(() => {    
-
-    if(walletCtx.account) {
-      if(balance?.gt(0)) {
-        setIsInvested(() => true)
-      }
-  
-      if(balance?.eq(0) || balance?.isNaN()) {
-        setIsInvested(() => false)
-      }
+  useEffect(() => {
+    if (!walletCtx.account) {
+      setConStatus(() => true)
+      setLoading(() => false)
+      setNoTxsStatus(() => false)
+      setTxsStatus(() => false)
+      return
     }
 
-  }, [walletCtx.account, balance])
+    if (walletCtx.account) {
+      setConStatus(() => false)
+
+      if (!purchaseTxs && purchaseTxs?.length !== 0) {
+        setLoading(() => true)
+
+        setNoTxsStatus(() => false)
+        setTxsStatus(() => false)
+        return
+      }
+
+      if (purchaseTxs?.length > 0) {
+        setLoading(() => false)
+
+        setNoTxsStatus(() => false)
+        setTxsStatus(() => true)
+        return
+      }
+
+      if (purchaseTxs?.length === 0) {
+        setLoading(() => false)
+
+        setNoTxsStatus(() => true)
+        setTxsStatus(() => false)
+        return
+      }
+    }
+  }, [walletCtx.account, purchaseTxs])
 
   useEffect(() => {
-    if(walletCtx.account && isInvested ) {
-      setLoading(() => false)
-      getPurchaseTxs()
-      setLoading(() => true)
-    }    
-    
-  }, [walletCtx, isInvested])
-
-  if (walletCtx.account && !isInvested) {
-    return (
-      <div>No Pledged</div>
-    )
-  }
-
-  if (!walletCtx.account) {
-    return (     
-      <WalletUnconnected />      
-    )
-  }
-
-  console.log('Purchase Transactions are :', purchaseTxs);
+    if (walletCtx.account) {      
+      getPurchaseTxs()      
+    }        
+  }, [walletCtx.account])
 
   return (
     <>
-      <div className="d-flex justify-content-between">
-        <div>
-          <Link to='/investments'>
-            <button>My Investments</button>
-          </Link>
-          <Link to='/debts'>
-            <button>My Debts</button>
-          </Link>
-        </div>        
-        <TransactionLink name='Issue Bond' transaction='/issue'/>        
-      </div>
+      { loading &&
+        <>
+          <div className="d-flex justify-content-between">
+            <BondNavTab title1='My Investments' title2='My Debts' className1='active' className2=''/>
+            <TransactionLink name='Purchase Bond' transaction='/purchase'/>        
+          </div>        
+          <div className=''>
+            <div className="spinner-border text-primary" role="status">
+              <span className="sr-only">Loading...</span>
+            </div>
+          </div>
+        </>
+      }
 
-      <div className='row g-5 g-xl-8'>
-        { 
-          purchaseTxs?.map(tx => (              
-              <div key={tx.transactionHash} className='col-xl-4'>
-                <div className="card mb-2">
-                  <div className="card-body pt-3 pb-3">
-                    <TokenIcon 
-                      tokenIcon={getBondPoolByBond(tx.returnValues.asset.toLowerCase(), tx.returnValues.duration.toString()).icon} 
-                      tokenName={`${getBondPoolByBond(tx.returnValues.asset.toLowerCase(), tx.returnValues.duration.toString()).bondAsset.symbol} Bond`} 
-                      tokenDesc={getBondPoolByBond(tx.returnValues.asset.toLowerCase(), tx.returnValues.duration.toString()).duration.description}                
-                    />
+      {
+        conStatus && <WalletUnconnected />
+      }
+
+      {
+        noTxsStatus && 
+        <>
+          <div className="d-flex justify-content-between">
+            <BondNavTab title1='My Investments' title2='My Debts' className1='active' className2=''/>
+            <TransactionLink name='Purchase Bond' transaction='/purchase'/>        
+          </div>
+          <NoTransaction />
+        </>        
+      }
+
+      {
+        txsStatus &&
+        <>
+          <div className="d-flex justify-content-between">
+            <BondNavTab title1='My Investments' title2='My Debts' className1='active' className2=''/>
+            <TransactionLink name='Purchase Bond' transaction='/purchase'/>        
+          </div>
+          <div className='row g-5 g-xl-8'>
+            { 
+              purchaseTxs?.map(tx => (              
+                <div key={tx.transactionHash} className='col-xl-4'>
+                  <div className="card mb-2">
+                    <div className="card-body pt-3 pb-3">
+                      <TokenIcon 
+                        tokenIcon={getBondPoolByBond(tx.returnValues.asset.toLowerCase(), tx.returnValues.duration.toString()).icon} 
+                        tokenName={`${getBondPoolByBond(tx.returnValues.asset.toLowerCase(), tx.returnValues.duration.toString()).bondAsset.symbol} Bond`} 
+                        tokenDesc={getBondPoolByBond(tx.returnValues.asset.toLowerCase(), tx.returnValues.duration.toString()).duration.description}                
+                      />
+                    </div>
                   </div>
-                </div>
 
-                <div className="card">
-                  <div className="card-body">
+                  <div className="card">
+                    <div className="card-body">
 
-                    <TransactionDurationDataItem 
-                      title='Purchased At'
-                      duration={tx.returnValues.startTimestamp ?? '-'}
-                    />
+                      <TransactionDurationDataItem 
+                        title='Purchased At'
+                        duration={tx.returnValues.startTimestamp ?? '-'}
+                      />
 
-                    <TransactionDurationDataItem 
-                      title='Matured At'
-                      duration={tx.returnValues.startTimestamp ?? '-'}
-                    />
+                      <TransactionDurationDataItem 
+                        title='Matured At'
+                        duration={tx.returnValues.startTimestamp ?? '-'}
+                      />
 
-                    <TransactionDurationDataItem
-                      title='Bond Duration'
-                      duration={getBondPoolByBond(tx.returnValues.asset.toLowerCase(), tx.returnValues.duration.toString()).duration.description ?? '-'}
-                    />
+                      <TransactionDurationDataItem
+                        title='Bond Duration'
+                        duration={getBondPoolByBond(tx.returnValues.asset.toLowerCase(), tx.returnValues.duration.toString()).duration.description ?? '-'}
+                      />
 
-                    <TransactionCollateralDataItem
-                      title='Bonds Amount'
-                      tokenIcon={getBondPoolByBond(tx.returnValues.asset.toLowerCase(), tx.returnValues.duration.toString()).icon ?? ''}
-                      balance={tx.returnValues.bondAmount}
-                      decimals={getBondPoolByBond(tx.returnValues.asset.toLowerCase(), tx.returnValues.duration.toString()).bToken.decimals}
-                    />
+                      <TransactionCollateralDataItem
+                        title='Bonds Amount'
+                        tokenIcon={getBondPoolByBond(tx.returnValues.asset.toLowerCase(), tx.returnValues.duration.toString()).icon ?? ''}
+                        balance={tx.returnValues.bondAmount}
+                        decimals={getBondPoolByBond(tx.returnValues.asset.toLowerCase(), tx.returnValues.duration.toString()).bToken.decimals}
+                      />
 
-                    <div className='separator my-7'></div>
+                      <div className='separator my-7'></div>
 
-                    <TransactionAssetDataItem 
-                      title='Principal'
-                      tokenIcon={getBondPoolByBond(tx.returnValues.asset.toLowerCase(), tx.returnValues.duration.toString()).bondAsset.icon ?? ''}
-                      balance={tx.returnValues.principalAmount}
-                      decimals={getBondPoolByBond(tx.returnValues.asset.toLowerCase(), tx.returnValues.duration.toString()).bondAsset.decimals}
-                    />
+                      <TransactionAssetDataItem 
+                        title='Principal'
+                        tokenIcon={getBondPoolByBond(tx.returnValues.asset.toLowerCase(), tx.returnValues.duration.toString()).bondAsset.icon ?? ''}
+                        balance={tx.returnValues.principalAmount}
+                        decimals={getBondPoolByBond(tx.returnValues.asset.toLowerCase(), tx.returnValues.duration.toString()).bondAsset.decimals}
+                      />
 
-                    <TransactionAssetDataItem 
-                      title='Interest Income'
-                      tokenIcon={getBondPoolByBond(tx.returnValues.asset.toLowerCase(), tx.returnValues.duration.toString()).bondAsset.icon ?? ''}
-                      balance={tx.returnValues.interestAmount}
-                      decimals={getBondPoolByBond(tx.returnValues.asset.toLowerCase(), tx.returnValues.duration.toString()).bondAsset.decimals}
-                    />
+                      <TransactionAssetDataItem 
+                        title='Interest Income'
+                        tokenIcon={getBondPoolByBond(tx.returnValues.asset.toLowerCase(), tx.returnValues.duration.toString()).bondAsset.icon ?? ''}
+                        balance={tx.returnValues.interestAmount}
+                        decimals={getBondPoolByBond(tx.returnValues.asset.toLowerCase(), tx.returnValues.duration.toString()).bondAsset.decimals}
+                      />
 
-                    <TransactionAssetDataItem 
-                      title='Transaction Fees'
-                      tokenIcon={getBondPoolByBond(tx.returnValues.asset.toLowerCase(), tx.returnValues.duration.toString()).bondAsset.icon ?? ''}
-                      balance={tx.returnValues.investorFee}
-                      decimals={getBondPoolByBond(tx.returnValues.asset.toLowerCase(), tx.returnValues.duration.toString()).bondAsset.decimals}
-                    />
+                      <TransactionAssetDataItem 
+                        title='Transaction Fees'
+                        tokenIcon={getBondPoolByBond(tx.returnValues.asset.toLowerCase(), tx.returnValues.duration.toString()).bondAsset.icon ?? ''}
+                        balance={tx.returnValues.investorFee}
+                        decimals={getBondPoolByBond(tx.returnValues.asset.toLowerCase(), tx.returnValues.duration.toString()).bondAsset.decimals}
+                      />
 
-                    <div className='separator my-7'></div>
+                      <div className='separator my-7'></div>
 
-                    <TransactionAssetDataItem 
-                      title='You can withdraw'
-                      tokenIcon={getBondPoolByBond(tx.returnValues.asset.toLowerCase(), tx.returnValues.duration.toString()).bondAsset.icon ?? ''}
-                      balance={getWithdrawAmount(tx.returnValues.bondAmount, tx.returnValues.investorFee)}
-                      decimals={getBondPoolByBond(tx.returnValues.asset.toLowerCase(), tx.returnValues.duration.toString()).bToken.decimals}
-                    />
+                      <TransactionAssetDataItem 
+                        title='You can withdraw'
+                        tokenIcon={getBondPoolByBond(tx.returnValues.asset.toLowerCase(), tx.returnValues.duration.toString()).bondAsset.icon ?? ''}
+                        balance={getWithdrawAmount(tx.returnValues.bondAmount, tx.returnValues.investorFee)}
+                        decimals={getBondPoolByBond(tx.returnValues.asset.toLowerCase(), tx.returnValues.duration.toString()).bToken.decimals}
+                      />
+                    </div>
                   </div>
-                </div>
-                
-                <Link to='/redeem'>
-                  <div className='d-grid pt-3'>
+                  
+                  <Link to='/redeem'>
+                    <div className='d-grid pt-3'>
 
-                  <button type='button' className='btn btn-primary'>
-                    <span className='indicator-label'>                    
-                      Withdraw                                   
-                    </span>
-                  </button>
-                  </div> 
-                </Link>                      
-              </div>
-            
-          ))                       
-        }
-      </div>
+                    <button type='button' className='btn btn-primary'>
+                      <span className='indicator-label'>                    
+                        Withdraw                                   
+                      </span>
+                    </button>
+                    </div> 
+                  </Link>                      
+                </div>            
+              ))                       
+            }
+          </div>          
+        </>        
+      }      
     </>
   )
 }
