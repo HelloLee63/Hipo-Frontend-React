@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>button/purchase bonds/Select</title>
+    <defs>
+        <linearGradient x1="50%" y1="0%" x2="50%" y2="100%" id="linearGradient-1">
+            <stop stop-color="#3B6AFF" offset="0%"></stop>
+            <stop stop-color="#003EFF" offset="100%"></stop>
+        </linearGradient>
+        <linearGradient x1="50%" y1="0%" x2="50%" y2="100%" id="linearGradient-2">
+            <stop stop-color="#C3D2FF" offset="0%"></stop>
+            <stop stop-color="#FFFFFF" offset="100%"></stop>
+        </linearGradient>
+        <path d="M7.45919325,10.2072796 L5.77157599,10.2072796 C5.34803002,10.2034275 5.00328331,10.6069277 5,11.107423 L5,19.0998292 C5,19.5964448 5.34803002,19.9999726 5.77157599,19.9999726 L7.45919325,19.9999726 C7.88273923,20.0038247 8.22748594,19.6003246 8.23076923,19.0998292 L8.23076923,11.107423 C8.22748592,10.6069276 7.88273921,10.2034275 7.45919325,10.2072796 Z M12.8438086,10.2072796 L11.1561914,10.2072796 C10.7326454,10.2034275 10.3878987,10.6069277 10.3846154,11.107423 L10.3846154,19.0998292 C10.3846154,19.5964448 10.7326454,19.9999726 11.1561914,19.9999726 L12.8438086,19.9999726 C13.2673546,20.0038247 13.6121013,19.6003246 13.6153846,19.0998292 L13.6153846,11.107423 C13.6121013,10.6069276 13.2673546,10.2034275 12.8438086,10.2072796 Z M18.228424,10.2072796 L16.5408068,10.2072796 C16.1172608,10.2034275 15.7725141,10.6069277 15.7692308,11.107423 L15.7692308,19.0998292 C15.7692308,19.5964448 16.1172608,19.9999726 16.5408068,19.9999726 L18.228424,19.9999726 C18.65197,20.0038247 18.9967167,19.6003246 19,19.0998292 L19,11.107423 C18.9967167,10.6069276 18.65197,10.2034275 18.228424,10.2072796 Z M15,3 L19,6.50987772 L15,10 L15,8.264 L5,8.26423102 L5,5 L15,5 L15,3 Z" id="path-3"></path>
+        <filter x="-14.3%" y="-5.9%" width="128.6%" height="123.5%" filterUnits="objectBoundingBox" id="filter-4">
+            <feOffset dx="0" dy="1" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset>
+            <feGaussianBlur stdDeviation="0.5" in="shadowOffsetOuter1" result="shadowBlurOuter1"></feGaussianBlur>
+            <feColorMatrix values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.27420236 0" type="matrix" in="shadowBlurOuter1"></feColorMatrix>
+        </filter>
+    </defs>
+    <g id="button/purchase-bonds/Select" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g>
+            <rect id="矩形" fill="url(#linearGradient-1)" x="0" y="0" width="24" height="24" rx="8"></rect>
+            <g id="形状备份" fill-rule="nonzero">
+                <use fill="black" fill-opacity="1" filter="url(#filter-4)" xlink:href="#path-3"></use>
+                <use fill="url(#linearGradient-2)" xlink:href="#path-3"></use>
+            </g>
+        </g>
+    </g>
+</svg>

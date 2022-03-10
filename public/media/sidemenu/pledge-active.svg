@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>button/pledge/Select</title>
+    <defs>
+        <linearGradient x1="50%" y1="0%" x2="50%" y2="100%" id="linearGradient-1">
+            <stop stop-color="#3B6AFF" offset="0%"></stop>
+            <stop stop-color="#003EFF" offset="100%"></stop>
+        </linearGradient>
+        <linearGradient x1="50%" y1="0%" x2="50%" y2="100%" id="linearGradient-2">
+            <stop stop-color="#C3D2FF" offset="0%"></stop>
+            <stop stop-color="#FFFFFF" offset="100%"></stop>
+        </linearGradient>
+        <path d="M18.1852716,18.9113924 L5.81532229,18.9113924 C5.53520288,18.9111464 5.26760743,18.794464 5.07575566,18.5889117 C4.88390389,18.3833593 4.7848128,18.1071692 4.80189279,17.8255915 L5.05633492,13.5606943 C5.08603138,13.0545376 5.47938432,12.6466505 5.9809006,12.6019664 L8.21985257,12.4037535 L8.86914865,10.4590303 C7.44726805,8.7125243 7.65244973,6.14607844 9.33347445,4.65116763 C11.0144992,3.15625683 13.5687064,3.26881832 15.1136411,4.90589411 C16.6585758,6.54296989 16.6403668,9.11765546 15.0724341,10.7324032 L15.6146423,12.4023552 L18.0143129,12.6030151 C18.5178559,12.6454879 18.9139153,13.0541067 18.9439119,13.5620926 L19.1981804,17.8269898 C19.2149087,18.1082555 19.1157266,18.3840202 18.9240224,18.5892554 C18.7323182,18.7944906 18.4650604,18.9110301 18.1852716,18.9113924 L18.1852716,18.9113924 Z" id="path-3"></path>
+        <filter x="-13.9%" y="-6.5%" width="127.8%" height="126.1%" filterUnits="objectBoundingBox" id="filter-4">
+            <feOffset dx="0" dy="1" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset>
+            <feGaussianBlur stdDeviation="0.5" in="shadowOffsetOuter1" result="shadowBlurOuter1"></feGaussianBlur>
+            <feColorMatrix values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.27420236 0" type="matrix" in="shadowBlurOuter1"></feColorMatrix>
+        </filter>
+    </defs>
+    <g id="button/pledge/Select" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g>
+            <rect id="矩形" fill="url(#linearGradient-1)" x="0" y="0" width="24" height="24" rx="8"></rect>
+            <g id="形状" fill-rule="nonzero">
+                <use fill="black" fill-opacity="1" filter="url(#filter-4)" xlink:href="#path-3"></use>
+                <use fill="url(#linearGradient-2)" xlink:href="#path-3"></use>
+            </g>
+        </g>
+    </g>
+</svg>

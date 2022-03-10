@@ -7,14 +7,12 @@ const StatisticsWidget = ({
   description,
 }) => {
   return (
-    <a href='#' className={`card bg-${color} ${className}`}>
-      {/* begin::Body */}
+    <div className={`card bg-${color} ${className}`}>
       <div className='card-body'>
-        <div className={`fw-bold text-inverse-${color} fs-7`}>{description}</div>
-        <div className={`text-inverse-${color} fw-bolder fs-2 mb-2 mt-5`}>{title}</div>        
+        <div className={`fw-bold fs-6`} style={{ fontFamily: 'pt sans caption', color: '#96AFFF' }}>{description}</div>
+        <div className={`fs-2 mb-2 mt-5`} style={{fontFamily: 'Montserrat', color: '#333333', fontWeight: 900}} >{title}</div>        
       </div>
-      {/* end::Body */}
-    </a>
+    </div>
   )
 }
 

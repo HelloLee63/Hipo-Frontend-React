@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>button/add liquidity/Select</title>
+    <defs>
+        <linearGradient x1="50%" y1="0%" x2="50%" y2="100%" id="linearGradient-1">
+            <stop stop-color="#3B6AFF" offset="0%"></stop>
+            <stop stop-color="#003EFF" offset="100%"></stop>
+        </linearGradient>
+        <linearGradient x1="50%" y1="0%" x2="50%" y2="100%" id="linearGradient-2">
+            <stop stop-color="#CBD8FF" offset="0%"></stop>
+            <stop stop-color="#FFFFFF" offset="100%"></stop>
+        </linearGradient>
+        <linearGradient x1="50%" y1="0%" x2="50%" y2="100%" id="linearGradient-3">
+            <stop stop-color="#C3D2FF" offset="0%"></stop>
+            <stop stop-color="#FFFFFF" offset="100%"></stop>
+        </linearGradient>
+        <path d="M8.15223947,6 C9.80973947,6 11.1522395,4.6575 11.1522395,3 C11.1522395,1.3425 9.80973947,0 8.15223947,0 C6.49473947,0 5.15223947,1.3425 5.15223947,3 C5.15223947,4.6575 6.49473947,6 8.15223947,6 Z M13.2812465,8.96389423 C11.6237465,8.96389423 10.2812465,10.3063942 10.2812465,11.9638942 C10.2812465,13.6213942 11.6237465,14.9638942 13.2812465,14.9638942 C14.9387465,14.9638942 16.2812465,13.6213942 16.2812465,11.9638942 C16.2812465,10.3063942 14.9387465,8.96389423 13.2812465,8.96389423 Z M3,8.96389423 C1.3425,8.96389423 0,10.3063942 0,11.9638942 C0,13.6213942 1.3425,14.9638942 3,14.9638942 C4.6575,14.9638942 6,13.6213942 6,11.9638942 C6,10.3063942 4.6575,8.96389423 3,8.96389423 Z" id="path-4"></path>
+        <filter x="-12.3%" y="-6.7%" width="124.6%" height="126.7%" filterUnits="objectBoundingBox" id="filter-5">
+            <feOffset dx="0" dy="1" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset>
+            <feGaussianBlur stdDeviation="0.5" in="shadowOffsetOuter1" result="shadowBlurOuter1"></feGaussianBlur>
+            <feColorMatrix values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.27420236 0" type="matrix" in="shadowBlurOuter1"></feColorMatrix>
+        </filter>
+    </defs>
+    <g id="button/add-liquidity/Select" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g>
+            <rect id="矩形" fill="url(#linearGradient-1)" x="0" y="0" width="24" height="24" rx="8"></rect>
+            <g id="编组-3备份" transform="translate(4.000000, 4.062963)" fill-rule="nonzero">
+                <path d="M7.99205399,2.68703704 C9.57987265,2.68703704 11.0173726,3.33062771 12.057918,4.37117305 C13.0984633,5.41171838 13.742054,6.84921838 13.742054,8.43703704 C13.742054,10.0248557 13.0984633,11.4623557 12.057918,12.502901 C11.0173726,13.5434464 9.57987265,14.187037 7.99205399,14.187037 C6.40423534,14.187037 4.96673534,13.5434464 3.92619,12.502901 C2.88564466,11.4623557 2.24205399,10.0248557 2.24205399,8.43703704 C2.24205399,6.84921838 2.88564466,5.41171838 3.92619,4.37117305 C4.96673534,3.33062771 6.40423534,2.68703704 7.99205399,2.68703704 Z" id="椭圆形" stroke="url(#linearGradient-2)" stroke-width="1.5"></path>
+                <g id="形状">
+                    <use fill="black" fill-opacity="1" filter="url(#filter-5)" xlink:href="#path-4"></use>
+                    <use fill="url(#linearGradient-3)" xlink:href="#path-4"></use>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

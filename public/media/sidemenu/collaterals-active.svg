@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>button/collaterals/Select</title>
+    <defs>
+        <linearGradient x1="50%" y1="0%" x2="50%" y2="100%" id="linearGradient-1">
+            <stop stop-color="#3B6AFF" offset="0%"></stop>
+            <stop stop-color="#003EFF" offset="100%"></stop>
+        </linearGradient>
+        <linearGradient x1="50%" y1="0%" x2="50%" y2="100%" id="linearGradient-2">
+            <stop stop-color="#C3D2FF" offset="0%"></stop>
+            <stop stop-color="#FFFFFF" offset="100%"></stop>
+        </linearGradient>
+        <path d="M18.0294548,13.3723111 C17.6207091,15.941965 16.2847341,17.2922132 14.8646393,18.2794791 C13.5722536,19.1777261 11.7881495,20 11.7881495,20 C11.7881495,20 9.51500364,18.9521092 7.99702398,17.6386964 C6.13988867,16.0325188 5.63937599,13.9125638 5.44398867,11.7699705 C5.24554246,9.59054173 5.3843401,7.08189645 5.3843401,7.08189645 C5.3843401,7.08189645 6.68016707,6.99901677 7.40895024,6.29453944 C8.09567355,5.63035084 8.21802959,4.34264611 8.21802959,4.34264611 C8.21802959,4.34264611 10.0491642,4 11.8481804,4 C13.6793151,4 15.4783313,4.34264611 15.4783313,4.34264611 C15.4783313,4.34264611 15.5716278,5.6230605 16.2954402,6.3225497 C16.987899,6.99172642 18.3120208,7.08189645 18.3120208,7.08189645 C18.3120207,7.08189645 18.4619069,10.6553155 18.0294548,13.3723111 Z M11.846651,5.37633995 C10.3569662,5.37633995 8.84089831,5.65989591 8.84089831,5.65989592 C8.84089831,5.65989594 8.73995458,6.72543706 8.17099899,7.27566608 C7.56801312,7.8588935 6.49510356,7.9275762 6.49510356,7.9275762 C6.49510356,7.9275762 6.38001241,10.0049402 6.54442834,11.8087244 C6.54863432,11.8547687 6.55513449,11.9000456 6.55972283,11.9460898 L11.955242,11.9460898 L11.955242,18.5480707 C12.3632229,18.3519989 13.4843101,17.7956306 14.3438613,17.1982062 C15.5196264,16.3809204 16.6258015,15.262812 16.9641925,13.1355668 C17.0246058,12.756469 17.0701069,12.3574186 17.106049,11.9556824 L11.9560067,11.9468572 L11.9560067,5.37749106 L11.846651,5.37633995 Z" id="path-3"></path>
+        <filter x="-15.4%" y="-6.2%" width="130.8%" height="125.0%" filterUnits="objectBoundingBox" id="filter-4">
+            <feOffset dx="0" dy="1" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset>
+            <feGaussianBlur stdDeviation="0.5" in="shadowOffsetOuter1" result="shadowBlurOuter1"></feGaussianBlur>
+            <feColorMatrix values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.27420236 0" type="matrix" in="shadowBlurOuter1"></feColorMatrix>
+        </filter>
+    </defs>
+    <g id="button/collaterals/Select" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g>
+            <rect id="矩形" fill="url(#linearGradient-1)" x="0" y="0" width="24" height="24" rx="8"></rect>
+            <g id="形状" fill-rule="nonzero">
+                <use fill="black" fill-opacity="1" filter="url(#filter-4)" xlink:href="#path-3"></use>
+                <use fill="url(#linearGradient-2)" xlink:href="#path-3"></use>
+            </g>
+        </g>
+    </g>
+</svg>

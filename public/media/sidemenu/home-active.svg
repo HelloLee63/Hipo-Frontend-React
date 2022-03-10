@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>button/home/Select</title>
+    <defs>
+        <linearGradient x1="50%" y1="0%" x2="50%" y2="100%" id="linearGradient-1">
+            <stop stop-color="#3B6AFF" offset="0%"></stop>
+            <stop stop-color="#003EFF" offset="100%"></stop>
+        </linearGradient>
+        <linearGradient x1="50%" y1="0%" x2="50%" y2="100%" id="linearGradient-2">
+            <stop stop-color="#C3D2FF" offset="0%"></stop>
+            <stop stop-color="#FFFFFF" offset="100%"></stop>
+        </linearGradient>
+        <path d="M13.0805687,7.62988115 L13.0805687,13.2393888 C13.0805687,13.7147708 12.7014218,14 12.3222749,14 L9.95260664,14 C9.47867299,14 9.1943128,13.6196944 9.1943128,13.2393888 L9.1943128,10.0067912 C9.1943128,9.53140917 8.81516588,9.24617997 8.43601896,9.24617997 L6.72985782,9.24617997 C6.25592417,9.24617997 5.97156398,9.62648557 5.97156398,10.0067912 L5.97156398,13.2393888 C5.97156398,13.7147708 5.59241706,14 5.21327014,14 L2.74881517,14 C2.27488152,14 1.99052133,13.6196944 1.99052133,13.2393888 L1.99052133,7.62988115 L0.758293839,7.62988115 C0.28436019,7.62988115 0,7.24957555 0,6.86926995 C0,6.67911715 0.0947867299,6.39388795 0.28436019,6.29881154 L7.01421801,0.213921902 C7.2985782,-0.0713073005 7.77251185,-0.0713073005 8.05687204,0.213921902 L14.7867299,6.29881154 C15.07109,6.48896435 15.07109,7.05942275 14.7867299,7.34465195 C14.5971564,7.53480475 14.4075829,7.62988115 14.2180095,7.62988115 L13.0805687,7.62988115 Z" id="path-3"></path>
+        <filter x="-13.3%" y="-7.1%" width="126.7%" height="128.6%" filterUnits="objectBoundingBox" id="filter-4">
+            <feOffset dx="0" dy="1" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset>
+            <feGaussianBlur stdDeviation="0.5" in="shadowOffsetOuter1" result="shadowBlurOuter1"></feGaussianBlur>
+            <feColorMatrix values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.27420236 0" type="matrix" in="shadowBlurOuter1"></feColorMatrix>
+        </filter>
+    </defs>
+    <g id="button/home/Select" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g>
+            <rect id="矩形" fill="url(#linearGradient-1)" x="0" y="0" width="24" height="24" rx="8"></rect>
+            <g id="home" transform="translate(4.367568, 5.000000)" fill-rule="nonzero">
+                <g id="路径">
+                    <use fill="black" fill-opacity="1" filter="url(#filter-4)" xlink:href="#path-3"></use>
+                    <use fill="url(#linearGradient-2)" xlink:href="#path-3"></use>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>
