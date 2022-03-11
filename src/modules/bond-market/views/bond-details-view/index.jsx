@@ -1,3 +1,4 @@
+import BigNumber from "bignumber.js"
 import { Link } from "react-router-dom"
 import { StatisticsWidget } from "../../../../components/statistics/StatisticsWidget"
 import TokenIcon from "../../../../components/token-icon"
@@ -32,11 +33,11 @@ const BondDetailsView = ({ pool }) => {
         </Link>
       </div>
       <div className="w-100">
-        <div className="card">
-          <div className="card-body">
+        <div className="card mb-0 pb-1">
+          <div className="card-body p-4">
             <TokenIcon 
               tokenIcon={pool.icon}
-              tokenName={`${pool.bondAsset.symbol} Bond Market`}
+              tokenName={`${pool.bondAsset.symbol} Bond`}
               tokenDesc={pool.duration.description}
             />
           </div>
@@ -69,7 +70,7 @@ const BondDetailsView = ({ pool }) => {
             className='card-xl-stretch mb-xl-8'
             color='white'
             iconColor='white'
-            title={formatToken(pool.dToken.contract.totalSupply, {scale: pool.dToken.decimals})}
+            title={`$ ${formatToken(pool.dToken.contract.totalSupply?.multipliedBy(2000), {scale: pool.dToken.decimals})}` ?? '-'}
             description='Bonds Issued'
           />
         </div>
@@ -79,7 +80,7 @@ const BondDetailsView = ({ pool }) => {
             className='card-xl-stretch mb-5 mb-xl-8'
             color='white'
             iconColor='white'
-            title={formatToken(pool.bToken.contract.totalSupply, {scale: pool.dToken.decimals})}
+            title={`$ ${formatToken(pool.bToken.contract.totalSupply?.multipliedBy(2000), {scale: pool.dToken.decimals})}` ?? '-'}
             description='Bonds Invested'
           />
         </div>

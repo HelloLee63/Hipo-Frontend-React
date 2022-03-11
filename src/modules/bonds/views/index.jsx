@@ -13,8 +13,7 @@ import TransactionCollateralDataItem from "../../../components/transaction-data-
 import TransactionDurationDataItem from "../../../components/transaction-data-item/TransactionDurationDataItem"
 import WalletUnconnected from "../../../components/wallet-unconnected"
 import { RPC_HTTPS_URL } from "../../../networks/rinkeby-testnet"
-import { getFormattedDuration, getNowTs, getRelativeTime } from "../../../utils"
-import { formatDate, formatDateTime, formatTime } from "../../../utils/date"
+import { formatDateTime } from "../../../utils/date"
 import { useWallet } from "../../../wallets/walletProvider"
 import { FinancingPoolABI } from "../../../web3/contracts/FinancingPoolContract"
 
@@ -35,9 +34,6 @@ const BondsView = () => {
   const [txsStatus, setTxsStatus] = useState(false)
   
   const [purchaseTxs, setPurchaseTxs] = useState()
-
-  const now = getNowTs()
-  console.log(now);
   
   const getWithdrawAmount = (bondAmount, fees) => BigNumber(bondAmount).minus(BigNumber(fees))
 
@@ -158,7 +154,6 @@ const BondsView = () => {
                       <TransactionDurationDataItem 
                         title='Purchased At'
                         duration={formatDateTime (tx.returnValues.startTimestamp * 1_000) ?? '-'}
-                        // formatDateTime(entity.blockTimestamp * 1_000)
                       />
 
                       <TransactionDurationDataItem 

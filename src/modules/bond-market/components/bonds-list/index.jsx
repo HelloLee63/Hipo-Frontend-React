@@ -12,25 +12,24 @@ const BondsList = () => {
 
   return (
     <div className='card'>
-      <div className='card-body py-3'>
+      <div className='card-body p-0 py-3'>
         <div className='table-responsive'>
           <table className='table align-middle gs-0 gy-4'>
             <thead>
-              <tr className='fw-bolder text-muted bg-light'>
-                <th className='ps-4 min-w-250px rounded-start'>BOND</th>
+              <tr className='' style={{fontFamily: 'Montserrat Semi Bold', color: '#96AFFF', fontWeight: 900}}>
+                <th className='ps-11 min-w-250px rounded-start'>BOND</th>
                 <th className='min-w-175px'>Bond Price</th>
                 <th className='min-w-175px'>APY</th>
                 <th className='min-w-200px'>Market Size</th>
-                <th className='min-w-150px'>Volumn(24H)</th>
-                <th className='min-w-20px text-end rounded-end'></th>
+                <th className='min-w-150px rounded-end'>Volumn(24H)</th>
               </tr>
             </thead>
 
-            <tbody>
+            <tbody style={{color: '#E9E3F4'}}>
             { bondPools.map((pool) => (
               <tr key={ pool.bToken.symbol }>
                 <td>
-                  <div className='d-flex align-items-center'>
+                  <div className='d-flex align-items-center ps-8'>
                     <div className='symbol symbol-50px me-5'>
                       <KTSVG path={pool.icon} className='svg-icon svg-icon-5x' />
                     </div>
@@ -50,6 +49,7 @@ const BondsList = () => {
                   <div className='text-dark fw-bolder text-hover-primary d-block mb-1 fs-6'>                    
                     { formatToken(getBondPrice(pool.bondAsset.address, pool.duration.duration), { scale: 18 }) ?? '-' }
                   </div>
+                  <span className="text-muted fs-7">{pool.bondAsset.symbol}</span>
                 </td>
                 <td>
                   <div className='text-dark fw-bolder text-hover-primary d-block mb-1 fs-6'>
@@ -71,8 +71,7 @@ const BondsList = () => {
                 </td>
               </tr>
             ))}
-            </tbody>           
-            
+            </tbody>                       
           </table>
         </div>
       </div>

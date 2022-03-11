@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react"
+import { formatDateTime } from "../../../../utils/date"
 import { formatToken, shortenAddr } from "../../../../web3/utils"
 import { useBondMarket } from "../../providers/BondMarketProvider"
 
@@ -133,46 +134,45 @@ const TransactionsList = ({ pool }) => {
 
   return (
     <div className='card'>
-      <div className="card-body py-3">
+      <div className="card-body p-0 py-3">
         <div className="table-responsive">
           <table className="table align-middle gs-0 gy-4">
             <thead>
-              <tr className="fw-bolder text-muted bg-light">
-                <th className='ps-4 min-w-175px rounded-start'>TRANSACTION TYPE</th>
+              <tr className='' style={{fontFamily: 'Montserrat Semi Bold', color: '#96AFFF', fontWeight: 900}}>
+                <th className='ps-10 min-w-175px rounded-start'>TRANSACTION TYPE</th>
                 <th className='min-w-200px'>ADDRESS</th>
                 <th className='min-w-200px'>HASH</th>
                 <th className='min-w-150px'>AMOUNT</th>
                 <th className='min-w-200px'>TIMESTAMP</th>
-                {/* <th className='min-w-200px text-end rounded-end'></th> */}
               </tr>
             </thead>            
 
-            <tbody>
+            <tbody style={{color: '#E9E3F4'}}>
             { issueTxs?.map((tx) => (
               <tr key={ tx.transactionHash }>
-                <td>
+                <td className="ps-8">
                   <div className='badge badge-light-primary fs-6 fw-bold'>
                     { tx?.event }
                   </div>
                 </td>
                 <td>
-                  <a href='#' className='text-dark fw-bolder text-hover-primary d-block mb-1 fs-6'>
+                  <div className='text-primary fw-bolder text-hover-primary d-block mb-1 fs-6'>
                     { shortenAddr(tx.returnValues.issuer) }
-                  </a>
+                  </div>
                 </td>
                 <td>
-                  <a href='#' className='text-dark fw-bolder text-hover-primary d-block mb-1 fs-6'>
+                  <div className='text-primary fw-bolder text-hover-primary d-block mb-1 fs-6'>
                   { shortenAddr(tx.transactionHash) }
-                  </a>
+                  </div>
                 </td>
                 <td>
-                  <a href='#' className='text-dark fw-bolder text-hover-primary d-block mb-1 fs-6'>
+                  <div className='text-dark fw-bolder text-hover-primary d-block mb-1 fs-6'>
                   { formatToken(tx.returnValues.bondAmount, {scale: pool.bToken.decimals}) }
-                  </a>
+                  </div>
                   {/* <span className='text-muted fw-bold text-muted d-block fs-7'>Insurance</span> */}
                 </td>
                 <td>
-                  <span className='badge badge-light-primary fs-6 fw-bold'>{tx.returnValues.startTimestamp}</span>
+                  <span className='badge badge-light-primary fs-6 fw-bold'>{formatDateTime(tx.returnValues.startTimestamp * 1_000)}</span>
                 </td>
               </tr>
             ))}

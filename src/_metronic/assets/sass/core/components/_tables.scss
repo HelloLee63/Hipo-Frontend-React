@@ -3,6 +3,9 @@
 //
 
 // Table
+.table>tbody>tr:hover {
+  background-color: rgba(241, 244, 253, 0.5);
+}
 .table {
   width: 100%;
 
