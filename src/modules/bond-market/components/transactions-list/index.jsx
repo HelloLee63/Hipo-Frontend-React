@@ -8,12 +8,14 @@ const TransactionsList = ({ pool }) => {
   const { contract } = useBondMarket()
   const [issueTxs, setIssueTxs] = useState()
   const [repayTxs, setrepayTxs] = useState()
-  const [puchaseTxs, setPuchaseTxs] = useState()
+  const [purchaseTxs, setPuchaseTxs] = useState()
 
   const [withdrawMaturityBondsTxs, setwithdrawMaturityBondsTxs] = useState()
   const [withdrawIMMaturityBondsTxs, setWithdrawIMMaturityBondsTxs] = useState()
   const [addLiquidityTxs, setAddLiquidityTxs] = useState()
   const [removeLiquidityTxs, setRemoveLiquidityTxs] = useState()
+
+  const [txs, setTxs] = useState([])
 
 
   const getIssueTxs = async () => {
@@ -47,7 +49,7 @@ const TransactionsList = ({ pool }) => {
 
   const getPurchaseTxs = async () => {
     let values
-    contract.getPastEvents('Purchase', {
+    contract.getPastEvents('Purchase',  {
       fromBlock: 0,
       toBlock: 'latest'
       }, (error, events) => {
@@ -130,7 +132,58 @@ const TransactionsList = ({ pool }) => {
 
     // getRemoveLiquidityTxs()
     getAddLiquidityTxs()
+
   }, [])
+
+  useEffect(() => {
+    // setTxs(() => issueTxs?.concat(purchaseTxs))
+    setTxs(() => issueTxs?.concat(purchaseTxs)?.concat(addLiquidityTxs))
+  }, [issueTxs, purchaseTxs, addLiquidityTxs])
+
+  console.log('txs is ', txs);
+
+  const getAccout = (tx) => {
+    if (tx?.event === 'Issue') {
+      return tx.returnValues.issuer
+    }
+
+    if (tx?.event === 'Purchase') {
+      return tx.returnValues.investor
+    }
+
+    if (tx?.event === 'AddLiquidity') {
+      return tx.returnValues.liquidityProvider
+    }
+  }
+
+  const getAmount = (tx) => {
+    if (tx?.event === 'Issue') {
+      return tx.returnValues.bondAmount
+    }
+
+    if (tx?.event === 'Purchase') {
+      return tx.returnValues.bondAmount
+    }
+
+    if (tx?.event === 'AddLiquidity') {
+      return tx.returnValues.bondAmount
+    }
+  }
+
+  const getTransactionHash = (tx) => {
+    if (tx?.event === 'Issue') {
+      return tx.transactionHash
+    }
+
+    if (tx?.event === 'Purchase') {
+      return tx.transactionHash
+    }
+
+    if (tx?.event === 'AddLiquidity') {
+      return tx.transactionHash
+    }
+  }
+
 
   return (
     <div className='card'>
@@ -148,31 +201,32 @@ const TransactionsList = ({ pool }) => {
             </thead>            
 
             <tbody style={{color: '#E9E3F4'}}>
-            { issueTxs?.map((tx) => (
-              <tr key={ tx.transactionHash }>
-                <td className="ps-8">
-                  <div className='badge badge-light-primary fs-6 fw-bold'>
+            { txs?.map((tx) => (
+              <tr key={ getTransactionHash(tx) }>
+                <td className="ps-10">
+                  <div className='fs-6' style={{fontFamily: 'PingFangSC-Semibold', color: '#333333'}}>
                     { tx?.event }
                   </div>
                 </td>
                 <td>
-                  <div className='text-primary fw-bolder text-hover-primary d-block mb-1 fs-6'>
-                    { shortenAddr(tx.returnValues.issuer) }
+                  <div className=' d-block mb-1 fs-6' style={{fontFamily: 'PingFangSC-Semibold', color: '#003EFF'}}>
+                    { shortenAddr(getAccout(tx)) }
                   </div>
                 </td>
                 <td>
-                  <div className='text-primary fw-bolder text-hover-primary d-block mb-1 fs-6'>
-                  { shortenAddr(tx.transactionHash) }
+                  <div className='d-block mb-1 fs-6' style={{fontFamily: 'PingFangSC-Semibold', color: '#003EFF'}}>
+                  { shortenAddr(getTransactionHash(tx)) }
+                  {/* {tx?.transactionHash} */}
                   </div>
                 </td>
                 <td>
-                  <div className='text-dark fw-bolder text-hover-primary d-block mb-1 fs-6'>
-                  { formatToken(tx.returnValues.bondAmount, {scale: pool.bToken.decimals}) }
+                  <div className='d-block mb-1 fs-6 fw-bolder' style={{fontFamily: 'Montserrat-Regular', color: '#333333'}}>
+                  { formatToken(getAmount(tx), {scale: pool.bToken.decimals}) }
                   </div>
-                  {/* <span className='text-muted fw-bold text-muted d-block fs-7'>Insurance</span> */}
+                  <span className='d-block fs-7' style={{fontFamily: 'PingFangSC-Semibold', color: '#999999'}}>{pool.bondAsset.symbol} Bond</span>
                 </td>
                 <td>
-                  <span className='badge badge-light-primary fs-6 fw-bold'>{formatDateTime(tx.returnValues.startTimestamp * 1_000)}</span>
+                  <span className='fs-6 fw-bold' style={{fontFamily: 'Montserrat-Regular', color: '#333333'}}>{formatDateTime(tx?.returnValues.startTimestamp * 1_000)}</span>
                 </td>
               </tr>
             ))}

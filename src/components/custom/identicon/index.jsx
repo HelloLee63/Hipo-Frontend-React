@@ -19,6 +19,8 @@ const Identicon = props => {
         alt={alt ?? address}
         width={width}
         height={height}
+
+        style={{ borderRadius: '5px' }}
       />
     )
 }

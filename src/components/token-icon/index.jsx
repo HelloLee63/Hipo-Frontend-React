@@ -7,10 +7,10 @@ const TokenIcon = ({tokenName, tokenDesc, tokenIcon}) => {
         <KTSVG path={tokenIcon} className='svg-icon svg-icon-5x' />
       </div>
       <div className='d-flex justify-content-start flex-column'>
-        <div className='pe-2 me-2 text-dark fw-bolder text-hover-primary mb-1 fs-6'>
+        <div className='pe-2 me-2 fw-bolder mb-1 fs-6' style={{fontFamily: 'PingFangSC-Semibold', color: '#333333'}}>
           { tokenName }
         </div>
-        <span className='text-muted fw-bold text-muted d-block fs-7'>
+        <span className='d-block fs-7' style={{fontFamily: 'PingFangSC-Semibold', color: '#666666'}}>
           { tokenDesc }
         </span>
       </div>

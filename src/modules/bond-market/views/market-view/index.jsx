@@ -4,10 +4,10 @@ import MarketOverview from "../../components/market-overview"
 const BondMarketView = () => {
   return (
     <>
-      <div className="d-flex flex-column">
-        <h3 className='pb-5'>Overview</h3>
+      <div className="d-flex flex-column" style={{fontFamily: 'Montserrat-Bold', color: '#333333'}}>
+        <h5  className='pb-5'>Overview</h5>
         <MarketOverview />
-        <h3 className="pb-5">Bonds</h3>
+        <h5 className="pb-5">Bonds</h5>
         <BondsList />
       </div>
     </>

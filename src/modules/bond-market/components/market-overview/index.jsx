@@ -124,7 +124,6 @@ const MarketOverview = () => {
     new BigNumber(amountLp23)
   )
 
-
   const amountInvestor0 = getHumanValue(new BigNumber(bondPools[0].bToken.contract.totalSupply)?.multipliedBy(price), bondPools[0].bToken.decimals).toString()
   const amountInvestor1 = getHumanValue(new BigNumber(bondPools[1].bToken.contract.totalSupply)?.multipliedBy(price), bondPools[1].bToken.decimals).toString()
   const amountInvestor2 = getHumanValue(new BigNumber(bondPools[2].bToken.contract.totalSupply)?.multipliedBy(price), bondPools[2].bToken.decimals).toString()
@@ -177,9 +176,6 @@ const MarketOverview = () => {
     new BigNumber(amountInvestor23)
   )
 
-
-
-
   console.log(amountLp0);
 
   const amountLp = BigNumber.sum(
@@ -193,8 +189,6 @@ const MarketOverview = () => {
     totalLp,
     totalInvesor
   )
-
-
 
   return (
     <>

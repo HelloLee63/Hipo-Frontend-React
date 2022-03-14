@@ -12,17 +12,17 @@ const WalletBalance = props => {
           <KTSVG path={ tokenIcon } className='svg-icon svg-icon-2x' />
         </div>
         <div className='d-flex flex-column justify-content-start ps-2'>
-          <div className='pe-2 me-2 text-dark fw-bolder text-hover-primary fs-8'>
+          <div className='pe-2 me-2 fw-bolder fs-7' style={{fontFamily: 'PingFangSC-Semibold', color: '#333333'}}>
             { tokenSymbol }
           </div>
-          <span className='text-muted fw-bold d-block fs-8'>
+          <span className='fw-bold d-block fs-8' style={{fontFamily: 'PingFangSC-Semibold', color: '#666666'}}>
             { tokenName }
           </span>
         </div>
       </div>
 
       <div className="me-3 justify-content-end">
-        <span className="fs-7 fw-bolder justify-content-end">{ formatToken(tokenBalance, {scale: decimals}) ?? '-' }</span>
+        <span className="fs-7 fw-bolder justify-content-end" style={{fontFamily: 'Montserrat-Regular', color: '#333333'}}>{ formatToken(tokenBalance, {scale: decimals}) ?? '-' }</span>
         {/* <span className="text-muted fw-bold d-block fs-8 justify-content-end">{ tokenValue ?? '-' }</span> */}
       </div>
     </div>

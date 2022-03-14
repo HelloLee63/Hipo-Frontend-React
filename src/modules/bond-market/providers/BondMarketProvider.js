@@ -26,7 +26,7 @@ const BondMarketProvider = ({ children }) => {
     const lpTotalValue = new BigNumber(pool.lpToken.contract.totalSupply)
     const bTotalValue = new BigNumber(pool.bToken.contract.totalSupply)
     const totalValue = BigNumber.sum(lpTotalValue, bTotalValue)
-    return formatToken(totalValue, {scale: pool.bToken.decimals, tokenName: pool.bondAsset.symbol})
+    return formatToken(totalValue.multipliedBy(pool.price), {scale: pool.bToken.decimals})
   })
 
   const value = {

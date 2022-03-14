@@ -11,10 +11,10 @@ const CollateralToken = props => {
           <KTSVG path={ tokenIcon } className='svg-icon svg-icon-5x' />
         </div>
         <div className='d-flex flex-column justify-content-start ps-2'>
-          <div className='pe-2 me-2 text-dark fw-bolder fs-6'>
+          <div className='pe-2 me-2 fs-6' style={{fontFamily: 'PingFangSC-Semibold', color: '#333333'}}>
             { tokenSymbol }
           </div>
-          <span className='text-muted fw-bold d-block fs-8'>
+          <span className='d-block fs-8' style={{fontFamily: 'PingFangSC-Semibold', color: '#666666'}}>
             { tokenName }
           </span>
         </div>

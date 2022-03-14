@@ -1,3 +1,4 @@
+import { usePools } from "../../../../components/providers/poolsProvider"
 import TitleLable from "../../../../components/title-lable"
 import CollateralToken from "../../../../components/token-icon/CollateralToken"
 import { KTSVG } from "../../../../_metronic/helpers/components/KTSVG"
@@ -5,7 +6,13 @@ import { useColPool } from "../../providers/colPool-provider"
 
 const CompleteTransaction = () => {
 
-  const { tokenSymbol, tokenName, tokenIcon } = useColPool()
+  const { tokenSymbol, tokenName, tokenIcon, setPoolSymbol, setPledgeAmount } = useColPool()
+  const { collateralPools } = usePools()
+
+  function handleComplete() {
+    // setPoolSymbol(() => collateralPools[0].collateralAsset.symbol)
+    // setPledgeAmount(() => 0)
+  }
 
   return (
     <div className='w-100'>
@@ -33,7 +40,7 @@ const CompleteTransaction = () => {
       
       <div className='pt-3'>
         <div className='d-grid'>
-          <button type='submit' className='btn btn-primary me-0'>
+          <button type='submit'  onClick={handleComplete} className='btn btn-primary me-0'>
             <span className='indicator-label'>              
               Complete
             </span>

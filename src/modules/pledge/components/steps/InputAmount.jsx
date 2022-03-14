@@ -135,6 +135,8 @@ const InputAmount = ({ prevStep }) => {
     }     
   }
 
+  
+
   return (
     <div>
       <TitleLable title='Input Amount' />      
@@ -160,12 +162,15 @@ const InputAmount = ({ prevStep }) => {
             autoComplete='off'
             onChange={e => {
               e.preventDefault();
-              const { value } = e.target;              
-              const regex = /^(0*[0-9][0-9]*(\.[0-9]*)?|0*\.[0-9]*[1-9][0-9]*)$/;
+              const { value } = e.target;            
+              const regex =  /^(0*[0-9][0-9]*(\.[0-9]*)?|0*\.[0-9]*[1-9][0-9]*)|(\s[^\f\n\r\t\v])*$/;
+              // const regex = /^(0*[0-9][0-9]*(\.[0-9]*)?|0*\.[0-9]*[1-9][0-9]*)$/ ;
               if (regex.test(value)) {
                 assetAmount.setFieldValue('collateralAssetAmount', value);
               }
             }}
+
+            name='collateralAssetAmount' value={assetAmount.values.collateralAssetAmount}
           />
         </div>       
       </div>

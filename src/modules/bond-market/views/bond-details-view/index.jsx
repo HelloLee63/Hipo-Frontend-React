@@ -1,4 +1,3 @@
-import BigNumber from "bignumber.js"
 import { Link } from "react-router-dom"
 import { StatisticsWidget } from "../../../../components/statistics/StatisticsWidget"
 import TokenIcon from "../../../../components/token-icon"
@@ -49,7 +48,7 @@ const BondDetailsView = ({ pool }) => {
             className='card-xl-stretch mb-xl-8'
             color='white'
             iconColor='primary'
-            title={getMarketSize(pool)}
+            title={`$ ${getMarketSize(pool)}`}
             description='Market Size'
           />
         </div>

@@ -22,10 +22,10 @@ const Header = () => {
         </div>
         <div className="d-flex align-items-stretch justify-content-end flex-lg-grow-1">
           <div className="d-flex align-items-center justify-content-end">
-            <div className="me-20">
+            <div className="me-15">
               <NetworkAction />
             </div>
-            <div className="align-items-center">
+            <div className="align-items-center pe-10">
               <WalletAction />
             </div>              
           </div>
@@ -137,16 +137,18 @@ const WalletAction = () => {
     return !isMobile ? (       
       <a
         type="button"
-        className='btn btn-sm btn-light-primary align-items-center'
+        className='btn btn-sm btn-light-primary align-items-center fs-7 fw-bolder'
         data-bs-toggle="modal"
         data-bs-target='#hipo_connect_wallet'
         id='hipo_wallet_connect_button'
         style={{
           backgroundImage: `url('/media/background/background-connectwallet.svg')`,
           backgroundRepeat: 'no-repeat',
-          color: "white"
+          color: "white",
+          fontFamily: 'PingFangSC-Medium'
         }}
       >
+        
         Connect Wallet
       </a>       
     ) : null
@@ -154,23 +156,24 @@ const WalletAction = () => {
 
   return (
     <>
-      <a type="button" className="btn btn-sm btn-light-primary"
+      <a type="button" className="d-flex align-items-center pe-8"
         data-kt-menu-trigger='click'
         data-kt-menu-placement='bottom-end'
       >
         { wallet.ens.avatar ? (
           <img
-            width={24}
-            height={24}
+            width={36}
+            height={36}
             className="mr-8"
             style={{ borderRadius: '3px' }}
             src={ wallet.ens.avatar }
             alt={ wallet.ens.avatar }
           />
         ) : (
-          <Identicon address={wallet.account} width={24} className="mr-8" />
+          <Identicon address={wallet.account} width={30} height={30} className="mr-8" />
         )}
-        { wallet.ens.name || shortenAddr(wallet.account, 4, 3) }
+        <span className="ps-3 fs-5" style={{fontFamily: 'PingFangSC-Medium', color: '#333333'}}>{ wallet.ens.name || shortenAddr(wallet.account, 4, 3) }</span>
+        
       </a>
       {walletConnPop}
     </>  
@@ -187,12 +190,11 @@ const NetworkAction = () => {
     <a         
       data-bs-toggle="modal"
       data-bs-target='#hipo_connect_network'
-      
       type="button" 
       onClick={() => showNetworkSelect()} 
-      className="btn btn-sm btn-light-primary">      
-      <KTSVG path={activeNetwork.meta.logo} className='svg-icon-1' />
-      {activeNetwork.meta.name}
+      className="d-flex align-items-center pe-1">      
+      <KTSVG path={activeNetwork.meta.logo} className='svg-icon svg-icon-2x' />
+      <span className="fs-5 fw-bolder ps-3" style={{fontFamily: 'PingFangSC-Medium', color: '#333333'}}>{activeNetwork.meta.name}</span>
     </a>
   )
 }

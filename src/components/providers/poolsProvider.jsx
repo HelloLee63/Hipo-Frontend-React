@@ -148,6 +148,7 @@ const PoolsProvider = ({ children }) => {
   const bondPools = useMemo(() => [
     {
       bondAsset: wethToken,
+      price: 2000,
       duration: DurationsMeta[0],
       icon: '/media/tokens/ICON/WETH/5.svg',
       bToken: bWETH5,
@@ -157,6 +158,7 @@ const PoolsProvider = ({ children }) => {
     },
     {
       bondAsset: wethToken,
+      price: 2000,
       duration: DurationsMeta[1],
       icon: '/media/tokens/ICON/WETH/10.svg',
       bToken: bWETH10,
@@ -166,6 +168,7 @@ const PoolsProvider = ({ children }) => {
     },
     {
       bondAsset: wethToken,
+      price: 2000,
       duration: DurationsMeta[2],
       icon: '/media/tokens/ICON/WETH/15.svg',
       bToken: bWETH15,
@@ -175,6 +178,7 @@ const PoolsProvider = ({ children }) => {
     },
     {
       bondAsset: wethToken,
+      price: 2000,
       duration: DurationsMeta[3],
       icon: '/media/tokens/ICON/WETH/30.svg',
       bToken: bWETH30,
@@ -184,6 +188,7 @@ const PoolsProvider = ({ children }) => {
     },
     {
       bondAsset: wethToken,
+      price: 2000,
       duration: DurationsMeta[4],
       icon: '/media/tokens/ICON/WETH/45.svg',
       bToken: bWETH45,
@@ -193,6 +198,7 @@ const PoolsProvider = ({ children }) => {
     },
     {
       bondAsset: wethToken,
+      price: 2000,
       duration: DurationsMeta[5],
       icon: '/media/tokens/ICON/WETH/60.svg',
       bToken: bWETH60,
@@ -202,6 +208,7 @@ const PoolsProvider = ({ children }) => {
     },
     {
       bondAsset: usdcToken,
+      price: 1,
       duration: DurationsMeta[0],
       icon: '/media/tokens/ICON/USDC/5.svg',
       bToken: bUSDC5,
@@ -211,6 +218,7 @@ const PoolsProvider = ({ children }) => {
     },
     {
       bondAsset: usdcToken,
+      price: 1,
       duration: DurationsMeta[1],
       icon: '/media/tokens/ICON/USDC/10.svg',
       bToken: bUSDC10,
@@ -220,6 +228,7 @@ const PoolsProvider = ({ children }) => {
     },
     {
       bondAsset: usdcToken,
+      price: 1,
       duration: DurationsMeta[2],
       icon: '/media/tokens/ICON/USDC/15.svg',
       bToken: bUSDC15,
@@ -229,6 +238,7 @@ const PoolsProvider = ({ children }) => {
     },
     {
       bondAsset: usdcToken,
+      price: 1,
       duration: DurationsMeta[3],
       icon: '/media/tokens/ICON/USDC/30.svg',
       bToken: bUSDC30,
@@ -238,6 +248,7 @@ const PoolsProvider = ({ children }) => {
     },
     {
       bondAsset: usdcToken,
+      price: 1,
       duration: DurationsMeta[4],
       icon: '/media/tokens/ICON/USDC/45.svg',
       bToken: bUSDC45,
@@ -247,6 +258,7 @@ const PoolsProvider = ({ children }) => {
     },
     {
       bondAsset: usdcToken,
+      price: 1,
       duration: DurationsMeta[5],
       icon: '/media/tokens/ICON/USDC/60.svg',
       bToken: bUSDC60,
@@ -256,6 +268,7 @@ const PoolsProvider = ({ children }) => {
     },
     {
       bondAsset: usdtToken,
+      price: 1,
       duration: DurationsMeta[0],
       icon: '/media/tokens/ICON/USDT/5.svg',
       bToken: bUSDT5,
@@ -265,6 +278,7 @@ const PoolsProvider = ({ children }) => {
     },
     {
       bondAsset: usdtToken,
+      price: 1,
       duration: DurationsMeta[1],
       icon: '/media/tokens/ICON/USDT/10.svg',
       bToken: bUSDT10,
@@ -274,6 +288,7 @@ const PoolsProvider = ({ children }) => {
     },
     {
       bondAsset: usdtToken,
+      price: 1,
       duration: DurationsMeta[2],
       icon: '/media/tokens/ICON/USDT/15.svg',
       bToken: bUSDT15,
@@ -283,6 +298,7 @@ const PoolsProvider = ({ children }) => {
     },
     {
       bondAsset: usdtToken,
+      price: 1,
       duration: DurationsMeta[3],
       icon: '/media/tokens/ICON/USDT/30.svg',
       bToken: bUSDT30,
@@ -292,6 +308,7 @@ const PoolsProvider = ({ children }) => {
     },
     {
       bondAsset: usdtToken,
+      price: 1,
       duration: DurationsMeta[4],
       icon: '/media/tokens/ICON/USDT/45.svg',
       bToken: bUSDT45,
@@ -301,6 +318,7 @@ const PoolsProvider = ({ children }) => {
     },
     {
       bondAsset: usdtToken,
+      price: 1,
       duration: DurationsMeta[5],
       icon: '/media/tokens/ICON/USDT/60.svg',
       bToken: bUSDT60,
@@ -310,6 +328,7 @@ const PoolsProvider = ({ children }) => {
     },
     {
       bondAsset: daiToken,
+      price: 1,
       duration: DurationsMeta[0],
       icon: '/media/tokens/ICON/DAI/5.svg',
       bToken: bDAI5,
@@ -319,6 +338,7 @@ const PoolsProvider = ({ children }) => {
     },
     {
       bondAsset: daiToken,
+      price: 1,
       duration: DurationsMeta[1],
       icon: '/media/tokens/ICON/DAI/10.svg',
       bToken: bDAI10,
@@ -328,6 +348,7 @@ const PoolsProvider = ({ children }) => {
     },
     {
       bondAsset: daiToken,
+      price: 1,
       duration: DurationsMeta[2],
       icon: '/media/tokens/ICON/DAI/15.svg',
       bToken: bDAI15,
@@ -337,6 +358,7 @@ const PoolsProvider = ({ children }) => {
     },
     {
       bondAsset: daiToken,
+      price: 1,
       duration: DurationsMeta[3],
       icon: '/media/tokens/ICON/DAI/30.svg',
       bToken: bDAI30,
@@ -346,6 +368,7 @@ const PoolsProvider = ({ children }) => {
     },
     {
       bondAsset: daiToken,
+      price: 1,
       duration: DurationsMeta[4],
       icon: '/media/tokens/ICON/DAI/45.svg',
       bToken: bDAI45,
@@ -355,6 +378,7 @@ const PoolsProvider = ({ children }) => {
     },
     {
       bondAsset: daiToken,
+      price: 1,
       duration: DurationsMeta[5],
       icon: '/media/tokens/ICON/DAI/60.svg',
       bToken: bDAI60,

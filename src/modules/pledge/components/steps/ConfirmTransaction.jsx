@@ -54,8 +54,8 @@ const ConfirmTransaction = ({ prevStep, handleMethod }) => {
           <div className="card-body pt-10 pb-10">
             {transacting ? (
             <div className='text-center pt-15 pb-15'>
-              <div class="spinner-border text-primary" role="status">
-                <span class="sr-only">Loading...</span>
+              <div className="spinner-border text-primary" role="status">
+                <span className="sr-only">Loading...</span>
               </div>
             </div>
             ) : (

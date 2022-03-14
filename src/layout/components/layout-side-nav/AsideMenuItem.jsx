@@ -23,7 +23,7 @@ const AsideMenuItem = ({to, title, icon1, icon2}) => {
         <span className='pe-5'>
           {isMouseOver ? <img src={icon2} className='svg-icon-2' /> : <img src={isActive ? icon2: icon1} className='svg-icon-2' />}
         </span>               
-        <span className='menu-title' style={{fontFamily: 'YuKyokasho Yoko'}}>{title}</span>
+        <span className='menu-title fs-5' style={{fontFamily: 'YuKyokasho Yoko'}}>{title}</span>
       </Link>        
     </div>
   )
