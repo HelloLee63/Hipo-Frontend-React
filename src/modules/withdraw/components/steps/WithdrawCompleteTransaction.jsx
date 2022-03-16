@@ -4,7 +4,7 @@ import { KTSVG } from "../../../../_metronic/helpers/components/KTSVG"
 import { useBondPool } from "../../../purchase/providers/bond-pool-provider"
 
 const WithdrawCompleteTransaction = () => {
-  const { pool } = useBondPool
+  const { pool } = useBondPool()
   
   return (
     <div className='w-100'>
