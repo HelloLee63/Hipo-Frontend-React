@@ -16,6 +16,7 @@ import PurchaseBondModule from "../modules/purchase"
 import RedeemModule from "../modules/redeem"
 import RemoveLiquidityModule from "../modules/remove"
 import RepayModule from "../modules/repay"
+import WithdrawModule from "../modules/withdraw"
 
 
 const AppRoutes = () => {
@@ -134,6 +135,7 @@ const AppRoutes = () => {
         <Route path='/debts' element={<MasterLayout><PageTitle breadcrumbs={redeemBreadCrumbs}>Withdraw</PageTitle><DebtsModule /></MasterLayout>} />
         <Route path='/repay' element={<MasterLayout><PageTitle breadcrumbs={redeemBreadCrumbs}>Repay</PageTitle><RepayModule /></MasterLayout>} />
         <Route path='/remove' element={<MasterLayout><PageTitle breadcrumbs={redeemBreadCrumbs}>Remove</PageTitle><RemoveLiquidityModule /></MasterLayout>} />
+        <Route path='/withdraw' element={<MasterLayout><PageTitle breadcrumbs={redeemBreadCrumbs}>Withdraw</PageTitle><WithdrawModule /></MasterLayout>} />
       </Routes>
       <MasterInit />
     </>

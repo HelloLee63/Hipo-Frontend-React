@@ -6,6 +6,7 @@ import TransactionLink from "../../../components/button/transaction-link"
 import { BondNavTab } from "../../../components/nav-tab"
 import NoTransaction from "../../../components/no-transaction"
 import { useConfig } from "../../../components/providers/configProvider"
+import { useKnownTokens } from "../../../components/providers/knownTokensProvider"
 import { usePools } from "../../../components/providers/poolsProvider"
 import TokenIcon from "../../../components/token-icon"
 import TransactionAssetDataItem from "../../../components/transaction-data-item/TransactionAssetDataItem"
@@ -16,12 +17,15 @@ import { RPC_HTTPS_URL } from "../../../networks/rinkeby-testnet"
 import { formatDateTime } from "../../../utils/date"
 import { useWallet } from "../../../wallets/walletProvider"
 import { FinancingPoolABI } from "../../../web3/contracts/FinancingPoolContract"
+import { useBondPool } from "../../purchase/providers/bond-pool-provider"
 
 const BondsView = () => {
 
   const walletCtx = useWallet()
   const config = useConfig()
   const { getBondPoolByBond } = usePools()
+  const { setBondId, setDuration, setSymbol } = useBondPool()
+  const { getTokenByAddress } =useKnownTokens()
   
   const address = config.contracts.financingPool.financingPool
   const abi = FinancingPoolABI
@@ -95,6 +99,13 @@ const BondsView = () => {
       getPurchaseTxs()      
     }        
   }, [walletCtx.account])
+
+  function handleWithdraw(assetAddress, duration, id) {
+    setBondId(() => id)
+    setDuration(() => duration)
+    const asset = getTokenByAddress(assetAddress)
+    setSymbol (() => asset.symbol)
+  }
 
   return (
     <>
@@ -207,14 +218,13 @@ const BondsView = () => {
                     </div>
                   </div>
                   
-                  <Link to='/redeem'>
+                  <Link to='/withdraw'>
                     <div className='d-grid pt-3'>
-
-                    <button type='button' className='btn btn-primary'>
-                      <span className='indicator-label'>                    
-                        Withdraw                                   
-                      </span>
-                    </button>
+                      <button  onClick={() => handleWithdraw(tx.returnValues.asset.toLowerCase(), tx.returnValues.duration.toString(), tx.returnValues.bondId)} type='button' className='btn btn-primary'>
+                        <span className='indicator-label'>                    
+                          Withdraw                                   
+                        </span>
+                      </button>
                     </div> 
                   </Link>                      
                 </div>            

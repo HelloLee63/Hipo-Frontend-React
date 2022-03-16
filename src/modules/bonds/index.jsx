@@ -5,10 +5,8 @@ import DebtsView from "./views/debts"
 
 const BondsModule = () => {
 
-  return (
-    <BondPoolProvider>
-      <BondsView />
-    </BondPoolProvider>    
+  return (    
+    <BondsView />
   )
 }
 

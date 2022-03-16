@@ -23,6 +23,8 @@ const BondPoolProvider = props => {
   const [bondAssetSymbol, setSymbol] = useState(bondPools[0].bondAsset.symbol)
   const [duration, setDuration] = useState(bondPools[0].duration.duration)
   const [purchaseAmount, setPurchaseAmount] = useState(0)
+  const [bondId, setBondId] = useState(0)
+  const [withdrawAmount, setWithdrawAmount] = useState(0)
 
   const pool = useMemo(() => {
     return getPoolByBond(bondAssetSymbol, duration)
@@ -33,15 +35,24 @@ const BondPoolProvider = props => {
       pool.bondAsset.contract.loadAllowance(config.contracts.financingPool.financingPool).then(reload).catch(Error)
     }
   }, [pool, wallet.account])
+
+  useEffect(() => {
+    if(wallet.account) {
+      pool.bToken.contract.loadBondData(wallet.account, Number(bondId))
+    }
+  }, [wallet.account, bondId, pool])
   
   const value = {
     pool,
     bondAssetSymbol,
     setSymbol,
+    setBondId,
     duration,
     setDuration,
     purchaseAmount, 
-    setPurchaseAmount,    
+    setPurchaseAmount,  
+    withdrawAmount, 
+    setWithdrawAmount
   }
 
   return (

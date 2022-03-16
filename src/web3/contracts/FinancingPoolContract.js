@@ -3031,16 +3031,34 @@ class FinancingPoolContract extends Web3Contract {
   }
 
   issue(collateralAsset, asset, amount, duration) {
-	if (!this.account) {
-		return Promise.reject()
-	}
+    if (!this.account) {
+      return Promise.reject()
+    }
 
-	return this.send('issue', [collateralAsset, asset, amount, duration], {
-		from: this.account
-	})
+    return this.send('issue', [collateralAsset, asset, amount, duration], {
+      from: this.account
+    })
   }
 
-  
+  withdrawMaturityBonds(asset, duration, id) {
+	  if (!this.account) {
+      return Promise.reject()
+    }
+
+    return this.send('withdrawMaturityBonds', [asset, duration, id], {
+      from: this.account
+    })
+  }
+
+  withdrawImmaturityBonds(asset, duration, withdrawAmount, id) {
+    if (!this.account) {
+      return Promise.reject()
+    }
+
+    return this.send('withdrawImmaturityBonds', [asset, duration, withdrawAmount, id], {
+      from: this.account
+    })
+  }  
 }
 
 export default FinancingPoolContract

@@ -15,12 +15,18 @@ class BondTokenContract extends Erc20Contract {
   // bondObj
   bonds
 
+  bondData
+
+  bondDatas
+
   constructor(address) {
     super(BondTokenContractABI, address, '')
 
     this.counts = new Map()
     this.lists = new Map()
+    this.bondDatas = new Map()
     this.bonds = new Array()
+    this.bondData = new Array()
     // this.bondObj = new Object()
 
 
@@ -29,6 +35,10 @@ class BondTokenContract extends Erc20Contract {
       this.lists.clear()
       this.emit(Web3Contract.UPDATE_DATA)
     })
+  }
+
+  getBondData(address = this.account) {
+    return address ? this.bondDatas.get(address) : undefined
   }
 
   get count() {
@@ -163,9 +173,23 @@ class BondTokenContract extends Erc20Contract {
 
       // const datas = getDatas()
       console.log('datas is ', datas);
+    } 
+  }
+
+  async loadBondData(investor = this.account, id) {
+
+    if (!investor) {
+      return Promise.reject(new Error('Invalid owner address!'))
     }
+    
+    const data = await this.call('getInvestorBond', [investor, id])
+    const bondData = Object.values(data)
+    this.bondData = bondData
 
-
+    if (bondData) {
+      this.bondDatas.set(investor, bondData);
+      this.emit(Web3Contract.UPDATE_DATA);
+    }
  
   }
 }
