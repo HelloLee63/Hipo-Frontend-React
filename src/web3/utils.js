@@ -125,6 +125,10 @@ export function getExponentValue(decimals = 0) {
       return undefined
     }
 
+    if (new BigNumber(value).eq(0)) {
+      return 0
+    }
+
     let BigValue = new BigNumber(value)
     let BigValueOne = new BigNumber(1)
 

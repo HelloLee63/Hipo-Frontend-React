@@ -126,7 +126,7 @@ const InputAmount = ({ prevStep }) => {
       setEnabling(true)
 
       try {
-        await colPool.underlyingAsset.contract.approve(config.contracts.financingPool.financingPool, true)
+        await colPool.collateralAsset.contract.approve(config.contracts.financingPool.financingPool, true)
       } catch(e) {
         console.error(e)
       }
@@ -134,8 +134,6 @@ const InputAmount = ({ prevStep }) => {
       setEnabling(false)      
     }     
   }
-
-  
 
   return (
     <div>
@@ -249,7 +247,7 @@ const InputAmount = ({ prevStep }) => {
           >
             {isEnabling ? 
             (<div>
-              <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+              <span className="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
               Approving...
             </div>) 
             :              

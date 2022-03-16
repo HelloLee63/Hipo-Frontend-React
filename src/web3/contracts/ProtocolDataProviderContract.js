@@ -60,21 +60,19 @@ class ProtocolDataContract extends Web3Contract {
 
           if (this.bondPriceArray.length === 0) {
             this.bondPriceArray.push(this.bondPriceObject)
-          }
-            
-          this.bondPriceArray.forEach((data) => {
+          } else {
+            const data = this.bondPriceArray.find(obj => obj.assetAddress === assetAddress && obj.duration === duration)
 
-            if(data.assetAddress !== assetAddress && data.duration !== duration) {
+            if(!data) {
               this.bondPriceArray.push(this.bondPriceObject)
+            } else {
+              for (let i = 0; i < this.bondPriceArray.length; i++) {
+                if (this.bondPriceArray[i].assetAddress === assetAddress && this.bondPriceArray[i].duration === duration) {
+                  this.bondPriceArray[i].price = bondPrice
+                }
+              }
             }
-
-            if(data.assetAddress === assetAddress && data.duration === duration) {
-              data.price = bondPrice
-            }              
-          })
-
-          // console.log(this.bondPriceArray);
-          
+          }
           this.emit(Web3Contract.UPDATE_DATA)
         }        
       }

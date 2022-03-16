@@ -23,6 +23,9 @@ const ConfirmTransaction = ({ prevStep, handleMethod }) => {
     setInputAmount(() => issueAmount)
   }, [issueAmount])
 
+  console.log('asset is:', bondPool.bondAsset.address);
+  console.log('duration is', Number(bondPool.duration.duration));
+
   async function handleIssue() {
     setTransacting(() => true)
 
@@ -30,6 +33,8 @@ const ConfirmTransaction = ({ prevStep, handleMethod }) => {
     let assetAddress = bondPool.bondAsset.address
     let duration = Number(bondPool.duration.duration)
     let collateralAddress = collateral.collateralAsset.address
+
+
 
     try {
       await financingPool.financingPoolContract?.issue(
@@ -63,8 +68,8 @@ const ConfirmTransaction = ({ prevStep, handleMethod }) => {
           <div className='card-body pt-10 pb-10'>
           {transacting ? (
             <div className='text-center pt-15 pb-15' >
-              <div class="spinner-border text-primary" role="status">
-                <span class="sr-only">Loading...</span>
+              <div className="spinner-border text-primary" role="status">
+                <span className="sr-only">Loading...</span>
               </div>
             </div>
             ) : (
