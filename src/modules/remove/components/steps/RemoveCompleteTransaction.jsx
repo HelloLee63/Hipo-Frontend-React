@@ -32,15 +32,15 @@ const RemoveCompleteTransaction = () => {
       </div>
       
       <div className='pt-3'>
-        <div className='d-grid'>
-          <Link to='/pools'>
+        <Link to='/pools'>
+          <div className='d-grid'>
             <button type='submit' className='btn btn-primary me-0'>
               <span className='indicator-label'>              
                 Complete
               </span>
-            </button>
-          </Link>
-        </div>        
+            </button>          
+          </div>
+        </Link>        
       </div>                
     </div> 
   )

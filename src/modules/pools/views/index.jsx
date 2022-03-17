@@ -160,7 +160,7 @@ const PoolsView = () => {
                       <TokenIcon 
                         tokenIcon={pool.icon} 
                         tokenName={`${pool.bondAsset.symbol} Bond Pool`} 
-                        tokenDesc={pool.duration.duration}               
+                        tokenDesc={pool.duration.description}               
                       />
                     </div>
                   </div>

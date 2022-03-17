@@ -112,7 +112,7 @@ const RemoveLiquidityView = () => {
                 </div>
 
                 <div data-kt-stepper-element='content'>
-                  <RemoveConfirmTransaction prevStep={prevStep} />
+                  <RemoveConfirmTransaction handleMethod={stepper.current} prevStep={prevStep} />
                 </div>
 
                 <div data-kt-stepper-element='content'>

@@ -33,15 +33,15 @@ const RedeemCompleteTransaction = () => {
       </div>
       
       <div className='pt-3'>
-        <div className='d-grid'>
-          <Link to='/collaterals'>
+        <Link to='/collaterals'>
+          <div className='d-grid'>  
             <button type='submit' className='btn btn-primary me-0'>
               <span className='indicator-label'>              
                 Complete
               </span>
-            </button>
-          </Link>
-        </div>        
+            </button>            
+          </div>
+        </Link>        
       </div>                 
     </div> 
   )

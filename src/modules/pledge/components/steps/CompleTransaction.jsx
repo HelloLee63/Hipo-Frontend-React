@@ -40,7 +40,7 @@ const CompleteTransaction = () => {
       
       <div className='pt-3'>
         <div className='d-grid'>
-          <button type='submit'  onClick={handleComplete} className='btn btn-primary me-0'>
+          <button type='submit' onClick={handleComplete} className='btn btn-primary me-0'>
             <span className='indicator-label'>              
               Complete
             </span>
