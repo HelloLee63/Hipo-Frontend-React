@@ -1,3 +1,4 @@
+import BigNumber from "bignumber.js"
 import { useEffect, useState } from "react"
 import Web3 from "web3"
 import { Link } from "../../../../components/button"
@@ -204,7 +205,7 @@ const DebtsView = () => {
                     <TransactionAssetDataItem 
                       title='You Need Pay'
                       tokenIcon={getBondPoolByBond(tx.returnValues.bondAsset.toLowerCase(), tx.returnValues.bondDuration.toString()).bondAsset.icon}
-                      balance={getBondPoolByBond(tx.returnValues.bondAsset.toLowerCase(), tx.returnValues.bondDuration.toString()).dToken.contract.balances?.get(walletCtx.account)}
+                      balance={new BigNumber(tx.returnValues.bondAmount).minus(new BigNumber(tx.returnValues.interestAmount))}
                       decimals={getBondPoolByBond(tx.returnValues.bondAsset.toLowerCase(), tx.returnValues.bondDuration.toString()).bondAsset.decimals}
                     />
 
@@ -213,7 +214,7 @@ const DebtsView = () => {
                     <TransactionCollateralDataItem
                       title='Collateral' 
                       tokenIcon = {tx.returnValues.collateralAsset ? getCollateralPoolByAddress(tx.returnValues.collateralAsset.toLowerCase()).collateralAsset.icon : undefined}
-                      balance = {tx.returnValues.collateralAsset ? getCollateralPoolByAddress(tx.returnValues.collateralAsset.toLowerCase()).collateralAsset.contract.balances?.get(walletCtx.account): undefined }
+                      balance = {tx.returnValues.collateralAsset ? getCollateralPoolByAddress(tx.returnValues.collateralAsset.toLowerCase()).contract.balances?.get(walletCtx.account): undefined }
                       decimals = {tx.returnValues.collateralAsset ? getCollateralPoolByAddress(tx.returnValues.collateralAsset.toLowerCase()).collateralAsset.decimals : undefined}
                     />
 

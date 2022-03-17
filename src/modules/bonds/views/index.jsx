@@ -169,7 +169,7 @@ const BondsView = () => {
 
                       <TransactionDurationDataItem 
                         title='Matured At'
-                        duration={tx.returnValues.startTimestamp ?? '-'}
+                        duration={formatDateTime(tx.returnValues.startTimestamp * 1_000 + (getBondPoolByBond(tx.returnValues.asset.toLowerCase(), tx.returnValues.duration.toString()).duration.duration) * 1_000) ?? '-'}
                       />
 
                       <TransactionDurationDataItem

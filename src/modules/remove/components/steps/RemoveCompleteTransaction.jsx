@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom"
 import TitleLable from "../../../../components/title-lable"
 import TokenIcon from "../../../../components/token-icon"
 import { KTSVG } from "../../../../_metronic/helpers/components/KTSVG"
@@ -32,11 +33,13 @@ const RemoveCompleteTransaction = () => {
       
       <div className='pt-3'>
         <div className='d-grid'>
-          <button type='submit' className='btn btn-primary me-0'>
-            <span className='indicator-label'>              
-              Complete
-            </span>
-          </button>
+          <Link to='/pools'>
+            <button type='submit' className='btn btn-primary me-0'>
+              <span className='indicator-label'>              
+                Complete
+              </span>
+            </button>
+          </Link>
         </div>        
       </div>                
     </div> 

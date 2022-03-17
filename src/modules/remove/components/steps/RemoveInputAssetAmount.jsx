@@ -2,10 +2,8 @@
 import BigNumber from 'bignumber.js'
 import { useFormik } from 'formik'
 import { useCallback, useEffect, useState } from 'react'
-import { useConfig } from '../../../../components/providers/configProvider'
 import TitleLable from '../../../../components/title-lable'
 import TokenIcon from '../../../../components/token-icon'
-import TransactionAssetDataItem from '../../../../components/transaction-data-item/TransactionAssetDataItem'
 import TransactionCollateralDataItem from '../../../../components/transaction-data-item/TransactionCollateralDataItem'
 import TransactionLtvDataItem from '../../../../components/transaction-data-item/TransactionLtvDataItem'
 import { useWallet } from '../../../../wallets/walletProvider'
@@ -16,20 +14,16 @@ import { useLiquidityPool } from '../../../add-liquidity/providers/liquidity-poo
 const RemoveInputAssetAmount = ({ prevStep }) => {
 
   const walletCtx = useWallet()
-  const config = useConfig()
 
   const { pool, setRemoveAmount } = useLiquidityPool()
 
   const walletBalance = pool.lpToken.contract.balances?.get(walletCtx.account)
 
   const decimals = pool.lpToken.decimals
-  const allowance = pool.lpToken.contract.allowances?.get(config.contracts.financingPool.financingPool)
 
   const [walletConnectVisible, setWalletConnectVisible] = useState(false)
-  const [approveVisible, setApproveVisible] = useState(false)
   const [submitDisabledVisible, setSubmitDisabledVisible] = useState(false)
   const [submitVisible, setSubmitVisible] = useState(false)
-  const [isEnabling, setEnabling] = useState(false)
   
   const removeLiquidityFormik = useFormik({
     initialValues: {
@@ -56,7 +50,6 @@ const RemoveInputAssetAmount = ({ prevStep }) => {
 
     if (!walletCtx.account) {
       setWalletConnectVisible(() => true)
-      setApproveVisible(() => false)
       setSubmitDisabledVisible(() => false)
       setSubmitVisible(() => false)
       return
@@ -67,56 +60,28 @@ const RemoveInputAssetAmount = ({ prevStep }) => {
 
       if (value.eq(0) || value.isNaN()) {
         setSubmitDisabledVisible(() => true)
-        setApproveVisible(() => false)
         setSubmitVisible(() => false)
         return
       }
 
-      if (value.gt(0) && value.gt(allowance)) {
-        setApproveVisible(() => true)
+      if (value.gt(0) && value.gt(walletBalance)) {
+        setSubmitDisabledVisible(() => true)
+        setSubmitVisible(() => false)
+        return
+      }
+
+      if (value.gt(0) && value.lte(walletBalance)) {
+        setSubmitVisible(() => true)
         setSubmitDisabledVisible(() => false)
-        setSubmitVisible(() => false)
         return
-      }
-
-      if (value.gt(0) && value.lte(allowance)) {
-        setApproveVisible(() => false)
-
-        if (value.gt(walletBalance)) {
-          setSubmitDisabledVisible(() => true)
-          setSubmitVisible(() => false)
-          return
-        }
-
-        if (value.lte(walletBalance)) {
-          setSubmitVisible(() => true)
-          setSubmitDisabledVisible(() => false)
-          return
-        }
-      }
+      }      
     }
 
-  }, [walletCtx.account, value, walletBalance, allowance])
+  }, [walletCtx.account, value, walletBalance])
 
   function handleSubmit() {
     setRemoveAmount(() => inputAssetAmount)
   }
-
-  async function handleApprove() {
-
-    if(walletCtx.account) {
-      
-      setEnabling(() => true)
-
-      try {
-        await pool.lpToken.contract.approve(config.contracts.financingPool.financingPool, true)
-      } catch(e) {
-        console.error(e)
-      }
-
-      setEnabling(() => false)      
-    }     
-  } 
 
   return (
     <div>
@@ -140,12 +105,12 @@ const RemoveInputAssetAmount = ({ prevStep }) => {
             placeholder='0.0'
             name='assetAmount'
             value={removeLiquidityFormik.values.bondAmount}
-            style={{ fontSize: 58 }}
+            style={{ fontSize: 58, fontFamily: 'Montserrat Semi Bold', color: '#003EFF'}}
             autoComplete='off'
             onChange={e => {
               e.preventDefault();
               const { value } = e.target;              
-              const regex = /^(0*[0-9][0-9]*(\.[0-9]*)?|0*\.[0-9]*[1-9][0-9]*)$/;
+              const regex =  /^(0*[0-9][0-9]*(\.[0-9]*)?|0*\.[0-9]*[1-9][0-9]*)|(\s[^\f\n\r\t\v])*$/;
               if (regex.test(value)) {
                 removeLiquidityFormik.setFieldValue('bondAmount', value);
               }
@@ -164,22 +129,6 @@ const RemoveInputAssetAmount = ({ prevStep }) => {
           />
 
           <div className='separator my-4'></div>
-
-          {/* <TransactionAssetDataItem
-            title='Lending Pool Asset'
-            tokenIcon={pool.bondAsset.icon}
-            balance={interestPool}
-            decimals={pool.bondAsset.decimals}
-          />
-
-          <TransactionAssetDataItem
-            title='Interest Pool Asset'
-            tokenIcon={pool.bondAsset.icon}
-            balance={reservePool}
-            decimals={pool.bondAsset.decimals}
-          /> */}
-
-          {/* <div className='separator my-4'></div> */}
 
           <TransactionLtvDataItem
             title='Pool Shares'
@@ -219,29 +168,6 @@ const RemoveInputAssetAmount = ({ prevStep }) => {
                 className='svg-icon-3 ms-2 me-0'
               />
             </span>
-          </button>
-        </div>}
-        {approveVisible &&
-        <div>            
-          <button 
-            type='button' 
-            className='btn btn-lg btn-primary me-0'
-            onClick={handleApprove}
-          >
-            {isEnabling ? 
-            (<div>
-              <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-              Approving...
-            </div>) 
-            :              
-            (<span className='indicator-label'>              
-              Approve
-              <KTSVG
-                path='/media/icons/duotune/arrows/arr064.svg '
-                className='svg-icon-3 ms-2 me-0'
-              />
-            </span>)}
-            
           </button>
         </div>}
         {submitDisabledVisible &&

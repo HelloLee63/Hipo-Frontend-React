@@ -59,8 +59,8 @@ const RemoveConfirmTransaction = ({ prevStep, handleMethod }) => {
           <div className='card-body'>
           {transacting ? (
             <div className='text-center pt-15 pb-15'>
-              <div class="spinner-border text-primary" role="status">
-                <span class="sr-only">Loading...</span>
+              <div className="spinner-border text-primary" role="status">
+                <span className="sr-only">Loading...</span>
               </div>
             </div>
             ) : (
@@ -71,8 +71,8 @@ const RemoveConfirmTransaction = ({ prevStep, handleMethod }) => {
               disabled
               name='collateralAssetAmount'
               value={formatToken(inputAmount)}
-              style={{ fontSize: 58 }}
-            />)}
+              style={{ fontSize: 58, fontFamily: 'Montserrat Semi Bold', color: '#003EFF'}}
+              />)}
             
           </div>
         </div>

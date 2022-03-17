@@ -3,7 +3,6 @@
 import BigNumber from 'bignumber.js'
 import { useFormik} from 'formik'
 import { useEffect, useState } from 'react'
-import { useConfig } from '../../../../components/providers/configProvider'
 import { useKnownTokens } from '../../../../components/providers/knownTokensProvider'
 import TitleLable from '../../../../components/title-lable'
 import CollateralToken from '../../../../components/token-icon/CollateralToken'
@@ -22,12 +21,8 @@ const RedeemInputAmount = ({ prevStep }) => {
   const collateralAddress = colPool.collateralAsset.address
   const { getTokenByAddress } = useKnownTokens()
 
-  const config = useConfig()
   const wallet = useWallet()
-  const walletBalance = colPool.collateralAsset.contract.balances?.get(wallet.account)
   const pledgedBalance = colPool.contract.balances?.get(wallet.account)
-
-  const allowance = colPool.contract.allowances?.get(config.contracts.financingPool.financingPool)
 
   const colDecimals = colPool.collateralAsset.decimals
 
@@ -49,10 +44,8 @@ const RedeemInputAmount = ({ prevStep }) => {
   const debtBDecimals = debtBToken?.decimals
   
   const [walletConnectVisible, setWalletConnectVisible] = useState(false)
-  const [approveVisible, setApproveVisible] = useState(false)
   const [submitDisabledVisible, setSubmitDisabledVisible] = useState(false)
   const [submitVisible, setSubmitVisible] = useState(false)
-  const [isEnabling, setEnabling] = useState(false)
 
   const assetAmount = useFormik({
     initialValues: {
@@ -66,7 +59,6 @@ const RedeemInputAmount = ({ prevStep }) => {
   useEffect(() => {
     if (!wallet.account) {
       setWalletConnectVisible(() => true)
-      setApproveVisible(() => false)
       setSubmitDisabledVisible(() => false)
       setSubmitVisible(() => false)
       return
@@ -79,64 +71,30 @@ const RedeemInputAmount = ({ prevStep }) => {
       if (value.eq(0) || value.isNaN()) {
         setSubmitDisabledVisible(() => true)
         setSubmitVisible(() => false)
-        setApproveVisible(() => false)
         return
       }
 
-      if ((new BigNumber(allowance).lt(value))) {
-        setApproveVisible(() => true)
-        setSubmitDisabledVisible(() => false)
+      if (value.gt(0) && value.gt(new BigNumber(pledgedBalance))) {
+        setSubmitDisabledVisible(() => true)
         setSubmitVisible(() => false)
         return
       }
 
-      if ((new BigNumber(allowance).gte(value))) {
-        setApproveVisible(() => false)
-
-        if (value.eq(0) || value.isNaN()) {
-          setSubmitDisabledVisible(() => true)
-          setSubmitVisible(() => false)
-          return
-        }
-
-        if (value.gt(0) && value.gt(new BigNumber(walletBalance))) {
-          setSubmitDisabledVisible(() => true)
-          setSubmitVisible(() => false)
-          return
-        }
-
-        if (value.gt(0) && value.lte(new BigNumber(walletBalance))) {
-          setSubmitDisabledVisible(() => false)
-          setSubmitVisible(() => true)
-          return
-        }
+      if (value.gt(0) && value.lte(new BigNumber(pledgedBalance))) {
+        setSubmitDisabledVisible(() => false)
+        setSubmitVisible(() => true)
+        return
       }
     }
-  }, [wallet.account, value, walletBalance, allowance])
+  }, [wallet.account, value, pledgedBalance])
 
   function handleSubmit() {
     setRedeemAmount(() => inputAmount)
   }
-  
-  async function handleApprove() {
-
-    if(wallet.account) {
-      
-      setEnabling(true)
-
-      try {
-        await colPool.contract.approve(config.contracts.financingPool.financingPool, true)
-      } catch(e) {
-        console.error(e)
-      }
-
-      setEnabling(false)      
-    }     
-  }
 
   return (
     <div>
-      <div className="pb-5 text-dark fs-5 fw-bolder">Input Amount</div>       
+      <TitleLable title='Input Amount' />   
       <div className="card mb-2">
         <div className="card-body pt-3 pb-3">
           <CollateralToken 
@@ -155,12 +113,12 @@ const RedeemInputAmount = ({ prevStep }) => {
             placeholder='0.0'
             name='collateralAssetAmount'
             value={assetAmount.values.collateralAssetAmount}
-            style={{ fontSize: 58 }}
+            style={{ fontSize: 58, fontFamily: 'Montserrat Semi Bold', color: '#003EFF'}}
             autoComplete='off'
             onChange={e => {
               e.preventDefault();
               const { value } = e.target;              
-              const regex = /^(0*[0-9][0-9]*(\.[0-9]*)?|0*\.[0-9]*[1-9][0-9]*)$/;
+              const regex =  /^(0*[0-9][0-9]*(\.[0-9]*)?|0*\.[0-9]*[1-9][0-9]*)|(\s[^\f\n\r\t\v])*$/;
               if (regex.test(value)) {
                 assetAmount.setFieldValue('collateralAssetAmount', value);
               }
@@ -231,30 +189,6 @@ const RedeemInputAmount = ({ prevStep }) => {
                 className='svg-icon-3 ms-2 me-0'
               />
             </span>
-          </button>
-        </div>}
-
-        { approveVisible &&
-        <div>            
-          <button 
-            type='button' 
-            className='btn btn-lg btn-primary me-0'
-            onClick={handleApprove}
-          >
-            {isEnabling ? 
-            (<div>
-              <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-              Approving...
-            </div>) 
-            :              
-            (<span className='indicator-label'>              
-              Approve
-              <KTSVG
-                path='/media/icons/duotune/arrows/arr064.svg '
-                className='svg-icon-3 ms-2 me-0'
-              />
-            </span>)}
-            
           </button>
         </div>}
 

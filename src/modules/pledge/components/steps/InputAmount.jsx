@@ -156,7 +156,7 @@ const InputAmount = ({ prevStep }) => {
             placeholder='0.0'
             name='collateralAssetAmount'
             value={assetAmount.values.collateralAssetAmount}
-            style={{ fontSize: 58 }}
+            style={{ fontSize: 58, fontFamily: 'Montserrat Semi Bold', color: '#003EFF'}}
             autoComplete='off'
             onChange={e => {
               e.preventDefault();

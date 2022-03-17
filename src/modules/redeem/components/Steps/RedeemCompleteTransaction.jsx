@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom"
 import TitleLable from "../../../../components/title-lable"
 import CollateralToken from "../../../../components/token-icon/CollateralToken"
 import { KTSVG } from "../../../../_metronic/helpers/components/KTSVG"
@@ -33,11 +34,13 @@ const RedeemCompleteTransaction = () => {
       
       <div className='pt-3'>
         <div className='d-grid'>
-          <button type='submit' className='btn btn-primary me-0'>
-            <span className='indicator-label'>              
-              Complete
-            </span>
-          </button>
+          <Link to='/collaterals'>
+            <button type='submit' className='btn btn-primary me-0'>
+              <span className='indicator-label'>              
+                Complete
+              </span>
+            </button>
+          </Link>
         </div>        
       </div>                 
     </div> 

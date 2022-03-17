@@ -55,8 +55,6 @@ const CollateralsView = () => {
   useEffect(async () => {
     if (walletCtx.account) {
       const balance = await getBalanceOfCollateral()
-
-      console.log(balance);
       setPledgeAmount(() => new BigNumber(balance))
     }  
   }, [walletCtx.account, 
