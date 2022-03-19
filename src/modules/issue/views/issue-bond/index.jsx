@@ -15,7 +15,7 @@ import { useDebtPool } from "../../providers/debt-pool-provider"
 
 const IssueWizards = () => {
 
-  const { setPoolSymbol, setDebtAssetToken, setDebtDuration } = useDebtPool()
+  const { setDebtPoolSymbol, setDebtAssetToken, setDebtDuration } = useDebtPool()
   const stepperRef = useRef(null)
   const stepper = useRef(null)
   const [currentSchema, setCurrentSchema] = useState(issueSchemas[0])
@@ -40,7 +40,7 @@ const IssueWizards = () => {
   const submitStep = (values, actions) => {
 
     if(stepper.current.currentStepIndex === 1) {
-      setPoolSymbol(values.collateralAssetType)
+      setDebtPoolSymbol(values.collateralAssetType)
     }
 
     if(stepper.current.currentStepIndex === 2) {

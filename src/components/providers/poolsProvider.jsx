@@ -3,12 +3,12 @@ import { InvariantContext } from "../../utils/context"
 import { useKnownTokens } from "./knownTokensProvider"
 
 export const Durations = {
-    FiveDays: '300',
-    TenDays: '600',
-    FifteenDays: '900',
-    ThirtyDays: '1800',
-    FortyFiveDays: '2700',
-    SixtyDays: '3600'
+    FiveDays: '432000',
+    TenDays: '864000',
+    FifteenDays: '1296000',
+    ThirtyDays: '2592000',
+    FortyFiveDays: '3888000',
+    SixtyDays: '5184000'
 }
 
 export const DurationsMeta = [

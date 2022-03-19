@@ -7,7 +7,7 @@ import { KTSVG } from '../../../../_metronic/helpers/components/KTSVG'
 import { useBondPool } from '../../providers/bond-pool-provider'
 import { useEffect, useState } from 'react'
 import { useConfig } from '../../../../components/providers/configProvider'
-import { calAPY, scaleBy } from '../../../../web3/utils'
+import { calAPY, formatToken, scaleBy } from '../../../../web3/utils'
 import BigNumber from 'bignumber.js'
 import TitleLable from '../../../../components/title-lable'
 import TransactionAssetDataItem from '../../../../components/transaction-data-item/TransactionAssetDataItem'
@@ -33,7 +33,7 @@ const InputPurchaseAmount = ({ prevStep }) => {
 
   const decimals = activePool.bondAsset.decimals
   
-  const bondPrice = protocolData.getBondPrice(activePool.bondAsset.address, activePool.duration.duration)
+  const bondPrice = formatToken(protocolData.getBondPrice(activePool.bondAsset.address, activePool.duration.duration), {scale: 18})
   const formik = useFormik({
     initialValues: {
       bondAssetAmount: '',
@@ -43,10 +43,11 @@ const InputPurchaseAmount = ({ prevStep }) => {
   const inputAssetAmount = new BigNumber(formik.values.bondAssetAmount)
   const value = new BigNumber(scaleBy(inputAssetAmount, decimals))
   const oneBigNumber = new BigNumber(scaleBy(1, decimals))
+  const price = new BigNumber(scaleBy(bondPrice, decimals))
 
-  const interest = oneBigNumber.minus(new BigNumber(bondPrice)).multipliedBy(inputAssetAmount)
+  const interest = oneBigNumber.minus(new BigNumber(price)).multipliedBy(inputAssetAmount)
 
-  const depositedAmount = new BigNumber(bondPrice).multipliedBy(inputAssetAmount)
+  const depositedAmount = new BigNumber(price).multipliedBy(inputAssetAmount)
 
   function handleSubmit() {
     bondPoolCtx.setPurchaseAmount(() => inputAssetAmount)
@@ -137,11 +138,11 @@ const InputPurchaseAmount = ({ prevStep }) => {
             name='bondAssetAmount'
             value={formik.values.bondAssetAmount}
             autoComplete='off'              
-            style={{ fontSize: 58 }}
+            style={{ fontSize: 58, fontFamily: 'Montserrat Semi Bold', color: '#003EFF'}}
             onChange={e => {
               e.preventDefault();
               const { value } = e.target;              
-              const regex = /^(0*[0-9][0-9]*(\.[0-9]*)?|0*\.[0-9]*[1-9][0-9]*)$/;
+              const regex =  /^(0*[0-9][0-9]*(\.[0-9]*)?|0*\.[0-9]*[1-9][0-9]*)|(\s[^\f\n\r\t\v])*$/;
               if (regex.test(value)) {
                 formik.setFieldValue('bondAssetAmount', value);
               }
@@ -176,7 +177,7 @@ const InputPurchaseAmount = ({ prevStep }) => {
 
           <TransactionLtvDataItem 
             title='Interest (APY)'
-            balance={calAPY(bondPrice, decimals, Number(activePool.duration.duration))}
+            balance={calAPY(price, decimals, Number(activePool.duration.duration))}
             decimals={0}
           />
         </div>

@@ -1,9 +1,10 @@
-import { useDebtPool } from "../../providers/debt-pool-provider"
-import TokenIcon from "../../../../components/token-icon"
-import { KTSVG } from "../../../../_metronic/helpers/components/KTSVG"
-import TitleLable from "../../../../components/title-lable"
+import { Link } from "react-router-dom"
+import TitleLable from "../../../components/title-lable"
+import TokenIcon from "../../../components/token-icon"
+import { KTSVG } from "../../../_metronic/helpers/components/KTSVG"
+import { useDebtPool } from "../../issue/providers/debt-pool-provider"
 
-const RepayCompleteIssueTransaction = () => {
+const RepayCompleteTransaction = () => {
   const { bondPool } = useDebtPool()
   
   return (
@@ -31,15 +32,17 @@ const RepayCompleteIssueTransaction = () => {
       </div>
 
       <div className='pt-3'>
-        <div className='d-grid'>
-          <button type='submit' className='btn btn-primary me-0'>
-            <span className='indicator-label'>              
-              Complete
-            </span>
-          </button>
-        </div>        
+        <Link to='/debts'>
+          <div className='d-grid'>
+            <button type='submit' className='btn btn-primary me-0'>
+              <span className='indicator-label'>              
+                Complete
+              </span>
+            </button>
+          </div>
+        </Link>        
       </div>                      
     </div> 
   )
 }
-export default RepayCompleteIssueTransaction
+export default RepayCompleteTransaction

@@ -66,8 +66,8 @@ const ConfirmPurchaseTransaction = ({ prevStep, handleMethod }) => {
               disabled
               name='collateralAssetAmount'
               value={formatToken(inputAmount)}
-              style={{ fontSize: 58 }}
-            />)}
+              style={{ fontSize: 58, fontFamily: 'Montserrat Semi Bold', color: '#003EFF'}}
+              />)}
           </div>       
         </div>
       </div>

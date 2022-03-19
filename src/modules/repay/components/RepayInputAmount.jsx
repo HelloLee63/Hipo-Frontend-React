@@ -5,14 +5,14 @@ import { useEffect, useState } from 'react'
 import { useConfig } from '../../../components/providers/configProvider'
 import TitleLable from '../../../components/title-lable'
 import TokenIcon from '../../../components/token-icon'
-import CollateralToken from '../../../components/token-icon/CollateralToken'
 import TransactionAssetDataItem from '../../../components/transaction-data-item/TransactionAssetDataItem'
 import TransactionCollateralDataItem from '../../../components/transaction-data-item/TransactionCollateralDataItem'
+import TransactionDurationDataItem from '../../../components/transaction-data-item/TransactionDurationDataItem'
 import TransactionLtvDataItem from '../../../components/transaction-data-item/TransactionLtvDataItem'
+import { formatDateTime } from '../../../utils/date'
 import { useWallet } from '../../../wallets/walletProvider'
-import { useProtocolData } from '../../../web3/components/providers/ProtocolDataProvider'
 import { useWalletData } from '../../../web3/components/providers/WalletDataProvider'
-import { calAPY, formatToken, scaleBy } from '../../../web3/utils'
+import { scaleBy } from '../../../web3/utils'
 import { KTSVG } from '../../../_metronic/helpers/components/KTSVG'
 import { useDebtPool } from '../../issue/providers/debt-pool-provider'
 
@@ -20,9 +20,10 @@ const RepayInputAmount = ({ prevStep }) => {
 
   const walletCtx = useWallet()
   const config = useConfig()
-  const { bondPool, collateral, setIssueAmount } = useDebtPool()
+  const { bondPool, collateral, setRepayAmount } = useDebtPool()
+  console.log(collateral);
+  console.log(bondPool);
 
-  const protocolData = useProtocolData()
   const walletData = useWalletData()
 
   const [walletConnectVisible, setWalletConnectVisible] = useState(false)
@@ -33,34 +34,30 @@ const RepayInputAmount = ({ prevStep }) => {
 
   const walletBalance = bondPool.bondAsset.contract.balances?.get(walletCtx.account)
   const allowance = bondPool.bondAsset.contract.allowances?.get(config.contracts.financingPool.financingPool)
-   
-  const debtAssetAddress = bondPool.bondAsset.address
-  const duration = bondPool.duration.duration
+
+  const debtBalance = bondPool.dToken.contract.getBalanceOf(walletCtx.account)
+  const debtData = bondPool.dToken.contract.getDebtData(walletCtx.account)
+  const delay = 180
+
   const decimals = bondPool.bondAsset.decimals
 
   const bondIcon = bondPool?.icon
   const bondSymbol = bondPool.bondAsset.symbol
-  const bondDurationDesc = bondPool.duration.description
-  
-  const price = protocolData.getBondPrice(debtAssetAddress, duration)
+  const bondDurationDesc = bondPool.duration.description  
 
-  const issuerLtv = walletData.getIssuerLtv(collateral.collateralAsset.address)
-  
-  const issueFormik = useFormik({
+  const repayIssuerLtv = walletData.getIssuerLtv(collateral.collateralAsset.address)
+  console.log(collateral.collateralAsset);
+  const repayCollateralAmount = walletCtx.account ? collateral.contract?.balances?.get(walletCtx.account) : undefined
+
+  const repayFormik = useFormik({
     initialValues: {
-      debtAssetAmount: '',
+      debtAmount: '',
     }
   })
 
-  const inputAmount = new BigNumber(issueFormik.values.debtAssetAmount)
+  const inputAmount = new BigNumber(repayFormik.values.debtAmount)
   let value = new BigNumber(scaleBy(inputAmount, decimals))
-  const oneBigNumber = new BigNumber(scaleBy(1, decimals))
 
-  const interestPayment = oneBigNumber.minus(new BigNumber(price)).multipliedBy(inputAmount)
-
-  const borrowedAmount = new BigNumber(price).multipliedBy(inputAmount).minus(interestPayment)
-
-  const collateralAmount = walletCtx.account ? collateral.contract.balances?.get(walletCtx.account) : undefined
 
   useEffect(() => {
 
@@ -98,7 +95,13 @@ const RepayInputAmount = ({ prevStep }) => {
           return
         }
 
-        if (value.lte(walletBalance)) {
+        if (value.gt(debtBalance)) {
+          setSubmitDisabledVisible(() => true)
+          setSubmitVisible(() => false)
+          return
+        }
+
+        if (value.lte(walletBalance) && value.lte(debtBalance)) {
           setSubmitVisible(() => true)
           setSubmitDisabledVisible(() => false)
           return
@@ -106,10 +109,10 @@ const RepayInputAmount = ({ prevStep }) => {
       }
     }
 
-  }, [walletCtx.account, value, walletBalance, allowance])
+  }, [walletCtx.account, value, walletBalance, debtBalance, allowance])
 
   function handleSubmit() {
-    setIssueAmount(() => inputAmount)
+    setRepayAmount(() => inputAmount)
   }
 
   async function handleApprove() {
@@ -138,13 +141,6 @@ const RepayInputAmount = ({ prevStep }) => {
             tokenIcon={bondIcon}
             tokenDesc={bondDurationDesc} 
           />
-
-          {/* <CollateralToken 
-            tokenSymbol={`${bondSymbol} Bond`} 
-            tokenIcon={bondIcon}
-            tokenName={bondDurationDesc}
-          /> */}
-
         </div>
       </div>
 
@@ -156,15 +152,15 @@ const RepayInputAmount = ({ prevStep }) => {
             className='p-0 form-control form-control-lg form-control-solid fw-bolder bg-white border-0 text-primary align-center'
             placeholder='0.0'
             name='debtAssetAmount'
-            value={issueFormik.values.debtAssetAmount}
-            style={{ fontSize: 58 }}
+            value={repayFormik.values.debtAssetAmount}
+            style={{ fontSize: 58, fontFamily: 'Montserrat Semi Bold', color: '#003EFF'}}
             autoComplete='off'
             onChange={e => {
               e.preventDefault();
               const { value } = e.target;              
-              const regex = /^(0*[0-9][0-9]*(\.[0-9]*)?|0*\.[0-9]*[1-9][0-9]*)$/;
+              const regex =  /^(0*[0-9][0-9]*(\.[0-9]*)?|0*\.[0-9]*[1-9][0-9]*)|(\s[^\f\n\r\t\v])*$/;
               if (regex.test(value)) {
-                issueFormik.setFieldValue('debtAssetAmount', value);
+                repayFormik.setFieldValue('debtAmount', value);
               }
             }}
           />
@@ -175,32 +171,25 @@ const RepayInputAmount = ({ prevStep }) => {
         <div className='card-body'>
 
           <TransactionAssetDataItem
-            title='You will borrow'
+            title='You Debt Amount'
             tokenIcon={bondPool.bondAsset.icon}
-            balance={borrowedAmount}
+            balance={debtBalance}
             decimals={decimals}           
           />
 
-          <TransactionAssetDataItem
-            title='Interest Payment'
-            tokenIcon={bondPool.bondAsset.icon}
-            balance={interestPayment}
-            decimals={decimals}           
+          <TransactionDurationDataItem 
+            title='Purchased At'
+            duration={formatDateTime(debtData ? debtData[0] * 1_000 : undefined ) ?? '-'}
           />
 
-          <div className='separator my-4'></div>
-
-          <TransactionAssetDataItem
-            title='Bond Price'
-            tokenIcon={bondPool.bondAsset.icon}
-            balance={price}
-            decimals={18}           
+          <TransactionDurationDataItem 
+            title='Matured At'
+            duration={formatDateTime(debtData ? (debtData[0] * 1_000 + Number(bondPool.duration.duration) * 1_000) : undefined ) ?? '-'}
           />
 
-          <TransactionLtvDataItem 
-            title='Interest(APR)'
-            balance={calAPY(price, decimals, Number(bondPool.duration.duration))}
-            decimals={0}
+          <TransactionDurationDataItem 
+            title='Deadline'
+            duration={formatDateTime(debtData ? (debtData[0] * 1_000 + Number(bondPool.duration.duration) * 1_000 + delay * 1_000) : undefined ) ?? '-'}
           />
 
           <div className='separator my-4'></div>
@@ -208,13 +197,13 @@ const RepayInputAmount = ({ prevStep }) => {
           <TransactionCollateralDataItem 
             title='Collaterals'
             tokenIcon={collateral.collateralAsset.icon}
-            balance={collateralAmount}
+            balance={repayCollateralAmount}
             decimals={18}
           />
 
           <TransactionLtvDataItem 
             title='Your Collateral LTV'
-            balance={issuerLtv?.ltv}
+            balance={repayIssuerLtv?.ltv}
             decimals={18}
           />
         </div>        

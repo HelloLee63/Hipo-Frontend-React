@@ -1,29 +1,30 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import { useEffect, useState } from 'react'
-import TitleLable from '../../../../components/title-lable'
-import TokenIcon from '../../../../components/token-icon'
-import { useFinancingPool } from '../../../../web3/components/providers/FinancingPoolProvider'
-import { formatToken, scaleBy } from '../../../../web3/utils'
-import { KTSVG } from '../../../../_metronic/helpers/components/KTSVG'
-import { useDebtPool } from '../../providers/debt-pool-provider'
+import TitleLable from '../../../components/title-lable'
+import TokenIcon from '../../../components/token-icon'
+import { useFinancingPool } from '../../../web3/components/providers/FinancingPoolProvider'
+import { formatToken, scaleBy } from '../../../web3/utils'
+import { KTSVG } from '../../../_metronic/helpers/components/KTSVG'
+import { useDebtPool } from '../../issue/providers/debt-pool-provider'
 
-const ConfirmTransaction = ({ prevStep, handleMethod }) => {
-  const { bondPool, issueAmount, collateral } = useDebtPool()
+const RepayConfirmTransaction = ({ prevStep, handleMethod }) => {
+  const { bondPool, repayAmount, collateral, debtId } = useDebtPool()
   const financingPool = useFinancingPool()
 
   const tokenName = bondPool.bondAsset.symbol
   const tokenIcon = bondPool.icon
   const tokenDesc = bondPool.duration.description
   const decimals = bondPool.bondAsset.decimals
+  const collateralDecimals = collateral.collateralAsset.decimals
   
   const [transacting, setTransacting] = useState(false)
-  const [inputAmount, setInputAmount] = useState(issueAmount)
+  const [inputAmount, setInputAmount] = useState(repayAmount)
 
   useEffect(() => {
-    setInputAmount(() => issueAmount)
-  }, [issueAmount])
+    setInputAmount(() => repayAmount)
+  }, [repayAmount])
 
-  async function handleIssue() {
+  async function handleRepay() {
     setTransacting(() => true)
 
     let value = scaleBy(inputAmount, decimals)
@@ -32,17 +33,18 @@ const ConfirmTransaction = ({ prevStep, handleMethod }) => {
     let collateralAddress = collateral.collateralAsset.address
 
     try {
-      await financingPool.financingPoolContract?.issue(
+      await financingPool.financingPoolContract?.repay(
         collateralAddress,
-        assetAddress,
+        assetAddress,        
+        duration,
         value,
-        duration
+        debtId
       )
     } catch (e) {}
 
     setTransacting(() => false)
 
-    handleMethod.goto(6)
+    handleMethod.goto(3)
   }
  
   return (
@@ -60,22 +62,22 @@ const ConfirmTransaction = ({ prevStep, handleMethod }) => {
         </div>
 
         <div className='card mb-2'>
-          <div className='card-body pt-10 pb-10'>
+          <div className='card-body'>
           {transacting ? (
             <div className='text-center pt-15 pb-15' >
-              <div class="spinner-border text-primary" role="status">
-                <span class="sr-only">Loading...</span>
+              <div className="spinner-border text-primary" role="status">
+                <span className="sr-only">Loading...</span>
               </div>
             </div>
             ) : (
             <input
               type='text'
-              className='p-0 form-control form-control-lg  fw-bolder bg-white border-0 text-primary align-center'
+              className='p-0 form-control form-control-lg fw-bolder bg-white border-0 align-center'
               placeholder='0.0'
               disabled
               name='collateralAssetAmount'
               value={formatToken(inputAmount)}
-              style={{ fontSize: 58 }}
+              style={{ fontSize: 58, fontFamily: 'Montserrat Semi Bold', color: '#003EFF'}}
             />)}
             
           </div>
@@ -100,7 +102,7 @@ const ConfirmTransaction = ({ prevStep, handleMethod }) => {
         </div>
         <div>
           <button 
-            onClick={handleIssue}              
+            onClick={handleRepay}              
             type='submit'
             disabled={transacting ? true : false}
             className='btn btn-lg btn-primary me-0'
@@ -119,4 +121,4 @@ const ConfirmTransaction = ({ prevStep, handleMethod }) => {
   )
 }
 
-export {ConfirmTransaction}
+export {RepayConfirmTransaction}

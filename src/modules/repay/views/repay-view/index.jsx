@@ -4,13 +4,13 @@ import TitleLable from "../../../../components/title-lable"
 import WalletBalanceCard from "../../../../components/wallet-balance-card"
 import { useBalanceData } from "../../../../web3/components/providers/BalanceDataProvider"
 import { StepperComponent } from "../../../../_metronic/assets/ts/components"
-import { useDebtPool } from "../../../issue/providers/debt-pool-provider"
+import RepayCompleteTransaction from "../../components/RepayCompleteTransaction"
+import { RepayConfirmTransaction } from "../../components/RepayConfirmTransaction"
 import { RepayInputAmount } from "../../components/RepayInputAmount"
 import { repayInits, repaySchemas } from "../../components/TransactionHelper"
 
 const RepayView = () => {
 
-  const { setPoolSymbol, setDebtAssetToken, setDebtDuration } = useDebtPool()
   const stepperRef = useRef(null)
   const stepper = useRef(null)
   const [currentSchema, setCurrentSchema] = useState(repaySchemas[0])
@@ -33,18 +33,6 @@ const RepayView = () => {
   }
 
   const submitStep = (values, actions) => {
-
-    if(stepper.current.currentStepIndex === 1) {
-      setPoolSymbol(values.collateralAssetType)
-    }
-
-    if(stepper.current.currentStepIndex === 2) {
-      setDebtAssetToken(values.debtAssetType)
-    }
-
-    if(stepper.current.currentStepIndex === 3) {
-      setDebtDuration(values.debtDuration)
-    }
 
     if (!stepper.current) {
       return
@@ -127,11 +115,11 @@ const RepayView = () => {
                 </div>
 
                 <div data-kt-stepper-element='content'>
-                  {/* <ConfirmTransaction  handleMethod={stepper.current} prevStep={prevStep} /> */}
+                  <RepayConfirmTransaction  handleMethod={stepper.current} prevStep={prevStep} />
                 </div>
 
                 <div data-kt-stepper-element='content'>
-                  {/* <CompleteIssueTransaction /> */}
+                  <RepayCompleteTransaction />
                 </div>
               </Form>
             )}

@@ -14,12 +14,14 @@ export function useDebtPool() {
 const DebtPoolProvider = props => {
   
   const { children } = props
-  const [ poolSymbol, setPoolSymbol ] = useState('USDC/WETH')
+  const [ debtPoolSymbol, setDebtPoolSymbol ] = useState('USDC/WETH')
   const [ debtAssetToken, setDebtAssetToken ] = useState('WETH')
-  const [debtDuration, setDebtDuration ] = useState('300')
+  const [debtDuration, setDebtDuration ] = useState('432000')
   const [issueAmount, setIssueAmount] = useState(0)
 
-  const [debtId, setDebtId] = useState()
+  const [repayAmount, setRepayAmount] = useState(0)
+
+  const [debtId, setDebtId] = useState(0)
 
   const walletCtx = useWallet()
   const [reload] = useReload()
@@ -27,7 +29,7 @@ const DebtPoolProvider = props => {
 
   const { getCollateralPoolBySymbol, getPoolByBond } = usePools()
   
-  const collateral = useMemo(() => getCollateralPoolBySymbol(poolSymbol),[poolSymbol])
+  const collateral = useMemo(() => getCollateralPoolBySymbol(debtPoolSymbol),[debtPoolSymbol])
 
   const bondPool = useMemo(() => getPoolByBond(debtAssetToken, debtDuration), [debtDuration, debtAssetToken])
 
@@ -37,15 +39,21 @@ const DebtPoolProvider = props => {
     }
   }, [bondPool, walletCtx.account])
 
+  useEffect(() => {
+    if(walletCtx.account) {
+      bondPool.dToken.contract.loadIssuerDebtData(walletCtx.account, Number(debtId))
+    }
+  }, [walletCtx.account, debtId, bondPool])
+
   const value = {
     bondPool,
     collateral,
 
     debtAssetToken,
     debtDuration,
-    poolSymbol,
+    debtPoolSymbol,
     
-    setPoolSymbol,
+    setDebtPoolSymbol,
     setDebtAssetToken,
     setDebtDuration, 
 
@@ -54,6 +62,9 @@ const DebtPoolProvider = props => {
 
     debtId, 
     setDebtId,
+
+    repayAmount, 
+    setRepayAmount
   }
 
   return (

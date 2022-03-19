@@ -257,73 +257,73 @@ const KnownTokensProvider = props => {
       {
         symbol: DebtTokens.dUSDC5,
         address: config.tokens.dUSDC5.toLowerCase(),
-        decimals: 18,
+        decimals: 6,
         contract: dUSDC5Contract
       },
       {
         symbol: DebtTokens.dUSDC10,
         address: config.tokens.dUSDC10.toLowerCase(),
-        decimals: 18,
+        decimals: 6,
         contract: dUSDC10Contract
       },
       {
         symbol: DebtTokens.dUSDC15,
         address: config.tokens.dUSDC15.toLowerCase(),
-        decimals: 18,
+        decimals: 6,
         contract: dUSDC15Contract
       },
       {
         symbol: DebtTokens.dUSDC30,
         address: config.tokens.dUSDC30.toLowerCase(),
-        decimals: 18,
+        decimals: 6,
         contract: dUSDC30Contract
       },
       {
         symbol: DebtTokens.dUSDC45,
         address: config.tokens.dUSDC45.toLowerCase(),
-        decimals: 18,
+        decimals: 6,
         contract: dUSDC45Contract
       },
       {
         symbol: DebtTokens.dUSDC60,
         address: config.tokens.dUSDC60.toLowerCase(),
-        decimals: 18,
+        decimals: 6,
         contract: dUSDC60Contract
       },
       {
         symbol: DebtTokens.dUSDT5,
         address: config.tokens.dUSDT5.toLowerCase(),
-        decimals: 18,
+        decimals: 6,
         contract: dUSDT5Contract
       },
       {
         symbol: DebtTokens.dUSDT10,
         address: config.tokens.dUSDT10.toLowerCase(),
-        decimals: 18,
+        decimals: 6,
         contract: dUSDT10Contract
       },
       {
         symbol: DebtTokens.dUSDT15,
         address: config.tokens.dUSDT15.toLowerCase(),
-        decimals: 18,
+        decimals: 6,
         contract: dUSDT15Contract
       },
       {
         symbol: DebtTokens.dUSDT30,
         address: config.tokens.dUSDT30.toLowerCase(),
-        decimals: 18,
+        decimals: 6,
         contract: dUSDT30Contract
       },
       {
         symbol: DebtTokens.dUSDT45,
         address: config.tokens.dUSDT45.toLowerCase(),
-        decimals: 18,
+        decimals: 6,
         contract: dUSDT45Contract
       },
       {
         symbol: DebtTokens.dUSDT60,
         address: config.tokens.dUSDT60.toLowerCase(),
-        decimals: 18,
+        decimals: 6,
         contract: dUSDT60Contract
       },
       {
@@ -406,73 +406,73 @@ const KnownTokensProvider = props => {
       {
         symbol: LpTokens.lpUSDC5,
         address: config.tokens.lpUSDC5.toLowerCase(),
-        decimals: 18,
+        decimals: 6,
         contract: lpUSDC5Contract
       },
       {
         symbol: LpTokens.lpUSDC10,
         address: config.tokens.lpUSDC10.toLowerCase(),
-        decimals: 18,
+        decimals: 6,
         contract: lpUSDC10Contract
       },
       {
         symbol: LpTokens.lpUSDC15,
         address: config.tokens.lpUSDC15.toLowerCase(),
-        decimals: 18,
+        decimals: 6,
         contract: lpUSDC15Contract
       },
       {
         symbol: LpTokens.lpUSDC30,
         address: config.tokens.lpUSDC30.toLowerCase(),
-        decimals: 18,
+        decimals: 6,
         contract: lpUSDC30Contract
       },
       {
         symbol: LpTokens.lpUSDC45,
         address: config.tokens.lpUSDC45.toLowerCase(),
-        decimals: 18,
+        decimals: 6,
         contract: lpUSDC45Contract
       },
       {
         symbol: LpTokens.lpUSDC60,
         address: config.tokens.lpUSDC60.toLowerCase(),
-        decimals: 18,
+        decimals: 6,
         contract: lpUSDC60Contract
       },
       {
         symbol: LpTokens.lpUSDT5,
         address: config.tokens.lpUSDT5.toLowerCase(),
-        decimals: 18,
+        decimals: 6,
         contract: lpUSDT5Contract
       },
       {
         symbol: LpTokens.lpUSDT10,
         address: config.tokens.lpUSDT10.toLowerCase(),
-        decimals: 18,
+        decimals: 6,
         contract: lpUSDT10Contract
       },
       {
         symbol: LpTokens.lpUSDT15,
         address: config.tokens.lpUSDT15.toLowerCase(),
-        decimals: 18,
+        decimals: 6,
         contract: lpUSDT15Contract
       },
       {
         symbol: LpTokens.lpUSDT30,
         address: config.tokens.lpUSDT30.toLowerCase(),
-        decimals: 18,
+        decimals: 6,
         contract: lpUSDT30Contract
       },
       {
         symbol: LpTokens.lpUSDT45,
         address: config.tokens.lpUSDT45.toLowerCase(),
-        decimals: 18,
+        decimals: 6,
         contract: lpUSDT45Contract
       },
       {
         symbol: LpTokens.lpUSDT60,
         address: config.tokens.lpUSDT60.toLowerCase(),
-        decimals: 18,
+        decimals: 6,
         contract: lpUSDT60Contract
       },
       {
@@ -555,73 +555,73 @@ const KnownTokensProvider = props => {
       {
         symbol: BondTokens.bUSDC5,
         address: config.tokens.bUSDC5.toLowerCase(),
-        decimals: 18,
+        decimals: 6,
         contract: bUSDC5Contract
       },
       {
         symbol: BondTokens.bUSDC10,
         address: config.tokens.bUSDC10.toLowerCase(),
-        decimals: 18,
+        decimals: 6,
         contract: bUSDC10Contract
       },
       {
         symbol: BondTokens.bUSDC15,
         address: config.tokens.bUSDC15.toLowerCase(),
-        decimals: 18,
+        decimals: 6,
         contract: bUSDC15Contract
       },
       {
         symbol: BondTokens.bUSDC30,
         address: config.tokens.bUSDC30.toLowerCase(),
-        decimals: 18,
+        decimals: 6,
         contract: bUSDC30Contract
       },
       {
         symbol: BondTokens.bUSDC45,
         address: config.tokens.bUSDC45.toLowerCase(),
-        decimals: 18,
+        decimals: 6,
         contract: bUSDC45Contract
       },
       {
         symbol: BondTokens.bUSDC60,
         address: config.tokens.bUSDC60.toLowerCase(),
-        decimals: 18,
+        decimals: 6,
         contract: bUSDC60Contract
       },
       {
         symbol: BondTokens.bUSDT5,
         address: config.tokens.bUSDT5.toLowerCase(),
-        decimals: 18,
+        decimals: 6,
         contract: bUSDT5Contract
       },
       {
         symbol: BondTokens.bUSDT10,
         address: config.tokens.bUSDT10.toLowerCase(),
-        decimals: 18,
+        decimals: 6,
         contract: bUSDT10Contract
       },
       {
         symbol: BondTokens.bUSDT15,
         address: config.tokens.bUSDT15.toLowerCase(),
-        decimals: 18,
+        decimals: 6,
         contract: bUSDT15Contract
       },
       {
         symbol: BondTokens.bUSDT30,
         address: config.tokens.bUSDT30.toLowerCase(),
-        decimals: 18,
+        decimals: 6,
         contract: bUSDT30Contract
       },
       {
         symbol: BondTokens.bUSDT45,
         address: config.tokens.bUSDT45.toLowerCase(),
-        decimals: 18,
+        decimals: 6,
         contract: bUSDT45Contract
       },
       {
         symbol: BondTokens.bUSDT60,
         address: config.tokens.bUSDT60.toLowerCase(),
-        decimals: 18,
+        decimals: 6,
         contract: bUSDT60Contract
       },
       {

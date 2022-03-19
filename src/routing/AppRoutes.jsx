@@ -4,7 +4,6 @@ import { MasterLayout } from "../layout"
 import { PageTitle } from "../layout/core"
 import { MasterInit } from "../layout/MasterInit"
 import AddLiquidityModule from "../modules/add-liquidity"
-import { useBondMarket } from "../modules/bond-market/providers/BondMarketProvider"
 import BondDetailsView from "../modules/bond-market/views/bond-details-view"
 import BondMarketView from "../modules/bond-market/views/market-view"
 import BondsModule, { DebtsModule } from "../modules/bonds"
@@ -18,10 +17,8 @@ import RemoveLiquidityModule from "../modules/remove"
 import RepayModule from "../modules/repay"
 import WithdrawModule from "../modules/withdraw"
 
-
 const AppRoutes = () => {
 
-  const bondMarkets = useBondMarket()
   const { bondPools } = usePools()
 
   const transactionBreadCrumbs = [

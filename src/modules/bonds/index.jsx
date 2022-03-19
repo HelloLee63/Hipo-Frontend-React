@@ -14,9 +14,7 @@ export default BondsModule
 
 const DebtsModule = () => {
   return(
-    <DebtPoolProvider>
-      <DebtsView />
-    </DebtPoolProvider>
+    <DebtsView />
   )
 }
 

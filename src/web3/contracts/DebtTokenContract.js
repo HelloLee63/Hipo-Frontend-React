@@ -6,7 +6,7 @@ const DebtTokenABI = [
   createAbiItem('getIssuerDebtsList', ['address'], ['uint256[]']),
   createAbiItem('getDelayDuration', [], []),
   createAbiItem('_getIssuerDebtsCount', ['address'], ['uint256']),
-  createAbiItem('getDebtData', ['address', 'uint256'], ['uint256', 'uint256', 'address']),
+  createAbiItem('getDebtData', ['address', 'uint256'], ['uint256', 'uint256', 'uint256', 'address']),
 ]
 
 class DebtTokenContract extends Erc20Contract {
@@ -15,12 +15,16 @@ class DebtTokenContract extends Erc20Contract {
   debtsCountMap
   debtDataArray
 
+  debtData
+  debtDatas
+
   constructor(address) {
     super(DebtTokenABI, address, '')
     this.debtsByCollateralMap = new Map()
     this.debtsListMap = new Map()
     this.debtsCountMap = new Map()
     this.debtDataArray = new Array()
+    this.debtDatas = new Map()
 
     this.on(Web3Contract.UPDATE_ACCOUNT, () => {
       this.debtsByCollateralMap.clear()
@@ -38,6 +42,10 @@ class DebtTokenContract extends Erc20Contract {
 
   getListsOf(address = this.account) {
     return address ? this.debtsListMap.get(address) : undefined
+  }
+
+  getDebtData(address = this.account) {
+    return address ? this.debtDatas.get(address) : undefined
   }
 
   async loadDebtsByCollateral(issuer, collateralAsset) {
@@ -134,6 +142,21 @@ class DebtTokenContract extends Erc20Contract {
     }    
     // console.log(this.debtDataArray);
     this.emit(Web3Contract.UPDATE_DATA)
+  }
+
+  async loadIssuerDebtData(issuer = this.account, id) {
+    if (!issuer) {
+      return Promise.reject(new Error('Invalid owner address!'))
+    }
+
+    const data = await this.call('getDebtData', [issuer, id])
+    const debtData = Object.values(data)
+    this.debtData = debtData
+
+    if (debtData) {
+      this.debtDatas.set(issuer, debtData)
+      this.emit(Web3Contract.UPDATE_DATA)
+    }
   }
 }
 

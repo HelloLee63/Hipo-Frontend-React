@@ -14,6 +14,7 @@ import TransactionDurationDataItem from "../../../../components/transaction-data
 import TransactionLtvDataItem from "../../../../components/transaction-data-item/TransactionLtvDataItem"
 import WalletUnconnected from "../../../../components/wallet-unconnected"
 import { RPC_HTTPS_URL } from "../../../../networks/rinkeby-testnet"
+import { formatDateTime } from "../../../../utils/date"
 import { useWallet } from "../../../../wallets/walletProvider"
 import { useWalletData } from "../../../../web3/components/providers/WalletDataProvider"
 import { FinancingPoolABI } from "../../../../web3/contracts/FinancingPoolContract"
@@ -25,7 +26,9 @@ const DebtsView = () => {
   const config = useConfig()
   const { bondPools, getCollateralPoolByAddress, getBondPoolByBond } = usePools()
   const { getDebtData, getIssuerLtv  } = useWalletData()
-  const { setDebtAssetToken, setDebtDuration, setPoolSymbol, setDebtId } = useDebtPool()
+  const { setDebtAssetToken, setDebtDuration, setDebtPoolSymbol, setDebtId } = useDebtPool()
+
+  const delay = 180
 
   const [conStatus, setConStatus] = useState(false)
   const [loading, setLoading] = useState(false)
@@ -99,19 +102,16 @@ const DebtsView = () => {
     }        
   }, [walletCtx.account])  
 
-  function handleCurrentSymbol(id, pool) {
+  function handleRepay(id, pool, collateralAssetAddress) {
 
-    const debtData = getDebtData(pool, id)
-    const collateralPool = getCollateralPoolByAddress(debtData.data[2])
-    
-    setPoolSymbol(() => collateralPool.collateralAsset.symbol)
-    // setDebtAssetToken(() => pool.bondAsset.symbol)
-    // setDebtDuration(() => pool.duration.duration)
-
-    setDebtAssetToken(() => bondPools[7].bondAsset.symbol)
-    console.log();
     setDebtDuration(() => pool.duration.duration)
     setDebtId(() => id)
+
+    const collateralPool = getCollateralPoolByAddress(collateralAssetAddress.toLowerCase())
+    console.log(collateralPool);
+    
+    setDebtPoolSymbol(() => collateralPool.collateralAsset.symbol)
+    setDebtAssetToken(() => pool.bondAsset.symbol)  
   }
   
   return (
@@ -168,12 +168,12 @@ const DebtsView = () => {
                   <div className="card-body">
                     <TransactionDurationDataItem
                       title='Purchase At'
-                      duration={tx.returnValues.startTimestamp ?? '-'}
+                      duration={formatDateTime(tx.returnValues.startTimestamp * 1_000) ?? '-'}
                     />
 
                     <TransactionDurationDataItem
                       title='Matured At'
-                      duration={tx.returnValues.startTimestamp ?? '-'}
+                      duration={formatDateTime(tx.returnValues.startTimestamp * 1_000 + (getBondPoolByBond(tx.returnValues.bondAsset.toLowerCase(), tx.returnValues.bondDuration.toString()).duration.duration) * 1_000) ?? '-'}
                     />
 
                     <TransactionDurationDataItem 
@@ -183,7 +183,7 @@ const DebtsView = () => {
 
                     <TransactionDurationDataItem 
                       title='Deadline'
-                      duration={tx.returnValues.startTimestamp ?? '-'}
+                      duration={formatDateTime(tx.returnValues.startTimestamp * 1_000 + (getBondPoolByBond(tx.returnValues.bondAsset.toLowerCase(), tx.returnValues.bondDuration.toString()).duration.duration) * 1_000 + delay * 1_000) ?? '-'}
                     />
 
                     <div className='separator my-7'></div>
@@ -227,8 +227,7 @@ const DebtsView = () => {
                 </div>
                 <Link to='/repay'>
                   <div className='d-grid pt-3'>
-                  {/* onClick={() => handleCurrentSymbol(id, pool)}                   */}
-                    <button  className='btn btn-primary'>                                
+                    <button onClick={() => handleRepay(tx.returnValues.debtId, getBondPoolByBond(tx.returnValues.bondAsset.toLowerCase(), tx.returnValues.bondDuration.toString()), tx.returnValues.collateralAsset)} className='btn btn-primary'>                                
                       Repay
                     </button>                 
                   </div>

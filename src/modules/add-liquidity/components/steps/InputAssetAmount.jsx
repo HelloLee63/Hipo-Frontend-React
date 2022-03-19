@@ -135,12 +135,12 @@ const InputAssetAmount = ({ prevStep }) => {
             placeholder='0.0'
             name='assetAmount'
             value={addLiquidityFormik.values.assetAmount}
-            style={{ fontSize: 58 }}
+            style={{ fontSize: 58, fontFamily: 'Montserrat Semi Bold', color: '#003EFF'}}
             autoComplete='off'
             onChange={e => {
               e.preventDefault();
               const { value } = e.target;              
-              const regex = /^(0*[0-9][0-9]*(\.[0-9]*)?|0*\.[0-9]*[1-9][0-9]*)$/;
+              const regex =  /^(0*[0-9][0-9]*(\.[0-9]*)?|0*\.[0-9]*[1-9][0-9]*)|(\s[^\f\n\r\t\v])*$/;
               if (regex.test(value)) {
                 addLiquidityFormik.setFieldValue('assetAmount', value);
               }

@@ -5,9 +5,6 @@ import { useProtocolData } from "../../../../web3/components/providers/ProtocolD
 import { formatToken, getHumanValue } from "../../../../web3/utils";
 
 const MarketOverview = () => {
-
-  console.log('Overview is rendered');
-
   // const bondMarket = useBondMarket()
 
   const { assets, collateralPools, bondPools } = usePools()
@@ -17,15 +14,12 @@ const MarketOverview = () => {
   const totalCWETHUSDT = collateralPools[1].contract.totalSupply?.toString()
   const totalCDAIWETH = collateralPools[2].contract.totalSupply?.toString()
 
-  console.log(totalCUSDCWETH);
-  console.log(totalCWETHUSDT);
-  console.log(totalCDAIWETH);
+
 
   const decimalsCUSDCWETH = collateralPools[0].collateralAsset.decimals
   const decimalsCWETHUSDT = collateralPools[1].collateralAsset.decimals
   const decimalsCDAIWETH = collateralPools[2].collateralAsset.decimals
 
-  console.log(decimalsCUSDCWETH);
 
   const decimalsUSDC = assets[1].decimals
   const decimalsUSDT = assets[2].decimals
@@ -38,9 +32,7 @@ const MarketOverview = () => {
   const totalWETHUSDTLpToken = collateralPools[1].collateralAsset.contract.totalSupply?.toString()
   const totalDAIWETHLpToken = collateralPools[2].collateralAsset.contract.totalSupply?.toString()
 
-  console.log(totalUSDCWETHLpToken);
-  console.log(totalWETHUSDTLpToken);
-  console.log(totalDAIWETHLpToken);
+
 
   //Step 2: cal asset balance of each Uniswap V2 Lp pool
 
@@ -48,27 +40,19 @@ const MarketOverview = () => {
   const amountUSDTInUsdtPool = assets[2].contract.getBalanceOf(collateralPools[1].collateralAsset.address)?.toString()
   const amountDAIInDaiPool = assets[3].contract.getBalanceOf(collateralPools[2].collateralAsset.address)?.toString()
 
-  console.log(amountUSDCInUsdcPool);
-  console.log(amountUSDTInUsdtPool);
-  console.log(amountDAIInDaiPool);
-
   //Step 3: cal ratio of each collateral in Uniswap V2 Lp pool
 
   const rCUSDCWETH = new BigNumber(totalCUSDCWETH).dividedBy(new BigNumber(totalUSDCWETHLpToken)).toString()
   const rCUSDTWETH = new BigNumber(totalCWETHUSDT).dividedBy(new BigNumber(totalWETHUSDTLpToken)).toString()
   const rCDAIWETH = new BigNumber(totalCDAIWETH).dividedBy(new BigNumber(totalDAIWETHLpToken)).toString()
 
-  console.log(rCUSDCWETH);
-  console.log(rCUSDTWETH);
-  console.log(rCDAIWETH);
+
 
   const amountUSDCFromCollateral = getHumanValue(new BigNumber(amountUSDCInUsdcPool).multipliedBy(2).multipliedBy(rCUSDCWETH), decimalsUSDC).toString()
   const amountUSDTFromCollateral = getHumanValue(new BigNumber(amountUSDTInUsdtPool).multipliedBy(2).multipliedBy(rCUSDTWETH), decimalsUSDT).toString()
   const amountDAIFromCollateral = getHumanValue(new BigNumber(amountDAIInDaiPool).multipliedBy(2).multipliedBy(rCDAIWETH), decimalsDAI).toString()
 
-  console.log(amountUSDCFromCollateral);
-  console.log(amountUSDTFromCollateral);
-  console.log(amountDAIFromCollateral);
+
   const price = 2000
   const price2 = 1
 
@@ -176,13 +160,11 @@ const MarketOverview = () => {
     new BigNumber(amountInvestor23)
   )
 
-  console.log(amountLp0);
-
   const amountLp = BigNumber.sum(
     new BigNumber(amountUSDCFromCollateral), 
     new BigNumber(amountUSDTFromCollateral), 
     new BigNumber(amountDAIFromCollateral)).toString()
-  console.log(amountLp);
+
 
   const total = BigNumber.sum(
     amountLp,

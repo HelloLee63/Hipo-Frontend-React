@@ -66,13 +66,13 @@ const RemoveConfirmTransaction = ({ prevStep, handleMethod }) => {
             ) : (
             <input
               type='text'
-              className='p-0 form-control form-control-lg fw-bolder bg-white border-0 text-primary align-center'
+              className='p-0 form-control form-control-lg fw-bolder bg-white border-0 align-center'
               placeholder='0.0'
               disabled
               name='collateralAssetAmount'
               value={formatToken(inputAmount)}
               style={{ fontSize: 58, fontFamily: 'Montserrat Semi Bold', color: '#003EFF'}}
-              />)}
+            />)}
             
           </div>
         </div>

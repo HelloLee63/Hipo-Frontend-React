@@ -12,6 +12,8 @@ const BondsList = () => {
   const { getMarketSize } = useBondMarket()
   const navigate = useNavigate()
 
+
+
   const handleNavigate = (pool) => {
     navigate(`${pool.bondAsset.symbol.toLowerCase()}${pool.duration.duration}`, { replace: true });
   }
