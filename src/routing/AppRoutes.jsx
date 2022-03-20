@@ -1,4 +1,4 @@
-import { Route, Routes } from "react-router-dom"
+import { Navigate, Route, Routes } from "react-router-dom"
 import { usePools } from "../components/providers/poolsProvider"
 import { MasterLayout } from "../layout"
 import { PageTitle } from "../layout/core"
@@ -115,7 +115,8 @@ const AppRoutes = () => {
     <>
       <Routes>
         <Route path='/bondmarket' element={<MasterLayout><PageTitle breadcrumbs={dashboardBreadCrumbs}>Bonds Market</PageTitle><BondMarketView/></MasterLayout>} />
-        <Route path='/'  element={<MasterLayout><PageTitle breadcrumbs={dashboardBreadCrumbs}>Bonds Market</PageTitle><BondMarketView/></MasterLayout>} />
+        {/* <Route path='/' element={<MasterLayout><PageTitle breadcrumbs={dashboardBreadCrumbs}>Bonds Market</PageTitle><BondMarketView/></MasterLayout>} /> */}
+        <Route path='/' element={<Navigate replace to='/bondmarket' />} />
         {bondPools.map(pool => (
         <Route key={pool.bToken.symbol} 
           path={`bondmarket/${pool.bondAsset.symbol.toLowerCase()}${pool.duration.duration}`} 

@@ -25,6 +25,7 @@ const BondPoolProvider = props => {
   const [purchaseAmount, setPurchaseAmount] = useState(0)
   const [bondId, setBondId] = useState(0)
   const [withdrawAmount, setWithdrawAmount] = useState(0)
+  const [maturedTimeTs, setMaturedTimeTs] = useState(0)
 
   const pool = useMemo(() => {
     return getPoolByBond(bondAssetSymbol, duration)
@@ -52,7 +53,10 @@ const BondPoolProvider = props => {
     purchaseAmount, 
     setPurchaseAmount,  
     withdrawAmount, 
-    setWithdrawAmount
+    setWithdrawAmount,
+    maturedTimeTs, 
+    setMaturedTimeTs,
+    bondId
   }
 
   return (

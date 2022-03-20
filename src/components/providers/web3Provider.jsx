@@ -5,14 +5,10 @@ import { RinkebyTestnetNetwork } from "../../networks/rinkeby-testnet";
 import { InvariantContext } from "../../utils/context";
 import { MetamaskConnector } from "../../wallets/connectors/metamask";
 import { useWallet } from "../../wallets/walletProvider";
-import { Text } from "../custom/typography";
 import { useGeneral } from "./generalProvider";
 import { useNetwork } from "./networkProvider";
-import Icon from "../custom/icon";
 import { MainnetNetwork } from "../../networks/mainnet";
 import { KTSVG } from "../../_metronic/helpers/components/KTSVG";
-import Button from "../antd/button";
-import TokenIcon from "../token-icon";
 
 export const MainnetHttpsWeb3Provider = new Web3.providers.HttpProvider(MainnetNetwork.rpc.httpsUrl);
 export const RinkebyHttpsWeb3Provider = new Web3.providers.HttpProvider(RinkebyTestnetNetwork.rpc.httpsUrl)

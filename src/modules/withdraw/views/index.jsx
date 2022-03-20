@@ -5,6 +5,7 @@ import WalletBalanceCard from "../../../components/wallet-balance-card"
 import { useBalanceData } from "../../../web3/components/providers/BalanceDataProvider"
 import { StepperComponent } from "../../../_metronic/assets/ts/components"
 import WithdrawCompleteTransaction from "../components/steps/WithdrawCompleteTransaction"
+import { WithdrawConfirmTransaction } from "../components/steps/WithdrawConfirmTransaction"
 import { WithdrawInputAmount } from "../components/steps/WithdrawInputAmount"
 
 import { withdrawInits, withdrawSchemas } from "../components/TransactionHelper"
@@ -115,7 +116,7 @@ const WithdrawView = () => {
                 </div>
 
                 <div data-kt-stepper-element='content'>
-                  {/* <ConfirmTransaction  handleMethod={stepper.current} prevStep={prevStep} /> */}
+                  <WithdrawConfirmTransaction  handleMethod={stepper.current} prevStep={prevStep} />
                 </div>
 
                 <div data-kt-stepper-element='content'>

@@ -30,6 +30,8 @@ const WithdrawInputAmount = ({ prevStep }) => {
 
   const balance = pool.bToken.contract.getBalanceOf(walletCtx.account)
   const bondData = pool.bToken.contract.getBondData(walletCtx.account)
+
+  console.log(bondData);
     
   const withdrawFormik = useFormik({
     initialValues: {
@@ -129,18 +131,18 @@ const WithdrawInputAmount = ({ prevStep }) => {
           <TransactionAssetDataItem
             title='You Bonds Amount'
             tokenIcon={pool.icon}
-            balance={balance}
+            balance={bondData ? bondData[1] : undefined}
             decimals={pool.bToken.decimals}           
           />
 
           <TransactionDurationDataItem 
             title='Purchased At'
-            duration={formatDateTime (bondData ? bondData[2] * 1_000: undefined ) ?? '-'}
+            duration={formatDateTime (bondData ? bondData[3] * 1_000: undefined ) ?? '-'}
           />
 
           <TransactionDurationDataItem 
             title='Matured At'
-            duration={formatDateTime (bondData ? (bondData[2] + 300) * 1_000: undefined ) ?? '-'}
+            duration={formatDateTime (bondData ? (bondData[3] * 1_000 + pool.duration.duration * 1_000 + pool.duration.bondDelay * 1_000) : undefined ) ?? '-'}
           />
           {/* Number(pool.duration.duration) */}
 
@@ -154,14 +156,14 @@ const WithdrawInputAmount = ({ prevStep }) => {
           <TransactionAssetDataItem
             title='Your Principal'
             tokenIcon={pool.bondAsset.icon}
-            balance={bondData ? bondData[1] : undefined}
+            balance={bondData ? bondData[2] : undefined}
             decimals={pool.bondAsset.decimals}           
           />
 
           <TransactionAssetDataItem
             title='Fixed Income'
             tokenIcon={pool.bondAsset.icon}
-            balance={bondData ? (new BigNumber(bondData[0]).minus(new BigNumber(bondData[1]))) : undefined}
+            balance={bondData ? (new BigNumber(bondData[1]).minus(new BigNumber(bondData[2]))) : undefined}
             decimals={pool.bondAsset.decimals}           
           />
         </div>        

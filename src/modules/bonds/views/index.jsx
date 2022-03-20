@@ -24,7 +24,7 @@ const BondsView = () => {
   const walletCtx = useWallet()
   const config = useConfig()
   const { getBondPoolByBond } = usePools()
-  const { setBondId, setDuration, setSymbol } = useBondPool()
+  const { setBondId, setDuration, setSymbol, setMaturedTimeTs } = useBondPool()
   const { getTokenByAddress } =useKnownTokens()
   
   const address = config.contracts.financingPool.financingPool
@@ -100,11 +100,12 @@ const BondsView = () => {
     }        
   }, [walletCtx.account])
 
-  function handleWithdraw(assetAddress, duration, id) {
+  function handleWithdraw(assetAddress, duration, id, purchaseTime, pool) {
     setBondId(() => id)
     setDuration(() => duration)
     const asset = getTokenByAddress(assetAddress)
     setSymbol (() => asset.symbol)
+    setMaturedTimeTs(() => purchaseTime * 1_000 + Number(duration)* 1_000 + pool.duration.bondDelay * 1_000)
   }
 
   return (
@@ -169,7 +170,8 @@ const BondsView = () => {
 
                       <TransactionDurationDataItem 
                         title='Matured At'
-                        duration={formatDateTime(tx.returnValues.startTimestamp * 1_000 + (getBondPoolByBond(tx.returnValues.asset.toLowerCase(), tx.returnValues.duration.toString()).duration.duration) * 1_000) ?? '-'}
+                        duration={formatDateTime(tx.returnValues.startTimestamp * 1_000 + 
+                          (getBondPoolByBond(tx.returnValues.asset.toLowerCase(), tx.returnValues.duration.toString()).duration.duration) * 1_000 + (getBondPoolByBond(tx.returnValues.asset.toLowerCase(), tx.returnValues.duration.toString()).duration.bondDelay) * 1_000) ?? '-' }
                       />
 
                       <TransactionDurationDataItem
@@ -220,7 +222,7 @@ const BondsView = () => {
                   
                   <Link to='/withdraw'>
                     <div className='d-grid pt-3'>
-                      <button  onClick={() => handleWithdraw(tx.returnValues.asset.toLowerCase(), tx.returnValues.duration.toString(), tx.returnValues.bondId)} type='button' className='btn btn-primary'>
+                      <button  onClick={() => handleWithdraw(tx.returnValues.asset.toLowerCase(), tx.returnValues.duration.toString(), tx.returnValues.bondId, tx.returnValues.startTimestamp, getBondPoolByBond(tx.returnValues.asset.toLowerCase(), tx.returnValues.duration.toString()))} type='button' className='btn btn-primary'>
                         <span className='indicator-label'>                    
                           Withdraw                                   
                         </span>

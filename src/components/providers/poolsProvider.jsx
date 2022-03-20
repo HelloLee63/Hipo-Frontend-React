@@ -15,31 +15,43 @@ export const DurationsMeta = [
   {
     duration: Durations.FiveDays,
     description: '5 Days',
+    bondDelay: 28800,
+    debtDelay: 14400,
     id: 1
   }, 
   {
     duration: Durations.TenDays,
     description: '10 Days',
+    bondDelay: 43200,
+    debtDelay: 28800,
     id: 2
   },
   {
     duration: Durations.FifteenDays,
     description: '15 Days',
+    bondDelay: 57600,
+    debtDelay: 43200,
     id: 3
   },
   {
     duration: Durations.ThirtyDays,
     description: '30 Days',
+    bondDelay: 72000,
+    debtDelay: 57600,
     id: 4
   },
   {
     duration: Durations.FortyFiveDays,
     description: '45 Days',
+    bondDelay: 86400,
+    debtDelay: 72000,
     id: 5
   },
   {
     duration: Durations.SixtyDays,
     description: '60 Days',
+    bondDelay: 100800,
+    debtDelay: 86400,
     id: 6
   }
 ]

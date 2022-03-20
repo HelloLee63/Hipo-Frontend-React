@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom"
 import TitleLable from "../../../../components/title-lable"
 import TokenIcon from "../../../../components/token-icon"
 import { KTSVG } from "../../../../_metronic/helpers/components/KTSVG"
@@ -31,13 +32,15 @@ const WithdrawCompleteTransaction = () => {
       </div>
 
       <div className='pt-3'>
+        <Link to='/bonds'>
         <div className='d-grid'>
           <button type='submit' className='btn btn-primary me-0'>
             <span className='indicator-label'>              
               Complete
             </span>
           </button>
-        </div>        
+        </div>
+        </Link>        
       </div>                      
     </div> 
   )

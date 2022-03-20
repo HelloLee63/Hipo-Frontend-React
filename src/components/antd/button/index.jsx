@@ -1,7 +1,7 @@
 import AntdButton, { ButtonProps as AntdButtonProps, ButtonType as AntdButtonType } from 'antd/lib/button';
 import cn from 'classnames';
 
-import s from './s.module.scss';
+// import s from './s.module.scss';
 
 
 const Button = props => {
@@ -19,7 +19,7 @@ const Button = props => {
 
   return (
     <AntdButton
-      className={cn(s.component, className, type === 'light' && s.light, type === 'select' && s.select)}
+      // className={cn(s.component, className, type === 'light' && s.light, type === 'select' && s.select)}
       type={btnType}
       {...btnProps}>
       {props.children}

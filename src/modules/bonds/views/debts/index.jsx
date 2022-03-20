@@ -183,7 +183,7 @@ const DebtsView = () => {
 
                     <TransactionDurationDataItem 
                       title='Deadline'
-                      duration={formatDateTime(tx.returnValues.startTimestamp * 1_000 + (getBondPoolByBond(tx.returnValues.bondAsset.toLowerCase(), tx.returnValues.bondDuration.toString()).duration.duration) * 1_000 + delay * 1_000) ?? '-'}
+                      duration={formatDateTime(tx.returnValues.startTimestamp * 1_000 + (getBondPoolByBond(tx.returnValues.bondAsset.toLowerCase(), tx.returnValues.bondDuration.toString()).duration.duration) * 1_000 + (getBondPoolByBond(tx.returnValues.bondAsset.toLowerCase(), tx.returnValues.bondDuration.toString()).duration.debtDelay) * 1_000) ?? '-'}
                     />
 
                     <div className='separator my-7'></div>

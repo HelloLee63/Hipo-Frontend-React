@@ -5,13 +5,13 @@ import TokenIcon from '../../../../components/token-icon'
 import { useFinancingPool } from '../../../../web3/components/providers/FinancingPoolProvider'
 import { formatToken, scaleBy } from '../../../../web3/utils'
 import { KTSVG } from '../../../../_metronic/helpers/components/KTSVG'
-
 import { useBondPool } from '../../../purchase/providers/bond-pool-provider'
+
 
 const WithdrawConfirmTransaction = ({ prevStep, handleMethod }) => {
   const financingPool = useFinancingPool()
 
-  const { pool } = useBondPool()
+  const { pool, withdrawAmount, maturedTimeTs, bondId } = useBondPool()
 
   const tokenName = pool.bondAsset.symbol
   const tokenIcon = pool.icon
@@ -19,11 +19,15 @@ const WithdrawConfirmTransaction = ({ prevStep, handleMethod }) => {
   const decimals = pool.bToken.decimals
   
   const [transacting, setTransacting] = useState(false)
-  const [inputAmount, setInputAmount] = useState(issueAmount)
+  const [inputAmount, setInputAmount] = useState(withdrawAmount)
+
+  const currentTime = getNowTs() * 1_000
 
   useEffect(() => {
-    setInputAmount(() => issueAmount)
-  }, [issueAmount])
+    setInputAmount(() => withdrawAmount)
+  }, [withdrawAmount])
+
+  console.log(maturedTimeTs);
 
 //   async function handleIssue() {
 //     setTransacting(() => true)
@@ -54,15 +58,25 @@ const WithdrawConfirmTransaction = ({ prevStep, handleMethod }) => {
     let assetAddress = pool.bondAsset.address
     let duration = Number(pool.duration.duration)
 
-    if (true) {
+    if (currentTime >= maturedTimeTs) {
       try {
-
+        await financingPool.financingPoolContract?.withdrawMaturityBonds(assetAddress, duration, bondId)
+        } catch (e) {}
+    }
+    console.log(currentTime < maturedTimeTs);
+    if (currentTime < maturedTimeTs) {
+      try {
+        await financingPool.financingPoolContract?.withdrawImmaturityBonds(assetAddress, duration, value, bondId)
         } catch (e) {}
     }
 
     setTransacting(() => false)
 
-    handleMethod.goto(6)
+    handleMethod.goto(3)
+  }
+
+  function getNowTs() {
+    return Math.floor(Date.now() / 1_000);
   }
  
   return (
@@ -95,7 +109,7 @@ const WithdrawConfirmTransaction = ({ prevStep, handleMethod }) => {
               disabled
               name='bondAmount'
               value={formatToken(inputAmount)}
-              style={{ fontSize: 58 }}
+              style={{ fontSize: 58, fontFamily: 'Montserrat Semi Bold', color: '#003EFF'}}
             />)}
             
           </div>
@@ -120,7 +134,7 @@ const WithdrawConfirmTransaction = ({ prevStep, handleMethod }) => {
         </div>
         <div>
           <button 
-            onClick={handleIssue}              
+            onClick={handleWithdraw}              
             type='submit'
             disabled={transacting ? true : false}
             className='btn btn-lg btn-primary me-0'
