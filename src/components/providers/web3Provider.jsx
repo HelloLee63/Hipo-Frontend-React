@@ -1,4 +1,4 @@
-import { createContext, useContext, useEffect, useState, useMemo, useCallback} from "react";
+import { createContext, useContext, useEffect, useState, useMemo, useCallback } from "react";
 import Web3 from "web3";
 import EventEmitter from "wolfy87-eventemitter";
 import { RinkebyTestnetNetwork } from "../../networks/rinkeby-testnet";
@@ -28,7 +28,6 @@ export function useWeb3() {
 
 const Web3Provider = props => {
 
-    console.log('Web3 Provider is rendered');
     const { children } = props
     const { windowState } = useGeneral()
     const { networks, activeNetwork, changeNetwork, findNetwork, findNetworkByChainId, defaultNetwork } = useNetwork()
@@ -85,154 +84,154 @@ const Web3Provider = props => {
         [activeNetwork.explorer],
         )
 
-        useEffect(() => {
-            if (wallet.connector instanceof MetamaskConnector) {
-                wallet.connector.getProvider().then(provider => {
-                    provider.on('chainChanged', (chainId) => {
-                        const network = findNetworkByChainId(Number(chainId)) ?? defaultNetwork
-                        changeNetwork(network.id)
-                    })
-                })
-            }
-        }, [wallet.connector])
-
-        const switchNetwork = useCallback(
-            async (networkId) => {
-                const network = findNetwork(networkId)
-
-                if (!network) {
-                    return
-                }
-
-                let canSetNetwork = true
-
-                if (wallet.connector instanceof MetamaskConnector && network.metamaskChain) {
-                    try {
-                        const error = await wallet.connector.switchChain({
-                            chainId: network.metamaskChain.chainId,
-                        })
-
-                        if(error) {
-                            await Promise.reject(error)
-                        }
-                    } catch (e) {
-                        canSetNetwork = false
-
-                        if (e.code === 4902 || e.message?.includes('Unrecognized chain ID')) {
-                            await wallet.connector.addChain(network.metamaskChain)
-                        }                           
-                    }
-                }
-
-                if (canSetNetwork) {
+    useEffect(() => {
+        if (wallet.connector instanceof MetamaskConnector) {
+            wallet.connector.getProvider().then(provider => {
+                provider.on('chainChanged', (chainId) => {
+                    const network = findNetworkByChainId(Number(chainId)) ?? defaultNetwork
                     changeNetwork(network.id)
+                })
+            })
+        }
+    }, [wallet.connector])
+
+    const switchNetwork = useCallback(
+        async (networkId) => {
+            const network = findNetwork(networkId)
+
+            if (!network) {
+                return
+            }
+
+            let canSetNetwork = true
+
+            if (wallet.connector instanceof MetamaskConnector && network.metamaskChain) {
+                try {
+                    const error = await wallet.connector.switchChain({
+                        chainId: network.metamaskChain.chainId,
+                    })
+
+                    if(error) {
+                        await Promise.reject(error)
+                    }
+                } catch (e) {
+                    canSetNetwork = false
+
+                    if (e.code === 4902 || e.message?.includes('Unrecognized chain ID')) {
+                        await wallet.connector.addChain(network.metamaskChain)
+                    }                           
                 }
-            },
-            [wallet.connector],
-        )
-
-        useEffect(() => {
-            if (!windowState.isVisible || !wssWeb3) {
-                return undefined
             }
 
-            wssWeb3.eth
-                .getBlockNumber()
-                .then(value => {
-                    if (value) {
-                        setBlockNumber(value)
-                    }
-                })
-                .catch(Error)
-            const subscription = wssWeb3.eth.subscribe('newBlockHeaders')
-
-            subscription
-                .on('data', blockHeader => {
-                    if (blockHeader && blockHeader.number) {
-                        setBlockNumber(blockHeader.number)
-                    }
-                })
-                .on('error', () => {
-                    setTimeout(() => {
-                        subscription.subscribe()
-                    }, 1_000)
-                })
-            
-            return () => {
-                subscription.unsubscribe?.()
+            if (canSetNetwork) {
+                changeNetwork(network.id)
             }
-        }, [windowState.isVisible])
+        },
+        [wallet.connector],
+    )
 
-        function getEtherscanTxUrl(txHash) {
-            return txHash ? `${activeNetwork.explorer.url}/tx/${txHash}` : undefined
+    useEffect(() => {
+        if (!windowState.isVisible || !wssWeb3) {
+            return undefined
         }
+
+        wssWeb3.eth
+            .getBlockNumber()
+            .then(value => {
+                if (value) {
+                    setBlockNumber(value)
+                }
+            })
+            .catch(Error)
+        const subscription = wssWeb3.eth.subscribe('newBlockHeaders')
+
+        subscription
+            .on('data', blockHeader => {
+                if (blockHeader && blockHeader.number) {
+                    setBlockNumber(blockHeader.number)
+                }
+            })
+            .on('error', () => {
+                setTimeout(() => {
+                    subscription.subscribe()
+                }, 1_000)
+            })
         
-        function getEtherscanAddressUrl(address) {
-            return address ? `${activeNetwork.explorer.url}/address/${address}` : undefined
+        return () => {
+            subscription.unsubscribe?.()
         }
+    }, [windowState.isVisible])
 
-        const value ={
-            event,
-            blockNumer,
-            activeProvider: httpsWeb3,
-            showNetworkSelect: () => {
-                showNetworkSelect(true)
-            },
-            tryCall,
-            getContractAbi,
-            getEtherscanTxUrl,
-            getEtherscanAddressUrl,
-        }
+    function getEtherscanTxUrl(txHash) {
+        return txHash ? `${activeNetwork.explorer.url}/tx/${txHash}` : undefined
+    }
+    
+    function getEtherscanAddressUrl(address) {
+        return address ? `${activeNetwork.explorer.url}/address/${address}` : undefined
+    }
 
-        return (
-          <Context.Provider value={value}>
-            {children}
-            <div className="modal fade" id='hipo_connect_network' aria-hidden='true'>
-              <div className="modal-dialog modal-dialog-centered mw-568px">
-                <div className="modal-content">
-                  <div className="modal-header">
-                    <h3>
-                      <span className='card-label fw-bolder fs-3 mb-1'>Select Network</span>
-                    </h3>
-                  
-                    <div className='btn btn-sm btn-icon btn-active-color-primary' data-bs-dismiss='modal'>
-                      <KTSVG path='/media/icons/duotune/arrows/arr061.svg' className='svg-icon-1' />
-                    </div>
-                  </div>
-      
-                  <div className='modal-body flex-column-auto py-lg-5 px-lg-10'>
-                    <div className="d-flex flex-column flex-column-auto menu-item">
-                      {networks.map(network => (
-                      <div
-                        key = {network.id}
-                        type = "select"
-                        className="btn btn-sm btn-light-primary mb-3"
-                        style = {{ height: '60px' }}
-                        data-bs-dismiss='modal'
-                        onClick = {() => switchNetwork(network.id)}
-                      >
-                        <div className='d-flex d-flex-fluid align-items-center'>
-                          <div className='symbol symbol-50px me-5'>
-                            <KTSVG path={network.meta.logo} className='svg-icon svg-icon-3x' />
-                          </div>
-                          <div className='d-flex justify-content-start flex-column'>
-                            <div className='text-dark fw-bolder fs-6'>
-                              { network.meta.name }
-                            </div>
-                            <span className='text-muted justify-content-start fw-bold fs-6'>
-                              {network === activeNetwork && 'Connected' }
-                            </span>
-                          </div>
-                        </div>
-                      </div>
-                      ))}
-                    </div>
-                  </div>              
+    const value ={
+        event,
+        blockNumer,
+        activeProvider: httpsWeb3,
+        showNetworkSelect: () => {
+            showNetworkSelect(true)
+        },
+        tryCall,
+        getContractAbi,
+        getEtherscanTxUrl,
+        getEtherscanAddressUrl,
+    }
+
+    return (
+        <Context.Provider value={value}>
+        {children}
+        <div className="modal fade" id='hipo_connect_network' aria-hidden='true'>
+            <div className="modal-dialog modal-dialog-centered mw-568px">
+            <div className="modal-content">
+                <div className="modal-header">
+                <h3>
+                    <span className='card-label fw-bolder fs-3 mb-1'>Select Network</span>
+                </h3>
+                
+                <div className='btn btn-sm btn-icon btn-active-color-primary' data-bs-dismiss='modal'>
+                    <KTSVG path='/media/icons/duotune/arrows/arr061.svg' className='svg-icon-1' />
                 </div>
-              </div>
+                </div>
+    
+                <div className='modal-body flex-column-auto py-lg-5 px-lg-10'>
+                <div className="d-flex flex-column flex-column-auto menu-item">
+                    {networks.map(network => (
+                    <div
+                    key = {network.id}
+                    type = "select"
+                    className="btn btn-sm btn-light-primary mb-3"
+                    style = {{ height: '60px' }}
+                    data-bs-dismiss='modal'
+                    onClick = {() => switchNetwork(network.id)}
+                    >
+                    <div className='d-flex d-flex-fluid align-items-center'>
+                        <div className='symbol symbol-50px me-5'>
+                        <KTSVG path={network.meta.logo} className='svg-icon svg-icon-3x' />
+                        </div>
+                        <div className='d-flex justify-content-start flex-column'>
+                        <div className='text-dark fw-bolder fs-6'>
+                            { network.meta.name }
+                        </div>
+                        <span className='text-muted justify-content-start fw-bold fs-6'>
+                            {network === activeNetwork && 'Connected' }
+                        </span>
+                        </div>
+                    </div>
+                    </div>
+                    ))}
+                </div>
+                </div>              
             </div>
-          </Context.Provider>
-        )    
+            </div>
+        </div>
+        </Context.Provider>
+    )    
 }
 
 export default Web3Provider
