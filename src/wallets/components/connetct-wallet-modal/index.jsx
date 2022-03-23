@@ -71,7 +71,7 @@ const ConnectWalletModal = props => {
               data-bs-dismiss='modal'
               onClick = {() => handleConnectorSelect(connector)}>                  
               <img
-                src={Array.isArray(connector.logo) ? connector.logo[theme === 'dark' ? 1 : 0]: connector.logo}
+                src = {Array.isArray(connector.logo) ? connector.logo[theme === 'dark' ? 1 : 0]: connector.logo}
                 alt = {connector.name}
                 height = {32} />
             </button>

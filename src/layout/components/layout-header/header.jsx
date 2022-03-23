@@ -121,7 +121,7 @@ const WalletAction = () => {
           id='hipo_wallet_connect_button'
           width='300px'
           style={{
-            backgroundImage: `url('/media/background/background-connectwallet.svg')`,
+            backgroundImage: `url('/media/background/background-connectwallet.png')`,
             backgroundRepeat: 'no-repeat',
             color: "white"
           }}
@@ -137,18 +137,17 @@ const WalletAction = () => {
     return !isMobile ? (       
       <a
         type="button"
-        className='btn btn-sm btn-light-primary align-items-center fs-7 fw-bolder'
+        className='btn btn-lg btn-light-primary align-items-center fs-6 fw-bolder'
         data-bs-toggle="modal"
         data-bs-target='#hipo_connect_wallet'
         id='hipo_wallet_connect_button'
         style={{
-          backgroundImage: `url('/media/background/background-connectwallet.svg')`,
+          backgroundImage: `url('/media/background/background-connectwallet.png')`,
           backgroundRepeat: 'no-repeat',
           color: "white",
           fontFamily: 'PingFangSC-Medium'
         }}
-      >
-        
+      >        
         Connect Wallet
       </a>       
     ) : null
