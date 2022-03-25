@@ -115,7 +115,6 @@ const AppRoutes = () => {
     <>
       <Routes>
         <Route path='/bondmarket' element={<MasterLayout><PageTitle breadcrumbs={dashboardBreadCrumbs}>Bonds Market</PageTitle><BondMarketView/></MasterLayout>} />
-        {/* <Route path='/' element={<MasterLayout><PageTitle breadcrumbs={dashboardBreadCrumbs}>Bonds Market</PageTitle><BondMarketView/></MasterLayout>} /> */}
         <Route path='/' element={<Navigate replace to='/bondmarket' />} />
         {bondPools.map(pool => (
         <Route key={pool.bToken.symbol} 

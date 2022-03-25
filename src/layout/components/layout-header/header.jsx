@@ -140,7 +140,6 @@ const WalletAction = () => {
         className='btn btn-lg btn-light-primary align-items-center fs-6 fw-bolder'
         data-bs-toggle="modal"
         data-bs-target='#hipo_connect_wallet'
-        id='hipo_wallet_connect_button'
         style={{
           backgroundImage: `url('/media/background/background-connectwallet.png')`,
           backgroundRepeat: 'no-repeat',

@@ -10,6 +10,7 @@ import { useNetwork } from "../components/providers/networkProvider";
 import { InvariantContext } from "../utils/context";
 import ConnectWalletModal from './components/connetct-wallet-modal/index';
 import MetamaskWalletConfig from './connectors/metamask';
+import InstallMetaMaskModal from "./components/install-wallet-modal";
 
 export const WalletConnectors = [
     MetamaskWalletConfig,
@@ -22,8 +23,6 @@ export function useWallet() {
 }
 
 const Web3WalletProvider = props => {
-
-    console.log('Web3 Wallet Provider is rendered');
 
     const { activeNetwork } = useNetwork();
     const web3React = useWeb3React();
@@ -40,8 +39,10 @@ const Web3WalletProvider = props => {
 
     const [ensAvatar, setENSAvatar]= useState()
     const [connectWalletModal, setConnectWalletModal] = useState(false)
-    const [unsupportedChainModal, setUnsupportedChainModal] = useState()
-    const [installMetaMaskModal, setInstallMetaMaskModal] = useState()
+    const [unsupportedChainModal, setUnsupportedChainModal] = useState(false)
+    const [installMetaMaskModal, setInstallMetaMaskModal] = useState(false)
+
+    console.log('installMetaMaskModal is :', installMetaMaskModal);
 
     const preConnectedAccount = useRef(web3React.account)
 
@@ -60,48 +61,51 @@ const Web3WalletProvider = props => {
     }, [web3React, activeMeta, removeSessionProvider, setConnecting])
 
     const connect = useCallback(
-        async (walletConfig, args) => {
-            if (connectingRef.current) {
-                return
-            }
-            connectingRef.current = walletConfig
-            setConnecting(walletConfig)
-            setConnectWalletModal(false)
+      async (walletConfig, args) => {
+          if (connectingRef.current) {
+              return
+          }
+          connectingRef.current = walletConfig
+          setConnecting(walletConfig)
+          setConnectWalletModal(false)
 
-            const connector = walletConfig.factory(activeNetwork, args)
+          const connector = walletConfig.factory(activeNetwork, args)
 
-            function onError(error) {
-                console.error('WalletProvider::Connect().onError', { error })
+          function onError(error) {
+              console.log('this is executed');
+              console.error('WalletProvider::Connect().onError', { error })
+              console.log(web3React.activate);
+              console.log(walletConfig);
+              console.log(connector);
 
-                if (error instanceof NoEthereumProviderError) {
-                    setInstallMetaMaskModal(true)
-                    disconnect()
-                } else if (error instanceof UnsupportedChainIdError) {
-                    setUnsupportedChainModal(true)
-                    disconnect()
-                } else {
-                    const err = walletConfig.onError?.(error)
+              if (error instanceof NoEthereumProviderError) {
+                  setInstallMetaMaskModal(true)
+                  disconnect()
+              } else if (error instanceof UnsupportedChainIdError) {
+                  setUnsupportedChainModal(true)
+                  disconnect()
+              } else {
+                  const err = walletConfig.onError?.(error)
 
-                    if (err) {
-                        console.log(err.message);
-                    }
-                }
-            }
+                  if (err) {
+                      console.log(err.message);
+                  }
+              }
+          }
 
-            function onSuccess() {
-                if (!connectingRef.current) {
-                    return
-                }
+          function onSuccess() {
+              if (!connectingRef.current) {
+                  return
+              }
 
-                walletConfig.onConnect?.(connector, args)
-                setActivemeta(walletConfig)
-                setSessionProvider(walletConfig.id)
-            }
-
-            await web3React.activate(connector, undefined, true).then(onSuccess).catch(onError)
-            setConnecting(undefined)
-        },
-        [web3React, connectingRef, setConnecting, setSessionProvider, disconnect],
+              walletConfig.onConnect?.(connector, args)
+              setActivemeta(walletConfig)
+              setSessionProvider(walletConfig.id)
+          }
+          await web3React.activate(connector, undefined, true).then(onSuccess).catch(onError)
+          setConnecting(undefined)
+      },
+      [web3React, connectingRef, setConnecting, setSessionProvider, disconnect],
     )
 
     useEffect(() => {
@@ -175,15 +179,15 @@ const Web3WalletProvider = props => {
     return (
         <Context.Provider value={value}>
             {props.children}
+            {/* {!installMetaMaskModal && <ConnectWalletModal />}
+            {installMetaMaskModal && <InstallMetaMaskModal />} */}
             <ConnectWalletModal />
         </Context.Provider>
     )
 }
 
 const WalletProvider = props => {
-
-	console.log('Wallet Provider is rendered');
-
+  
 	const { children } = props
 
 	return (

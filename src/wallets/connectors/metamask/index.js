@@ -2,32 +2,37 @@ import { notification } from "antd"
 import MetamaskLogoDark from '../../svg/metamask-logo-dark.svg'
 import MetamaskLogo from '../../svg/metamask-logo.svg'
 import { InjectedConnector } from '@web3-react/injected-connector'
+// import MetamaskLogoDark from '../../../media/logos/metamask-logo-dark.svg'
+// import MetamaskLogo from '../../../media/logos/metamask-logo.svg'
 
 export class MetamaskConnector extends InjectedConnector {
 
-    async addChain(...infos) {
-        const provider = await this.getProvider()
-        return provider.request({
+    addChain(...infos) {
+        return this.getProvider().then(provider => {
+          return provider.request({
             method: 'wallet_addEthereumChain',
-            params: infos
-        })
-    }
+            params: infos,
+          });
+        });
+      }
 
-    async switchChain(info) {
-        const provider = await this.getProvider()
-        return provider.request({
+      switchChain(info) {
+        return this.getProvider().then(provider => {
+          return provider.request({
             method: 'wallet_switchEthereumChain',
             params: [info],
-        })
-    }
+          });
+        });
+      }
 
-    async addToken(info) {
-        const provider = await this.getProvider()
-        return provider.request({
+      addToken(info) {
+        return this.getProvider().then(provider => {
+          return provider.request({
             method: 'wallet_watchAsset',
             params: info,
-        })
-    }
+          });
+        });
+      }
 }
 
 function handleErrors(error) {
@@ -39,8 +44,7 @@ function handleErrors(error) {
             break
         default:
             break
-    }
-        
+    }        
 }
 
 const MetamaskWalletConfig = {
@@ -51,7 +55,6 @@ const MetamaskWalletConfig = {
         return new MetamaskConnector({
             supportedChainIds: [network.meta.chainId],
         })
-
     },
 
     onConnect(connector, args) {

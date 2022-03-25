@@ -2,7 +2,6 @@ import { useGeneral } from "../../../components/providers/generalProvider";
 import { WalletConnectors, useWallet } from "../../walletProvider";
 import useMergeState from '../../../hooks/useMergeState'
 import { KTSVG } from "../../../_metronic/helpers/components/KTSVG";
-import { useNetwork } from "../../../components/providers/networkProvider";
 
 const InitialState = {
     showLedgerModal: false,
@@ -11,26 +10,9 @@ const InitialState = {
 const ConnectWalletModal = props => {
   const { ...modalProps } = props;
   const { theme } = useGeneral();
-  const networks = useNetwork()
 
   const wallet = useWallet();
   const [state, setState] = useMergeState(InitialState);
-
-  const changeNetwork = async ({ networkName, setError }) => {
-    try {
-      if (!window.ethereum) throw new Error("No crypto wallet found")
-      await window.ethereum.request({
-        method: "wallet_addEthereumChain",
-        params: [
-          {
-            ...networks[networkName]
-          }
-        ]
-      });
-    } catch (err) {
-      setError(err.message)
-    }
-  }
 
   function handleConnectorSelect(connector) {
       if (wallet.isActive) {
@@ -45,7 +27,7 @@ const ConnectWalletModal = props => {
       }
   
       wallet.connect(connector).catch(Error);
-    }
+  }
 
   return (
     <div className="modal fade" id='hipo_connect_wallet' aria-hidden='true' {...modalProps}>
@@ -69,6 +51,9 @@ const ConnectWalletModal = props => {
               type = "select"
               style = {{ height: '96px' }}
               data-bs-dismiss='modal'
+              // data-bs-toggle="modal"
+              // data-bs-target='#install_wallet_modal'
+              // id='hipo_wallet_connect_button'
               onClick = {() => handleConnectorSelect(connector)}>                  
               <img
                 src = {Array.isArray(connector.logo) ? connector.logo[theme === 'dark' ? 1 : 0]: connector.logo}

@@ -1,4 +1,6 @@
+import { toHex } from 'web3-utils';
 import { isDevelopmentMode } from '../utils'
+
 
 // const RPC_KEY = !isDevelopmentMode ? '75d301c9ba884f80a9935b8536c3ebfa' : '75d301c9ba884f80a9935b8536c3ebfa';
 const RPC_KEY = !isDevelopmentMode ? '434ef1f8d25a495cab78aa7530dc4213' : '434ef1f8d25a495cab78aa7530dc4213';
@@ -151,8 +153,7 @@ export const RinkebyTestnetConfig = {
 }
 
 export const RinkebyMetamaskChain = {
-    // chainId: toHex(RINKEBY_CHAIN_ID),
-    chainId: RINKEBY_CHAIN_ID,
+    chainId: toHex(RINKEBY_CHAIN_ID),
     chainName: 'Rinkeby',
     nativeCurrency: {
         name: 'Ethereum',
