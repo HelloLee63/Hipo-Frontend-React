@@ -9,6 +9,8 @@ import { useGeneral } from "./generalProvider";
 import { useNetwork } from "./networkProvider";
 import { MainnetNetwork } from "../../networks/mainnet";
 import { KTSVG } from "../../_metronic/helpers/components/KTSVG";
+import { HttpProvider } from "web3-core";
+
 
 export const MainnetHttpsWeb3Provider = new Web3.providers.HttpProvider(MainnetNetwork.rpc.httpsUrl);
 export const RinkebyHttpsWeb3Provider = new Web3.providers.HttpProvider(RinkebyTestnetNetwork.rpc.httpsUrl)
@@ -37,7 +39,7 @@ const Web3Provider = props => {
     const event = useMemo(() => new EventEmitter(), [])
 
     const [blockNumer, setBlockNumber] = useState()
-    const [networkSelectVisible, showNetworkSelect] = useState()
+    const [networkSelectVisible, showNetworkSelect] = useState(false)
 
     const httpsWeb3 = useMemo(() => {
         let provider = CacheHttpsWeb3Provider[activeNetwork.rpc.httpsUrl]
@@ -174,6 +176,7 @@ const Web3Provider = props => {
         event,
         blockNumer,
         activeProvider: httpsWeb3,
+        activeProvider: httpsWeb3,
         showNetworkSelect: () => {
             showNetworkSelect(true)
         },
@@ -184,53 +187,52 @@ const Web3Provider = props => {
     }
 
     return (
-        <Context.Provider value={value}>
+      <Context.Provider value={value}>
         {children}
-        <div className="modal fade" id='hipo_connect_network' aria-hidden='true'>
-            <div className="modal-dialog modal-dialog-centered mw-568px">
+        <div className="modal fade" id='hipo_connect_network' tabIndex="-1" aria-labelledby="connectWalletModalLabel" aria-hidden='true'>
+          <div className="modal-dialog modal-dialog-centered mw-568px">
             <div className="modal-content">
-                <div className="modal-header">
+              <div className="modal-header">
                 <h3>
                     <span className='card-label fw-bolder fs-3 mb-1'>Select Network</span>
                 </h3>
-                
+              
                 <div className='btn btn-sm btn-icon btn-active-color-primary' data-bs-dismiss='modal'>
                     <KTSVG path='/media/icons/duotune/arrows/arr061.svg' className='svg-icon-1' />
                 </div>
-                </div>
-    
-                <div className='modal-body flex-column-auto py-lg-5 px-lg-10'>
+              </div>    
+              <div className='modal-body flex-column-auto py-lg-5 px-lg-10'>
                 <div className="d-flex flex-column flex-column-auto menu-item">
-                    {networks.map(network => (
-                    <div
+                  {networks.map(network => (
+                  <div
                     key = {network.id}
                     type = "select"
                     className="btn btn-sm btn-light-primary mb-3"
                     style = {{ height: '60px' }}
                     data-bs-dismiss='modal'
                     onClick = {() => switchNetwork(network.id)}
-                    >
+                  >
                     <div className='d-flex d-flex-fluid align-items-center'>
-                        <div className='symbol symbol-50px me-5'>
-                        <KTSVG path={network.meta.logo} className='svg-icon svg-icon-3x' />
-                        </div>
-                        <div className='d-flex justify-content-start flex-column'>
+                      <div className='symbol symbol-50px me-5'>
+                        <img src={network.meta.logo} className='svg-icon svg-icon-3x' />
+                      </div>
+                      <div className='d-flex justify-content-start flex-column'>
                         <div className='text-dark fw-bolder fs-6'>
                             { network.meta.name }
                         </div>
                         <span className='text-muted justify-content-start fw-bold fs-6'>
                             {network === activeNetwork && 'Connected' }
                         </span>
-                        </div>
+                      </div>
                     </div>
-                    </div>
-                    ))}
+                  </div>
+                  ))}
                 </div>
-                </div>              
+              </div>              
             </div>
-            </div>
+          </div>
         </div>
-        </Context.Provider>
+      </Context.Provider>
     )    
 }
 

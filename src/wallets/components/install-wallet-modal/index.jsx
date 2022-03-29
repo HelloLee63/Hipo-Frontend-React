@@ -1,45 +1,42 @@
-import { KTSVG } from "../../../_metronic/helpers/components/KTSVG";
+import Button from "../../../components/antd/button";
+import Modal from "../../../components/antd/modal";
+import Grid from "../../../components/custom/grid";
+import { Text } from "../../../components/custom/typography";
 
 const METAMASK_CHROME_EXT_URL = 'https://chrome.google.com/webstore/detail/metamask/nkbihfbeogaeaoehlefnkodbefgpgknn';
 
 const InstallMetaMaskModal = props => {
-  const { ...modalProps } = props;
-  return (
-    <div className="modal fade" id='install_wallet_modal' aria-hidden='true' {...modalProps}>
-      <div className="modal-dialog modal-dialog-centered mw-568px">
-        <div className="modal-content">
-          <div className="modal-header">
-            <h3>
-              <span className='card-label fw-bolder fs-3 mb-1'>Install MetaMask</span>
-            </h3>
-            
-            <div className='btn btn-sm btn-icon btn-active-color-primary' data-bs-dismiss='modal'>
-              <KTSVG path='/media/icons/walletconnection/close.svg' className='svg-icon-1 svg-2x' />
-            </div>
-          </div>
+  const {...modalProps} = props
 
-          <div className='modal-body py-lg-5 px-lg-10'>
-            <h6 className="py-lg-1 px-lg-1 text-muted">You need to have{' '}
-              <span>MetaMask</span>
+  return (
+      <Modal width={568} {...modalProps}>
+        <Grid flow="row" gap={24}>
+          <Grid flow="row" gap={16}>
+            <Text type="h2" weight="bold" color="primary">
+              Install MetaMask
+            </Text>
+            <Text type="p1" weight="semibold" color="secondary">
+              You need to have{' '}
+              <Text type="p1" tag="span" weight="bold" color="primary">
+                MetaMask
+              </Text>{' '}
               installed to continue.
               <br />
               Once you have installed it, please refresh the page
-            </h6>            
-          </div>
-          <div>
-            <buton type='button' href={METAMASK_CHROME_EXT_URL} rel="noopener noreferrer" target="_blank">
+            </Text>
+          </Grid>
+          <Grid flow="col" justify="space-between">
+            <Button type="primary" href={METAMASK_CHROME_EXT_URL} rel="noopener noreferrer" target="_blank">
               Install MetaMask
-            </buton>
-              
-            <button data-bs-dismiss='modal'>
-              Cancel
-            </button>
-          </div>
-                        
-        </div>
-      </div>
-    </div>
-  );
-};
-
-export default InstallMetaMaskModal;
+            </Button>
+  
+            <Button type="ghost" onClick={props.onCancel}>
+              Go Back
+            </Button>
+          </Grid>
+        </Grid>
+      </Modal>
+    );
+  };
+  
+  export default InstallMetaMaskModal;

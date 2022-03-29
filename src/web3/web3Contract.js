@@ -1,10 +1,10 @@
 import debounce from 'lodash/debounce';
 import uniqueId from 'lodash/uniqueId';
 import Web3 from 'web3';
-// import { Method } from 'web3-core-method';
-// import { Eth } from 'web3-eth';
-// import { Contract } from 'web3-eth-contract';
-// import { AbiItem } from 'web3-utils';
+import { Method } from 'web3-core-method';
+import { Eth } from 'web3-eth';
+import { Contract } from 'web3-eth-contract';
+import { AbiItem } from 'web3-utils';
 
 import EventEmitter from 'wolfy87-eventemitter';
 import { WEB3_ERROR_VALUE } from '../components/providers/web3Provider';

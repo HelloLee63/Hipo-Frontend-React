@@ -4,11 +4,9 @@ import WalletProvider from './wallets/walletProvider.jsx';
 import NetworkProvider from './components/providers/networkProvider.jsx';
 import Web3Provider from './components/providers/web3Provider.jsx';
 import ConfigProvider from './components/providers/configProvider.jsx';
-
 import { AppRoutes } from './routing/AppRoutes.jsx';
 import { LayoutProvider } from './layout/core/LayoutProvider.jsx';
-import ContractManagerProvider from './web3/components/contractManagerProvider.jsx';
-
+import ContractManagerProvider from './web3/components/contractManagerProvider.jsx'
 import KnownTokensProvider from './components/providers/knownTokensProvider.jsx';
 import ProtocolDataProvider from './web3/components/providers/ProtocolDataProvider.js';
 import WalletDataProvider from './web3/components/providers/WalletDataProvider.js';
@@ -23,7 +21,6 @@ import LiquidityPoolProvider from './modules/add-liquidity/providers/liquidity-p
 
 const App = () => {
 
-  console.log('App is rendered');
   return (
     <div>
       <BrowserRouter>
@@ -45,7 +42,7 @@ const App = () => {
                                       <ColPoolProvider>
                                         <DebtPoolProvider>
                                           <BondPoolProvider>
-                                            <AppRoutes />
+                                            <AppRoutes />  
                                           </BondPoolProvider>                                                                       
                                         </DebtPoolProvider>   
                                       </ColPoolProvider>

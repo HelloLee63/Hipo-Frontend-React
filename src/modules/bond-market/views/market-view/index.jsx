@@ -2,6 +2,7 @@ import BondsList from "../../components/bonds-list"
 import MarketOverview from "../../components/market-overview"
 
 const BondMarketView = () => {
+
   return (
     <>
       <div className="d-flex flex-column" style={{fontFamily: 'Montserrat-Bold', color: '#333333'}}>

@@ -6,7 +6,6 @@ import DefaultTitle from "./page-title/DefaultTile"
 import { ExplorerAddressLink }from "../../../components/button"
 import { useWeb3 } from "../../../components/providers/web3Provider"
 import { isMobile } from "react-device-detect"
-import { KTSVG } from "../../../_metronic/helpers/components/KTSVG"
 import { shortenAddr } from "../../../web3/utils"
 import toAbsoluteUrl from "../../../_metronic/helpers/AssetHelpers"
 
@@ -74,7 +73,7 @@ const WalletAction = () => {
 
       <div className='menu-item px-5'>
         <a href='#' className='menu-link px-5'>
-          <KTSVG path={toAbsoluteUrl('/media/icons/walletconnection/status.svg')} className='svg-icon svg-icon-2x me-5' />
+          <img src={toAbsoluteUrl('/media/icons/walletconnection/status.svg')} className='svg-icon svg-icon-2x me-5' />
           Status
           <span className='badge badge-light-success fw-bolder fs-7 px-2 py-1 ms-2'>Connected</span>
         </a>  
@@ -82,7 +81,7 @@ const WalletAction = () => {
 
       <div className='menu-item px-5'>
         <a href='#' className='menu-link px-5'>
-          <KTSVG path={toAbsoluteUrl('/media/icons/walletconnection/wallet.svg')} className='svg-icon svg-icon-2x me-5' />
+          <img src={toAbsoluteUrl('/media/icons/walletconnection/wallet.svg')} className='svg-icon svg-icon-2x me-5' />
           Wallet          
           <span className='badge badge-light-success fw-bolder fs-7 px-2 py-1 ms-2'>{wallet.meta?.name}</span>
         </a>
@@ -90,7 +89,7 @@ const WalletAction = () => {
 
       <div className='menu-item px-5'>
         <a href='#' className='menu-link px-5'>
-          <KTSVG path={toAbsoluteUrl('/media/icons/walletconnection/network.svg')} className='svg-icon svg-icon-2x me-5' />
+          <img src={toAbsoluteUrl('/media/icons/walletconnection/network.svg')} className='svg-icon svg-icon-2x me-5' />
           Network         
           <span className='badge badge-light-success fw-bolder fs-7 px-2 py-1 ms-2'>{activeNetwork.meta?.name}</span>
         </a>
@@ -138,8 +137,7 @@ const WalletAction = () => {
       <a
         type="button"
         className='btn btn-lg btn-light-primary align-items-center fs-6 fw-bolder'
-        data-bs-toggle="modal"
-        data-bs-target='#hipo_connect_wallet'
+        onClick={() => wallet.showWalletsModal()}
         style={{
           backgroundImage: `url('/media/background/background-connectwallet.png')`,
           backgroundRepeat: 'no-repeat',
@@ -191,7 +189,7 @@ const NetworkAction = () => {
       type="button" 
       onClick={() => showNetworkSelect()} 
       className="d-flex align-items-center pe-1">      
-      <KTSVG path={activeNetwork.meta.logo} className='svg-icon svg-icon-2x' />
+      <img src={activeNetwork.meta.logo} className='svg-icon svg-icon-2x' />
       <span className="fs-5 fw-bolder ps-3" style={{fontFamily: 'PingFangSC-Medium', color: '#333333'}}>{activeNetwork.meta.name}</span>
     </a>
   )

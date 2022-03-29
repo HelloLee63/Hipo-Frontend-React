@@ -30,7 +30,8 @@ const ConfirmTransaction = ({ prevStep, handleMethod }) => {
     let assetAddress = colPool.collateralAsset.address
 
     try {
-      await financingPool.financingPoolContract?.pledge(assetAddress, value)
+      const a = await financingPool.financingPoolContract?.pledge(assetAddress, value)
+      console.log('pledge transaction is:', a);
     } catch (e) {}
 
     setTransacting(() => false)
@@ -66,8 +67,8 @@ const ConfirmTransaction = ({ prevStep, handleMethod }) => {
               disabled
               name='collateralAssetAmount'
               value={formatToken(inputAmount)}
-              style={{ fontSize: 58 }}
-            />)}
+              style={{ fontSize: 58, fontFamily: 'Montserrat Semi Bold', color: '#003EFF'}}
+              />)}
           </div>       
         </div>
       </div>

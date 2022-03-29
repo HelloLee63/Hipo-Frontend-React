@@ -1,5 +1,5 @@
 import Button from '../../../components/antd/button';
-// import Modal from '../../../components/antd/modal';
+import Modal from '../../../components/antd/modal';
 import { ExplorerTxLink } from '../../../components/button';
 import Icon from '../../../components/custom/icon';
 import { Text } from '../../../components/custom/typography';
@@ -11,8 +11,7 @@ const TxStatusModal = props => {
   const { activeNetwork } = useNetwork();
 
   return (
-    // <Modal width={560} title="Transaction status" {...modalProps}>
-    <div width={560} title="Transaction status" {...modalProps}>
+    <Modal width={560} title="Transaction status" {...modalProps}>
       <div className="grid flow-row pv-8 ph-8">
         {state === 'progress' && (
           <>
@@ -55,7 +54,7 @@ const TxStatusModal = props => {
           </>
         )}
       </div>
-    </div>
+    </Modal>
   );
 };
 

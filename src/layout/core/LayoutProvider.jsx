@@ -31,7 +31,6 @@ const disableSplashScreen = () => {
 
 const LayoutProvider = ({children}) => {
 
-  console.log('Layout Provider is rendered');
   const [config, setConfig] = useState(LayoutSetup.config)
   const [classes, setClasses] = useState(LayoutSetup.classes)
   const [attributes, setAttributes] = useState(LayoutSetup.attributes)

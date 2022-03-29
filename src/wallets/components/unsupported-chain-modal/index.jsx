@@ -1,9 +1,9 @@
-import { Button, Modal } from "bootstrap"
-import { Grid } from "react-bootstrap"
-import { Text } from "react-bootstrap/lib/Navbar"
+import Button from "../../../components/antd/button"
+import Modal from "../../../components/antd/modal"
+import Grid from "../../../components/custom/grid"
+import { Text } from "../../../components/custom/typography"
 import { useNetwork } from "../../../components/providers/networkProvider"
 import { useWallet } from "../../walletProvider"
-
 
 const UnsupportedChainModal = props => {
     const { ...modalProps } = props

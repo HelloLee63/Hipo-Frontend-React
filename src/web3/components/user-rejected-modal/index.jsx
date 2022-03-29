@@ -1,14 +1,14 @@
 
-// import Modal from '../../../components/antd/modal';
+import Modal from '../../../components/antd/modal';
 import Icon from '../../../components/custom/icon';
-import { Text } from '../../../components/custom/typography';
+import { Text } from '../../../components/custom/typography2';
 
 const UserRejectedModal = props => {
   const { ...modalProps } = props;
 
   return (
-    // <Modal width={315} {...modalProps}>
-    <div width={315} {...modalProps}>
+    <Modal width={315} {...modalProps}>
+    
       <div className="flex flow-row">
         <div className="flex flow-row align-center mb-32">
           <Icon name="warning-outlined" width={40} height={40} color="red" className="mb-16" />
@@ -23,7 +23,7 @@ const UserRejectedModal = props => {
           Dismiss
         </button>
       </div>
-    </div>
+    </Modal>
   );
 };
 

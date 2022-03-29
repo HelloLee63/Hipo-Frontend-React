@@ -19,9 +19,7 @@ const GeneralProvider = props => {
     const [selectedTheme, setSelectedTheme, removeSelectedTheme] = useLocalStorage('bb_theme', );
     
     const theme = selectedTheme || osColorScheme;
-
-    console.log('General provider is rendered');
-
+    
     useWindowEventListener('visibilitychange', () => {
         setVisibilityState(window.document.visibilityState);        
     });
