@@ -33,7 +33,7 @@ const ConfirmAddTransaction = ({ prevStep, handleMethod }) => {
     let duration = new BigNumber(pool.duration.duration)
 
     try {
-      await financingPool.financingPoolContract?.addLiquidity(assetAddress, duration, value)
+      await financingPool.financingPoolContract?.addLiquidity(assetAddress, duration, value.toString())
     } catch (e) {}
 
     setTransacting(() => false)

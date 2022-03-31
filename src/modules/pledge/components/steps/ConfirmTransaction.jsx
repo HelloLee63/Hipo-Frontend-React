@@ -29,12 +29,21 @@ const ConfirmTransaction = ({ prevStep, handleMethod }) => {
     let value = scaleBy(inputAmount, assetDecimals)
     let assetAddress = colPool.collateralAsset.address
 
+    console.log('Handle Pledge is executed 1');
+
     try {
-      const a = await financingPool.financingPoolContract?.pledge(assetAddress, value)
-      console.log('pledge transaction is:', a);
-    } catch (e) {}
+      console.log('Handle Pledge is executed 2');
+      console.log(value);
+      console.log(assetAddress);
+      console.log(financingPool.financingPoolContract);
+      await financingPool.financingPoolContract.pledge(assetAddress, value.toString())
+      console.log('Handle Pledge is executed 3');
+    } catch (e) {
+      console.log(e);
+    }
 
     setTransacting(() => false)
+    console.log(transacting);
     handleMethod.goto(4)
   }
 

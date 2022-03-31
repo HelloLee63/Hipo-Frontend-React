@@ -37,7 +37,7 @@ const RepayConfirmTransaction = ({ prevStep, handleMethod }) => {
         collateralAddress,
         assetAddress,        
         duration,
-        value,
+        value.toString(),
         debtId
       )
     } catch (e) {}

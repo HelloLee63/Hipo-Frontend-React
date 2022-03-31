@@ -3,6 +3,7 @@ import TxStatusModal from "../tx-status-modal"
 import UserRejectedModal from "../user-rejected-modal"
 
 const ContractListener = props => {
+
   const { contract, renderProgress, renderSuccess } = props
 
   const [userRejectedVisible, setUserRejected] = useState(false)
@@ -25,6 +26,7 @@ const ContractListener = props => {
         state: meta.state,
         meta,
       }))
+      console.log('setTxStatus::Status', txStatus);
     }
 
     function onSuccess(result, meta) {
@@ -53,14 +55,14 @@ const ContractListener = props => {
       }
     }
 
-    contract.on('tx: hash', onHash)
-    contract.on('tx: sucess', onSuccess)
-    contract.on('tx: fail', onFail)
+    contract.on('tx:hash', onHash)
+    contract.on('tx:success', onSuccess)
+    contract.on('tx:fail', onFail)
 
     return () => {
-      contract.off('tx: hash', onHash)
-      contract.off('tx: success', onSuccess)
-      contract.off('tx: fail', onFail)
+      contract.off('tx:hash', onHash)
+      contract.off('tx:success', onSuccess)
+      contract.off('tx:fail', onFail)
     }
 
   }, [contract])

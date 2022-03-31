@@ -1,7 +1,6 @@
 import { toHex } from 'web3-utils';
 import { isDevelopmentMode } from '../utils'
 
-
 // const RPC_KEY = !isDevelopmentMode ? '75d301c9ba884f80a9935b8536c3ebfa' : '75d301c9ba884f80a9935b8536c3ebfa';
 const RPC_KEY = !isDevelopmentMode ? '434ef1f8d25a495cab78aa7530dc4213' : '434ef1f8d25a495cab78aa7530dc4213';
 export const RPC_HTTPS_URL = `https://rinkeby.infura.io/v3/${RPC_KEY}`;
@@ -35,7 +34,8 @@ export const RinkebyTestnetConfig = {
         trezorAppUrl: '', 
     },
     api: {
-        baseUrl: isDevelopmentMode ? 'https://alpha-v1.api.hipo.one' : 'https://api-v1.hipo.one',
+        // baseUrl: isDevelopmentMode ? 'https://alpha-v1.api.hipo.one' : 'https://api-v1.hipo.one',
+        baseUrl: isDevelopmentMode ? 'https://alpha-v1.api.hipo.one' : 'https://alpha-v1.api.hipo.one',
     },
     tokens: {        
         weth: '0x232bB0bBf8274342fB044FF40e716bf887fb9214',

@@ -30,7 +30,7 @@ const ConfirmPurchaseTransaction = ({ prevStep, handleMethod }) => {
     let duration = Number(pool.duration.duration)
 
     try {
-      await financingPool.financingPoolContract?.purchase(assetAddress, value, duration)
+      await financingPool.financingPoolContract?.purchase(assetAddress, value.toString(), duration)
     } catch (e) {}
 
     setTransacting(() => false)

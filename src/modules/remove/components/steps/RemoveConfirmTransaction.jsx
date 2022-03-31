@@ -33,7 +33,7 @@ const RemoveConfirmTransaction = ({ prevStep, handleMethod }) => {
     let duration = new BigNumber(pool.duration.duration)
 
     try {
-      await financingPool.financingPoolContract?.removeLiquidity(assetAddress, duration, value)
+      await financingPool.financingPoolContract?.removeLiquidity(assetAddress, duration, value.toString())
     } catch (e) {}
 
     setTransacting(() => false)

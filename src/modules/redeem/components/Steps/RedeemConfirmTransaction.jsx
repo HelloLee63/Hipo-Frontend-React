@@ -28,7 +28,7 @@ const RedeemConfirmTransaction = ({ prevStep, handleMethod }) => {
     let assetAddress = colPool.collateralAsset.address
 
     try {
-      await financingPool.financingPoolContract?.redeem(assetAddress, value)
+      await financingPool.financingPoolContract?.redeem(assetAddress, value.toString())
     } catch (e) {}
 
     setTransacting(() => false)

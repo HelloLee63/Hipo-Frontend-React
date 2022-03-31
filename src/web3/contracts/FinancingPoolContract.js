@@ -1,6 +1,5 @@
 import Web3Contract from "../web3Contract";
 
-
 export const FinancingPoolABI = [
 	{
 		"inputs": [
@@ -1508,12 +1507,12 @@ class FinancingPoolContract extends Web3Contract {
     this. emit(Web3Contract.UPDATE_DATA)
   }
 
-  pledge(collateralAsset, collateralAssetAmount) {
+  async pledge(collateralAsset, collateralAssetAmount) {
     if (!this.account) {
       return Promise.reject()
     }
 
-    return this.send('pledge', [collateralAsset, collateralAssetAmount], {
+    return await this.send('pledge', [collateralAsset, collateralAssetAmount], {
       from: this.account
     })
   }

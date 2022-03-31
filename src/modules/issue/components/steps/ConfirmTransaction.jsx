@@ -40,7 +40,7 @@ const ConfirmTransaction = ({ prevStep, handleMethod }) => {
       await financingPool.financingPoolContract?.issue(
         collateralAddress,
         assetAddress,
-        value,
+        value.toString(),
         duration
       )
     } catch (e) {}

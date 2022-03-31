@@ -66,7 +66,7 @@ const WithdrawConfirmTransaction = ({ prevStep, handleMethod }) => {
     console.log(currentTime < maturedTimeTs);
     if (currentTime < maturedTimeTs) {
       try {
-        await financingPool.financingPoolContract?.withdrawImmaturityBonds(assetAddress, duration, value, bondId)
+        await financingPool.financingPoolContract?.withdrawImmaturityBonds(assetAddress, duration, value.toString(), bondId)
         } catch (e) {}
     }
 
