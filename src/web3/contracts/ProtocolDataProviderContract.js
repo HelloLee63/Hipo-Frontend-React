@@ -22,9 +22,7 @@ class ProtocolDataContract extends Web3Contract {
       this.bondPriceArray = new Array()
 
       this.on(Web3Contract.UPDATE_DATA, () => {
-        // this.maxLtvMap.clear()
-        // this.thresholdMap.clear()
-        // this.bondPriceArray = []
+
         this.emit(Web3Contract.UPDATE_DATA)
       })
   }

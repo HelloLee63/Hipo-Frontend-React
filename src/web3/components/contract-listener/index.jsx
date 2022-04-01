@@ -26,7 +26,6 @@ const ContractListener = props => {
         state: meta.state,
         meta,
       }))
-      console.log('setTxStatus::Status', txStatus);
     }
 
     function onSuccess(result, meta) {

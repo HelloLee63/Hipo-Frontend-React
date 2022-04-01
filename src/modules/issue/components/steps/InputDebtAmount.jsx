@@ -5,14 +5,13 @@ import { useEffect, useState } from 'react'
 import { useConfig } from '../../../../components/providers/configProvider'
 import TitleLable from '../../../../components/title-lable'
 import TokenIcon from '../../../../components/token-icon'
-import CollateralToken from '../../../../components/token-icon/AssetToken'
 import TransactionAssetDataItem from '../../../../components/transaction-data-item/TransactionAssetDataItem'
 import TransactionCollateralDataItem from '../../../../components/transaction-data-item/TransactionCollateralDataItem'
 import TransactionLtvDataItem from '../../../../components/transaction-data-item/TransactionLtvDataItem'
 import { useWallet } from '../../../../wallets/walletProvider'
 import { useProtocolData } from '../../../../web3/components/providers/ProtocolDataProvider'
 import { useWalletData } from '../../../../web3/components/providers/WalletDataProvider'
-import { calAPY, formatToken, scaleBy } from '../../../../web3/utils'
+import { calAPY, scaleBy } from '../../../../web3/utils'
 import { KTSVG } from '../../../../_metronic/helpers/components/KTSVG'
 import { useDebtPool } from '../../providers/debt-pool-provider'
 
@@ -151,7 +150,7 @@ const InputDebtAssetAmount = ({ prevStep }) => {
             placeholder='0.0'
             name='debtAssetAmount'
             value={issueFormik.values.debtAssetAmount}
-            style={{ fontSize: 58 }}
+            style={{ fontSize: 58, fontFamily: 'Montserrat Semi Bold', color: '#003EFF'}}
             autoComplete='off'
             onChange={e => {
               e.preventDefault();

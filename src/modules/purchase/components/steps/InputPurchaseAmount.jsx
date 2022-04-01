@@ -62,7 +62,6 @@ const InputPurchaseAmount = ({ prevStep }) => {
       try {
         await bondPoolCtx.pool.bondAsset.contract.approve(config.contracts.financingPool.financingPool, true)
       } catch(e) {
-        console.error(e)
       }
 
       setEnabling(false)      
@@ -172,7 +171,7 @@ const InputPurchaseAmount = ({ prevStep }) => {
           <TransactionAssetDataItem 
             title='Bond Price'
             balance={bondPrice}
-            decimals={18}
+            decimals={0}
           />
 
           <TransactionLtvDataItem 

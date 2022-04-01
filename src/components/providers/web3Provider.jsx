@@ -9,7 +9,7 @@ import { useGeneral } from "./generalProvider";
 import { useNetwork } from "./networkProvider";
 import { MainnetNetwork } from "../../networks/mainnet";
 import { KTSVG } from "../../_metronic/helpers/components/KTSVG";
-import { HttpProvider } from "web3-core";
+
 
 
 export const MainnetHttpsWeb3Provider = new Web3.providers.HttpProvider(MainnetNetwork.rpc.httpsUrl);

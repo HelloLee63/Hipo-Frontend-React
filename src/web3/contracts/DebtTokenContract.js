@@ -64,7 +64,6 @@ class DebtTokenContract extends Erc20Contract {
   async loadDelay() {
     const delay = await this.call('getDelayDuration', [])
     this.delay = delay
-    // console.log(delay)
     this.emit(Web3Contract.UPDATE_DATA)
   }
 
@@ -82,11 +81,8 @@ class DebtTokenContract extends Erc20Contract {
     }
     
     let debtDataObj = new Object()
-    // console.log(this.debtsListMap);
 
     const list = this.getListsOf(issuer)
-
-    // console.log(list);
 
     if (list?.length > 0) {
       for (let j = 0; j < list.length; j++) {
@@ -100,37 +96,23 @@ class DebtTokenContract extends Erc20Contract {
         debtDataObj.issuer = issuer
         debtDataObj.data = this.debtData
 
-        // console.log(debtDataObj);
-
-        // console.log(debtDataObj.id);
-        // console.log(debtDataObj.issuer);
-        // console.log(debtDataObj.data);
-        // console.log(debtDataObj);
-
-        // console.log(this.debtDataArray.length);
-
 
         if (this.debtDataArray.length === 0) {
-          // console.log(debtDataObj);
+          
           this.debtDataArray.push(debtDataObj)
-          // console.log(this.debtDataArray);
+          
         }
 
         if (this.debtDataArray.length > 0) {
           for (let i = 0; i < this.debtDataArray.length; i++) {
             if (this.debtDataArray[i].id === debtDataObj.id && this.debtDataArray[i].issuer === debtDataObj.issuer) {
 
-              // console.log(this.debtDataArray[i].id === debtDataObj.id);
-              // console.log(this.debtDataArray[i].issuer === debtDataObj.issuer);
-
-              // console.log(this.debtDataArray[i]);
-              // console.log(this.debtDataArray[i].id);
 
               this.debtDataArray[i].id = debtDataObj.id
               this.debtDataArray[i].issuer = issuer
               this.debtDataArray[i].data = this.debtData
 
-              // console.log(this.debtDataArray);
+              
             }
       
             if (this.debtDataArray[i].id !== debtDataObj.id || this.debtDataArray[i].issuer !== debtDataObj.issuer) {
@@ -140,7 +122,7 @@ class DebtTokenContract extends Erc20Contract {
         }
       }    
     }    
-    // console.log(this.debtDataArray);
+
     this.emit(Web3Contract.UPDATE_DATA)
   }
 

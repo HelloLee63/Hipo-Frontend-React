@@ -23,9 +23,6 @@ const ConfirmTransaction = ({ prevStep, handleMethod }) => {
     setInputAmount(() => issueAmount)
   }, [issueAmount])
 
-  console.log('asset is:', bondPool.bondAsset.address);
-  console.log('duration is', Number(bondPool.duration.duration));
-
   async function handleIssue() {
     setTransacting(() => true)
 
@@ -80,8 +77,8 @@ const ConfirmTransaction = ({ prevStep, handleMethod }) => {
               disabled
               name='collateralAssetAmount'
               value={formatToken(inputAmount)}
-              style={{ fontSize: 58 }}
-            />)}            
+              style={{ fontSize: 58, fontFamily: 'Montserrat Semi Bold', color: '#003EFF'}}
+              />)}            
           </div>
         </div>
       </div>
