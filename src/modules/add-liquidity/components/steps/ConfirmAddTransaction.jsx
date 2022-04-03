@@ -1,4 +1,5 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
+import BigNumber from 'bignumber.js'
 import { useEffect, useState } from 'react'
 import TitleLable from '../../../../components/title-lable'
 import TokenIcon from '../../../../components/token-icon'
@@ -27,13 +28,14 @@ const ConfirmAddTransaction = ({ prevStep, handleMethod }) => {
     
     setTransacting(() => true)
 
-    let value = scaleBy(inputAmount, decimals)
+    let value  = scaleBy(inputAmount, decimals).toString()
     let assetAddress = pool.bondAsset.address
     let duration = Number(pool.duration.duration)
 
     try {
-      await financingPool.financingPoolContract?.addLiquidity(assetAddress, duration, value.toString())
+      await financingPool.financingPoolContract.addLiquidity(assetAddress, duration, value)
     } catch (e) {
+      console.log(e);
     }
 
     setTransacting(() => false)

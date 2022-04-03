@@ -189,13 +189,13 @@ const WalletDataProvider = props => {
 
   // get bond count of investor on each bToken
 
-  useEffect(() => {
-    if (walletCtx.account) {
-      bondPools.forEach((pool) => {
-        pool.bToken.contract.loadInvestorBondsList(walletCtx.account).then(reload).catch(Error)             
-      })
-    }
-  }, [walletCtx.account, bondPools])
+  // useEffect(() => {
+  //   if (walletCtx.account) {
+  //     bondPools.forEach((pool) => {
+  //       pool.bToken.contract.loadInvestorBondsList(walletCtx.account).then(reload).catch(Error)             
+  //     })
+  //   }
+  // }, [walletCtx.account, bondPools])
 
   useEffect(() => {
     if (walletCtx.account) {

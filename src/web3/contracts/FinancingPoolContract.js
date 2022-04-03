@@ -1,3 +1,4 @@
+import BigNumber from "bignumber.js";
 import Web3Contract from "../web3Contract";
 
 export const FinancingPoolABI = [
@@ -1527,13 +1528,15 @@ class FinancingPoolContract extends Web3Contract {
     })
   }
 
-  addLiquidity(asset, duration, amount) {
+  async addLiquidity(asset, duration, amount) {
 
     if (!this.account) {
       return Promise.reject()
     }
 
-    return this.send('addLiquidity', [asset, duration, amount], {
+	// const amountBigNumber = new BigNumber(amount)
+
+    return await this.send('addLiquidity', [asset, duration, amount], {
       from: this.account
     })
   }

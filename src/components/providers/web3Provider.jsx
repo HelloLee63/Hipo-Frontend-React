@@ -10,8 +10,6 @@ import { useNetwork } from "./networkProvider";
 import { MainnetNetwork } from "../../networks/mainnet";
 import { KTSVG } from "../../_metronic/helpers/components/KTSVG";
 
-
-
 export const MainnetHttpsWeb3Provider = new Web3.providers.HttpProvider(MainnetNetwork.rpc.httpsUrl);
 export const RinkebyHttpsWeb3Provider = new Web3.providers.HttpProvider(RinkebyTestnetNetwork.rpc.httpsUrl)
 
